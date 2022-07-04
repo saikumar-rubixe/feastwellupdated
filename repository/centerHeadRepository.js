@@ -1,0 +1,188 @@
+const { runQuery, con } = require("../config/database");
+const { CenterHeadmodel } = require("../models/centreHeadModel");
+const date = require("date-and-time");
+let newDate = new Date();
+
+// 1 insertCenterHeadRepository
+const insertCenterHeadRepository = async (
+  centerHeadName,
+  personId,
+  centeremail,
+  centerContactNumber,
+  centerCountryId,
+  centerStateId,
+  centerCityId,
+  centerHeadStatus,
+  createdBy
+) => {
+  try {
+    let query =
+      " insert into `center_head` (`center_head_name`, `center_person_id`,`center_email`,  `center_contact_number`, `center_country_id`, `center_state_id`,  `center_city_id`, `status`, `created_date`, `created_by`, `updated_date`,  `updated_by`)  VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+    let sql = con.format(query, [
+      centerHeadName,
+      personId,
+      centeremail,
+      centerContactNumber,
+      centerCountryId,
+      centerStateId,
+      centerCityId,
+      centerHeadStatus,
+      newDate,
+      createdBy,
+      newDate,
+      createdBy,
+    ]);
+    let results = runQuery(sql);
+    let value = results.inserId;
+    if (!value) {
+      return false;
+    } else if (value) {
+      return value;
+    }
+  } catch (error) {
+    console.log("repository: catch block error");
+    console.log(error);
+    return false;
+  }
+};
+// 2 updateCenterHeadRepository
+const updateCenterHeadRepository = async (
+  id,
+  centerHeadName,
+  personId,
+  centeremail,
+  centerContactNumber,
+  centerCountryId,
+  centerStateId,
+  centerCityId,
+  centerHeadStatus,
+  updatedBy
+) => {
+  try {
+    let query =
+      " UPDATE  center_head SET `center_head_name`=?,`center_person_id`=?,`center_email`=?,`center_contact_number`=?,`center_country_id`=?,`center_state_id`=?,`center_city_id`=?,`status`=?, `updated_date`=?,`updated_by` =?, WHERE`center_head_id`=?";
+    let sql = con.format(query, [
+      centerHeadName,
+      personId,
+      centeremail,
+      centerContactNumber,
+      centerCountryId,
+      centerStateId,
+      centerCityId,
+      centerHeadStatus,
+      newDate,
+      updatedBy,
+      id,
+    ]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    if (value == 1) {
+      return true;
+    } else if (value > 1) {
+      return 2;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("Repository : catch block Error");
+    console.log(error);
+    return false;
+  }
+};
+
+//3 delete
+const deleteCenterHeadRepository = async (id, res) => {
+  try {
+    let query = "delete from ` center_head` where  center_head_id =? ";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    if (value == 1) return true;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    console.log("Repository : Something Went Wrong CB");
+    return false;
+  }
+};
+
+// 4  get by id  getByIdCenterHeadRepository
+const getByIdCenterHeadRepository = async (id, res) => {
+  try {
+    let query = "select * from  `center_head` where center_head_id =?";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    if (results.length != 0) {
+      let model = new CenterHeadmodel();
+      let array = results[0];
+      model.fill(
+        (centerHeadId = array.center_head_id),
+        (centerHeadName = array.center_head_name),
+        (personId = array.center_person_id),
+        (centeremail = array.center_email),
+        (centerContactNumber = array.center_contact_number),
+        (centerCountryId = array.center_country_id),
+        (centerStateId = array.center_state_id),
+        (centerCityId = array.center_city_id),
+        (centerHeadStatus = array.status),
+        (createdDate = array.created_date),
+        (createdBy = array.created_by),
+        (updatedDate = array.updated_date),
+        (updatedBy = array.updated_by)
+      );
+      return model;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("repository: catch block error");
+    console.log(error);
+    return false;
+  }
+};
+// 5 getAllCenterHeadRepository
+const getAllCenterHeadRepository = async (req, res) => {
+  try {
+    let arrayCenter = [];
+    let query = " select * from center_head where 1=1 ";
+    let sql = con.format(query);
+    let results = await runQuery(sql);
+    console.log(results);
+    let count = results.length;
+    if (results.length != 0) {
+      let model = new CenterHeadmodel();
+      for (i = 0; i < results.length; i++) {
+        let array = results[i];
+        model.fill(
+          (centerHeadId = array.center_head_id),
+          (centerHeadName = array.center_head_name),
+          (personId = array.center_person_id),
+          (centeremail = array.center_email),
+          (centerContactNumber = array.center_contact_number),
+          (centerCountryId = array.center_country_id),
+          (centerStateId = array.center_state_id),
+          (centerCityId = array.center_city_id),
+          (centerHeadStatus = array.status),
+          (createdDate = array.created_date),
+          (createdBy = array.created_by),
+          (updatedDate = array.updated_date),
+          (updatedBy = array.updated_by)
+        );
+        arrayCenter.push(model);
+      }
+      return { count, arrayCenter };
+    } else return false;
+  } catch (error) {
+    console.log(error);
+    console.log("Repository:catch block error");
+    return false;
+  }
+};
+
+module.exports = {
+  insertCenterHeadRepository,
+  updateCenterHeadRepository,
+  deleteCenterHeadRepository,
+  getByIdCenterHeadRepository,
+  getAllCenterHeadRepository,
+};

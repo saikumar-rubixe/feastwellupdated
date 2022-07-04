@@ -1,0 +1,144 @@
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+
+/******************** */
+//.env File
+TOKEN_SECRET = happynewyearnpm;
+
+// controller
+const userLogin = async (req, res) => {
+  //VALIDATE THE DETAILS WITH USER LOGIN VALIDATION
+  var response = {};
+  const email = req.body.email;
+  const password = req.body.password;
+  console.log(`email from request is ${email}`);
+
+  const recordExist = await getDetailUserByEmail(email);
+  //IF EMAIL  NOT EXITS SEND ERROR
+  if (!recordExist) {
+    res.status(404).json({
+      success: false,
+      message: "Email id is Wrong, No USER found - Register User ",
+    });
+  } else {
+    if (recordExist.userStatus == 1) {
+      //GETTING HASHED PASSWORD FROM DB
+      const dbpassword = recordExist.password;
+      const result = await bcrypt.compare(password, dbpassword);
+      if (!result) return res.status(401).send("Invalid Password");
+
+      if (result) {
+        //CREATE AND ASSIGN A TOKEN
+        const token = jwt.sign(
+          { id: recordExist.usersId },
+          process.env.TOKEN_SECRET
+        );
+        //  res.header("token", token).send(token);
+        console.log(recordExist);
+
+        return res.json({
+          success: 1,
+          message: "login successfully",
+          token: token,
+          user: {
+            usersId: recordExist.usersId,
+            userName: recordExist.userName,
+            Email: recordExist.email,
+            phone: recordExist.phoneNumber,
+          },
+        });
+      }
+    } else {
+      return res
+        .status(401)
+        .send("Login Failed! Email Unverified or Disabled ");
+    }
+  }
+};
+
+//********************   Repository   ********************** */ r
+const getDetailUserByEmail = async (email) => {
+  const sqlQuery = "select * from tablename where email='" + email + "'";
+  var users = await runQuery(sqlQuery);
+  console.log(sqlQuery);
+  const user = users[0];
+  var userModel = new UserModel();
+  if (!user) return null;
+  else {
+    userModel.fill(
+      (usersId = user.users_id),
+      (email = user.email),
+      (userName = user.uname),
+      (phoneNumber = user.mnumber),
+      (password = user.upassword), //hashed password from db is sent to userPasswordModel
+      (profilePic = user.profile_pic),
+      (dateOfBirth = user.dob),
+      (userStatus = user.ustatus),
+      (userType = user.user_type),
+      (OTP = user.otp_pass),
+      (createdDate = user.created_date),
+      (createdBy = user.created_by),
+      (updatedDate = user.updated_date),
+      (updatedBy = user.updated_by)
+    );
+    console.log("returning model");
+    console.log(userModel);
+    return userModel;
+  }
+};
+
+// ***********************MODEL*********************
+class UserModel {
+  usersId = null;
+  email = null;
+  userName = null;
+  phoneNumber = null;
+  password = null;
+  profilePic = null;
+  dateOfBirth = null;
+  userStatus = null; //0 - Email not verified, 1 - Enable, 2 - Disbale
+  userType = null; //
+  OTP = null;
+  createdDate = null;
+  createdBy = null;
+  updatedDate = null;
+  updatedBy = null;
+
+  fill(
+    usersId,
+    email,
+    userName,
+    phoneNumber,
+    password,
+    profilePic,
+    dateOfBirth,
+    userStatus,
+    userType,
+    OTP,
+    createdDate,
+    createdBy,
+    updatedDate,
+    updatedBy
+  ) {
+    this.usersId = usersId;
+    this.email = email;
+    this.userName = userName;
+    this.phoneNumber = phoneNumber;
+    this.password = password;
+    this.profilePic = profilePic;
+    this.dateOfBirth = dateOfBirth;
+    this.userStatus = userStatus;
+    this.userType = userType;
+    this.OTP = OTP;
+    this.createdDate = createdDate;
+    this.createdBy = createdBy;
+    this.updatedDate = updatedDate;
+    this.updatedBy = updatedBy;
+  }
+}
+
+module.exports = {
+  UserModel,
+};
+//****************************************************************** */
