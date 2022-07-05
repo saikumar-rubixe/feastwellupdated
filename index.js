@@ -22,6 +22,11 @@ const { rolesRoute } = require("./routes/roles");
 const { permissionsRoute } = require("./routes/permissionsRoute");
 const { MenuCategoryRoute } = require("./routes/menuCategoryRoutes");
 const { NutritionCategoryRoute } = require("./routes/nutritionCategoryRoutes");
+const { menuContentsRoute } = require("./routes/mealMenuContentsRoutes");
+const { mealItemsRoute } = require("./routes/mealItemsRoutes");
+const { mealMenuRoute } = require("./routes/mealMenuRoutes");
+
+const { userLogRoute } = require("./routes/userActivityLogRoutes");
 
 //cors cross browser access
 app.use(function (req, res, next) {
@@ -53,6 +58,10 @@ app.use("/api/v1/roles", rolesRoute);
 app.use("/api/v1/permissions", permissionsRoute);
 app.use("/api/v1/menuCategory", MenuCategoryRoute);
 app.use("/api/v1/nutritionCategory", NutritionCategoryRoute);
+app.use("/api/v1/mealContents", menuContentsRoute);
+app.use("/api/v1/mealItems", mealItemsRoute);
+app.use("/api/v1/mealMenu", mealMenuRoute);
+app.use("/api/v1/userActivityLog", userLogRoute);
 
 /************************************************ */
 //  handling wrong navigation url

@@ -155,7 +155,6 @@ let updateUserController = async (req, res, next) => {
         let recordCheck = await userUpdateCheckRepository(userName, id, res);
         let emailCheck = await emailUpdateCheckRepository(email, id, res);
 
-        console.log(recordCheck, emailCheck);
         if (recordCheck == 1 || emailCheck == 1) {
           if (recordCheck == 1) {
             res.status(404).json({

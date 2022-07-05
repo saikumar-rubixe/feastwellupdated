@@ -12,6 +12,9 @@ class CenterHeadmodel {
   createdBy = null;
   updatedDate = null;
   updatedBy = null;
+  CountryName = null;
+  StateName = null;
+  CityName = null;
   fill(
     centerHeadId,
     centerHeadName,
@@ -25,7 +28,10 @@ class CenterHeadmodel {
     createdDate,
     createdBy,
     updatedDate,
-    updatedBy
+    updatedBy,
+    CountryName,
+    StateName,
+    CityName
   ) {
     this.centerHeadId = centerHeadId;
     this.centerHeadName = centerHeadName;
@@ -40,6 +46,9 @@ class CenterHeadmodel {
     this.createdBy = createdBy;
     this.updatedDate = updatedDate;
     this.updatedBy = updatedBy;
+    this.CountryName = CountryName;
+    this.StateName = StateName;
+    this.CityName = CityName;
   }
 }
 

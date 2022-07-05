@@ -1,8 +1,8 @@
 const {
-  getUserTypeDetailByIdRepository,
-} = require("../repository/userTypeRepository");
-// get user type details by id
-const getUserTypeDetailByIdController = async (req, res) => {
+  getMealMenuContentsDetailByIdRepository,
+} = require("../repository/mealMenuContentsRepository");
+
+const getMealMenuContentsDetailByIdController = async (req, res) => {
   const id = req.params.id;
   try {
     if (isNaN(id)) {
@@ -11,8 +11,7 @@ const getUserTypeDetailByIdController = async (req, res) => {
         message: "invalid id Passed:  " + id,
       });
     } else {
-      const details = await getUserTypeDetailByIdRepository(id, res);
-
+      const details = await getMealMenuContentsDetailByIdRepository(id, res);
       if (!details || details == false) {
         res.status(400).json({
           success: false,
@@ -32,5 +31,4 @@ const getUserTypeDetailByIdController = async (req, res) => {
     console.log("Controller:CBE Something went wrong!");
   }
 };
-
-module.exports = { getUserTypeDetailByIdController };
+module.exports = { getMealMenuContentsDetailByIdController };

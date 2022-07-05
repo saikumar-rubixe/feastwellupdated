@@ -129,7 +129,7 @@ let updateFacilityCenterDetailsController = async (req, res) => {
       });
     } else {
       let recordcheck = await getFacilityCenterDetailsByIdRepository(id, res);
-      // console.log(recordcheck);
+
       if (!recordcheck || recordcheck == false) {
         res.status(400).json({
           success: false,
@@ -161,7 +161,6 @@ let updateFacilityCenterDetailsController = async (req, res) => {
           updatedBy,
           res
         );
-        //  console.log(details);
 
         if (!details || details == false) {
           res.status(400).json({
@@ -200,16 +199,14 @@ let deleteFacilityCenterDetailsController = async (req, res) => {
     } else {
       console.log("in controller before recordCheck ");
       let recordcheck = await getFacilityCenterDetailsByIdRepository(id, res);
-      console.log(recordcheck);
+
       console.log("AFTER RECORD CHECK ");
       if (!recordcheck || recordcheck == false) {
-        console.log("IF CONDITION RECORD CHECK ");
         res.status(400).json({
           success: false,
           message: "!Error no data found",
         });
       } else if (recordcheck) {
-        console.log("ELSE CONDIITION RECORD CHECK ");
         let details = await deleteFacilityCenterDetailsRepository(id, res);
         if (!details || details == false) {
           res.status(400).json({

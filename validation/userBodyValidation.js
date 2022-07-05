@@ -14,7 +14,6 @@ const Schema = Joi.object({
 // VALIDATE BEFORE SAVING A USER
 const userBodyValidation = async (req, res, next) => {
   try {
-    console.log(req.body);
     await Schema.validateAsync(req.body);
     next();
   } catch (error) {

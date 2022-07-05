@@ -29,8 +29,7 @@ const getUserDetailByEmail = async (email) => {
       (createdDate = user.created_date),
       (updatedDate = user.updated_date)
     );
-    console.log("returning model");
-    console.log(userModel);
+
     return userModel;
   }
 };
@@ -39,9 +38,9 @@ const getUserDetailByEmail = async (email) => {
 let emailCheckRepository = async (email, res) => {
   var query = "select * from users where email=?";
   const sql = con.format(query, [email]);
-  console.log(`sql query  is ${sql}`);
+
   var results = await runQuery(sql);
-  console.log(results);
+
   if (results.length == 0) {
     return 0;
   } else {
@@ -53,9 +52,9 @@ let emailCheckRepository = async (email, res) => {
 let userCheckRepository = async (userName, res) => {
   var query = "select * from users where username=?";
   const sql = con.format(query, [userName]);
-  console.log(`sql query  is ${sql}`);
+
   var results = await runQuery(sql);
-  console.log(results);
+
   if (results.length == 0) {
     return 0;
   } else {
@@ -67,9 +66,9 @@ let userCheckRepository = async (userName, res) => {
 let emailUpdateCheckRepository = async (email, id, res) => {
   var query = "select * from users where email=? and user_id!=?";
   const sql = con.format(query, [email, id]);
-  console.log(`sql query  is ${sql}`);
+
   var results = await runQuery(sql);
-  console.log(results);
+
   if (results.length == 0) {
     return 0;
   } else {
@@ -81,9 +80,9 @@ let emailUpdateCheckRepository = async (email, id, res) => {
 let userUpdateCheckRepository = async (userName, id, res) => {
   var query = "select * from users where username=? and user_id!=?";
   const sql = con.format(query, [userName, id]);
-  console.log(`sql query  is ${sql}`);
+
   var results = await runQuery(sql);
-  console.log(results);
+
   if (results.length == 0) {
     return 0;
   } else {

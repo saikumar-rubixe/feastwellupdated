@@ -1,6 +1,5 @@
 const { runQuery, con } = require("../config/database");
-const { UserTypeModel } = require("../models");
-const { RolesModel } = require("../models");
+
 const { menuCategoryModel } = require("../models");
 const {
   updateFacilityCenterDetailsRepository,
@@ -83,6 +82,7 @@ const getDetailByIdController = async (req, res) => {
     console.log("Controller:CBE Something went wrong!");
   }
 };
+
 const getDetailByIdRepository = async (id, res) => {
   try {
     let query = " where id=?";

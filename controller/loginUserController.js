@@ -34,7 +34,6 @@ const userLogin = async (req, res) => {
           process.env.TOKEN_SECRET
         );
         //  res.header("token", token).send(token);
-        console.log(recordExist);
 
         return res.json({
           success: 1,

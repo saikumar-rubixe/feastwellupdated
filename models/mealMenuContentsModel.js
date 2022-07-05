@@ -3,7 +3,7 @@ class mealMenuContentsModel {
   mealMenuId = null;
   mealItemId = null;
   userId = null;
-  status = null;
+  menuContentStatus = null;
   createdDate = null;
   updatedDate = null;
   fill(
@@ -11,7 +11,7 @@ class mealMenuContentsModel {
     mealMenuId,
     mealItemId,
     userId,
-    status,
+    menuContentStatus,
     createdDate,
     updatedDate
   ) {
@@ -19,7 +19,7 @@ class mealMenuContentsModel {
     this.mealMenuId = mealMenuId;
     this.mealItemId = mealItemId;
     this.userId = userId;
-    this.status = status;
+    this.menuContentStatus = menuContentStatus;
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;
   }

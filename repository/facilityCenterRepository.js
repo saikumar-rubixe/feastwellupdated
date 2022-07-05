@@ -28,9 +28,9 @@ let getFacilityCenterDetailsByIdRepository = async (id, res) => {
         (updatedBy = result.updated_by),
         (countryName = result.CountryName),
         (stateName = result.StateName),
-        (CityName = result.CityName)
+        (cityName = result.CityName)
       );
-      console.log(model);
+
       return model;
     } else {
       return false;
@@ -49,8 +49,6 @@ let getAllFacilityCenterDetailsRepository = async (req, res) => {
     let results = await runQuery(query);
     let count = results.length;
 
-    console.log(query);
-    console.log(count);
     for (i = 0; i < count; i++) {
       let result = results[i];
       let model = new FacilityModel();
@@ -70,7 +68,7 @@ let getAllFacilityCenterDetailsRepository = async (req, res) => {
         (updatedBy = result.updated_by),
         (countryName = result.CountryName),
         (stateName = result.StateName),
-        (CityName = result.CityName)
+        (cityName = result.CityName)
       );
       facilityArray.push(model);
     }
@@ -112,8 +110,7 @@ let insertFacilityCenterDetailsRepository = async (
       // createdBy,
     ]);
     let results = await runQuery(sql);
-    console.log("insert id is :");
-    console.log(results.insertId);
+
     return results.insertId;
   } catch (error) {
     console.log("repo:catch block error");
@@ -153,8 +150,7 @@ let updateFacilityCenterDetailsRepository = async (
       id,
     ]);
     let results = await runQuery(sql);
-    console.log("checking the affected rows");
-    console.log(results.affectedRows);
+
     if (results.affectedRows == 1) {
       return true;
     } else {
@@ -172,8 +168,7 @@ let deleteFacilityCenterDetailsRepository = async (id, res) => {
     let query = "DELETE from facility_center WHERE facility_center_id =? ";
     let sql = con.format(query, [id]);
     let result = await runQuery(sql);
-    console.log("checking the affected rows");
-    console.log(result.affectedRows);
+
     if (result.affectedRows == 1) return true;
     else {
       return false;

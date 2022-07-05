@@ -57,9 +57,9 @@ const getUserByIdRepository = async (id, res) => {
 let userCheckRepository = async (userName, res) => {
   let query = "select * from users where username=?";
   const sql = con.format(query, [userName]);
-  console.log(`sql query  is ${sql}`);
+
   let results = await runQuery(sql);
-  console.log(results);
+
   if (results.length == 0) {
     return 0;
   } else {
@@ -71,9 +71,9 @@ let userCheckRepository = async (userName, res) => {
 let emailCheckRepository = async (email, res) => {
   let query = "select * from users where email=?";
   const sql = con.format(query, [email]);
-  console.log(`sql query  is ${sql}`);
+
   let results = await runQuery(sql);
-  console.log(results);
+
   if (results.length == 0) {
     return 0;
   } else {
@@ -162,7 +162,7 @@ let createUserRepository = async (
     newDate,
     newDate,
   ]);
-  console.log(sql);
+
   let results = await runQuery(sql);
   return results.insertId;
 };
@@ -198,9 +198,9 @@ let updateUserRepository = async (
       newDate,
       id,
     ]);
-    console.log(`update sql query is ${sql}`);
+
     let results = await runQuery(sql);
-    console.log(results.changedRows);
+
     return 0;
   } catch (error) {
     console.log("error from catch block");
@@ -215,7 +215,6 @@ let deleteUserRepository = async (id) => {
     let sql = con.format(query, [id]);
     let results = await runQuery(sql);
 
-    console.log(`affected rows are ${results.affectedRows}`);
     return results.affectedRows;
   } catch (error) {
     console.log(error);

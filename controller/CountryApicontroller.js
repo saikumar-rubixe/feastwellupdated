@@ -36,11 +36,14 @@ const getStatesByIdController = async (req, res) => {
       console.log("id passed is not a number");
       res.send("send valid id: ", id, "   is not a number");
     } else {
-      console.log("calling repo");
       const details = await getStatesByIdRepository(id, res);
       //  console.log(details.array[0]);
       if (details) {
-        res.send(details);
+        res.status(200).json({
+          success: true,
+          message: "fetched details of STATES",
+          data: details,
+        });
       } else {
         res.status(400).json({
           success: false,
@@ -62,7 +65,6 @@ const getCitiesByIdController = async (req, res) => {
       console.log("id passed is not a number");
       res.send("send valid id: ", id, "   is not a number");
     } else {
-      console.log("calling repo");
       const details = await getCitiesByIdRepository(id, res);
       //  console.log(details.array[0]);
       if (details) {

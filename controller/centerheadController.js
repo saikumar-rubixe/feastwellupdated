@@ -123,8 +123,9 @@ const delteCenterHeadController = async (req, res) => {
         message: " pass id as number only",
       });
     } else {
-      const recordCheck = getByIdCenterHeadRepository(id, res);
-      if (recordCheck == false) {
+      let recordCheck = await getByIdCenterHeadRepository(id, res);
+
+      if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
           message: " No record Found delete failed",

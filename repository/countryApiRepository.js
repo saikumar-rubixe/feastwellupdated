@@ -12,12 +12,11 @@ const getCountryRepository = async (req, res) => {
     let query =
       "select id ,name,phonecode,iso2,timezones from countries where 1=1 ";
     let sql = con.format(query);
-    console.log("query is ", sql);
+
     let results = await runQuery(sql);
-    console.log("consolling count");
 
     let count = results.length;
-    console.log(count);
+
     for (i = 0; i < count; i++) {
       let model = new CountriesModel();
       let result = results[i];
@@ -56,7 +55,7 @@ const getStatesByIdRepository = async (id, res) => {
     );
     array.push(statesmodel);
   }
-  return array;
+  return { count, array };
 };
 
 // 3 GET CITIES BY STATE ID

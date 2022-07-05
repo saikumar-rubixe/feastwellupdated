@@ -14,7 +14,7 @@ class FacilityModel {
   updatedBy = null;
   countryName = null;
   stateName = null;
-  CityName = null;
+  cityName = null;
 
   fill(
     facilityCenterId,
@@ -32,7 +32,7 @@ class FacilityModel {
     updatedBy,
     countryName,
     stateName,
-    CityName
+    cityName
   ) {
     this.facilityCenterId = facilityCenterId;
     this.facilityName = facilityName;
@@ -49,7 +49,7 @@ class FacilityModel {
     this.updatedBy = updatedBy;
     this.countryName = countryName;
     this.stateName = stateName;
-    this.CityName = CityName;
+    this.cityName = cityName;
   }
 }
 
