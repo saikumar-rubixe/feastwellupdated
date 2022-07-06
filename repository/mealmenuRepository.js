@@ -113,7 +113,7 @@ const updateMealMenuRepository = async (
 ) => {
   try {
     let query =
-      " UPDATE `meal_menu` set `meal_menu_name`=?,`fieldname`=?,`fieldname`=?`fieldname`=? where meal_menu_id  =?";
+      " UPDATE `meal_menu` set `meal_menu_name`=?,`meal_menu_description`=?,`meal_type`=?,`status`=? ,`user_id`=? where meal_menu_id  =?";
     let sql = con.format(query, [
       mealMenuName,
       menuDescription,
@@ -140,7 +140,7 @@ const updateMealMenuRepository = async (
 //delete
 const deleteMealMenuRepository = async (id, res) => {
   try {
-    let query = "DELETE from  `meal_menu` where `meal_menu_id `=?";
+    let query = "DELETE from  `meal_menu` where meal_menu_id =?";
     let sql = con.format(query, [id]);
     let results = await runQuery(sql);
     let value = results.affectedRows;

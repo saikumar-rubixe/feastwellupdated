@@ -1,7 +1,9 @@
 /**Controller is to connect between routers and the Repository's
  * where it takes (params,body,filter conditins etc )api route from routes and passes to Repository after necessary screening
  *  the response received from Repo is Shown  as final response with data and Status Codes
- *
+ * 
+ ** users is to create new residents , admin,super admins etc based on uSerType 
+
  * in this Controller the method calls were as follows
  * 1. getUserByIdController --> get the user details by ID
  * 2. getAllUsersController    --> get all the users

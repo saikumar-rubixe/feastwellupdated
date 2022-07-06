@@ -1,5 +1,27 @@
-const { UserTypeModel } = require("../models/userTypeModel");
+/**Repository  is to interact with Database ,make the CRUD operations  and send the response back to
+ *  the controller
+ 
+ *  { runQuery } is to connect with db  (configured)
+ * {con } is used to  set the string format to sql format
+ *    {UserTypeModel}Model is used to show the response with respective fields for eay understanding
+ * ------------------------------------------------------------------------------------------
+ * * Usertype file is to get the type of users (user,admin,guest) etc to determine the routes
+ * 
+ * 1	Super Admin
+ * 2	Center Manager
+ * 3	Admin
+ * 4	Center Admin
+ * 5	Nurse
+ * 6	Dietitian
+ * 7	Resident
+ * 8	Facility Head
+ * 
+ * The methods Calls were as follows
+ * 1.getUserTypeDetailByIdRepository -->fetch the user_ttype by ID
+ *
+ */
 
+const { UserTypeModel } = require("../models/userTypeModel");
 const { runQuery, con } = require("../config/database");
 
 const getUserTypeDetailByIdRepository = async (id, res) => {

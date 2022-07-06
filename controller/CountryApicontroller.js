@@ -1,3 +1,17 @@
+/**Controller is to connect between routers and the Repository's
+ * where it takes (params,body,filter conditins etc )api route from routes and passes to Repository after necessary screening
+ *  the response received from Repo is Shown  as final response with data and Status Codes
+ * 
+ ** to get the state  & city based on  country
+
+ * in this Controller the method calls were as follows
+ * 1.  getCountryController     ---> get all the countris
+ * 2.  getStatesByIdController   --> get all the States by country id
+ * 3.  getCitiesByIdController    ---> get all the cities based on state id
+
+ *
+ */
+
 const {
   getCountryRepository,
   getStatesByIdRepository,

@@ -4,7 +4,7 @@
  *  { runQuery } is to connect with db  (configured)
  * {con } is used to  set the string format to sql format
  *  date-and-time is used to take the current date for created date and updated date
- *
+ * ------------------------------------------------------------------------------------------
  * The methods Calls were as follows
  * 1.getUserByIdRepository -->fetch the user by ID
  * 2.userCheckRepository   --> check whether username available or not

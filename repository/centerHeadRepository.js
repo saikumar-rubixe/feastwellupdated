@@ -1,3 +1,20 @@
+/**Repository  is to interact with Database ,make the CRUD operations  and send the response back to
+ *  the controller
+ 
+ *  { runQuery } is to connect with db  (configured)
+ * {con } is used to  set the string format to sql format
+ *    {}Model is used to show the response with respective fields for eay understanding
+ * ------------------------------------------------------------------------------------------
+ * * center_Head  for facility_center head 
+ * 
+ * The methods Calls were as follows
+ * 1.insertCenterHeadRepository -->Create  the center_Head 
+ * 2.updateCenterHeadRepository -->Upate the Center Head
+ * 3.deleteCenterHeadRepository --> delete the ceter Head
+ * 4. getByIdCenterHeadRepository -->fetch the center heads by id
+ * 5.getAllCenterHeadRepository  -->fetch all the center heads
+ */
+
 const { runQuery, con } = require("../config/database");
 const { CenterHeadmodel } = require("../models/centreHeadModel");
 const date = require("date-and-time");
@@ -154,7 +171,7 @@ const getAllCenterHeadRepository = async (req, res) => {
       " select center_head.* ,  countries.name as CountryName,states.name as StateName, cities.name as CityName from  `center_head` INNER JOIN `countries`  ON center_head.center_country_id=countries.id INNER JOIN `states` ON center_head.center_state_id=states.id INNER JOIN `cities` ON center_head.center_city_id= cities.id      where 1=1 ";
     let sql = con.format(query);
     let results = await runQuery(sql);
-    console.log(results);
+
     let count = results.length;
     if (results.length != 0) {
       for (i = 0; i < results.length; i++) {

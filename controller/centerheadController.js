@@ -213,8 +213,3 @@ module.exports = {
   getByIdCenterHeadController,
   getAllCenterHeadController,
 };
-
-// res.status(00).json({
-//   success: ,
-//   message: " ",
-// });

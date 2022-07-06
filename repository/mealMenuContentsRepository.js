@@ -1,3 +1,17 @@
+/**Repository  is to interact with Database ,make the CRUD operations  and send the response back to
+ *  the controller
+ 
+ *  { runQuery } is to connect with db  (configured)
+ * {con } is used to  set the string format to sql format
+ *    {mealMenuContentsModel}Model is used to show the response with respective fields for eay understanding
+ * ------------------------------------------------------------------------------------------
+ * * meal menu contents ( menu id ,meal team id and status)
+ * 
+ * The methods Calls were as follows
+ * 1.getMealMenuContentsDetailByIdRepository -->fetch the user by ID
+ *
+ */
+
 const { runQuery, con } = require("../config/database");
 const { mealMenuContentsModel } = require("../models/mealMenuContentsModel");
 //1 get details By id
@@ -28,6 +42,8 @@ const getMealMenuContentsDetailByIdRepository = async (id, res) => {
     return false;
   }
 };
+
+// exports
 module.exports = {
   getMealMenuContentsDetailByIdRepository,
 };

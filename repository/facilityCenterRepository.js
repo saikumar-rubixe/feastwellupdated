@@ -1,3 +1,21 @@
+/**Repository  is to interact with Database ,make the CRUD operations  and send the response back to
+ *  the controller
+ 
+ *  { runQuery } is to connect with db  (configured)
+ * {con } is used to  set the string format to sql format
+ *    {FacilityModel}Model is used to show the response with respective fields for eay understanding
+ * ------------------------------------------------------------------------------------------
+ * * facility_center 
+ * 
+ * The methods Calls were as follows
+ * 1. getFacilityCenterDetailsByIdRepository-->fetch the center by ID
+ * 2.getAllFacilityCenterDetailsRepository    --> fetch all centers
+ * 3.insertFacilityCenterDetailsRepository  --> create new Center
+ *4.updateFacilityCenterDetailsRepository  --> update ceneter with id
+ * 5.deleteFacilityCenterDetailsRepository  --> delete center by ID
+ *
+ */
+
 let { runQuery, con } = require("../config/database");
 let { FacilityModel } = require("../models/facilityCentreModel");
 const date = require("date-and-time");

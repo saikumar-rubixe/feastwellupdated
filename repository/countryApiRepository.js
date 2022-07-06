@@ -1,3 +1,19 @@
+/**Repository  is to interact with Database ,make the CRUD operations  and send the response back to
+ *  the controller
+ 
+ *  { runQuery } is to connect with db  (configured)
+ * {con } is used to  set the string format to sql format
+ *    {}Model is used to show the response with respective fields for eay understanding
+ * ------------------------------------------------------------------------------------------
+ * * Country state and cities for registration forms address section
+ * 
+ * The methods Calls were as follows
+ * 1.getCountryRepository -->fetch the COUNTRIES
+ * 2.getStatesByIdRepository---> fetch the states as per country id
+ * 3.getCitiesByIdRepository ---> fetch the cities as per state Id
+ *
+ */
+
 const { array } = require("joi");
 let { runQuery, con } = require("../config/database");
 // country state city Model
@@ -29,7 +45,7 @@ const getCountryRepository = async (req, res) => {
       );
       array.push(model);
     }
-    console.log("returning to controller from try block");
+
     return { count, array };
   } catch (error) {
     console.log(error);

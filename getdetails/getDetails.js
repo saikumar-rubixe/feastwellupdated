@@ -8,7 +8,7 @@ const {
 //1 get usertype details
 const getAllDetailsController = async (req, res) => {
   try {
-    let details = await getAllDetailsController();
+    let details = await getAllDetailsRepository();
     if (!details || details == false) {
       res.status(400).json({
         success: false,
@@ -35,8 +35,8 @@ const getAllDetailsRepository = async (req, res) => {
     let results = await runQuery(sql);
     let count = results.length;
     if (count != 0) {
-      let model = new Model();
       for (i = 0; i < count; i++) {
+        let model = new Model();
         let result = results[i];
         model.fill();
         array.push(model);
@@ -118,7 +118,7 @@ const createController = async (req, res) => {
         res.status(200).json({
           success: true,
           message: "data created succesfully with id" + create,
-          data: details,
+          data: create,
         });
       }
       if (!create || create == false) {
@@ -172,7 +172,7 @@ const updateController = async (req, res) => {
       }
       if (recordCheck) {
         const {} = req.body;
-        const updatedetails = await updateRepository();
+        const updatedetails = await updateRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
@@ -231,7 +231,7 @@ const deleteController = async (req, res) => {
       }
       if (recordCheck) {
         const {} = req.body;
-        const updatedetails = await deleteRepository();
+        const updatedetails = await deleteRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
