@@ -1,10 +1,5 @@
 const { runQuery, con } = require("../config/database");
 
-const { menuCategoryModel } = require("../models");
-const {
-  updateFacilityCenterDetailsRepository,
-} = require("../repository/facilityCenterRepository");
-
 //1 get usertype details
 const getAllDetailsController = async (req, res) => {
   try {
@@ -109,25 +104,25 @@ const createController = async (req, res) => {
     const {} = req.body;
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
-    const recordCheck = await functionCall();
-    if (recordCheck || recordCheck == true) {
-      // for exist pass negative
-    } else if (!recordCheck || recordCheck == false) {
-      const create = await createRepository();
-      if (create) {
-        res.status(200).json({
-          success: true,
-          message: "data created succesfully with id" + create,
-          data: create,
-        });
-      }
-      if (!create || create == false) {
-        res.status(400).json({
-          success: false,
-          message: "data retrieval failed",
-        });
-      }
+    // const recordCheck = await functionCall();
+    // if (recordCheck || recordCheck == true) {
+    //   // for exist pass negative
+    // } else if (!recordCheck || recordCheck == false) {
+    const create = await createRepository();
+    if (create) {
+      res.status(200).json({
+        success: true,
+        message: "data created succesfully with id" + create,
+        data: create,
+      });
     }
+    if (!create || create == false) {
+      res.status(400).json({
+        success: false,
+        message: "data retrieval failed",
+      });
+    }
+    //  }
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");

@@ -1,0 +1,58 @@
+const { func } = require("joi")
+
+if (usertype == 7 || usertype == 5) {
+    // resident or nurse
+   1. get the user id after creating
+  2.  user id /
+
+        3..fetch the facilty_center
+    inputs(userid, facilty id)
+    func(userid, facilty id){
+        make a creation in mapping table
+    }
+}
+
+
+const createUserFacilityController = async(req,res)=>{
+    try {
+const {userType,facilityId,status}=req.body;
+    let crate = await createUserFacilityRepository(userType,facilityId,status)
+    if(crate && crate!=false){
+        res.status(200).json({
+            success:true,
+            message:"mapping userid and facility center succes with id : "+crate,
+            
+        })
+    }
+    else{
+          res.status(400).json({
+            success:false,
+            message:"mapping failed",
+            
+        })
+    }
+    }
+    catch(error){
+console.log(error)
+    }
+}
+
+const createUserFacilityRepository = async(userType,facilityCenterId,status)=>{
+   
+    let query = " INSERT INTO ``    (`user_id`,`facility_id`,`status`,`created_date`,`created_by`,`updated_date`,`updated_by`) VALUES(?,?,?,?,?,?,?)"
+    let sql = con.format(query,[userType,facilityId,status]);
+    let results = await runQuery(sql);
+    let value = results.insertId
+    if(value==1){
+        return value;
+    }
+    else return false;
+
+}
+
+
+get the resident details by facilty_center_id;
+const  getresidentDetailsByFacilityIdController = async(facilityCenterId)=>{
+    let query = "select users.user_type, users.user_id, users.full_name,resident_facility_map.facility_id, facility_center.facility_name from users  INNER JOIN resident_facility_map  on users.user_id = resident_facility_map.user_id  inner join facility_center on facility_center.facility_center_id=resident_facility_map.facility_id  where users.user_type=7 and facility_center.facility_center_id=?"
+    let sql = await runQuery(sql,[facilityCenterId])
+}

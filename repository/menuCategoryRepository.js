@@ -13,34 +13,9 @@
  */
 const { runQuery, con } = require("../config/database");
 const { menuCategoryModel } = require("../models/menuCategoryModel");
+let newDate = new Date();
 
-// 1 get by id
-const getMenuCategoryDetailByIdRepository = async (id, res) => {
-  try {
-    let query = "SELECT * FROM `menu_category` where `category_id` =?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
-    if (results.length != 0) {
-      let result = results[0];
-      let model = new menuCategoryModel();
-      model.fill(
-        (categoryId = result.category_id),
-        (categoryName = result.category_name),
-        (menuStatus = result.status),
-        (createdDate = result.created_date),
-        (updatedDate = result.updated_date)
-      );
-      return model;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
-    return false;
-  }
-};
-// 2 get all categories
+// 1 get all categories
 const getAllMenuCategoryDetailsRepository = async (req, res) => {
   let array = [];
   try {
@@ -72,7 +47,98 @@ const getAllMenuCategoryDetailsRepository = async (req, res) => {
   }
 };
 
+// 2 get by id
+const getMenuCategoryDetailByIdRepository = async (id, res) => {
+  try {
+    let query = "SELECT * FROM `menu_category` where `category_id` =?";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    if (results.length != 0) {
+      let result = results[0];
+      let model = new menuCategoryModel();
+      model.fill(
+        (categoryId = result.category_id),
+        (categoryName = result.category_name),
+        (menuStatus = result.status),
+        (createdDate = result.created_date),
+        (updatedDate = result.updated_date)
+      );
+      return model;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+//  3 create
+const createMenuCategoryRepository = async (categoryName, menuStatus) => {
+  try {
+    let query =
+      "INSERT into `menu_category` (`category_name`,`status`,`created_date`,`updated_date`) VALUES(?,?,?,?) ";
+    let sql = con.format(query, [categoryName, menuStatus, newDate, newDate]);
+    let results = await runQuery(sql);
+    let value = results.insertId;
+    if (value && value != 0) {
+      return value;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+// 4 update
+const updateMenuCategoryRepository = async (id, categoryName, menuStatus) => {
+  try {
+    let query =
+      " UPDATE `menu_category` set `category_name`=?,`status`=?,`updated_date`=? where category_id  =?";
+    let sql = con.format(query, [categoryName, menuStatus, newDate, id]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+//  delete
+const deleteMenuCategoryRepository = async (id, res) => {
+  try {
+    let query = "DELETE  from  `menu_category` where category_id=?";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
 module.exports = {
   getMenuCategoryDetailByIdRepository,
   getAllMenuCategoryDetailsRepository,
+  createMenuCategoryRepository,
+  updateMenuCategoryRepository,
+  deleteMenuCategoryRepository,
 };

@@ -14,7 +14,41 @@
 
 const { runQuery, con } = require("../config/database");
 const { mealMenuContentsModel } = require("../models/mealMenuContentsModel");
-//1 get details By id
+let newDate = new Date();
+// 1 get all details
+const getAllMealMenuDetailsRepository = async (req, res) => {
+  let array = [];
+  try {
+    let query = "select * from `meal_menu_contents` where 1=1 ";
+    let sql = con.format(query);
+    let results = await runQuery(sql);
+    let count = results.length;
+    if (count != 0) {
+      for (i = 0; i < count; i++) {
+        let model = new mealMenuContentsModel();
+        let result = results[i];
+        model.fill(
+          (mealContentId = result.meal_content_id),
+          (mealMenuId = result.meal_menu_id),
+          (mealItemId = result.meal_item_id),
+          (userId = result.user_id),
+          (menuContentStatus = result.status),
+          (createdDate = result.created_date),
+          (updatedDate = result.updated_date)
+        );
+        array.push(model);
+      }
+      return { count, array };
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+//2 get details By id
 const getMealMenuContentsDetailByIdRepository = async (id, res) => {
   try {
     let query = "select * from `meal_menu_contents` where meal_content_id =?";
@@ -43,7 +77,96 @@ const getMealMenuContentsDetailByIdRepository = async (id, res) => {
   }
 };
 
+// 3  create repository
+const createMealMenuRepository = async (
+  mealMenuId,
+  mealItemId,
+  userId,
+  menuContentStatus
+) => {
+  try {
+    let query =
+      "INSERT into `meal_menu_contents` (`meal_menu_id`,`meal_item_id`,`user_id`,`status`,created_date,updated_date) VALUES(?,?,?,?,?,?) ";
+    let sql = con.format(query, [
+      mealMenuId,
+      mealItemId,
+      userId,
+      menuContentStatus,
+      newDate,
+      newDate,
+    ]);
+    let results = await runQuery(sql);
+    let value = results.insertId;
+    if (value && value != 0) {
+      return value;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+//  4 update
+const updateMealMenuRepository = async (
+  id,
+  mealMenuId,
+  mealItemId,
+  userId,
+  menuContentStatus
+) => {
+  try {
+    let query =
+      " UPDATE `meal_menu_contents` set `meal_menu_id`=?,`meal_item_id`=?,`user_id`=?,`status`=?,`updated_date`=? where meal_content_id  =?";
+    let sql = con.format(query, [
+      mealMenuId,
+      mealItemId,
+      userId,
+      menuContentStatus,
+      newDate,
+      id,
+    ]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+// 5 delete  repository
+const deleteMealMenuRepository = async (id, res) => {
+  try {
+    let query = "DELETE from  `meal_menu_contents` where meal_content_id=?";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
 // exports
 module.exports = {
+  getAllMealMenuDetailsRepository,
   getMealMenuContentsDetailByIdRepository,
+  createMealMenuRepository,
+  updateMealMenuRepository,
+  deleteMealMenuRepository,
 };

@@ -1,15 +1,15 @@
 const {
-  getAllMealMenuDetailsRepository,
-  getMealMenuContentsDetailByIdRepository,
-  createMealMenuRepository,
-  updateMealMenuRepository,
-  deleteMealMenuRepository,
-} = require("../repository/mealMenuContentsRepository");
+  getAllResidentFacilityDetailsRepository,
+  getResidentFacilityDetailsByIdController,
+  createResidentFacilityRepository,
+  updateResidentFacilityRepository,
+  deleteResidentFacilityRepository,
+} = require("../repository/residentFacilityMapRepository");
 
-// 1 get all details
-const getAllMealMenuContentsDetailsController = async (req, res) => {
+//1 get all details
+const getAllResidentFacilityDetailsController = async (req, res) => {
   try {
-    let details = await getAllMealMenuDetailsRepository();
+    let details = await getAllResidentFacilityDetailsRepository();
     if (!details || details == false) {
       res.status(400).json({
         success: false,
@@ -29,8 +29,8 @@ const getAllMealMenuContentsDetailsController = async (req, res) => {
   }
 };
 
-//2  get by id
-const getMealMenuContentsDetailByIdController = async (req, res) => {
+// 2 get details By id
+const getResidentFacilityDetailByIdController = async (req, res) => {
   const id = req.params.id;
   try {
     if (isNaN(id)) {
@@ -39,7 +39,7 @@ const getMealMenuContentsDetailByIdController = async (req, res) => {
         message: "invalid id Passed:  " + id,
       });
     } else {
-      const details = await getMealMenuContentsDetailByIdRepository(id, res);
+      const details = await getResidentFacilityDetailsByIdController(id, res);
       if (!details || details == false) {
         res.status(400).json({
           success: false,
@@ -60,44 +60,35 @@ const getMealMenuContentsDetailByIdController = async (req, res) => {
   }
 };
 
-//  3 create
-const createMealMenuContentsController = async (req, res) => {
+// 3 create
+const createResidentFacilityController = async (req, res) => {
   try {
-    const { mealMenuId, mealItemId, userId, menuContentStatus } = req.body;
-    // check for user/email/etc doesnot exits
-    // check for user/email/etc doesnot exits
-    // const recordCheck = await functionCall();
-    // if (recordCheck || recordCheck == true) {
-    //   // for exist pass negative
-    // } else if (!recordCheck || recordCheck == false) {
-    const create = await createMealMenuRepository(
-      mealMenuId,
-      mealItemId,
+    const { userId, facilityCenterId, status, createdBy } = req.body;
+    let crate = await createResidentFacilityRepository(
       userId,
-      menuContentStatus
+      facilityCenterId,
+      status,
+      createdBy
     );
-    if (create) {
+    console.log(`crate is ${crate}`);
+    if (crate && crate != false) {
       res.status(200).json({
         success: true,
-        message: "data created succesfully with id" + create,
-        data: create,
+        message: "mapping userid and facility center succes with id : " + crate,
       });
-    }
-    if (!create || create == false) {
+    } else {
       res.status(400).json({
         success: false,
-        message: "data retrieval failed",
+        message: "mapping failed",
       });
     }
-    //  }
   } catch (error) {
     console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
   }
 };
 
 // 4 update
-const updateMealMenuContentsController = async (req, res) => {
+const updateResidentFacilityController = async (req, res) => {
   const id = req.params.id;
   try {
     if (isNaN(id)) {
@@ -106,7 +97,7 @@ const updateMealMenuContentsController = async (req, res) => {
         message: "invalid id Passed:  " + id,
       });
     } else {
-      const recordCheck = await getMealMenuContentsDetailByIdRepository(
+      const recordCheck = await getResidentFacilityDetailsByIdController(
         id,
         res
       );
@@ -117,13 +108,13 @@ const updateMealMenuContentsController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const { mealMenuId, mealItemId, userId, menuContentStatus } = req.body;
-        const updatedetails = await updateMealMenuRepository(
+        const { userId, facilityCenterId, status, updatedBy } = req.body;
+        const updatedetails = await updateResidentFacilityRepository(
           id,
-          mealMenuId,
-          mealItemId,
           userId,
-          menuContentStatus
+          facilityCenterId,
+          status,
+          updatedBy
         );
         if (updatedetails == true) {
           res.status(200).json({
@@ -144,8 +135,8 @@ const updateMealMenuContentsController = async (req, res) => {
   }
 };
 
-// 5 delete
-const deleteMealMenuContentsController = async (req, res) => {
+// delete
+const deleteResidentFacilityController = async (req, res) => {
   const id = req.params.id;
   try {
     if (isNaN(id)) {
@@ -154,7 +145,7 @@ const deleteMealMenuContentsController = async (req, res) => {
         message: "invalid id Passed:  " + id,
       });
     } else {
-      const recordCheck = await getMealMenuContentsDetailByIdRepository(
+      const recordCheck = await getResidentFacilityDetailsByIdController(
         id,
         res
       );
@@ -167,7 +158,7 @@ const deleteMealMenuContentsController = async (req, res) => {
       }
       if (recordCheck) {
         const {} = req.body;
-        const updatedetails = await deleteMealMenuRepository(id, res);
+        const updatedetails = await deleteResidentFacilityRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
@@ -188,9 +179,9 @@ const deleteMealMenuContentsController = async (req, res) => {
 };
 
 module.exports = {
-  getAllMealMenuContentsDetailsController,
-  getMealMenuContentsDetailByIdController,
-  createMealMenuContentsController,
-  updateMealMenuContentsController,
-  deleteMealMenuContentsController,
+  getResidentFacilityDetailByIdController,
+  getAllResidentFacilityDetailsController,
+  createResidentFacilityController,
+  updateResidentFacilityController,
+  deleteResidentFacilityController,
 };

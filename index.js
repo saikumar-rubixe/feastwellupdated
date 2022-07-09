@@ -14,7 +14,7 @@ const { authRoute } = require("./routes/authRoute");
 const { residentRoute } = require("./routes/userRoute");
 const { facilityRoute } = require("./routes/facilitycenterRoute");
 const { centerHeadRoute } = require("./routes/centerHeadRoutes");
-const { countryRoute } = require("./routes/countryApi");
+const { countryRoute } = require("./routes/countryRoutes");
 const { statesRoute } = require("./routes/stateRoutes");
 const { cityRoute } = require("./routes/cityRoutes");
 const { userTypeRoute } = require("./routes/userTypeRoutes");
@@ -25,8 +25,9 @@ const { NutritionCategoryRoute } = require("./routes/nutritionCategoryRoutes");
 const { menuContentsRoute } = require("./routes/mealMenuContentsRoutes");
 const { mealItemsRoute } = require("./routes/mealItemsRoutes");
 const { mealMenuRoute } = require("./routes/mealMenuRoutes");
-
+const { residentFacilityRoute } = require("./routes/residentFacilityMapRoutes");
 const { userLogRoute } = require("./routes/userActivityLogRoutes");
+const { userIdActivityLogRoute } = require("./routes/userIdActivityLogRoutes");
 
 //cors cross browser access
 app.use(function (req, res, next) {
@@ -61,7 +62,9 @@ app.use("/api/v1/nutritionCategory", NutritionCategoryRoute);
 app.use("/api/v1/mealContents", menuContentsRoute);
 app.use("/api/v1/mealItems", mealItemsRoute);
 app.use("/api/v1/mealMenu", mealMenuRoute);
+app.use("/api/v1/residentFacility", residentFacilityRoute);
 app.use("/api/v1/userActivityLog", userLogRoute);
+app.use("/api/v1/userIdActivityLog", userIdActivityLogRoute);
 
 /************************************************ */
 //  handling wrong navigation url

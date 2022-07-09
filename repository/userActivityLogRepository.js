@@ -8,15 +8,18 @@
  *    User Activity log file is to track the  users requests activty etc
  * The methods Calls were as follows
  * 1.getUserLogDetailByIdRepository -->fetch the user by ID
- *
+ *  2. createUserLogRepository   -- record user log activity details
+ * 3. get activity user log details of one user id
  */
 const { runQuery, con } = require("../config/database");
 const { UserActivityLogModel } = require("../models/userActivityLogModel");
+let newDate = new Date();
+
 // 1 get detail by id
-const getUserLogDetailByIdRepository = async (id, res) => {
+const getUserLogDetailByIdRepository = async (userId, res) => {
   try {
-    let query = "select * from `user_activity_log` where activity_id  =?";
-    let sql = con.format(query, [id]);
+    let query = "select * from `user_activity_log` where activity_id =?";
+    let sql = con.format(query, [userId]);
     let results = await runQuery(sql);
     if (results.length != 0) {
       let result = results[0];
@@ -37,4 +40,60 @@ const getUserLogDetailByIdRepository = async (id, res) => {
     return false;
   }
 };
-module.exports = { getUserLogDetailByIdRepository };
+
+// 2 create user Activity log
+const createUserLogRepository = async (activityDescription, userId) => {
+  try {
+    let query =
+      "INSERT into `user_activity_log` (`activity_description`,`activity_logged_date`,`userid`) VALUES(?,?,?) ";
+    let sql = con.format(query, [activityDescription, newDate, userId]);
+    let results = await runQuery(sql);
+    let value = results.insertId;
+    if (value && value != 0) {
+      return value;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+// 3 get user activity log by user id
+const getUserLogAllDetailsByUserIdRepository = async (id, res) => {
+  try {
+    let array = [];
+    let query = "select * from `user_activity_log` where userid =?";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    let count = results.length;
+    if (results.length != 0) {
+      for (i = 0; i < count; i++) {
+        let model = new UserActivityLogModel();
+        let result = results[i];
+        model.fill(
+          (activityId = result.activity_id),
+          (activityDescription = result.activity_description),
+          (activityLoggedDate = result.activity_logged_date),
+          (userId = result.user_id)
+        );
+        array.push(model);
+      }
+      return { count, array };
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+module.exports = {
+  getUserLogDetailByIdRepository,
+  createUserLogRepository,
+  getUserLogAllDetailsByUserIdRepository,
+};

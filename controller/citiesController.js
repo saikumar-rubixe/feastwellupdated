@@ -1,15 +1,15 @@
 const {
-  getAllMealMenuDetailsRepository,
-  getMealMenuContentsDetailByIdRepository,
-  createMealMenuRepository,
-  updateMealMenuRepository,
-  deleteMealMenuRepository,
-} = require("../repository/mealMenuContentsRepository");
+  getAllCitiesDetailsRepository,
+  getCitiesByIdRepository,
+  createCitiesRepository,
+  updateCityRepository,
+  deleteCityRepository,
+} = require("../repository/countryApiRepository");
 
-// 1 get all details
-const getAllMealMenuContentsDetailsController = async (req, res) => {
+// 1 get all city details
+const getAllDetailsController = async (req, res) => {
   try {
-    let details = await getAllMealMenuDetailsRepository();
+    let details = await getAllCitiesDetailsRepository();
     if (!details || details == false) {
       res.status(400).json({
         success: false,
@@ -29,53 +29,46 @@ const getAllMealMenuContentsDetailsController = async (req, res) => {
   }
 };
 
-//2  get by id
-const getMealMenuContentsDetailByIdController = async (req, res) => {
-  const id = req.params.id;
+// 2 get city by id
+const getCitiesByIdController = async (req, res) => {
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
-      res.status(400).json({
-        success: false,
-        message: "invalid id Passed:  " + id,
-      });
+      console.log("id passed is not a number");
+      res.send("send valid id: ", id, "   is not a number");
     } else {
-      const details = await getMealMenuContentsDetailByIdRepository(id, res);
-      if (!details || details == false) {
-        res.status(400).json({
-          success: false,
-          message: "No record found with id " + id,
-        });
-      }
+      const details = await getCitiesByIdRepository(id, res);
+      //  console.log(details.array[0]);
       if (details) {
         res.status(200).json({
           success: true,
-          message: "data retrieved succesfully",
+          message: "fetched details of cities",
           data: details,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "cities fetch failed",
         });
       }
     }
   } catch (error) {
     console.log(error);
-    console.log("Controller:CBE Something went wrong!");
+    console.log("Controller: catch block Error");
   }
 };
 
-//  3 create
-const createMealMenuContentsController = async (req, res) => {
+//  3 create city
+const createCityController = async (req, res) => {
   try {
-    const { mealMenuId, mealItemId, userId, menuContentStatus } = req.body;
+    const { name, stateCode, countryCode } = req.body;
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     // const recordCheck = await functionCall();
     // if (recordCheck || recordCheck == true) {
     //   // for exist pass negative
     // } else if (!recordCheck || recordCheck == false) {
-    const create = await createMealMenuRepository(
-      mealMenuId,
-      mealItemId,
-      userId,
-      menuContentStatus
-    );
+    const create = await createCitiesRepository(name, stateCode, countryCode);
     if (create) {
       res.status(200).json({
         success: true,
@@ -96,8 +89,8 @@ const createMealMenuContentsController = async (req, res) => {
   }
 };
 
-// 4 update
-const updateMealMenuContentsController = async (req, res) => {
+// 4 update city
+const updateCityController = async (req, res) => {
   const id = req.params.id;
   try {
     if (isNaN(id)) {
@@ -106,10 +99,7 @@ const updateMealMenuContentsController = async (req, res) => {
         message: "invalid id Passed:  " + id,
       });
     } else {
-      const recordCheck = await getMealMenuContentsDetailByIdRepository(
-        id,
-        res
-      );
+      const recordCheck = await getCitiesByIdRepository(id, res);
       if (!recordCheck || recordCheck == false) {
         res.status(400).json({
           success: false,
@@ -117,13 +107,12 @@ const updateMealMenuContentsController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const { mealMenuId, mealItemId, userId, menuContentStatus } = req.body;
-        const updatedetails = await updateMealMenuRepository(
+        const { name, stateCode, countryCode } = req.body;
+        const updatedetails = await updateCityRepository(
           id,
-          mealMenuId,
-          mealItemId,
-          userId,
-          menuContentStatus
+          name,
+          stateCode,
+          countryCode
         );
         if (updatedetails == true) {
           res.status(200).json({
@@ -143,9 +132,9 @@ const updateMealMenuContentsController = async (req, res) => {
     console.log("Controller:CBE Something Went Wrong !");
   }
 };
+// 5 delete city
 
-// 5 delete
-const deleteMealMenuContentsController = async (req, res) => {
+const deleteCityController = async (req, res) => {
   const id = req.params.id;
   try {
     if (isNaN(id)) {
@@ -154,10 +143,7 @@ const deleteMealMenuContentsController = async (req, res) => {
         message: "invalid id Passed:  " + id,
       });
     } else {
-      const recordCheck = await getMealMenuContentsDetailByIdRepository(
-        id,
-        res
-      );
+      const recordCheck = await getCitiesByIdRepository(id, res);
 
       if (!recordCheck || recordCheck == false) {
         res.status(400).json({
@@ -167,7 +153,7 @@ const deleteMealMenuContentsController = async (req, res) => {
       }
       if (recordCheck) {
         const {} = req.body;
-        const updatedetails = await deleteMealMenuRepository(id, res);
+        const updatedetails = await deleteCityRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
@@ -188,9 +174,9 @@ const deleteMealMenuContentsController = async (req, res) => {
 };
 
 module.exports = {
-  getAllMealMenuContentsDetailsController,
-  getMealMenuContentsDetailByIdController,
-  createMealMenuContentsController,
-  updateMealMenuContentsController,
-  deleteMealMenuContentsController,
+  getAllDetailsController,
+  getCitiesByIdController,
+  createCityController,
+  updateCityController,
+  deleteCityController,
 };

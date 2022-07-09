@@ -47,4 +47,95 @@ const getUserTypeDetailByIdRepository = async (id, res) => {
   }
 };
 
-module.exports = { getUserTypeDetailByIdRepository };
+const getAllUserTypeDetailsRepository = async (req, res) => {
+  let array = [];
+  try {
+    let query = "select * from `users_type` where 1=1 ";
+    let sql = con.format(query);
+    let results = await runQuery(sql);
+    let count = results.length;
+    if (count != 0) {
+      for (i = 0; i < count; i++) {
+        let model = new UserTypeModel();
+        let result = results[i];
+        model.fill(
+          (usersTypeId = result.users_type_id),
+          (userTypeName = result.user_type_name)
+        );
+        array.push(model);
+      }
+      return { count, array };
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+const createUserTypeRepository = async (userTypeName) => {
+  try {
+    let query = "INSERT into `users_type` (`user_type_name`) VALUES(?) ";
+    let sql = con.format(query, [userTypeName]);
+    let results = await runQuery(sql);
+    let value = results.insertId;
+    if (value && value != 0) {
+      return value;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+const updateUserTypeRepository = async (userTypeName, id) => {
+  try {
+    let query =
+      " UPDATE `users_type` set `user_type_name`=? where users_type_id  =?";
+    let sql = con.format(query, [userTypeName, id]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+const deleteUserTypeRepository = async (userTypeName, id) => {
+  try {
+    let query = "DELETE from  `users_type` where users_type_id=?";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+module.exports = {
+  getUserTypeDetailByIdRepository,
+  getAllUserTypeDetailsRepository,
+  createUserTypeRepository,
+  updateUserTypeRepository,
+  deleteUserTypeRepository,
+};

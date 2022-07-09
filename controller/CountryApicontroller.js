@@ -13,15 +13,17 @@
  */
 
 const {
-  getCountryRepository,
-  getStatesByIdRepository,
-  getCitiesByIdRepository,
+  getAllCountryRepository,
+  getCountryByIdRepository,
+  createCountryRepository,
+  updateCountryRepository,
+  deleteCountryRepository,
 } = require("../repository/countryApiRepository");
 
 //1 gte country details
-const getCountryController = async (req, res) => {
+const getAllCountryController = async (req, res) => {
   try {
-    let details = await getCountryRepository(req, res);
+    let details = await getAllCountryRepository(req, res);
 
     if (details) {
       res.status(200).json({
@@ -41,66 +43,161 @@ const getCountryController = async (req, res) => {
     console.log("Controller: catch block Error");
   }
 };
-
-// 2 get states by id
-const getStatesByIdController = async (req, res) => {
+// 2 get by id
+const getCountryByIdController = async (req, res) => {
+  const id = req.params.id;
   try {
-    const id = req.params.id;
     if (isNaN(id)) {
-      console.log("id passed is not a number");
-      res.send("send valid id: ", id, "   is not a number");
+      res.status(400).json({
+        success: false,
+        message: "invalid id Passed:  " + id,
+      });
     } else {
-      const details = await getStatesByIdRepository(id, res);
-      //  console.log(details.array[0]);
+      const details = await getCountryByIdRepository(id, res);
+      if (!details || details == false) {
+        res.status(400).json({
+          success: false,
+          message: "No record found with id " + id,
+        });
+      }
       if (details) {
         res.status(200).json({
           success: true,
-          message: "fetched details of STATES",
+          message: "data retrieved succesfully",
           data: details,
-        });
-      } else {
-        res.status(400).json({
-          success: false,
-          message: "States fetch failed",
         });
       }
     }
   } catch (error) {
     console.log(error);
-    console.log("Controller: catch block Error");
+    console.log("Controller:CBE Something went wrong!");
   }
 };
 
-//3 get cities by id
-const getCitiesByIdController = async (req, res) => {
+// 3 create country
+const createCountryController = async (req, res) => {
   try {
-    const id = req.params.id;
+    const { name, phoneCode, is02, timeZones } = req.body;
+    // check for user/email/etc doesnot exits
+    // check for user/email/etc doesnot exits
+    // const recordCheck = await functionCall();
+    // if (recordCheck || recordCheck == true) {
+    //   // for exist pass negative
+    // } else if (!recordCheck || recordCheck == false) {
+    const create = await createCountryRepository(
+      name,
+      phoneCode,
+      is02,
+      timeZones
+    );
+    if (create) {
+      res.status(200).json({
+        success: true,
+        message: "data created succesfully with id" + create,
+        data: create,
+      });
+    }
+    if (!create || create == false) {
+      res.status(400).json({
+        success: false,
+        message: "data retrieval failed",
+      });
+    }
+    //  }
+  } catch (error) {
+    console.log(error);
+    console.log("Controller:CBE Something Went Wrong !");
+  }
+};
+// 4 update country
+const updateCountryController = async (req, res) => {
+  const id = req.params.id;
+  try {
     if (isNaN(id)) {
-      console.log("id passed is not a number");
-      res.send("send valid id: ", id, "   is not a number");
+      res.status(400).json({
+        success: false,
+        message: "invalid id Passed:  " + id,
+      });
     } else {
-      const details = await getCitiesByIdRepository(id, res);
-      //  console.log(details.array[0]);
-      if (details) {
-        res.status(200).json({
-          success: true,
-          message: "fetched details of cities",
-          data: details,
-        });
-      } else {
+      const recordCheck = await getCountryByIdRepository(id, res);
+      if (!recordCheck || recordCheck == false) {
         res.status(400).json({
           success: false,
-          message: "cities fetch failed",
+          message: "no Record Found With id = " + id,
         });
+      }
+      if (recordCheck) {
+        const { name, phoneCode, is02, timeZones } = req.body;
+        const updatedetails = await updateCountryRepository(
+          name,
+          phoneCode,
+          is02,
+          timeZones,
+          id
+        );
+        if (updatedetails == true) {
+          res.status(200).json({
+            success: true,
+            message: "updated details succesfully",
+          });
+        } else {
+          res.status(400).json({
+            success: false,
+            message: "update Failed ",
+          });
+        }
       }
     }
   } catch (error) {
     console.log(error);
-    console.log("Controller: catch block Error");
+    console.log("Controller:CBE Something Went Wrong !");
   }
 };
+
+// 5 delete country
+const deleteCountryController = async (req, res) => {
+  const id = req.params.id;
+  try {
+    if (isNaN(id)) {
+      res.status(400).json({
+        success: false,
+        message: "invalid id Passed:  " + id,
+      });
+    } else {
+      const recordCheck = await getCountryByIdRepository(id, res);
+
+      if (!recordCheck || recordCheck == false) {
+        res.status(400).json({
+          success: false,
+          message: "No Record Found with id " + id,
+        });
+      }
+      if (recordCheck) {
+        const {} = req.body;
+        const updatedetails = await deleteCountryRepository(id, res);
+        if (updatedetails == true) {
+          res.status(200).json({
+            success: true,
+            message: "delete succesfully",
+          });
+        } else {
+          res.status(400).json({
+            success: false,
+            message: "delete Failed ",
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Controller:CBE Something Went Wrong !");
+  }
+};
+
 module.exports = {
-  getCountryController,
-  getStatesByIdController,
-  getCitiesByIdController,
+  getAllCountryController,
+  getCountryByIdController,
+  createCountryController,
+  updateCountryController,
+  deleteCountryController,
 };

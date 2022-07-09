@@ -2,9 +2,10 @@ const {
   ResidentFacilityMapModel,
 } = require("../models/residentFacilityMapModel");
 const { runQuery, con } = require("../config/database");
+let newDate = new Date();
 
 //1 get all details
-const getAllDetailsRepository = async () => {
+const getAllResidentFacilityDetailsRepository = async () => {
   let array = [];
   let query = "select * from `resident_facility_map` where 1=1 ";
   let results = await runQuery(query);
@@ -33,7 +34,7 @@ const getAllDetailsRepository = async () => {
 
 // 2 get details by id
 
-const getDetailsByIdController = async (id, res) => {
+const getResidentFacilityDetailsByIdController = async (id, res) => {
   try {
     let query =
       "select * from `resident_facility_map` where resident_facility_id =? ";
@@ -61,7 +62,99 @@ const getDetailsByIdController = async (id, res) => {
     return false;
   }
 };
+
+// 3 create user id & facility mappping
+const createResidentFacilityRepository = async (
+  userId,
+  facilityCenterId,
+  status,
+  createdBy
+) => {
+  try {
+    let query =
+      " INSERT INTO `resident_facility_map` (`user_id`,`facility_id`,`status`,`created_date`,`created_by`,`updated_date`,`updated_by`) VALUES(?,?,?,?,?,?,?)";
+    let sql = con.format(query, [
+      userId,
+      facilityCenterId,
+      status,
+      newDate,
+      createdBy,
+      newDate,
+      createdBy,
+    ]);
+    console.log(sql);
+    let results = await runQuery(sql);
+    let value = results.insertId;
+    console.log(`value inseted id is ${value}`);
+    if (value) {
+      return value;
+    } else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+// 4 update
+
+const updateResidentFacilityRepository = async (
+  id,
+  userId,
+  facilityCenterId,
+  status,
+  updatedBy
+) => {
+  try {
+    let query =
+      " UPDATE `resident_facility_map` set `user_id`=?,facility_id=?,status=?,updated_date=?,updated_by=? where resident_facility_id  =?";
+    let sql = con.format(query, [
+      userId,
+      facilityCenterId,
+      status,
+      newDate,
+      updatedBy,
+      id,
+    ]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+// delete
+const deleteResidentFacilityRepository = async (id, res) => {
+  try {
+    let query =
+      "DELETE from `resident_facility_map` where resident_facility_id =?";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
 module.exports = {
-  getAllDetailsRepository,
-  getDetailsByIdController,
+  getAllResidentFacilityDetailsRepository,
+  getResidentFacilityDetailsByIdController,
+  createResidentFacilityRepository,
+  updateResidentFacilityRepository,
+  deleteResidentFacilityRepository,
 };

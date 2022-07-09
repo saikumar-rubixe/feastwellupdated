@@ -14,15 +14,12 @@
  *
  */
 
-const { array } = require("joi");
 let { runQuery, con } = require("../config/database");
-// country state city Model
+// country Model
 let { CountriesModel } = require("../models/countriesModel");
-const { States } = require("../models/statesModel");
-const { CitiesModel } = require("../models/citiesmodel");
 
 // 1 GET COUNTRIES
-const getCountryRepository = async (req, res) => {
+const getAllCountryRepository = async (req, res) => {
   let array = [];
   try {
     let query =
@@ -52,52 +49,106 @@ const getCountryRepository = async (req, res) => {
     console.log("catch block error something went wrong");
   }
 };
-//2  get the states by id
-const getStatesByIdRepository = async (id, res) => {
-  let array = [];
-  let query =
-    " select `id`,`name`,`country_code` from  `states` where country_id =?";
-  let sql = con.format(query, [id]);
-  let results = await runQuery(sql);
-  let count = results.length;
-
-  for (i = 0; i < count; i++) {
-    let statesmodel = new States();
-    let result = results[i];
-    statesmodel.fill(
-      (id = result.id),
-      (Statename = result.name),
-      (coutryCode = result.country_code)
-    );
-    array.push(statesmodel);
+// 2 get all countries
+const getCountryByIdRepository = async (id, res) => {
+  try {
+    let query =
+      "SELECT name,phonecode,iso2,timezones from countries where id =?";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    if (results.length != 0) {
+      let result = results[0];
+      let model = new CountriesModel();
+      model.fill(
+        (id = result.id),
+        (name = result.name),
+        (phonecode = result.phonecode),
+        (iso2 = result.iso2),
+        (timezones = result.timezones)
+      );
+      return model;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
   }
-  return { count, array };
+};
+//id ,name,phonecode,iso2,timezones
+
+// 3 create countries
+const createCountryRepository = async (name, phoneCode, is02, timeZones) => {
+  try {
+    let query =
+      "INSERT into `countries` (`name`,`phonecode`,`iso2`,`timezones`) VALUES(?,?,?,?) ";
+    let sql = con.format(query, [name, phoneCode, is02, timeZones]);
+    let results = await runQuery(sql);
+    let value = results.insertId;
+    if (value && value != 0) {
+      return value;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
 };
 
-// 3 GET CITIES BY STATE ID
-const getCitiesByIdRepository = async (id, res) => {
-  let array = [];
-  let query =
-    " select `id`,`name`,`state_code`,`country_id` from  `cities` where state_id =?";
-  let sql = con.format(query, [id]);
-  let results = await runQuery(sql);
-  let count = results.length;
-
-  for (i = 0; i < count; i++) {
-    let model = new CitiesModel();
-    let result = results[i];
-    model.fill(
-      (id = result.id),
-      (cityname = result.name),
-      (stateCode = result.state_code),
-      (countryCode = result.country_id)
-    );
-    array.push(model);
+// 4 update countries  Repository
+const updateCountryRepository = async (
+  name,
+  phoneCode,
+  is02,
+  timeZones,
+  id
+) => {
+  try {
+    let query =
+      " UPDATE `countries` set `name`=?,`phonecode`=?, `iso2`=?,`timezones`=?, where id =?";
+    let sql = con.format(query, [name, phoneCode, is02, timeZones, id]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
   }
-  return { count, array };
 };
+
+// 5 delete country
+const deleteCountryRepository = async (id, res) => {
+  try {
+    let query = "DELETE from  `countries` where `id`=?";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
 module.exports = {
-  getCountryRepository,
-  getStatesByIdRepository,
-  getCitiesByIdRepository,
+  getAllCountryRepository,
+  getCountryByIdRepository,
+  createCountryRepository,
+  updateCountryRepository,
+  deleteCountryRepository,
 };

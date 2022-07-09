@@ -28,3 +28,5 @@ class ResidentFacilityMapModel {
     this.updatedBy = updatedBy;
   }
 }
+
+module.exports = { ResidentFacilityMapModel };
