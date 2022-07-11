@@ -6,6 +6,7 @@ const {
   deleteMealMenuRepository,
 } = require("../repository/mealmenuRepository");
 
+// 1 get by id
 const getMealMenuDetailByIdController = async (req, res) => {
   const id = req.params.id;
   try {
@@ -64,8 +65,14 @@ const createMealMenuController = async (req, res) => {
   try {
     //meal items(1,2,3)  <--- meal menu contents
 
-    const { mealMenuName, menuDescription, mealType, mealStatus, userId } =
-      req.body;
+    const {
+      mealMenuName,
+      menuDescription,
+      mealType,
+      mealStatus,
+      userId,
+      mealItems,
+    } = req.body;
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     // const recordCheck = await funtncCall();

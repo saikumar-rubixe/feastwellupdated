@@ -90,6 +90,7 @@ const createMealMenuRepository = async (
     ]);
     let results = await runQuery(sql);
     let value = results.insertId;
+
     if (value && value != 0) {
       return value;
     } else {

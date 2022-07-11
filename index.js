@@ -47,24 +47,24 @@ app.get("/", (req, res) => {
 
 //******************ROUTES******************* */
 
-app.use("/api/v1/auth/login", authRoute);
-app.use("/api/v1/user", residentRoute);
-app.use("/api/v1/facility", facilityRoute);
-app.use("/api/v1/centerHead", centerHeadRoute);
-app.use("/api/v1/country", countryRoute);
-app.use("/api/v1/states", statesRoute);
-app.use("/api/v1/city", cityRoute);
-app.use("/api/v1/userType", userTypeRoute);
-app.use("/api/v1/roles", rolesRoute);
-app.use("/api/v1/permissions", permissionsRoute);
-app.use("/api/v1/menuCategory", MenuCategoryRoute);
-app.use("/api/v1/nutritionCategory", NutritionCategoryRoute);
-app.use("/api/v1/mealContents", menuContentsRoute);
-app.use("/api/v1/mealItems", mealItemsRoute);
-app.use("/api/v1/mealMenu", mealMenuRoute);
-app.use("/api/v1/residentFacility", residentFacilityRoute);
-app.use("/api/v1/userActivityLog", userLogRoute);
-app.use("/api/v1/userIdActivityLog", userIdActivityLogRoute);
+app.use("/feastwell-backend/api/v1/auth/login", authRoute);
+app.use("/feastwell-backend/api/v1/user", residentRoute);
+app.use("/feastwell-backend/api/v1/facility", facilityRoute);
+app.use("/feastwell-backend/api/v1/centerHead", centerHeadRoute);
+app.use("/feastwell-backend/api/v1/country", countryRoute);
+app.use("/feastwell-backend/api/v1/states", statesRoute);
+app.use("/feastwell-backend/api/v1/city", cityRoute);
+app.use("/feastwell-backend/api/v1/userType", userTypeRoute);
+app.use("/feastwell-backend/api/v1/roles", rolesRoute);
+app.use("/feastwell-backend/api/v1/permissions", permissionsRoute);
+app.use("/feastwell-backend/api/v1/menuCategory", MenuCategoryRoute);
+app.use("/feastwell-backend/api/v1/nutritionCategory", NutritionCategoryRoute);
+app.use("/feastwell-backend/api/v1/mealContents", menuContentsRoute);
+app.use("/feastwell-backend/api/v1/mealItems", mealItemsRoute);
+app.use("/feastwell-backend/api/v1/mealMenu", mealMenuRoute);
+app.use("/feastwell-backend/api/v1/residentFacility", residentFacilityRoute);
+app.use("/feastwell-backend/api/v1/userActivityLog", userLogRoute);
+app.use("/feastwell-backend/api/v1/userIdActivityLog", userIdActivityLogRoute);
 
 /************************************************ */
 //  handling wrong navigation url
