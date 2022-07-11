@@ -1,4 +1,4 @@
-let Joi = require("Joi").extend(require("@joi/date"));
+let Joi = require("joi").extend(require("@joi/date"));
 const Schema = Joi.object({
   fullName: Joi.string().required(),
   email: Joi.string().email().required(),

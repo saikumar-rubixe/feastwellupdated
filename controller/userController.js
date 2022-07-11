@@ -23,7 +23,7 @@ const {
   createUserRepository,
   updateUserRepository,
   deleteUserRepository,
-} = require("../repository/UserRepository");
+} = require("../repository/userRepository");
 const {
   userCheckRepository,
   emailCheckRepository,
