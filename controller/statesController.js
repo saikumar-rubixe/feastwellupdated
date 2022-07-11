@@ -4,7 +4,7 @@ const {
   createStatesRepository,
   updateStatesRepository,
   deleteStatesRepository,
-} = require("../repository/countryApiRepository");
+} = require("../repository/StatesRepository");
 
 // 1 get all States
 const getAllStatesDetailsController = async (req, res) => {

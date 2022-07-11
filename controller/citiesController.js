@@ -4,7 +4,7 @@ const {
   createCitiesRepository,
   updateCityRepository,
   deleteCityRepository,
-} = require("../repository/countryApiRepository");
+} = require("../repository/citiesRepository");
 
 // 1 get all city details
 const getAllDetailsController = async (req, res) => {

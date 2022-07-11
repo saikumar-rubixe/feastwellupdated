@@ -62,6 +62,8 @@ const getAllMealMenuDetailsController = async (req, res) => {
 // 3  create
 const createMealMenuController = async (req, res) => {
   try {
+    //meal items(1,2,3)  <--- meal menu contents
+
     const { mealMenuName, menuDescription, mealType, mealStatus, userId } =
       req.body;
     // check for user/email/etc doesnot exits
