@@ -41,6 +41,10 @@ const getAllCountryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller: catch block Error");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
   }
 };
 // 2 get by id
@@ -71,6 +75,10 @@ const getCountryByIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something went wrong!");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
   }
 };
 
@@ -107,6 +115,10 @@ const createCountryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
   }
 };
 // 4 update country
@@ -151,6 +163,10 @@ const updateCountryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
   }
 };
 
@@ -191,6 +207,10 @@ const deleteCountryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
   }
 };
 

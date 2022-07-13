@@ -3,8 +3,8 @@ const { CitiesModel } = require("../models/citiesmodel");
 
 // 1 get all cities
 const getAllCitiesDetailsRepository = async (req, res) => {
-  let array = [];
   try {
+    let array = [];
     let query = "select * from `cities` where 1=1 ";
     let sql = con.format(query);
     let results = await runQuery(sql);
@@ -34,25 +34,30 @@ const getAllCitiesDetailsRepository = async (req, res) => {
 
 // 2 GET CITIES BY STATE ID
 const getCitiesByIdRepository = async (id, res) => {
-  let array = [];
-  let query =
-    " select `id`,`name`,`state_code`,`country_id` from  `cities` where state_id =?";
-  let sql = con.format(query, [id]);
-  let results = await runQuery(sql);
-  let count = results.length;
+  try {
+    let array = [];
+    let query =
+      " select `id`,`name`,`state_code`,`country_id` from  `cities` where state_id =?";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    let count = results.length;
 
-  for (i = 0; i < count; i++) {
-    let model = new CitiesModel();
-    let result = results[i];
-    model.fill(
-      (id = result.id),
-      (cityname = result.name),
-      (stateCode = result.state_code),
-      (countryCode = result.country_id)
-    );
-    array.push(model);
+    for (i = 0; i < count; i++) {
+      let model = new CitiesModel();
+      let result = results[i];
+      model.fill(
+        (id = result.id),
+        (cityname = result.name),
+        (stateCode = result.state_code),
+        (countryCode = result.country_id)
+      );
+      array.push(model);
+    }
+    return { count, array };
+  } catch (error) {
+    console.log(error);
+    return false;
   }
-  return { count, array };
 };
 
 // 3 create cities

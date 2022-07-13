@@ -8,8 +8,8 @@ const {
 
 // 1 get by id
 const getMealMenuDetailByIdController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -34,6 +34,10 @@ const getMealMenuDetailByIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something went wrong!");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
@@ -57,6 +61,10 @@ const getAllMealMenuDetailsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
@@ -103,14 +111,17 @@ const createMealMenuController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.send(error);
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
 // 4 upadte
 const updateMealMenuController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -151,12 +162,16 @@ const updateMealMenuController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 // 5 delete
 const deleteMealMenuController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -190,6 +205,10 @@ const deleteMealMenuController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 

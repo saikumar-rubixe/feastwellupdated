@@ -36,7 +36,7 @@ let getFacilityCenterDetailsByIdController = async (req, res) => {
       });
     } else {
       let details = await getFacilityCenterDetailsByIdRepository(id, res);
-      if (!details || details == null) {
+      if (!details || details == false) {
         res.status(400).json({
           success: false,
           message: "!Error no data found",
@@ -52,6 +52,10 @@ let getFacilityCenterDetailsByIdController = async (req, res) => {
     }
   } catch (error) {
     console.log("Controller: catch block error ");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
   }
 };
 
@@ -110,9 +114,9 @@ let insertFacilityCenterDetailsController = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(404).json({
+    res.status(400).json({
       success: false,
-      message: "Controller:catch block error",
+      message: " something went wrong cb cont ",
     });
   }
 };
@@ -179,9 +183,9 @@ let updateFacilityCenterDetailsController = async (req, res) => {
   } catch (error) {
     console.log("Controller: catch block error ");
     console.log(error);
-    res.status(404).json({
+    res.status(400).json({
       success: false,
-      message: "Controller:catch block error",
+      message: " something went wrong cb cont ",
     });
   }
 };
@@ -223,6 +227,10 @@ let deleteFacilityCenterDetailsController = async (req, res) => {
     }
   } catch (error) {
     console.log("Controller: catch block error ");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
   }
 };
 

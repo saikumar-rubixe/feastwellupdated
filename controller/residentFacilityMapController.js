@@ -26,6 +26,10 @@ const getAllResidentFacilityDetailsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
@@ -57,6 +61,10 @@ const getResidentFacilityDetailByIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something went wrong!");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
@@ -84,13 +92,17 @@ const createResidentFacilityController = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
 // 4 update
 const updateResidentFacilityController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -132,13 +144,17 @@ const updateResidentFacilityController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
 // delete
 const deleteResidentFacilityController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -175,6 +191,10 @@ const deleteResidentFacilityController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 

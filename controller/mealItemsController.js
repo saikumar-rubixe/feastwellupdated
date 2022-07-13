@@ -7,8 +7,8 @@ const {
 } = require("../repository/mealItemsRepository");
 //1 get by id
 const getMealItemsDetailByIdController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -33,6 +33,10 @@ const getMealItemsDetailByIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something went wrong!");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 // 2 get all details
@@ -55,6 +59,10 @@ const getAllMealItemsDetailsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 // 3 create meal items
@@ -89,12 +97,16 @@ const createMealItemsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 // 4 update meal items
 const updateMealItemsController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -132,12 +144,16 @@ const updateMealItemsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 // 5 delete meal items
 const deleteMealitemsController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -171,6 +187,10 @@ const deleteMealitemsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 module.exports = {

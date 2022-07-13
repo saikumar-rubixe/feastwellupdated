@@ -26,6 +26,10 @@ const getAllStatesDetailsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 // 2 get states by id
@@ -54,6 +58,10 @@ const getStatesByIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller: catch block Error");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
@@ -85,12 +93,16 @@ const createStatesController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 // 4 update state
 const updateStatesController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -127,13 +139,17 @@ const updateStatesController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
 // 5 delete state
 const deleteStatesController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -167,6 +183,10 @@ const deleteStatesController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 

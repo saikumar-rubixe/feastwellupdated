@@ -8,8 +8,8 @@ const {
 
 //1 get by id
 const getMenuCategoryDetailByIdController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -34,6 +34,10 @@ const getMenuCategoryDetailByIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something went wrong!");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 // 2 get all details
@@ -56,6 +60,10 @@ const getAllMenuCategoryDetailsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
@@ -86,13 +94,17 @@ const createMenuCategoryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
 // 4 update
 const updateMenuCategoryController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -129,13 +141,17 @@ const updateMenuCategoryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
 // delete
 const deleteMenuCategoryController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -169,6 +185,10 @@ const deleteMenuCategoryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 

@@ -20,8 +20,8 @@ let { CountriesModel } = require("../models/countriesModel");
 
 // 1 GET COUNTRIES
 const getAllCountryRepository = async (req, res) => {
-  let array = [];
   try {
+    let array = [];
     let query =
       "select id ,name,phonecode,iso2,timezones from countries where 1=1 ";
     let sql = con.format(query);
@@ -47,6 +47,7 @@ const getAllCountryRepository = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("catch block error something went wrong");
+    return false;
   }
 };
 // 2 get all countries

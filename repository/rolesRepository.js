@@ -44,8 +44,8 @@ const getRolesDetailByIdRepository = async (id, res) => {
 
 // 2 get all details
 const getAllRolesDetailsRepository = async (req, res) => {
-  let array = [];
   try {
+    let array = [];
     let query = "SELECT  * from `roles` where 1=1 ";
     let sql = con.format(query);
     let results = await runQuery(sql);

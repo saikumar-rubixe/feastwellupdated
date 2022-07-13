@@ -94,7 +94,7 @@ let getAllFacilityCenterDetailsRepository = async (req, res) => {
   } catch (error) {
     console.log("repo: catch block error ");
     console.log(error);
-    return null;
+    return false;
   }
 };
 

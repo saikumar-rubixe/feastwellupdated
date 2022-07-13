@@ -33,78 +33,73 @@ const {
 
 // 1  to get the details of one single User by Id
 const getUserByIdController = async (req, res) => {
-  const id = req.params.id;
-  if (checkNumber(id)) {
-    const recordExist = await getUserByIdRepository(id, res);
-    if (!recordExist) {
-      res.status(404).json({
+  try {
+    if (checkNumber(id)) {
+      const id = req.params.id;
+      const recordExist = await getUserByIdRepository(id, res);
+      if (!recordExist) {
+        res.status(404).json({
+          success: false,
+          message: "Record Not Found with id : " + id,
+        });
+      } else if (recordExist) {
+        res.status(201).json({
+          success: true,
+          message: "Details Fetched Succesfuly",
+          data: recordExist,
+        });
+      }
+    } else {
+      console.log("id is not a number");
+      res.status(400).json({
         success: false,
-        message: "Record Not Found with id : " + id,
-      });
-    } else if (recordExist) {
-      res.status(201).json({
-        success: true,
-        message: "Details Fetched Succesfuly",
-        data: recordExist,
+        message: "Wrong input:id must be a number ",
       });
     }
-  } else {
-    console.log("id is not a number");
+  } catch (error) {
+    console.log(error);
     res.status(400).json({
       success: false,
-      message: "Wrong input:id must be a number ",
+      message: " something went wrong cb",
     });
   }
 };
 
 // 2 to get all Users of users table
 const getAllUsersController = async (req, res) => {
-  const { userType, userStatus, email } = req.query;
-  const details = await getAllUsersRepository(userType, userStatus, email);
-  if (details) {
-    res.status(200).json({
-      success: true,
-      message: "Details Fetched Succesfuly",
-      data: details,
-    });
-  } else {
-    res.status(404).json({
+  try {
+    const { userType, userStatus, email } = req.query;
+    const details = await getAllUsersRepository(userType, userStatus, email);
+    if (details) {
+      res.status(200).json({
+        success: true,
+        message: "Details Fetched Succesfuly",
+        data: details,
+      });
+    } else if (details == false) {
+      res.status(404).json({
+        success: false,
+        message: "catch bock error ",
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Cannot retrieved",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
       success: false,
-      message: "Cannot retrieved",
+      message: " something went wrong cb",
     });
   }
 };
 
 // 3 create user and generate insertid
 let createUserController = async (req, res, next) => {
-  let {
-    fullName,
-    email,
-    phoneNumber,
-    userName,
-    password,
-    userType,
-    userStatus,
-    loggedIpAddress,
-  } = req.body;
-
-  let recordCheck = await userCheckRepository(userName, res);
-  let emailCheck = await emailCheckRepository(email, res);
-
-  if (recordCheck == 1 || emailCheck == 1) {
-    if (recordCheck == 1) {
-      res.status(404).json({
-        success: false,
-        message: "username not available ",
-      });
-    } else if (emailCheck == 1) {
-      res.status(404).json({
-        success: false,
-        message: "email already exists! please login ",
-      });
-    }
-  } else if (recordCheck == 0 && emailCheck == 0) {
-    var createUser = await createUserRepository(
+  try {
+    let {
       fullName,
       email,
       phoneNumber,
@@ -112,40 +107,74 @@ let createUserController = async (req, res, next) => {
       password,
       userType,
       userStatus,
-      loggedIpAddress
-    );
-    if (!createUser) {
-      res.status(404).json({
-        success: false,
-        message: "something went wrong , registration failed ",
-      });
+      loggedIpAddress,
+    } = req.body;
+
+    let recordCheck = await userCheckRepository(userName, res);
+    let emailCheck = await emailCheckRepository(email, res);
+
+    if (recordCheck == 1 || emailCheck == 1) {
+      if (recordCheck == 1) {
+        res.status(404).json({
+          success: false,
+          message: "username not available ",
+        });
+      } else if (emailCheck == 1) {
+        res.status(404).json({
+          success: false,
+          message: "email already exists! please login ",
+        });
+      }
+    } else if (recordCheck == 0 && emailCheck == 0) {
+      var createUser = await createUserRepository(
+        fullName,
+        email,
+        phoneNumber,
+        userName,
+        password,
+        userType,
+        userStatus,
+        loggedIpAddress
+      );
+      if (!createUser) {
+        res.status(404).json({
+          success: false,
+          message: "something went wrong , registration failed ",
+        });
+      } else {
+        res.status(201).json({
+          success: true,
+          message: "Registration  succesfully with id: " + createUser,
+        });
+      }
     } else {
-      res.status(201).json({
-        success: true,
-        message: "Registration  succesfully with id: " + createUser,
-      });
+      res.send("out of the box error");
     }
-  } else {
-    res.send("out of the box error");
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
 // 4 update User by id
 let updateUserController = async (req, res, next) => {
-  let id = req.params.id;
-  console.log(`id passed is ${id}`);
-  const {
-    fullName,
-    email,
-    phoneNumber,
-    userName,
-    // password,
-    userType,
-    status,
-    loggedIpAddress,
-  } = req.body;
-  if (checkNumber(id)) {
-    try {
+  try {
+    let id = req.params.id;
+    console.log(`id passed is ${id}`);
+    const {
+      fullName,
+      email,
+      phoneNumber,
+      userName,
+      // password,
+      userType,
+      status,
+      loggedIpAddress,
+    } = req.body;
+    if (checkNumber(id)) {
       const recordExist = await getUserByIdRepository(id, res);
       if (recordExist == null) {
         res.status(404).json({
@@ -194,56 +223,63 @@ let updateUserController = async (req, res, next) => {
           }
         }
       }
-    } catch (error) {
-      console.log(error);
-      res.send("something went wrong update failed");
+    } else {
+      console.log("id is not a number");
+      res.status(400).json({
+        success: false,
+        message: "Wrong input:id must be a number ",
+      });
     }
-  } else {
-    console.log("id is not a number");
-
-    res.status(400).json({
-      success: false,
-      message: "Wrong input:id must be a number ",
-    });
+  } catch (error) {
+    console.log(error);
+    res.send("something went wrong update failed");
   }
 };
 
 // 5 delete User by id
 let deleteUserController = async (req, res) => {
-  const id = req.params.id;
+  try {
+    const id = req.params.id;
 
-  if (checkNumber(id)) {
-    try {
-      const recordExist = await getUserByIdRepository(id, res);
-      if (recordExist) {
-        var details = await deleteUserRepository(id);
-        if (details == 1) {
-          res.status(201).json({
-            success: true,
-            message: "Deleted User  succesfully ",
-          });
-        } else if (!details || details == 0) {
+    if (checkNumber(id)) {
+      try {
+        const recordExist = await getUserByIdRepository(id, res);
+        if (recordExist) {
+          var details = await deleteUserRepository(id);
+          if (details == 1) {
+            res.status(201).json({
+              success: true,
+              message: "Deleted User  succesfully ",
+            });
+          } else if (!details || details == 0) {
+            res.status(404).json({
+              success: false,
+              message: "Deleted User  failed ",
+            });
+          }
+        } else {
           res.status(404).json({
             success: false,
-            message: "Deleted User  failed ",
+            message: "user not found to delete ",
           });
         }
-      } else {
-        res.status(404).json({
-          success: false,
-          message: "user not found to delete ",
-        });
+      } catch (err) {
+        console.log(`catch block error controller${err}`);
       }
-    } catch (err) {
-      console.log(`catch block error controller${err}`);
     }
-  }
-  //if id is not valid
-  else {
-    console.log("id is not a number");
+    //if id is not valid
+    else {
+      console.log("id is not a number");
+      res.status(400).json({
+        success: false,
+        message: "Wrong input:id must be a number ",
+      });
+    }
+  } catch (error) {
+    console.log(error);
     res.status(400).json({
       success: false,
-      message: "Wrong input:id must be a number ",
+      message: " something went wrong cb",
     });
   }
 };

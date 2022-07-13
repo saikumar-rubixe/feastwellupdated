@@ -27,8 +27,8 @@ let newDate = new Date();
 
 // 1 get all permissions
 const getAllPermissionsDetailsRepository = async (req, res) => {
-  let array = [];
   try {
+    let array = [];
     let query = "SELECT * FROM permissions WHERE 1=1  ";
     let sql = con.format(query);
     let results = await runQuery(sql);

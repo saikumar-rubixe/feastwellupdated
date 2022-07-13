@@ -6,28 +6,33 @@ let newDate = new Date();
 
 //1 get all details
 const getAllResidentFacilityDetailsRepository = async () => {
-  let array = [];
-  let query = "select * from `resident_facility_map` where 1=1 ";
-  let results = await runQuery(query);
-  let count = results.length;
-  if (count != 0) {
-    for (i = 0; i < count; i++) {
-      let model = new ResidentFacilityMapModel();
-      let result = results[i];
-      model.fill(
-        (residentFacilityId = result.resident_facility_id),
-        (userId = result.user_id),
-        (facilityId = result.user_id),
-        (status = result.status),
-        (createdDate = result.created_date),
-        (createdBy = result.created_by),
-        (updatedDate = result.updated_date),
-        (updatedBy = result.updated_by)
-      );
-      array.push(model);
+  try {
+    let array = [];
+    let query = "select * from `resident_facility_map` where 1=1 ";
+    let results = await runQuery(query);
+    let count = results.length;
+    if (count != 0) {
+      for (i = 0; i < count; i++) {
+        let model = new ResidentFacilityMapModel();
+        let result = results[i];
+        model.fill(
+          (residentFacilityId = result.resident_facility_id),
+          (userId = result.user_id),
+          (facilityId = result.user_id),
+          (status = result.status),
+          (createdDate = result.created_date),
+          (createdBy = result.created_by),
+          (updatedDate = result.updated_date),
+          (updatedBy = result.updated_by)
+        );
+        array.push(model);
+      }
+      return { count, array };
+    } else {
+      return false;
     }
-    return { count, array };
-  } else {
+  } catch (error) {
+    console.log(error);
     return false;
   }
 };

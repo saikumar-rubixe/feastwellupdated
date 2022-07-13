@@ -26,6 +26,10 @@ const getAllDetailsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont",
+    });
   }
 };
 
@@ -55,6 +59,10 @@ const getCitiesByIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller: catch block Error");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
   }
 };
 
@@ -86,13 +94,17 @@ const createCityController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
   }
 };
 
 // 4 update city
 const updateCityController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -130,13 +142,17 @@ const updateCityController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
   }
 };
 // 5 delete city
 
 const deleteCityController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -170,6 +186,10 @@ const deleteCityController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
   }
 };
 

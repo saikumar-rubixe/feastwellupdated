@@ -3,24 +3,29 @@ const { States } = require("../models/statesModel");
 
 //1 get the states by id
 const getStatesByIdRepository = async (id, res) => {
-  let array = [];
-  let query =
-    " select `id`,`name`,`country_code` from  `states` where country_id =?";
-  let sql = con.format(query, [id]);
-  let results = await runQuery(sql);
-  let count = results.length;
+  try {
+    let array = [];
+    let query =
+      " select `id`,`name`,`country_code` from  `states` where country_id =?";
+    let sql = con.format(query, [id]);
+    let results = await runQuery(sql);
+    let count = results.length;
 
-  for (i = 0; i < count; i++) {
-    let statesmodel = new States();
-    let result = results[i];
-    statesmodel.fill(
-      (id = result.id),
-      (Statename = result.name),
-      (coutryCode = result.country_code)
-    );
-    array.push(statesmodel);
+    for (i = 0; i < count; i++) {
+      let statesmodel = new States();
+      let result = results[i];
+      statesmodel.fill(
+        (id = result.id),
+        (Statename = result.name),
+        (coutryCode = result.country_code)
+      );
+      array.push(statesmodel);
+    }
+    return { count, array };
+  } catch (error) {
+    console.log(error);
+    return false;
   }
-  return { count, array };
 };
 
 // 2 get all states

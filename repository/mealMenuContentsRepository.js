@@ -17,8 +17,8 @@ const { mealMenuContentsModel } = require("../models/mealMenuContentsModel");
 let newDate = new Date();
 // 1 get all details
 const getAllMealMenuDetailsRepository = async (req, res) => {
-  let array = [];
   try {
+    let array = [];
     let query = "select * from `meal_menu_contents` where 1=1 ";
     let sql = con.format(query);
     let results = await runQuery(sql);

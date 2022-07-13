@@ -7,18 +7,18 @@ const {
 } = require("../repository/centerHeadRepository");
 // 1 create center head
 const insertCenterHeadController = async (req, res) => {
-  const {
-    centerHeadName,
-    personId,
-    centeremail,
-    centerContactNumber,
-    centerCountryId,
-    centerStateId,
-    centerCityId,
-    centerHeadStatus,
-    createdBy,
-  } = req.body;
   try {
+    const {
+      centerHeadName,
+      personId,
+      centeremail,
+      centerContactNumber,
+      centerCountryId,
+      centerStateId,
+      centerCityId,
+      centerHeadStatus,
+      createdBy,
+    } = req.body;
     const create = await insertCenterHeadRepository(
       centerHeadName,
       personId,
@@ -44,6 +44,10 @@ const insertCenterHeadController = async (req, res) => {
   } catch (error) {
     console.log("controller: catch block error");
     console.log(error);
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
@@ -178,6 +182,10 @@ const getByIdCenterHeadController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("controller : catch block error ");
+    res.status(400).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 

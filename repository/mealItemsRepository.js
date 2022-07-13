@@ -30,8 +30,8 @@ const getMealItemsDetailByIdRepository = async (id, res) => {
 };
 
 const getAllMealItemsDetailsRepository = async (req, res) => {
-  let array = [];
   try {
+    let array = [];
     let query = "select * from `meal_items` where 1=1 ";
     let sql = con.format(query);
     let results = await runQuery(sql);

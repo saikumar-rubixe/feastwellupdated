@@ -51,8 +51,8 @@ const getNutritionCategoryDetailByIdRepository = async (id, res) => {
 };
 //2 get all details
 const getAllNutritionCategoryDetailsRepository = async (req, res) => {
-  let array = [];
   try {
+    let array = [];
     let query = "select * from `nutrition_category` where 1=1 ";
     let sql = con.format(query);
     let results = await runQuery(sql);

@@ -17,8 +17,8 @@ let newDate = new Date();
 
 // 1 get all categories
 const getAllMenuCategoryDetailsRepository = async (req, res) => {
-  let array = [];
   try {
+    let array = [];
     let query = "SELECT * from  `menu_category` where 1=1 ";
     let sql = con.format(query);
     let results = await runQuery(sql);

@@ -35,8 +35,8 @@ const getMealMenuDetailByIdRepository = async (id, res) => {
 
 // 2 get all details
 const getAllMealMenuDetailsRepository = async (req, res) => {
-  let array = [];
   try {
+    let array = [];
     let query = "select * from `meal_menu` ";
     let sql = con.format(query);
     let results = await runQuery(sql);

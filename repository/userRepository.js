@@ -83,9 +83,8 @@ let emailCheckRepository = async (email, res) => {
 
 /*4 get all residents details*/
 const getAllUsersRepository = async (userType, userStatus, email) => {
-  let userArray = [];
-
   try {
+    let userArray = [];
     let query = "select * from users  where 1=1 ";
     if (userType) {
       query += " and user_type=" + mysql.escape(userType);
@@ -126,6 +125,7 @@ const getAllUsersRepository = async (userType, userStatus, email) => {
     return response;
   } catch (error) {
     console.log(`error in catch block is ${error}`);
+    return false;
   }
 };
 
