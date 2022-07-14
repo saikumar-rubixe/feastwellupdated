@@ -50,6 +50,7 @@ app.get('/', (req, res) => {
 let apiPath = '/feastwell-backend/api/';
 let apiVersion = 'v1';
 let apiBasePath = `${apiPath}${apiVersion}/`
+let localurl ='/api/v1/'
 
 app.use(`${apiBasePath}auth/login`, authRoute)
 app.use(`${apiBasePath}user`, residentRoute)
@@ -71,9 +72,25 @@ app.use(`${apiBasePath}userActivityLog`, userLogRoute)
 app.use(`${apiBasePath}userIdActivityLog`, userIdActivityLogRoute)
 
 /**   ********************************************** */
-/** local host testing */
-app.use(`auth/login`, authRoute)
-app.use(`/api/user`, residentRoute)
+/** for  local host testing  and devlopment purpose*/ 
+app.use(`${localurl}auth/login`, authRoute)
+app.use(`${localurl}user`, residentRoute)
+app.use(`${localurl}facility`, facilityRoute)
+app.use(`${localurl}centerHead`, centerHeadRoute)
+app.use(`${localurl}country`, countryRoute)
+app.use(`${localurl}states`, statesRoute)
+app.use(`${localurl}city`, cityRoute)
+app.use(`${localurl}userType`, userTypeRoute)
+app.use(`${localurl}roles`, rolesRoute)
+app.use(`${localurl}permissions`, permissionsRoute)
+app.use(`${localurl}menuCategory`, MenuCategoryRoute)
+app.use(`${localurl}nutritionCategory`, NutritionCategoryRoute)
+app.use(`${localurl}mealContents`, menuContentsRoute)
+app.use(`${localurl}mealItems`, mealItemsRoute)
+app.use(`${localurl}mealMenu`, mealMenuRoute)
+app.use(`${localurl}residentFacility`, residentFacilityRoute)
+app.use(`${localurl}userActivityLog`, userLogRoute)
+app.use(`${localurl}userIdActivityLog`, userIdActivityLogRoute)
 
 /**    local host testing    */
 

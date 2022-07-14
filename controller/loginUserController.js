@@ -40,8 +40,8 @@ const userLogin = async (req, res) => {
           //  res.header("token", token).send(token);
 
           return res.json({
-            success: 1, // respnse.success
-            message: "login successfully",
+            success: true, // respnse.success
+            message: "login successful",
             token: token,
            
           });
@@ -53,7 +53,7 @@ const userLogin = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(eror);
+    console.log(error);
     console.log("catch block error");
     res.status(400).json({
       success: false,
