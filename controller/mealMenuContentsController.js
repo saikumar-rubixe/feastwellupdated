@@ -35,8 +35,8 @@ const getAllMealMenuContentsDetailsController = async (req, res) => {
 
 //2  get by id
 const getMealMenuContentsDetailByIdController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -158,8 +158,8 @@ const updateMealMenuContentsController = async (req, res) => {
 
 // 5 delete
 const deleteMealMenuContentsController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,

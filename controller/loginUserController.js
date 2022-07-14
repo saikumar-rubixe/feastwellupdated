@@ -11,25 +11,28 @@ const userLogin = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     console.log(`email from request is ${email}`);
-    console.log(`PASSWORD from request is ${password}`);
+    console.log(`password from request is ${password}`);
 
     const recordExist = await getUserDetailByEmail(email);
     //IF EMAIL  NOT EXITS SEND ERROR
     if (!recordExist || recordExist == null) {
       res.status(404).json({
         success: false,
-        message: "Email id is Wrong, No USER found - Register User ",
+        message: "no user found",
       });
     } else {
       if (recordExist) {
         //GETTING HASHED PASSWORD FROM DB
         const dbpassword = recordExist.password;
         const result = await bcrypt.compare(password, dbpassword);
-        if (!result) return res.status(401).send("Invalid Password");
+        if (!result) return res.status(401).json({
+          success: false,
+          message: " invalid password"
+        })
 
         if (result) {
           //CREATE AND ASSIGN A TOKEN
-          console.log(" login succesfu;");
+          console.log(" login succesful");
           const token = jwt.sign(
             { id: recordExist.userId },
             process.env.TOKEN_SECRET
@@ -37,15 +40,10 @@ const userLogin = async (req, res) => {
           //  res.header("token", token).send(token);
 
           return res.json({
-            success: 1,
+            success: 1, // respnse.success
             message: "login successfully",
             token: token,
-            user: {
-              userId: recordExist.userId,
-              fullName: recordExist.fullName,
-              Email: recordExist.email,
-              phone: recordExist.phoneNumber,
-            },
+           
           });
         }
       } else {

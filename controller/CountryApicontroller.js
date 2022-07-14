@@ -123,8 +123,8 @@ const createCountryController = async (req, res) => {
 };
 // 4 update country
 const updateCountryController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -172,8 +172,8 @@ const updateCountryController = async (req, res) => {
 
 // 5 delete country
 const deleteCountryController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,

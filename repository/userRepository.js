@@ -24,9 +24,13 @@ console.log(date.format(newDate, "YYYY/MM/DD HH:mm:ss"));
 /*1 get resident Details By ID  */
 const getUserByIdRepository = async (id, res) => {
   try {
-    let query = " select * from users where user_id = ?";
+    let query = "select * from users where user_id =?";
     let sql = con.format(query, [id]);
+    console.log("consolling sql query");
+    console.log(sql);
     let results = await runQuery(sql);
+    console.log("results response");
+    console.log(results);
     if (results.length != 0) {
       let array = results[0];
       let model = new UserModel();
@@ -49,7 +53,7 @@ const getUserByIdRepository = async (id, res) => {
     }
   } catch (error) {
     console.log("error");
-    return null;
+    return false;
   }
 };
 

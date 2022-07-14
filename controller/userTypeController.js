@@ -7,8 +7,8 @@ const {
 } = require("../repository/userTypeRepository");
 // get user type details by id
 const getUserTypeDetailByIdController = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
