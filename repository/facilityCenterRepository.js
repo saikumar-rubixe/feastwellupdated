@@ -17,6 +17,8 @@
  */
 
 let { runQuery, con } = require("../config/database");
+con = con();
+runQuery = runQuery();
 let { FacilityModel } = require("../models/facilityCentreModel");
 const date = require("date-and-time");
 let newDate = new Date();

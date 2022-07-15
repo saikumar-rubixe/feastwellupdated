@@ -22,6 +22,8 @@
  *
  */
 const { runQuery, con } = require("../config/database");
+con = con();
+runQuery = runQuery();
 const { permissionsModel } = require("../models/permissionsModel");
 let newDate = new Date();
 

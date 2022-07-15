@@ -12,6 +12,8 @@
  * 3. get activity user log details of one user id
  */
 const { runQuery, con } = require("../config/database");
+con = con();
+runQuery = runQuery();
 const { UserActivityLogModel } = require("../models/userActivityLogModel");
 let newDate = new Date();
 

@@ -1,4 +1,6 @@
 const { runQuery, con } = require("../config/database");
+con = con();
+runQuery = runQuery();
 let newDate = new Date();
 const { mealItemsModel } = require("../models/mealitemsModel");
 

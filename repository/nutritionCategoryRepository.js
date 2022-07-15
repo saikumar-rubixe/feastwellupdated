@@ -12,6 +12,8 @@
  *
  */
 const { runQuery, con } = require("../config/database");
+con = con();
+runQuery = runQuery();
 const { NutritionCategoryModel } = require("../models/nutritionCategoryModel");
 let newDate = new Date();
 

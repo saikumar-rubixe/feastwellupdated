@@ -13,6 +13,8 @@
  */
 
 const { runQuery, con } = require("../config/database");
+con = con();
+runQuery = runQuery();
 const { mealMenuContentsModel } = require("../models/mealMenuContentsModel");
 let newDate = new Date();
 // 1 get all details

@@ -92,7 +92,8 @@ const createMealMenuController = async (req, res) => {
       menuDescription,
       mealType,
       mealStatus,
-      userId
+      userId,
+      mealItems
     );
     if (create) {
       res.status(200).json({

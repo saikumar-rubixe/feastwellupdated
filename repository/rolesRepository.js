@@ -12,6 +12,8 @@
  */
 const { RolesModel } = require("../models/rolesModel");
 const { runQuery, con } = require("../config/database");
+con = con();
+runQuery = runQuery();
 const newDate = new Date();
 // 1 get by id roles
 const getRolesDetailByIdRepository = async (id, res) => {
@@ -109,7 +111,8 @@ const createRoleRepository = async (
 };
 
 // 4 update role
-const updateRolesRepository = async (id,
+const updateRolesRepository = async (
+  id,
   roleName,
   menuId,
   userTypeId,

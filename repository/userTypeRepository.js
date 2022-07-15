@@ -23,7 +23,8 @@
 
 const { UserTypeModel } = require("../models/userTypeModel");
 const { runQuery, con } = require("../config/database");
-
+con = con();
+runQuery = runQuery();
 const getUserTypeDetailByIdRepository = async (id, res) => {
   try {
     let query = " select * from  `users_type` where users_type_id =?";

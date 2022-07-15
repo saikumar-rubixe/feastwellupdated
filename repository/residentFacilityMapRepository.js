@@ -2,6 +2,8 @@ const {
   ResidentFacilityMapModel,
 } = require("../models/residentFacilityMapModel");
 const { runQuery, con } = require("../config/database");
+con = con();
+runQuery = runQuery();
 let newDate = new Date();
 
 //1 get all details

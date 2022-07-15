@@ -15,6 +15,8 @@
  */
 
 let { runQuery, con } = require("../config/database");
+con = con();
+runQuery = runQuery();
 // country Model
 let { CountriesModel } = require("../models/countriesModel");
 
