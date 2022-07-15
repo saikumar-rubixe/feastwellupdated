@@ -21,10 +21,10 @@
  * 1.getPermissionsDetailByIdRepository -->fetch the user by ID
  *
  */
-const { runQuery, con } = require("../config/database");
+let { runQuery, con } = require("../config/database");
 con = con();
 runQuery = runQuery();
-const { permissionsModel } = require("../models/permissionsModel");
+let { permissionsModel } = require("../models/permissionsModel");
 let newDate = new Date();
 
 // 1 get all permissions

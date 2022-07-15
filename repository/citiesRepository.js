@@ -1,7 +1,7 @@
 let { runQuery, con } = require("../config/database");
 con = con();
 runQuery = runQuery();
-const { CitiesModel } = require("../models/citiesmodel");
+let { CitiesModel } = require("../models/citiesmodel");
 
 // 1 get all cities
 const getAllCitiesDetailsRepository = async (req, res) => {

@@ -14,7 +14,7 @@
  * 6.deleteUserRepository  --> delete user by ID
  */
 const mysql = require("mysql");
-const { UserModel } = require("../models/userModel");
+let { UserModel } = require("../models/userModel");
 let { runQuery, con } = require("../config/database");
 
 con = con();

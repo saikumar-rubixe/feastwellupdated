@@ -11,10 +11,10 @@
  * 1. getNutritionCategoryDetailByIdRepository-->fetch the user by ID
  *
  */
-const { runQuery, con } = require("../config/database");
+let { runQuery, con } = require("../config/database");
 con = con();
 runQuery = runQuery();
-const { NutritionCategoryModel } = require("../models/nutritionCategoryModel");
+let { NutritionCategoryModel } = require("../models/nutritionCategoryModel");
 let newDate = new Date();
 
 // 1 get by id

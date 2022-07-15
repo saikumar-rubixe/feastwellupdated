@@ -1,7 +1,7 @@
-const { runQuery, con } = require("../config/database");
+let { runQuery, con } = require("../config/database");
 con = con();
 runQuery = runQuery();
-const { MealMenuModel } = require("../models/mealMenuModel");
+let { MealMenuModel } = require("../models/mealMenuModel");
 const date = require("date-and-time");
 let newDate = new Date();
 

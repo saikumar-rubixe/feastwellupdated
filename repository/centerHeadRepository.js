@@ -15,10 +15,10 @@
  * 5.getAllCenterHeadRepository  -->fetch all the center heads
  */
 
-const { runQuery, con } = require("../config/database");
+let { runQuery, con } = require("../config/database");
 con = con();
 runQuery = runQuery();
-const { CenterHeadmodel } = require("../models/centreHeadModel");
+let { CenterHeadmodel } = require("../models/centreHeadModel");
 const date = require("date-and-time");
 let newDate = new Date();
 

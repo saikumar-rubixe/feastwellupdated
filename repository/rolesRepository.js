@@ -10,8 +10,8 @@
  * 1.getUserLogDetailByIdRepository -->fetch the user by ID
  *
  */
-const { RolesModel } = require("../models/rolesModel");
-const { runQuery, con } = require("../config/database");
+let { RolesModel } = require("../models/rolesModel");
+let { runQuery, con } = require("../config/database");
 con = con();
 runQuery = runQuery();
 const newDate = new Date();

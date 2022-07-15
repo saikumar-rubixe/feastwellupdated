@@ -1,7 +1,7 @@
 let { runQuery, con } = require("../config/database");
 con = con();
 runQuery = runQuery();
-const { States } = require("../models/statesModel");
+let { States } = require("../models/statesModel");
 
 //1 get the states by id
 const getStatesByIdRepository = async (id, res) => {

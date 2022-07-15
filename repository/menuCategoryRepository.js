@@ -11,10 +11,10 @@
  * 1.getMenuCategoryDetailByIdRepository -->fetch the user by ID
  *
  */
-const { runQuery, con } = require("../config/database");
+let { runQuery, con } = require("../config/database");
 con = con();
 runQuery = runQuery();
-const { menuCategoryModel } = require("../models/menuCategoryModel");
+let { menuCategoryModel } = require("../models/menuCategoryModel");
 let newDate = new Date();
 
 // 1 get all categories

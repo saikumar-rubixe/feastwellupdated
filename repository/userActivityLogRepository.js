@@ -11,10 +11,10 @@
  *  2. createUserLogRepository   -- record user log activity details
  * 3. get activity user log details of one user id
  */
-const { runQuery, con } = require("../config/database");
+let { runQuery, con } = require("../config/database");
 con = con();
 runQuery = runQuery();
-const { UserActivityLogModel } = require("../models/userActivityLogModel");
+let { UserActivityLogModel } = require("../models/userActivityLogModel");
 let newDate = new Date();
 
 // 1 get detail by id

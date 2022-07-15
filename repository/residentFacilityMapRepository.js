@@ -1,7 +1,7 @@
-const {
+let {
   ResidentFacilityMapModel,
 } = require("../models/residentFacilityMapModel");
-const { runQuery, con } = require("../config/database");
+let { runQuery, con } = require("../config/database");
 con = con();
 runQuery = runQuery();
 let newDate = new Date();

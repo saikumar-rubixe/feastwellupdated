@@ -1,8 +1,8 @@
-const { runQuery, con } = require("../config/database");
+let { runQuery, con } = require("../config/database");
 con = con();
 runQuery = runQuery();
 let newDate = new Date();
-const { mealItemsModel } = require("../models/mealitemsModel");
+let { mealItemsModel } = require("../models/mealitemsModel");
 
 const getMealItemsDetailByIdRepository = async (id, res) => {
   try {
