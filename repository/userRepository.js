@@ -15,7 +15,11 @@
  */
 const mysql = require("mysql");
 const { UserModel } = require("../models/userModel");
-const { runQuery, con } = require("../config/database");
+let { runQuery, con } = require("../config/database");
+
+con = con();
+runQuery = runQuery();
+
 const date = require("date-and-time");
 const bcrypt = require("bcrypt");
 let newDate = new Date();
@@ -25,10 +29,14 @@ console.log(date.format(newDate, "YYYY/MM/DD HH:mm:ss"));
 const getUserByIdRepository = async (id, res) => {
   try {
     let query = "select * from users where user_id =?";
+    console.log("testing before run query");
+
     let sql = con.format(query, [id]);
     console.log("consolling sql query");
     console.log(sql);
     let results = await runQuery(sql);
+
+    console.log("after calling db");
     console.log("results response");
     console.log(results);
     if (results.length != 0) {
@@ -52,7 +60,7 @@ const getUserByIdRepository = async (id, res) => {
       return model;
     }
   } catch (error) {
-    console.log("error");
+    console.log(error);
     return false;
   }
 };
@@ -100,6 +108,7 @@ const getAllUsersRepository = async (userType, userStatus, email) => {
       query += " and email=" + mysql.escape(email);
     }
     const sql = con.format(query);
+
     let sqlResult = await runQuery(sql);
     let count = sqlResult.length;
     for (let i = 0; i < sqlResult.length; i++) {

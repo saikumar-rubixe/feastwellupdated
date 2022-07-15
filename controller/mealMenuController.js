@@ -79,8 +79,7 @@ const createMealMenuController = async (req, res) => {
       mealType,
       mealStatus,
       userId,
-
-     
+      mealItems, // here json array of mealitems id
     } = req.body;
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
@@ -188,7 +187,6 @@ const deleteMealMenuController = async (req, res) => {
         });
       }
       if (recordCheck) {
-       
         const updatedetails = await deleteMealMenuRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({
