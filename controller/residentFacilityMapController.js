@@ -72,17 +72,18 @@ const getResidentFacilityDetailByIdController = async (req, res) => {
 const createResidentFacilityController = async (req, res) => {
   try {
     const { userId, facilityCenterId, status, createdBy } = req.body;
-    let crate = await createResidentFacilityRepository(
+    let create = await createResidentFacilityRepository(
       userId,
       facilityCenterId,
       status,
       createdBy
     );
-    console.log(`crate is ${crate}`);
-    if (crate && crate != false) {
+    console.log(`crate is ${create}`);
+    if (create && create != false) {
       res.status(200).json({
         success: true,
-        message: "mapping userid and facility center succes with id : " + crate,
+        message: "mapping userid and facility center succes with id : " + create,
+        insertId:create,
       });
     } else {
       res.status(400).json({
@@ -173,7 +174,7 @@ const deleteResidentFacilityController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const {} = req.body;
+  
         const updatedetails = await deleteResidentFacilityRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({

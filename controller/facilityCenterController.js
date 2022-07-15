@@ -110,6 +110,7 @@ let insertFacilityCenterDetailsController = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "facility center created Succesfully with id " + create,
+        insertId:create,
       });
     }
   } catch (error) {

@@ -109,7 +109,7 @@ const createRoleRepository = async (
 };
 
 // 4 update role
-const updateRolesRepository = async (
+const updateRolesRepository = async (id,
   roleName,
   menuId,
   userTypeId,

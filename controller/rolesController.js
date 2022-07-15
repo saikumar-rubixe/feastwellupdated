@@ -71,7 +71,10 @@ const getAllRolesDetailsController = async (req, res) => {
 // 3 create
 const createRolesController = async (req, res) => {
   try {
-    const {} = req.body;
+    const { roleName,
+      menuId,
+      userTypeId,
+      roleStatus} = req.body;
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     // const recordCheck = await functionCall();
@@ -88,7 +91,7 @@ const createRolesController = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "data created succesfully with id" + create,
-        data: create,
+        insertId:create,
       });
     }
     if (!create || create == false) {
@@ -125,8 +128,14 @@ const updateRolesController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const {} = req.body;
-        const updatedetails = await updateRolesRepository(id, res);
+        const {roleName,
+          menuId,
+          userTypeId,
+          roleStatus} = req.body;
+        const updatedetails = await updateRolesRepository(id, roleName,
+          menuId,
+          userTypeId,
+          roleStatus);
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
@@ -169,7 +178,7 @@ const deleteRolesController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const {} = req.body;
+       
         const updatedetails = await deleteRolesRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({

@@ -81,7 +81,7 @@ const createCityController = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "data created succesfully with id" + create,
-        data: create,
+        insertId: create,
       });
     }
     if (!create || create == false) {
@@ -168,7 +168,7 @@ const deleteCityController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const {} = req.body;
+      
         const updatedetails = await deleteCityRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({

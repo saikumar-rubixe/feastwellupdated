@@ -54,7 +54,7 @@ const createUserLogController = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "data created succesfully with id" + create,
-        data: create,
+        insertId:  create,
       });
     }
     if (!create || create == false) {

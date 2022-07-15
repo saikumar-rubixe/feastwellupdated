@@ -84,7 +84,7 @@ const createMealItemsController = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "data created succesfully with id  : " + create,
-        data: create,
+        insertId:create,
       });
     }
     if (!create || create == false) {
@@ -169,7 +169,7 @@ const deleteMealitemsController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const {} = req.body;
+      
         const updatedetails = await deleteMealItemsRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({

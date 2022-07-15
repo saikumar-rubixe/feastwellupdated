@@ -39,6 +39,7 @@ const insertCenterHeadController = async (req, res) => {
       res.status(200).json({
         success: true,
         message: " insertion succesful with id " + create,
+        insertId: create,
       });
     }
   } catch (error) {

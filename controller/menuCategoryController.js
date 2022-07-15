@@ -82,6 +82,7 @@ const createMenuCategoryController = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "data created succesfully with id: " + create,
+        insertId:create,
       });
     }
     if (!create || create == false) {
@@ -167,7 +168,7 @@ const deleteMenuCategoryController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const {} = req.body;
+       
         const updatedetails = await deleteMenuCategoryRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({

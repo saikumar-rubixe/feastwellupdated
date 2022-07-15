@@ -50,7 +50,7 @@ app.get('/', (req, res) => {
 let apiPath = '/feastwell-backend/api/';
 let apiVersion = 'v1';
 let apiBasePath = `${apiPath}${apiVersion}/`
-let localurl ='/api/v1/'
+let localurl ='/feastwell-backend/api/v1/'
 
 app.use(`${apiBasePath}auth/login`, authRoute)
 app.use(`${apiBasePath}user`, residentRoute)

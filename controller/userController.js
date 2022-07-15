@@ -150,6 +150,7 @@ let createUserController = async (req, res, next) => {
         res.status(201).json({
           success: true,
           message: "Registration  succesfully with id: " + createUser,
+          insertId: createUser,
         });
       }
     } else {
