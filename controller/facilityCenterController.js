@@ -110,7 +110,7 @@ let insertFacilityCenterDetailsController = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "facility center created Succesfully with id " + create,
-        insertId:create,
+        insertId: create,
       });
     }
   } catch (error) {
@@ -194,18 +194,14 @@ let updateFacilityCenterDetailsController = async (req, res) => {
 let deleteFacilityCenterDetailsController = async (req, res) => {
   let id = req.params.id;
   try {
-    console.log("in controller try block ");
     if (isNaN(id)) {
-      console.log("pass only number as id  ");
       res.status(404).json({
         success: false,
         message: "invalid  id passed /undefined",
       });
     } else {
-      console.log("in controller before recordCheck ");
       let recordcheck = await getFacilityCenterDetailsByIdRepository(id, res);
 
-      console.log("AFTER RECORD CHECK ");
       if (!recordcheck || recordcheck == false) {
         res.status(400).json({
           success: false,
