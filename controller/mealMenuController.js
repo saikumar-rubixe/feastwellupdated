@@ -71,8 +71,6 @@ const getAllMealMenuDetailsController = async (req, res) => {
 // 3  create
 const createMealMenuController = async (req, res) => {
   try {
-    //meal items(1,2,3)  <--- meal menu contents
-
     const {
       mealMenuName,
       menuDescription,
@@ -87,6 +85,7 @@ const createMealMenuController = async (req, res) => {
     // if (recordCheck || recordCheck == true) {
     //   // for exist pass negative
     // } else if (!recordCheck || recordCheck == false) {
+
     const create = await createMealMenuRepository(
       mealMenuName,
       menuDescription,
@@ -98,7 +97,7 @@ const createMealMenuController = async (req, res) => {
     if (create) {
       res.status(200).json({
         success: true,
-        message: "data created succesfully with id" + create,
+        message: "data created succesfully with id : " + create,
         insertId: create,
       });
     }
@@ -110,8 +109,10 @@ const createMealMenuController = async (req, res) => {
     }
     // }
   } catch (error) {
+    // catch block error
     console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
+    console.log("Controller:CBE Something Went Wrong  creation failed!");
+
     res.status(400).json({
       success: false,
       message: " something went wrong cb",

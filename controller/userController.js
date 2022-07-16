@@ -33,14 +33,10 @@ const {
 
 // 1  to get the details of one single User by Id
 const getUserByIdController = async (req, res) => {
-  try {const id = req.params.id;
+  try {
+    const id = req.params.id;
     if (checkNumber(id)) {
-      
-
-
-      console.log(id);
       const recordExist = await getUserByIdRepository(id, res);
-      console.log(recordExist);
 
       if (!recordExist) {
         res.status(404).json({

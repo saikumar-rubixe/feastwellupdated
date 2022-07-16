@@ -29,16 +29,8 @@ console.log(date.format(newDate, "YYYY/MM/DD HH:mm:ss"));
 const getUserByIdRepository = async (id, res) => {
   try {
     let query = "select * from users where user_id =?";
-    console.log("testing before run query");
-
     let sql = con.format(query, [id]);
-    console.log("consolling sql query");
-    console.log(sql);
     let results = await runQuery(sql);
-
-    console.log("after calling db");
-    console.log("results response");
-    console.log(results);
     if (results.length != 0) {
       let array = results[0];
       let model = new UserModel();
@@ -69,9 +61,7 @@ const getUserByIdRepository = async (id, res) => {
 let userCheckRepository = async (userName, res) => {
   let query = "select * from users where username=?";
   const sql = con.format(query, [userName]);
-
   let results = await runQuery(sql);
-
   if (results.length == 0) {
     return 0;
   } else {
@@ -83,9 +73,7 @@ let userCheckRepository = async (userName, res) => {
 let emailCheckRepository = async (email, res) => {
   let query = "select * from users where email=?";
   const sql = con.format(query, [email]);
-
   let results = await runQuery(sql);
-
   if (results.length == 0) {
     return 0;
   } else {
@@ -155,11 +143,8 @@ let createUserRepository = async (
 ) => {
   // hasing the password
   const salt = await bcrypt.genSalt(10);
-  console.log(password);
-  console.log("password and sal are ");
   console.log(salt);
   const hashedPassword = await bcrypt.hash(password, salt);
-
   // hash complete
   let query =
     "INSERT INTO `users`( `full_name`, `email`,`phone_number`,`username`,`password`,`user_type`,`status`,`logged_ip_address`,`created_date`,`updated_date`) VALUES (?,?,?,?,?,?,?,?,?,?) ";

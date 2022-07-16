@@ -1,15 +1,16 @@
 /**used for user table  for checking user exist or not by email,id etc
  *
  */
-const { UserModel } = require("../models/userModel");
-const { runQuery, con } = require("../config/database");
+let { UserModel } = require("../models/userModel");
+let { runQuery, con } = require("../config/database");
+con = con();
+runQuery = runQuery();
 
 // 1 get user details by email id
 const getUserDetailByEmail = async (email) => {
   const query = "select * from users where email = ?";
   const sql = con.format(query, [email]);
   var users = await runQuery(sql);
-  console.log(users);
   const user = users[0];
   var userModel = new UserModel();
   if (!user) return null;
@@ -50,8 +51,8 @@ let emailCheckRepository = async (email, res) => {
 
 // 3 userCheckRepository
 let userCheckRepository = async (userName, res) => {
-  var query = "select * from users where username=?";
-  const sql = con.format(query, [userName]);
+  let query = "select * from users where username=?";
+  let sql = con.format(query, [userName]);
 
   var results = await runQuery(sql);
 
