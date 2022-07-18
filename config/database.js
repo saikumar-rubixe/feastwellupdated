@@ -1,4 +1,5 @@
 const env = require("dotenv");
+const { connect } = require("http2");
 env.config();
 var mysql = require("mysql");
 const util = require("util");
@@ -12,17 +13,23 @@ const getcon = (res) => {
       database: process.env.DB_NAME,
     });
 
+    return con;
+  } catch (error) {
     con.connect(function (err) {
       // The server is either down
+      console.log("im in the error block and about to close the connection");
+      con.end();
       if (err) {
         // or restarting (takes a while sometimes).
         console.log("error when connecting to db:", err);
+
         setTimeout(getcon, 2000); // We introduce a delay before attempting to reconnect,
       } // to avoid a hot loop, and to allow our node script to
     }); // process asynchronous requests in the meantime.
     // If you’re also serving http, display a 503 error.
     con.on("error", function (err) {
       console.log("db error", err);
+      con.end();
       if (err.code === "PROTOCOL_CONNECTION_LOST") {
         // Connection to the MySQL server is usually
         getcon(); // lost due to either server restart, or a
@@ -31,15 +38,14 @@ const getcon = (res) => {
         throw err; // server variable configures this)
       }
     });
-    return con;
-  } catch (error) {
+
     res.send("database connection error");
   }
 };
+
 const databseConnection = (res) => {
   try {
     con = getcon();
-
     const runQuery = util.promisify(con.query).bind(con);
     return runQuery;
   } catch (error) {

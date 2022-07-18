@@ -173,9 +173,10 @@ let updateUserController = async (req, res, next) => {
       userName,
       // password,
       userType,
-      status,
+      userStatus,
       loggedIpAddress,
     } = req.body;
+    console.log(req.body);
     if (checkNumber(id)) {
       const recordExist = await getUserByIdRepository(id, res);
       if (recordExist == null) {
@@ -209,7 +210,7 @@ let updateUserController = async (req, res, next) => {
             userName,
             // password,
             userType,
-            status,
+            userStatus,
             loggedIpAddress
           );
           if (details == 1) {

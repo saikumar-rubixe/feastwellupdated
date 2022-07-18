@@ -99,30 +99,36 @@ const createMealMenuRepository = async (
     let itemsCreateIds = []; // to store the inserted ids after insertion of mapping
     let arrayMealItems = []; // def an array to store the mealItems ids
     arrayMealItems = mealItems; // assigning mealItems to array
+
+    if (arrayMealItems == 0 || arrayMealItems == null) {
+      return false;
+    }
+
     var array = arrayMealItems.split(","); // slpit the array with comma
 
     let length = array.length; // get the length of the array
+    if (length > 0) {
+      for (i = 0; i < length; i++) {
+        let query =
+          "insert into `meal_menu_contents` (meal_menu_id,meal_item_id,user_id,status,created_date,updated_date) VALUES (?,?,?,?,?,?)";
+        let sql = con.format(query, [
+          values,
+          array[i],
+          userId,
+          mealStatus,
+          newDate,
+          newDate,
+        ]);
+        let insert2 = await runQuery(sql);
+        itemsCreateIds[i] = insert2.insertId; // assinging the inserted ids into created array
+      }
 
-    for (i = 0; i < length; i++) {
-      let query =
-        "insert into `meal_menu_contents` (meal_menu_id,meal_item_id,user_id,status,created_date,updated_date) VALUES (?,?,?,?,?,?)";
-      let sql = con.format(query, [
-        values,
-        array[i],
-        userId,
-        mealStatus,
-        newDate,
-        newDate,
-      ]);
-      let insert2 = await runQuery(sql);
-      itemsCreateIds[i] = insert2.insertId; // assinging the inserted ids into created array
-    }
-
-    if (values && values != 0) {
-      return values;
-    } else {
-      return false;
-    }
+      if (values && values != 0) {
+        return values;
+      } else {
+        return false;
+      }
+    } else return false;
   } catch (error) {
     console.log(error);
     console.log("Repo:CBE Something went wrong failed failed failed!");

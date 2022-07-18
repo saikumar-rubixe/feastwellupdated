@@ -9,8 +9,8 @@ const {
 // 1 get by id
 const getMealMenuDetailByIdController = async (req, res) => {
   try {
+    const id = req.params.id;
     if (isNaN(id)) {
-      const id = req.params.id;
       res.status(400).json({
         success: false,
         message: "invalid id Passed:  " + id,
@@ -71,6 +71,7 @@ const getAllMealMenuDetailsController = async (req, res) => {
 // 3  create
 const createMealMenuController = async (req, res) => {
   try {
+    console.log("consoling controller");
     const {
       mealMenuName,
       menuDescription,
@@ -79,6 +80,8 @@ const createMealMenuController = async (req, res) => {
       userId,
       mealItems, // here json array of mealitems id
     } = req.body;
+    console.log("consolling request body");
+    console.log(req.body);
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     // const recordCheck = await funtncCall();

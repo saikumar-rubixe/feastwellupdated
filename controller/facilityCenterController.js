@@ -152,7 +152,8 @@ let updateFacilityCenterDetailsController = async (req, res) => {
           facilityStatus,
           updatedBy,
         } = req.body;
-
+        console.log("consolling req body");
+        console.log(req.body);
         let details = await updateFacilityCenterDetailsRepository(
           id,
           facilityName,

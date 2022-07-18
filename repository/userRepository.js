@@ -174,7 +174,7 @@ let updateUserRepository = async (
   userName,
   // password,
   userType,
-  status,
+  userStatus,
   loggedIpAddress
 ) => {
   try {
@@ -191,7 +191,7 @@ let updateUserRepository = async (
       phoneNumber,
       userName,
       userType,
-      status,
+      userStatus,
       loggedIpAddress,
       newDate,
       id,
