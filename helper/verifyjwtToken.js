@@ -4,21 +4,14 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const verifyFunction = function (req, res, next) {
+const verifyFunction = catchAsync(function (req, res, next) {
   const token = req.header("token");
   //unauthorized
   if (!token) return res.status(401).send("Access denied");
 
-  try {
-    const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-    req.residentId = verified.id;
-    next();
-  } catch (error) {
-    res.json({
-      login: false,
-      data: "error",
-    });
-  }
-};
+  const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+  req.residentId = verified.id;
+  next();
+});
 
 module.exports = verifyFunction;

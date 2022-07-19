@@ -4,6 +4,7 @@ const createHttpError = require("http-errors");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 dotenv.config();
+const AppError = require("./utils/appError");
 
 // app configuration
 const app = express();
@@ -95,33 +96,28 @@ app.use(`${localurl}userIdActivityLog`, userIdActivityLogRoute);
 /**    local host testing    */
 
 //  handling wrong navigation url
-app.use((req, res, next) => {
-  next(createHttpError.NotFound());
+// app.use((req, res, next) => {
+//   next(createHttpError.NotFound());
+// });
+// app.use((error, req, res, next) => {
+//   error.status = error.status || 500;
+//   res.status(error.status);
+//   res.send(error);
+// });
+
+// handling the errors and invalid url requests
+app.all("*", (req, res, next) => {
+  throw new AppError(`Requested URL ${req.path} not found!`, 404);
 });
-app.use((error, req, res, next) => {
-  error.status = error.status || 500;
-  res.status(error.status);
-  res.send(error);
+
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).json({
+    success: 0,
+    message: err.message,
+    stack: err.stack,
+  });
 });
 
 // port listening on ...
 app.listen(4000, console.log("Feast well Server Running on Port ... "));
-
-/**
- * // file upload
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: function (req, res, cb) {
-      cb(null, 'uploads');
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + '.txt');
-    },
-  }),
-}).single('choose_file');
-
-app.post('/upload', upload, (req, res) => {
-  res.send('file uploaded succesfully');
-});
-
- */
