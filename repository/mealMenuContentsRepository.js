@@ -13,8 +13,8 @@
  */
 
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 let { mealMenuContentsModel } = require("../models/mealMenuContentsModel");
 let newDate = new Date();
 // 1 get all details
@@ -22,8 +22,8 @@ const getAllMealMenuDetailsRepository = async (req, res) => {
   try {
     let array = [];
     let query = "select * from `meal_menu_contents` where 1=1 ";
-    let sql = con.format(query);
-    let results = await runQuery(sql);
+    //let sql = con.format(query);
+    let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
@@ -54,8 +54,8 @@ const getAllMealMenuDetailsRepository = async (req, res) => {
 const getMealMenuContentsDetailByIdRepository = async (id, res) => {
   try {
     let query = "select * from `meal_menu_contents` where meal_content_id =?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    //  let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
       let model = new mealMenuContentsModel();
@@ -80,7 +80,7 @@ const getMealMenuContentsDetailByIdRepository = async (id, res) => {
 };
 
 // 3  create repository
-const createMealMenuRepository = async (
+const createMealMenuContentsRepository = async (
   mealMenuId,
   mealItemId,
   userId,
@@ -89,7 +89,15 @@ const createMealMenuRepository = async (
   try {
     let query =
       "INSERT into `meal_menu_contents` (`meal_menu_id`,`meal_item_id`,`user_id`,`status`,created_date,updated_date) VALUES(?,?,?,?,?,?) ";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   mealMenuId,
+    //   mealItemId,
+    //   userId,
+    //   menuContentStatus,
+    //   newDate,
+    //   newDate,
+    // ]);
+    let results = await runQuery(query, [
       mealMenuId,
       mealItemId,
       userId,
@@ -97,7 +105,6 @@ const createMealMenuRepository = async (
       newDate,
       newDate,
     ]);
-    let results = await runQuery(sql);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -111,7 +118,7 @@ const createMealMenuRepository = async (
   }
 };
 //  4 update
-const updateMealMenuRepository = async (
+const updateMealMenuContentsRepository = async (
   id,
   mealMenuId,
   mealItemId,
@@ -121,7 +128,15 @@ const updateMealMenuRepository = async (
   try {
     let query =
       " UPDATE `meal_menu_contents` set `meal_menu_id`=?,`meal_item_id`=?,`user_id`=?,`status`=?,`updated_date`=? where meal_content_id  =?";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   mealMenuId,
+    //   mealItemId,
+    //   userId,
+    //   menuContentStatus,
+    //   newDate,
+    //   id,
+    // ]);
+    let results = await runQuery(query, [
       mealMenuId,
       mealItemId,
       userId,
@@ -129,7 +144,6 @@ const updateMealMenuRepository = async (
       newDate,
       id,
     ]);
-    let results = await runQuery(sql);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {
@@ -145,11 +159,11 @@ const updateMealMenuRepository = async (
 };
 
 // 5 delete  repository
-const deleteMealMenuRepository = async (id, res) => {
+const deleteMealMenuContentsRepository = async (id, res) => {
   try {
     let query = "DELETE from  `meal_menu_contents` where meal_content_id=?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {
@@ -168,7 +182,7 @@ const deleteMealMenuRepository = async (id, res) => {
 module.exports = {
   getAllMealMenuDetailsRepository,
   getMealMenuContentsDetailByIdRepository,
-  createMealMenuRepository,
-  updateMealMenuRepository,
-  deleteMealMenuRepository,
+  createMealMenuContentsRepository,
+  updateMealMenuContentsRepository,
+  deleteMealMenuContentsRepository,
 };

@@ -15,8 +15,8 @@
  */
 
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 // country Model
 let { CountriesModel } = require("../models/countriesModel");
 
@@ -26,9 +26,9 @@ const getAllCountryRepository = async (req, res) => {
     let array = [];
     let query =
       "select id ,name,phonecode,iso2,timezones from countries where 1=1 ";
-    let sql = con.format(query);
+    //  let sql = con.format(query);
 
-    let results = await runQuery(sql);
+    let results = await runQuery(query);
 
     let count = results.length;
 
@@ -57,8 +57,8 @@ const getCountryByIdRepository = async (id, res) => {
   try {
     let query =
       "SELECT name,phonecode,iso2,timezones from countries where id =?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    //  let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
       let model = new CountriesModel();
@@ -86,8 +86,8 @@ const createCountryRepository = async (name, phoneCode, is02, timeZones) => {
   try {
     let query =
       "INSERT into `countries` (`name`,`phonecode`,`iso2`,`timezones`) VALUES(?,?,?,?) ";
-    let sql = con.format(query, [name, phoneCode, is02, timeZones]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [name, phoneCode, is02, timeZones]);
+    let results = await runQuery(query, [name, phoneCode, is02, timeZones]);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -112,8 +112,8 @@ const updateCountryRepository = async (
   try {
     let query =
       " UPDATE `countries` set `name`=?,`phonecode`=?, `iso2`=?,`timezones`=?, where id =?";
-    let sql = con.format(query, [name, phoneCode, is02, timeZones, id]);
-    let results = await runQuery(sql);
+    //let sql = con.format(query, [name, phoneCode, is02, timeZones, id]);
+    let results = await runQuery(query, [name, phoneCode, is02, timeZones, id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {
@@ -132,8 +132,8 @@ const updateCountryRepository = async (
 const deleteCountryRepository = async (id, res) => {
   try {
     let query = "DELETE from  `countries` where `id`=?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    //  let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {

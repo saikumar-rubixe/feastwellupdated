@@ -12,8 +12,8 @@
  *
  */
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 let { NutritionCategoryModel } = require("../models/nutritionCategoryModel");
 let newDate = new Date();
 
@@ -21,8 +21,8 @@ let newDate = new Date();
 const getNutritionCategoryDetailByIdRepository = async (id, res) => {
   try {
     let query = "SELECT * FROM `nutrition_category` where nutrition_id  =?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
       let model = new NutritionCategoryModel();
@@ -56,8 +56,8 @@ const getAllNutritionCategoryDetailsRepository = async (req, res) => {
   try {
     let array = [];
     let query = "select * from `nutrition_category` where 1=1 ";
-    let sql = con.format(query);
-    let results = await runQuery(sql);
+    //let sql = con.format(query);
+    let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
@@ -107,7 +107,21 @@ const createNutritionCategoryRepository = async (
   try {
     let query =
       "INSERT into `nutrition_category` (`meal_item_id`, `carbohydrates`,`proteins`,    `fats`, `vitamins`, `minerals`,`fiber`,`water`,  `calories`,  `user_id`,`created_date`,`updated_date`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?) ";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   mealItemId,
+    //   carbohydrates,
+    //   proteins,
+    //   fats,
+    //   vitamins,
+    //   minerals,
+    //   fiber,
+    //   water,
+    //   calories,
+    //   userId,
+    //   newDate,
+    //   newDate,
+    // ]);
+    let results = await runQuery(query, [
       mealItemId,
       carbohydrates,
       proteins,
@@ -121,7 +135,6 @@ const createNutritionCategoryRepository = async (
       newDate,
       newDate,
     ]);
-    let results = await runQuery(sql);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -152,7 +165,22 @@ const updateNutritionCategoryRepository = async (
   try {
     let query =
       " UPDATE `nutrition_category` set `meal_item_id`=?,`carbohydrates`=?,`proteins`=?,`fats`=?,`vitamins`=?,`minerals`=?,`fiber`=?,`water`=?,`calories`=?,`user_id`=?,`created_date`=? , `updated_date`=? where nutrition_id =?";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   mealItemId,
+    //   carbohydrates,
+    //   proteins,
+    //   fats,
+    //   vitamins,
+    //   minerals,
+    //   fiber,
+    //   water,
+    //   calories,
+    //   userId,
+    //   newDate,
+    //   newDate,
+    //   id,
+    // ]);
+    let results = await runQuery(query, [
       mealItemId,
       carbohydrates,
       proteins,
@@ -167,7 +195,6 @@ const updateNutritionCategoryRepository = async (
       newDate,
       id,
     ]);
-    let results = await runQuery(sql);
     let value = results.affectedRows;
     if (value == 1) {
       return true;
@@ -185,9 +212,9 @@ const updateNutritionCategoryRepository = async (
 const deleteNutritionCategoryRepository = async (id, res) => {
   try {
     let query = "DELETE from  `nutrition_category` where nutrition_id=?";
-    let sql = con.format(query, [id]);
-    console.log(sql);
-    let results = await runQuery(sql);
+    //let sql = con.format(query, [id]);
+
+    let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {

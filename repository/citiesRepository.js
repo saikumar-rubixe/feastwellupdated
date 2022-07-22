@@ -1,6 +1,6 @@
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 let { CitiesModel } = require("../models/citiesmodel");
 
 // 1 get all cities
@@ -8,8 +8,8 @@ const getAllCitiesDetailsRepository = async (req, res) => {
   try {
     let array = [];
     let query = "select * from `cities` where 1=1 ";
-    let sql = con.format(query);
-    let results = await runQuery(sql);
+    //let sql = con.format(query);
+    let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
@@ -40,8 +40,8 @@ const getCitiesByIdRepository = async (id, res) => {
     let array = [];
     let query =
       " select `id`,`name`,`state_code`,`country_id` from  `cities` where state_id =?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let count = results.length;
 
     for (i = 0; i < count; i++) {
@@ -66,8 +66,8 @@ const getCitiesByIdRepository = async (id, res) => {
 const createCitiesRepository = async (name, stateCode, countryCode) => {
   try {
     let query = "INSERT into `tableName` (`fieldnames`) VALUES(?,?) ";
-    let sql = con.format(query, [values]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [values]);
+    let results = await runQuery(query, [values]);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -86,8 +86,8 @@ const updateCityRepository = async (id, name, stateCode, countryCode) => {
   try {
     let query =
       " UPDATE `cities` set `name`=?,`state_code`=?,`country_code`=? where id =?";
-    let sql = con.format(query, [name, stateCode, countryCode, id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [name, stateCode, countryCode, id]);
+    let results = await runQuery(query, [name, stateCode, countryCode, id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {
@@ -105,8 +105,8 @@ const updateCityRepository = async (id, name, stateCode, countryCode) => {
 const deleteCityRepository = async (id, res) => {
   try {
     let query = "DELETE from  `cities` where `id`=?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {

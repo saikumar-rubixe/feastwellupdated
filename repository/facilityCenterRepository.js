@@ -17,8 +17,8 @@
  */
 
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 let { FacilityModel } = require("../models/facilityCentreModel");
 const date = require("date-and-time");
 let newDate = new Date();
@@ -27,8 +27,8 @@ let getFacilityCenterDetailsByIdRepository = async (id, res) => {
   try {
     let query =
       "select facility_center.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `facility_center` INNER JOIN `countries`  ON facility_center.facility_country_id=countries.id INNER JOIN `states` ON facility_center.facility_state_id=states.id INNER JOIN `cities` ON facility_center.facility_city_id= cities.id  where facility_center_id =?  ";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
       let model = new FacilityModel();
@@ -115,7 +115,21 @@ let insertFacilityCenterDetailsRepository = async (
   try {
     let query =
       "INSERT INTO `facility_center`  (`facility_name`,`facility_email`,`facility_contact_number`,`facility_country_id`,`facility_state_id`,`facility_city_id`,`status`,`created_date`,`updated_date`) VALUES(?,?,?,?,?,?,?,?,?)";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   facilityName,
+    //   // headId,
+    //   email,
+    //   number,
+    //   countryId,
+    //   stateId,
+    //   cityId,
+    //   facilityStatus,
+    //   newDate,
+    //   // createdBy,
+    //   newDate,
+    //   // createdBy,
+    // ]);
+    let results = await runQuery(query, [
       facilityName,
       // headId,
       email,
@@ -129,7 +143,6 @@ let insertFacilityCenterDetailsRepository = async (
       newDate,
       // createdBy,
     ]);
-    let results = await runQuery(sql);
 
     return results.insertId;
   } catch (error) {
@@ -156,7 +169,20 @@ let updateFacilityCenterDetailsRepository = async (
     console.log("into update repository");
     let query =
       "UPDATE `facility_center` SET facility_name =?,facility_head_id=?,facility_email=?,facility_contact_number=?,facility_country_id=?,facility_state_id=?,facility_city_id=?,status=?,updated_date=?,updated_by=?  WHERE facility_center_id =? ";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   facilityName,
+    //   headId,
+    //   email,
+    //   number,
+    //   countryId,
+    //   stateId,
+    //   cityId,
+    //   facilityStatus,
+    //   newDate,
+    //   updatedBy,
+    //   id,
+    // ]);
+    let results = await runQuery(query, [
       facilityName,
       headId,
       email,
@@ -169,7 +195,6 @@ let updateFacilityCenterDetailsRepository = async (
       updatedBy,
       id,
     ]);
-    let results = await runQuery(sql);
 
     if (results.affectedRows == 1) {
       return true;
@@ -186,8 +211,8 @@ let updateFacilityCenterDetailsRepository = async (
 let deleteFacilityCenterDetailsRepository = async (id, res) => {
   try {
     let query = "DELETE from facility_center WHERE facility_center_id =? ";
-    let sql = con.format(query, [id]);
-    let result = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let result = await runQuery(query, [id]);
 
     if (result.affectedRows == 1) return true;
     else {

@@ -3,14 +3,14 @@
  */
 let { UserModel } = require("../models/userModel");
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 
 // 1 get user details by email id
 const getUserDetailByEmail = async (email) => {
   const query = "select * from users where email = ?";
-  const sql = con.format(query, [email]);
-  var users = await runQuery(sql);
+  // const sql = con.format(query, [email]);
+  var users = await runQuery(query, [email]);
   const user = users[0];
   var userModel = new UserModel();
   if (!user) return null;
@@ -38,9 +38,9 @@ const getUserDetailByEmail = async (email) => {
 // 2 emailCheckRepository
 let emailCheckRepository = async (email, res) => {
   var query = "select * from users where email=?";
-  const sql = con.format(query, [email]);
+  // const sql = con.format(query, [email]);
 
-  var results = await runQuery(sql);
+  var results = await runQuery(query, [email]);
 
   if (results.length == 0) {
     return 0;
@@ -52,9 +52,9 @@ let emailCheckRepository = async (email, res) => {
 // 3 userCheckRepository
 let userCheckRepository = async (userName, res) => {
   let query = "select * from users where username=?";
-  let sql = con.format(query, [userName]);
+  //let sql = con.format(query);
 
-  var results = await runQuery(sql);
+  var results = await runQuery(query, [userName]);
 
   if (results.length == 0) {
     return 0;
@@ -66,9 +66,9 @@ let userCheckRepository = async (userName, res) => {
 // 4 emailCheckRepository
 let emailUpdateCheckRepository = async (email, id, res) => {
   var query = "select * from users where email=? and user_id!=?";
-  const sql = con.format(query, [email, id]);
+  // const sql = con.format(query, [email, id]);
 
-  var results = await runQuery(sql);
+  var results = await runQuery(query, [email, id]);
 
   if (results.length == 0) {
     return 0;
@@ -80,9 +80,9 @@ let emailUpdateCheckRepository = async (email, id, res) => {
 // 5 userUpdateCheckRepository
 let userUpdateCheckRepository = async (userName, id, res) => {
   var query = "select * from users where username=? and user_id!=?";
-  const sql = con.format(query, [userName, id]);
+  //const sql = con.format(query, [userName, id]);
 
-  var results = await runQuery(sql);
+  var results = await runQuery(query, [userName, id]);
 
   if (results.length == 0) {
     return 0;

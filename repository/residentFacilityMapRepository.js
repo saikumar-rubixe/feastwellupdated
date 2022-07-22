@@ -2,8 +2,8 @@ let {
   ResidentFacilityMapModel,
 } = require("../models/residentFacilityMapModel");
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 let newDate = new Date();
 
 //1 get all details
@@ -45,8 +45,8 @@ const getResidentFacilityDetailsByIdController = async (id, res) => {
   try {
     let query =
       "select * from `resident_facility_map` where resident_facility_id =? ";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let count = results.length;
     if (count != 0) {
       let model = new ResidentFacilityMapModel();
@@ -80,7 +80,17 @@ const createResidentFacilityRepository = async (
   try {
     let query =
       " INSERT INTO `resident_facility_map` (`user_id`,`facility_id`,`status`,`created_date`,`created_by`,`updated_date`,`updated_by`) VALUES(?,?,?,?,?,?,?)";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   userId,
+    //   facilityCenterId,
+    //   status,
+    //   newDate,
+    //   createdBy,
+    //   newDate,
+    //   createdBy,
+    // ]);
+    // console.log(sql);
+    let results = await runQuery(query, [
       userId,
       facilityCenterId,
       status,
@@ -89,8 +99,6 @@ const createResidentFacilityRepository = async (
       newDate,
       createdBy,
     ]);
-    console.log(sql);
-    let results = await runQuery(sql);
     let value = results.insertId;
     console.log(`value inseted id is ${value}`);
     if (value) {
@@ -114,7 +122,15 @@ const updateResidentFacilityRepository = async (
   try {
     let query =
       " UPDATE `resident_facility_map` set `user_id`=?,facility_id=?,status=?,updated_date=?,updated_by=? where resident_facility_id  =?";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   userId,
+    //   facilityCenterId,
+    //   status,
+    //   newDate,
+    //   updatedBy,
+    //   id,
+    // ]);
+    let results = await runQuery(query, [
       userId,
       facilityCenterId,
       status,
@@ -122,7 +138,6 @@ const updateResidentFacilityRepository = async (
       updatedBy,
       id,
     ]);
-    let results = await runQuery(sql);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {
@@ -142,8 +157,8 @@ const deleteResidentFacilityRepository = async (id, res) => {
   try {
     let query =
       "DELETE from `resident_facility_map` where resident_facility_id =?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {

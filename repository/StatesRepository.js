@@ -1,6 +1,6 @@
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 let { States } = require("../models/statesModel");
 
 //1 get the states by id
@@ -9,8 +9,8 @@ const getStatesByIdRepository = async (id, res) => {
     let array = [];
     let query =
       " select `id`,`name`,`country_code` from  `states` where country_id =?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let count = results.length;
 
     for (i = 0; i < count; i++) {
@@ -35,8 +35,8 @@ const getAllStatesDetailsRepository = async (req, res) => {
   let array = [];
   try {
     let query = "SELECT * from `states` where 1=1 ";
-    let sql = con.format(query);
-    let results = await runQuery(sql);
+    //let sql = con.format(query);
+    let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
@@ -64,8 +64,8 @@ const getAllStatesDetailsRepository = async (req, res) => {
 const createStatesRepository = async (Statename, coutryCode) => {
   try {
     let query = "INSERT into `states` (`name`,`country_code`) VALUES(?,?) ";
-    let sql = con.format(query, [Statename, coutryCode]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [Statename, coutryCode]);
+    let results = await runQuery(query, [Statename, coutryCode]);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -84,8 +84,8 @@ const updateStatesRepository = async (id, Statename, coutryCode) => {
   try {
     let query =
       " UPDATE `TABLENAME` set `Statename`=?,`coutryCode`=? where id =?";
-    let sql = con.format(query, [Statename, coutryCode, id]);
-    let results = await runQuery(sql);
+    //  let sql = con.format(query, [Statename, coutryCode, id]);
+    let results = await runQuery(query, [Statename, coutryCode, id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {
@@ -104,8 +104,8 @@ const updateStatesRepository = async (id, Statename, coutryCode) => {
 const deleteStatesRepository = async (id, res) => {
   try {
     let query = "DELETE from  `states` where `id`=?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {

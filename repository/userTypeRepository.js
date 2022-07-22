@@ -23,13 +23,13 @@
 
 let { UserTypeModel } = require("../models/userTypeModel");
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 const getUserTypeDetailByIdRepository = async (id, res) => {
   try {
     let query = " select * from  `users_type` where users_type_id =?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
       let model = new UserTypeModel();
@@ -52,8 +52,8 @@ const getAllUserTypeDetailsRepository = async (req, res) => {
   let array = [];
   try {
     let query = "select * from `users_type` where 1=1 ";
-    let sql = con.format(query);
-    let results = await runQuery(sql);
+    //let sql = con.format(query);
+    let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
@@ -79,8 +79,8 @@ const getAllUserTypeDetailsRepository = async (req, res) => {
 const createUserTypeRepository = async (userTypeName) => {
   try {
     let query = "INSERT into `users_type` (`user_type_name`) VALUES(?) ";
-    let sql = con.format(query, [userTypeName]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [userTypeName]);
+    let results = await runQuery(query, [userTypeName]);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -98,8 +98,8 @@ const updateUserTypeRepository = async (userTypeName, id) => {
   try {
     let query =
       " UPDATE `users_type` set `user_type_name`=? where users_type_id  =?";
-    let sql = con.format(query, [userTypeName, id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [userTypeName, id]);
+    let results = await runQuery(query, [userTypeName, id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {
@@ -117,8 +117,8 @@ const updateUserTypeRepository = async (userTypeName, id) => {
 const deleteUserTypeRepository = async (userTypeName, id) => {
   try {
     let query = "DELETE from  `users_type` where users_type_id=?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {

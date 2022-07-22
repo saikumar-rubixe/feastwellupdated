@@ -7,6 +7,7 @@ class MealMenuModel {
   userId = null;
   createdDate = null;
   updatedDate = null;
+  mealItems = null;
   fill(
     mealMenuId,
     mealMenuName,
@@ -15,7 +16,8 @@ class MealMenuModel {
     mealStatus,
     userId,
     createdDate,
-    updatedDate
+    updatedDate,
+    mealItems
   ) {
     this.mealMenuId = mealMenuId;
     this.mealMenuName = mealMenuName;
@@ -25,6 +27,7 @@ class MealMenuModel {
     this.userId = userId;
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;
+    this.mealItems = mealItems;
   }
 }
 module.exports = {

@@ -105,18 +105,14 @@ app.use(`${localurl}userIdActivityLog`, userIdActivityLogRoute);
 //   res.send(error);
 // });
 
-// handling the errors and invalid url requests
-app.all("*", (req, res, next) => {
-  throw new AppError(`Requested URL ${req.path} not found!`, 404);
+//  handling wrong navigation url
+app.use((req, res, next) => {
+  next(createHttpError.NotFound());
 });
-
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  res.status(statusCode).json({
-    success: 0,
-    message: err.message,
-    stack: err.stack,
-  });
+app.use((error, req, res, next) => {
+  error.status = error.status || 500;
+  res.status(error.status);
+  res.send(error);
 });
 
 // port listening on ...

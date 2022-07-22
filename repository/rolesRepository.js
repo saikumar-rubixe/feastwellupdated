@@ -12,15 +12,15 @@
  */
 let { RolesModel } = require("../models/rolesModel");
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 const newDate = new Date();
 // 1 get by id roles
 const getRolesDetailByIdRepository = async (id, res) => {
   try {
     let query = " select * from `roles` where role_id =?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
       let model = new RolesModel();
@@ -49,8 +49,8 @@ const getAllRolesDetailsRepository = async (req, res) => {
   try {
     let array = [];
     let query = "SELECT  * from `roles` where 1=1 ";
-    let sql = con.format(query);
-    let results = await runQuery(sql);
+    //let sql = con.format(query);
+    let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
@@ -88,7 +88,15 @@ const createRoleRepository = async (
   try {
     let query =
       "INSERT into `roles` (`role_name`,`menu_id`,`user_type_id`,`status`,`created_date`,`updated_date`) VALUES(?,?,?,?,?,?) ";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   roleName,
+    //   menuId,
+    //   userTypeId,
+    //   roleStatus,
+    //   newDate,
+    //   newDate,
+    // ]);
+    let results = await runQuery(query, [
       roleName,
       menuId,
       userTypeId,
@@ -96,7 +104,6 @@ const createRoleRepository = async (
       newDate,
       newDate,
     ]);
-    let results = await runQuery(sql);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -121,7 +128,15 @@ const updateRolesRepository = async (
   try {
     let query =
       " UPDATE `roles` set `role_name`=?,`menu_id`=?,`user_type_id`=?,`status`=?,`updated_date`=? where role_id  =?";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   roleName,
+    //   menuId,
+    //   userTypeId,
+    //   roleStatus,
+    //   newDate,
+    //   id,
+    // ]);
+    let results = await runQuery(query, [
       roleName,
       menuId,
       userTypeId,
@@ -129,7 +144,6 @@ const updateRolesRepository = async (
       newDate,
       id,
     ]);
-    let results = await runQuery(sql);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {
@@ -148,8 +162,8 @@ const updateRolesRepository = async (
 const deleteRolesRepository = async (id) => {
   try {
     let query = "DELETE from  `roles` where `role_id`=?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {

@@ -12,8 +12,8 @@
  * 3. get activity user log details of one user id
  */
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 let { UserActivityLogModel } = require("../models/userActivityLogModel");
 let newDate = new Date();
 
@@ -21,8 +21,8 @@ let newDate = new Date();
 const getUserLogDetailByIdRepository = async (userId, res) => {
   try {
     let query = "select * from `user_activity_log` where activity_id =?";
-    let sql = con.format(query, [userId]);
-    let results = await runQuery(sql);
+    //let sql = con.format(query, [userId]);
+    let results = await runQuery(query, [userId]);
     if (results.length != 0) {
       let result = results[0];
       let model = new UserActivityLogModel();
@@ -48,8 +48,8 @@ const createUserLogRepository = async (activityDescription, userId) => {
   try {
     let query =
       "INSERT into `user_activity_log` (`activity_description`,`activity_logged_date`,`userid`) VALUES(?,?,?) ";
-    let sql = con.format(query, [activityDescription, newDate, userId]);
-    let results = await runQuery(sql);
+    //  let sql = con.format(query, [activityDescription, newDate, userId]);
+    let results = await runQuery(query, [activityDescription, newDate, userId]);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -68,8 +68,8 @@ const getUserLogAllDetailsByUserIdRepository = async (id, res) => {
   try {
     let array = [];
     let query = "select * from `user_activity_log` where userid =?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let count = results.length;
     if (results.length != 0) {
       for (i = 0; i < count; i++) {

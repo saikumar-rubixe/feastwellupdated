@@ -16,8 +16,8 @@
  */
 
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 let { CenterHeadmodel } = require("../models/centreHeadModel");
 const date = require("date-and-time");
 let newDate = new Date();
@@ -37,7 +37,21 @@ const insertCenterHeadRepository = async (
   try {
     let query =
       " insert into `center_head` (`center_head_name`, `center_person_id`,`center_email`,  `center_contact_number`, `center_country_id`, `center_state_id`,  `center_city_id`, `status`, `created_date`, `created_by`, `updated_date`,  `updated_by`)  VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   centerHeadName,
+    //   personId,
+    //   centeremail,
+    //   centerContactNumber,
+    //   centerCountryId,
+    //   centerStateId,
+    //   centerCityId,
+    //   centerHeadStatus,
+    //   newDate,
+    //   createdBy,
+    //   newDate,
+    //   createdBy,
+    // ]);
+    let results = await runQuery(query, [
       centerHeadName,
       personId,
       centeremail,
@@ -51,7 +65,6 @@ const insertCenterHeadRepository = async (
       newDate,
       createdBy,
     ]);
-    let results = await runQuery(sql);
     let value = results.insertId;
 
     if (!value) {
@@ -81,7 +94,20 @@ const updateCenterHeadRepository = async (
   try {
     let query =
       " UPDATE  `center_head` SET `center_head_name`=?,`center_person_id`=?,`center_email`=?,`center_contact_number`=?,`center_country_id`=?,`center_state_id`=?,`center_city_id`=?,`status`=?, `updated_date`=?,`updated_by` =? WHERE center_head_id=?";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   centerHeadName,
+    //   personId,
+    //   centeremail,
+    //   centerContactNumber,
+    //   centerCountryId,
+    //   centerStateId,
+    //   centerCityId,
+    //   centerHeadStatus,
+    //   newDate,
+    //   updatedBy,
+    //   id,
+    // ]);
+    let results = await runQuery(query, [
       centerHeadName,
       personId,
       centeremail,
@@ -94,7 +120,6 @@ const updateCenterHeadRepository = async (
       updatedBy,
       id,
     ]);
-    let results = await runQuery(sql);
     let value = results.affectedRows;
     if (value == 1) {
       return true;
@@ -114,8 +139,8 @@ const updateCenterHeadRepository = async (
 const deleteCenterHeadRepository = async (id, res) => {
   try {
     let query = "delete from `center_head` where  center_head_id =? ";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    //  let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     if (value == 1) return true;
     else return false;
@@ -131,8 +156,8 @@ const getByIdCenterHeadRepository = async (id, res) => {
   try {
     let query =
       "select center_head.*, countries.name as CountryName,states.name as StateName, cities.name as CityName from  `center_head` INNER JOIN `countries`  ON center_head.center_country_id=countries.id INNER JOIN `states` ON center_head.center_state_id=states.id INNER JOIN `cities` ON center_head.center_city_id= cities.id            where center_head_id =?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    //  let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
 
     if (results.length != 0) {
       let model = new CenterHeadmodel();
@@ -171,8 +196,8 @@ const getAllCenterHeadRepository = async (req, res) => {
     let arrayCenter = [];
     let query =
       " select center_head.* ,  countries.name as CountryName,states.name as StateName, cities.name as CityName from  `center_head` INNER JOIN `countries`  ON center_head.center_country_id=countries.id INNER JOIN `states` ON center_head.center_state_id=states.id INNER JOIN `cities` ON center_head.center_city_id= cities.id      where 1=1 ";
-    let sql = con.format(query);
-    let results = await runQuery(sql);
+    //  let sql = con.format(query);
+    let results = await runQuery(query);
 
     let count = results.length;
     if (results.length != 0) {

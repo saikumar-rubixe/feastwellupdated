@@ -148,8 +148,8 @@ const updateCityController = async (req, res) => {
     });
   }
 };
-// 5 delete city
 
+// 5 delete city
 const deleteCityController = async (req, res) => {
   try {
     const id = req.params.id;
@@ -168,7 +168,6 @@ const deleteCityController = async (req, res) => {
         });
       }
       if (recordCheck) {
-      
         const updatedetails = await deleteCityRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({

@@ -1,14 +1,14 @@
 let { runQuery, con } = require("../config/database");
-con = con();
-runQuery = runQuery();
+//con = con();
+//runQuery = runQuery();
 let newDate = new Date();
 let { mealItemsModel } = require("../models/mealitemsModel");
 
 const getMealItemsDetailByIdRepository = async (id, res) => {
   try {
     let query = "select * from `meal_items` where meal_item=?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    //  let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
       let model = new mealItemsModel();
@@ -35,8 +35,8 @@ const getAllMealItemsDetailsRepository = async (req, res) => {
   try {
     let array = [];
     let query = "select * from `meal_items` where 1=1 ";
-    let sql = con.format(query);
-    let results = await runQuery(sql);
+    // let sql = con.format(query);
+    let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
@@ -66,14 +66,20 @@ const createMealItemsRepository = async (mealItemName, Status, userId) => {
   try {
     let query =
       "INSERT into `meal_items` (`meal_item_name`,`status`,`user_id`,`created_date`,`updated_date`) VALUES(?,?,?,?,?) ";
-    let sql = con.format(query, [
+    // let sql = con.format(query, [
+    //   mealItemName,
+    //   Status,
+    //   userId,
+    //   newDate,
+    //   newDate,
+    // ]);
+    let results = await runQuery(query, [
       mealItemName,
       Status,
       userId,
       newDate,
       newDate,
     ]);
-    let results = await runQuery(sql);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -91,8 +97,14 @@ const updateMealItemsRepository = async (id, mealItemName, Status, userId) => {
   try {
     let query =
       " UPDATE `meal_items` set `meal_item_name`=?,`status`=?,`user_id`=?,`updated_date`=? where meal_item  =?";
-    let sql = con.format(query, [mealItemName, Status, userId, newDate, id]);
-    let results = await runQuery(sql);
+    //  let sql = con.format(query, [mealItemName, Status, userId, newDate, id]);
+    let results = await runQuery(query, [
+      mealItemName,
+      Status,
+      userId,
+      newDate,
+      id,
+    ]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {
@@ -110,8 +122,8 @@ const updateMealItemsRepository = async (id, mealItemName, Status, userId) => {
 const deleteMealItemsRepository = async (id, res) => {
   try {
     let query = "DELETE from  `meal_items` where `meal_item`=?";
-    let sql = con.format(query, [id]);
-    let results = await runQuery(sql);
+    //let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {

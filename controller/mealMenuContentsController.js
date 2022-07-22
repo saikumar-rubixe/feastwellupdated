@@ -1,9 +1,9 @@
 const {
   getAllMealMenuDetailsRepository,
   getMealMenuContentsDetailByIdRepository,
-  createMealMenuRepository,
-  updateMealMenuRepository,
-  deleteMealMenuRepository,
+  createMealMenuContentsRepository,
+  updateMealMenuContentsRepository,
+  deleteMealMenuContentsRepository,
 } = require("../repository/mealMenuContentsRepository");
 
 // 1 get all details
@@ -74,7 +74,7 @@ const createMealMenuContentsController = async (req, res) => {
     // if (recordCheck || recordCheck == true) {
     //   // for exist pass negative
     // } else if (!recordCheck || recordCheck == false) {
-    const create = await createMealMenuRepository(
+    const create = await createMealMenuContentsRepository(
       mealMenuId,
       mealItemId,
       userId,
@@ -84,7 +84,7 @@ const createMealMenuContentsController = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "data created succesfully with id" + create,
-        insertId:create,
+        insertId: create,
       });
     }
     if (!create || create == false) {
@@ -126,7 +126,7 @@ const updateMealMenuContentsController = async (req, res) => {
       }
       if (recordCheck) {
         const { mealMenuId, mealItemId, userId, menuContentStatus } = req.body;
-        const updatedetails = await updateMealMenuRepository(
+        const updatedetails = await updateMealMenuContentsRepository(
           id,
           mealMenuId,
           mealItemId,
@@ -178,8 +178,7 @@ const deleteMealMenuContentsController = async (req, res) => {
         });
       }
       if (recordCheck) {
-
-        const updatedetails = await deleteMealMenuRepository(id, res);
+        const updatedetails = await deleteMealMenuContentsRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({
             success: true,

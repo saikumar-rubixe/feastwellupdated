@@ -6,7 +6,7 @@ const {
   deleteMealMenuRepository,
 } = require("../repository/mealmenuRepository");
 
-// 1 get by id
+//** 1 get by id */
 const getMealMenuDetailByIdController = async (req, res) => {
   try {
     const id = req.params.id;
@@ -41,7 +41,7 @@ const getMealMenuDetailByIdController = async (req, res) => {
   }
 };
 
-// 2 get all details
+//**2 get all details */
 const getAllMealMenuDetailsController = async (req, res) => {
   try {
     let details = await getAllMealMenuDetailsRepository();
@@ -68,7 +68,11 @@ const getAllMealMenuDetailsController = async (req, res) => {
   }
 };
 
-// 3  create
+function isString(value) {
+  return typeof value === "string" || value instanceof String;
+}
+
+//** 3  create */
 const createMealMenuController = async (req, res) => {
   try {
     console.log("consoling controller");
@@ -82,34 +86,47 @@ const createMealMenuController = async (req, res) => {
     } = req.body;
     console.log("consolling request body");
     console.log(req.body);
+    console.log(`mealitems String ? : ${isString(mealItems)}`);
+    if (!isString(mealItems)) {
+      res.status(400).json({
+        success: false,
+        message: "pass String",
+        data: mealItems,
+      });
+    }
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     // const recordCheck = await funtncCall();
     // if (recordCheck || recordCheck == true) {
     //   // for exist pass negative
     // } else if (!recordCheck || recordCheck == false) {
+    else {
+      const create = await createMealMenuRepository(
+        mealMenuName,
+        menuDescription,
+        mealType,
+        mealStatus,
+        userId,
+        mealItems
+      );
+      if (create) {
+        console.log(`consoliing the create reults`);
+        console.log(create);
+        res.status(200).json({
+          success: true,
+          message: `data created succesfully with id :${create.menuId}`,
+          menuId: create.menuId,
+          mealItemsIds: create.insertItems,
+        });
+      }
+      if (!create || create == false) {
+        res.status(400).json({
+          success: false,
+          message: "creation  failed",
+        });
+      }
+    }
 
-    const create = await createMealMenuRepository(
-      mealMenuName,
-      menuDescription,
-      mealType,
-      mealStatus,
-      userId,
-      mealItems
-    );
-    if (create) {
-      res.status(200).json({
-        success: true,
-        message: "data created succesfully with id : " + create,
-        insertId: create,
-      });
-    }
-    if (!create || create == false) {
-      res.status(400).json({
-        success: false,
-        message: "creation  failed",
-      });
-    }
     // }
   } catch (error) {
     // catch block error
@@ -123,7 +140,7 @@ const createMealMenuController = async (req, res) => {
   }
 };
 
-// 4 upadte
+//** 4 upadte */
 const updateMealMenuController = async (req, res) => {
   try {
     const id = req.params.id;
@@ -141,20 +158,30 @@ const updateMealMenuController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const { mealMenuName, menuDescription, mealType, mealStatus, userId } =
-          req.body;
+        const {
+          mealMenuName,
+          menuDescription,
+          mealType,
+          mealStatus,
+          userId,
+          mealItems,
+        } = req.body;
+        console.log("consolling request body"); //delete
+        console.log(req.body); //delete
         const updatedetails = await updateMealMenuRepository(
           id,
           mealMenuName,
           menuDescription,
           mealType,
           mealStatus,
-          userId
+          userId,
+          mealItems
         );
-        if (updatedetails == true) {
+        if (updatedetails) {
           res.status(200).json({
             success: true,
             message: "updated details succesfully",
+            data: updatedetails,
           });
         } else {
           res.status(400).json({
@@ -173,7 +200,7 @@ const updateMealMenuController = async (req, res) => {
     });
   }
 };
-// 5 delete
+//**5 delete */
 const deleteMealMenuController = async (req, res) => {
   try {
     const id = req.params.id;
@@ -192,11 +219,12 @@ const deleteMealMenuController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const updatedetails = await deleteMealMenuRepository(id, res);
-        if (updatedetails == true) {
+        const details = await deleteMealMenuRepository(id, res);
+        if (details) {
           res.status(200).json({
             success: true,
             message: "delete succesfully",
+            data: details,
           });
         } else {
           res.status(400).json({
