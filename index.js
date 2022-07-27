@@ -1,10 +1,10 @@
 const express = require("express");
-// const multer = require('multer')
+
 const createHttpError = require("http-errors");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 dotenv.config();
-const AppError = require("./utils/appError");
+//const AppError = require("./utils/appError");
 
 // app configuration
 const app = express();
@@ -29,6 +29,7 @@ const { mealMenuRoute } = require("./routes/mealMenuRoutes");
 const { residentFacilityRoute } = require("./routes/residentFacilityMapRoutes");
 const { userLogRoute } = require("./routes/userActivityLogRoutes");
 const { userIdActivityLogRoute } = require("./routes/userIdActivityLogRoutes");
+const { imageRoute2 } = require("./routes/imageupload2");
 
 //  cors cross browser access
 app.use(function (req, res, next) {
@@ -92,6 +93,7 @@ app.use(`${localurl}mealMenu`, mealMenuRoute);
 app.use(`${localurl}residentFacility`, residentFacilityRoute);
 app.use(`${localurl}userActivityLog`, userLogRoute);
 app.use(`${localurl}userIdActivityLog`, userIdActivityLogRoute);
+app.use(`${localurl}uploadMealImage`, imageRoute2);
 
 /**    local host testing    */
 

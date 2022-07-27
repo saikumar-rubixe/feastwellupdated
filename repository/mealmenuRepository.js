@@ -11,6 +11,7 @@ const getMealMenuDetailByIdRepository = async (id, res) => {
     let query = "select * from `meal_menu` where meal_menu_id  =?";
     // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
+
     if (results.length != 0) {
       let result = results[0];
       let model = new MealMenuModel();
@@ -24,7 +25,7 @@ const getMealMenuDetailByIdRepository = async (id, res) => {
         (userId = result.user_id),
         (createdDate = result.created_date),
         (updatedDate = result.updated_date),
-        (mealItems = await getMealItemsbyMenuId(menuId))
+        (mealItems = await getMealItems(menuId))
       );
       return model;
     } else {
@@ -40,16 +41,21 @@ const getMealMenuDetailByIdRepository = async (id, res) => {
 //**  2 get all details */
 const getAllMealMenuDetailsRepository = async (req, res) => {
   try {
+    console.log(`in repository block`);
     let array = [];
     let query = "select * from `meal_menu` ";
     // let sql = con.format(query);
     let results = await runQuery(query);
     let count = results.length;
+    console.log("consolling results length");
+    console.log(count);
     if (count != 0) {
       for (i = 0; i < count; i++) {
+        console.log(`in for loop round ${i}`);
         let model = new MealMenuModel();
         let result = results[i];
         let menuId = result.meal_menu_id;
+        console.log(`meal menu id is ${menuId}`);
         model.fill(
           (mealMenuId = result.meal_menu_id),
           (mealMenuName = result.meal_menu_name),
@@ -59,7 +65,7 @@ const getAllMealMenuDetailsRepository = async (req, res) => {
           (userId = result.user_id),
           (createdDate = result.created_date),
           (updatedDate = result.updated_date),
-          (mealItems = await getMealItemsbyMenuId(menuId))
+          (mealItems = await getMealItems(menuId))
           //fetch meal items by menu id ->by fetching mealitems  id from mealcontents tble and then callig  the melitems table based on response
         );
         array.push(model);
@@ -252,34 +258,7 @@ const deleteMealMenuRepository = async (id, res) => {
 
 //*******************************  HELPER METHODS  ************************************************** */
 
-//** 6 get meal items by meal menu id */
-const getMealItemsbyMenuId = async (menuId) => {
-  let query =
-    " select `meal_item_id` from `meal_menu_contents` where meal_menu_id=?";
-  // let sql = con.format(sql, [menuId]);
-  let results = await runQuery(query, [menuId]); // get all meal item ids by menu id
-  if (!results.length || results.length == 0) {
-    // if no meal items found then return null
-    return null;
-  } else {
-    let finalItemsNames = []; // intialize an array for storing the meal items names
-    for (i = 0; i < results.length; i++) {
-      // run the loop till legth of meal ids
-      let values = results[i]; // store the ith resutls into variable values
-      let value = values.meal_item_id; // get the meal item id from result
-      let query2 =
-        "select `meal_item`,`meal_item_name` from `meal_items` where meal_item=?"; // get mealitemname of the meal id
-      //  let query2 = con.format(sql1, [value]);
-      let results2 = await runQuery(query2, [value]); // run query
-      var normalObj = Object.assign({}, results2[0]);
-      console.log(normalObj);
-      finalItemsNames[i] = normalObj; // store the result into array
-    }
-    return finalItemsNames; // return the array of meal items along with their id's(can be used at update and delete mthods)
-  }
-};
-
-//**  7 insertMealItemsInMenuContents*/
+//**  6 insertMealItemsInMenuContents*/
 /** 7 insertMealItemsInMenuContents 
 insert the meal items into meal contents table /menuId
  * 
@@ -336,7 +315,7 @@ const insertMealItemsInMenuContents = async (
   }
 };
 
-//**  8  deleteMenuContentsByMenuId */
+//**  7  deleteMenuContentsByMenuId */
 /** used in update and delete fn calls of menuRepo
  * @param {*} id
  * @returns affectedRows
@@ -355,6 +334,16 @@ const deleteMenuContentsByMenuId = async (menuId) => {
 
     return null;
   }
+};
+
+//** 8 get meal items/
+const getMealItems = async (menuId) => {
+  let query =
+    "SELECT t1.`meal_item_id` as mealItem  ,t2.`meal_item_name` as mealItemName  from meal_menu_contents AS t1  INNER JOIN meal_items AS t2  ON t1.`meal_item_id`= t2.`meal_item`  where  t1.meal_menu_id=?";
+  let results = await runQuery(query, [menuId]);
+  console.log(results);
+
+  return results;
 };
 
 // exports
