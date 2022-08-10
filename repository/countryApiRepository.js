@@ -88,6 +88,7 @@ const createCountryRepository = async (name, phoneCode, is02, timeZones) => {
       "INSERT into `countries` (`name`,`phonecode`,`iso2`,`timezones`) VALUES(?,?,?,?) ";
     // let sql = con.format(query, [name, phoneCode, is02, timeZones]);
     let results = await runQuery(query, [name, phoneCode, is02, timeZones]);
+    console.log(results);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -111,9 +112,10 @@ const updateCountryRepository = async (
 ) => {
   try {
     let query =
-      " UPDATE `countries` set `name`=?,`phonecode`=?, `iso2`=?,`timezones`=?, where id =?";
+      " UPDATE `countries` set `name`=?,`phonecode`=?, `iso2`=?,`timezones`=?  where id =? ";
     //let sql = con.format(query, [name, phoneCode, is02, timeZones, id]);
     let results = await runQuery(query, [name, phoneCode, is02, timeZones, id]);
+
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {

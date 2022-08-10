@@ -1,7 +1,7 @@
 class RolesModel {
   roleId = null;
   roleName = null;
-  menuId = null;
+
   userTypeId = null;
   roleStatus = null;
   createdDate = null;
@@ -10,7 +10,7 @@ class RolesModel {
   fill(
     roleId,
     roleName,
-    menuId,
+
     userTypeId,
     roleStatus,
     createdDate,
@@ -18,7 +18,7 @@ class RolesModel {
   ) {
     this.roleId = roleId;
     this.roleName = roleName;
-    this.menuId = menuId;
+
     this.userTypeId = userTypeId;
     this.roleStatus = roleStatus;
     this.createdDate = createdDate;

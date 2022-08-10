@@ -1,7 +1,7 @@
 class States {
   id;
   Statename;
-  countryid;
+  countryId;
   countryCode;
   fipsCode;
   iso2;
@@ -16,7 +16,7 @@ class States {
   fill(
     id,
     Statename,
-    countryid,
+    countryId,
     countryCode,
     fipsCode,
     iso2,
@@ -30,7 +30,7 @@ class States {
   ) {
     this.id = id;
     this.Statename = Statename;
-    this.countryid = countryid;
+    this.countryId = countryId;
     this.countryCode = countryCode;
     this.fipsCode = fipsCode;
     this.iso2 = iso2;

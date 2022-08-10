@@ -17,8 +17,8 @@ const promisePoolEnd = promisify(pool.end).bind(pool);
 //promisePoolEnd();
 
 module.exports = {
-  runQuery: promiseQuery,
-  con: databaseConfig,
+  runQuery: promiseQuery, // to run the query
+  con: databaseConfig, // connection
 };
 
 /** 

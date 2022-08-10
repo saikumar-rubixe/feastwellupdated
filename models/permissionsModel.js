@@ -1,6 +1,7 @@
 class permissionsModel {
   permissionId = null;
   roleId = null;
+  menuId = null;
   readAccess = null;
   writeAccess = null;
   updateAccess = null;
@@ -11,6 +12,7 @@ class permissionsModel {
   fill(
     permissionId,
     roleId,
+    menuId,
     readAccess,
     writeAccess,
     updateAccess,
@@ -21,6 +23,7 @@ class permissionsModel {
   ) {
     this.permissionId = permissionId;
     this.roleId = roleId;
+    this.menuId = menuId;
     this.readAccess = readAccess;
     this.writeAccess = writeAccess;
     this.updateAccess = updateAccess;

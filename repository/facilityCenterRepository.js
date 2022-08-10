@@ -5,7 +5,7 @@
  * {con } is used to  set the string format to sql format
  *    {FacilityModel}Model is used to show the response with respective fields for eay understanding
  * ------------------------------------------------------------------------------------------
- * * facility_center 
+ * * facility
  * 
  * The methods Calls were as follows
  * 1. getFacilityCenterDetailsByIdRepository-->fetch the center by ID
@@ -19,21 +19,21 @@
 let { runQuery, con } = require("../config/database");
 //con = con();
 //runQuery = runQuery();
-let { FacilityModel } = require("../models/facilityCentreModel");
+let { FacilityModel } = require("../models/facilityModel");
 const date = require("date-and-time");
 let newDate = new Date();
 //1 get details By ID
 let getFacilityCenterDetailsByIdRepository = async (id, res) => {
   try {
     let query =
-      "select facility_center.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `facility_center` INNER JOIN `countries`  ON facility_center.facility_country_id=countries.id INNER JOIN `states` ON facility_center.facility_state_id=states.id INNER JOIN `cities` ON facility_center.facility_city_id= cities.id  where facility_center_id =?  ";
+      "select facility.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `facility` INNER JOIN `countries`  ON facility.facility_country_id=countries.id INNER JOIN `states` ON facility.facility_state_id=states.id INNER JOIN `cities` ON facility.facility_city_id= cities.id  where facility_id =?  ";
     // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
       let model = new FacilityModel();
       model.fill(
-        (facilityCenterId = result.facility_center_id),
+        (facilityCenterId = result.facility_id),
         (facilityName = result.facility_name),
         (headId = result.facility_head_id),
         (email = result.facility_email),
@@ -46,6 +46,8 @@ let getFacilityCenterDetailsByIdRepository = async (id, res) => {
         (createdBy = result.created_by),
         (updatedDate = result.updated_date),
         (updatedBy = result.updated_by),
+        (address = result.address),
+        (zipcode = result.zipcode),
         (countryName = result.CountryName),
         (stateName = result.StateName),
         (cityName = result.CityName)
@@ -65,7 +67,7 @@ let getAllFacilityCenterDetailsRepository = async (req, res) => {
   try {
     let facilityArray = [];
     let query =
-      "select facility_center.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `facility_center` INNER JOIN `countries`  ON facility_center.facility_country_id=countries.id INNER JOIN `states` ON facility_center.facility_state_id=states.id INNER JOIN `cities` ON facility_center.facility_city_id= cities.id ";
+      "select facility.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `facility` INNER JOIN `countries`  ON facility.facility_country_id=countries.id INNER JOIN `states` ON facility.facility_state_id=states.id INNER JOIN `cities` ON facility.facility_city_id= cities.id ";
     let results = await runQuery(query);
     let count = results.length;
 
@@ -73,7 +75,7 @@ let getAllFacilityCenterDetailsRepository = async (req, res) => {
       let result = results[i];
       let model = new FacilityModel();
       model.fill(
-        (facilityCenterId = result.facility_center_id),
+        (facilityCenterId = result.facility_id),
         (facilityName = result.facility_name),
         (headId = result.facility_head_id),
         (email = result.facility_email),
@@ -86,6 +88,8 @@ let getAllFacilityCenterDetailsRepository = async (req, res) => {
         (createdBy = result.created_by),
         (updatedDate = result.updated_date),
         (updatedBy = result.updated_by),
+        (address = result.address),
+        (zipcode = result.zipcode),
         (countryName = result.CountryName),
         (stateName = result.StateName),
         (cityName = result.CityName)
@@ -103,21 +107,22 @@ let getAllFacilityCenterDetailsRepository = async (req, res) => {
 // 3 create
 let insertFacilityCenterDetailsRepository = async (
   facilityName,
-  // headId,
-  email,
+  headId,
   number,
   countryId,
   stateId,
   cityId,
-  facilityStatus
-  //createdBy
+  facilityStatus,
+  createdBy,
+  address,
+  zipcode
 ) => {
   try {
     let query =
-      "INSERT INTO `facility_center`  (`facility_name`,`facility_email`,`facility_contact_number`,`facility_country_id`,`facility_state_id`,`facility_city_id`,`status`,`created_date`,`updated_date`) VALUES(?,?,?,?,?,?,?,?,?)";
+      "INSERT INTO `facility`  (`facility_name`,`facility_head_id`,`facility_contact_number`,`facility_country_id`,`facility_state_id`,`facility_city_id`,`status`,`created_date`,`created_by`,`updated_date`,`updated_by`,`address`,`zipcode`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
     // let sql = con.format(query, [
     //   facilityName,
-    //   // headId,
+    //    headId,
     //   email,
     //   number,
     //   countryId,
@@ -125,23 +130,24 @@ let insertFacilityCenterDetailsRepository = async (
     //   cityId,
     //   facilityStatus,
     //   newDate,
-    //   // createdBy,
+    //    createdBy,
     //   newDate,
-    //   // createdBy,
+    //    createdBy,
     // ]);
     let results = await runQuery(query, [
       facilityName,
-      // headId,
-      email,
+      headId,
       number,
       countryId,
       stateId,
       cityId,
       facilityStatus,
       newDate,
-      // createdBy,
+      createdBy,
       newDate,
-      // createdBy,
+      createdBy,
+      address,
+      zipcode,
     ]);
 
     return results.insertId;
@@ -156,19 +162,20 @@ let updateFacilityCenterDetailsRepository = async (
   id,
   facilityName,
   headId,
-  email,
   number,
   countryId,
   stateId,
   cityId,
   facilityStatus,
   updatedBy,
+  address,
+  zipcode,
   res
 ) => {
   try {
     console.log("into update repository");
     let query =
-      "UPDATE `facility_center` SET facility_name =?,facility_head_id=?,facility_email=?,facility_contact_number=?,facility_country_id=?,facility_state_id=?,facility_city_id=?,status=?,updated_date=?,updated_by=?  WHERE facility_center_id =? ";
+      "UPDATE `facility` SET facility_name =?,facility_head_id=?,facility_contact_number=?,facility_country_id=?,facility_state_id=?,facility_city_id=?,status=?,updated_date=?,updated_by=? ,address=?,zipcode=? WHERE facility_id =? ";
     // let sql = con.format(query, [
     //   facilityName,
     //   headId,
@@ -185,7 +192,6 @@ let updateFacilityCenterDetailsRepository = async (
     let results = await runQuery(query, [
       facilityName,
       headId,
-      email,
       number,
       countryId,
       stateId,
@@ -193,6 +199,8 @@ let updateFacilityCenterDetailsRepository = async (
       facilityStatus,
       newDate,
       updatedBy,
+      address,
+      zipcode,
       id,
     ]);
 
@@ -210,7 +218,7 @@ let updateFacilityCenterDetailsRepository = async (
 // 5 delete
 let deleteFacilityCenterDetailsRepository = async (id, res) => {
   try {
-    let query = "DELETE from facility_center WHERE facility_center_id =? ";
+    let query = "DELETE from facility WHERE facility_id =? ";
     // let sql = con.format(query, [id]);
     let result = await runQuery(query, [id]);
 

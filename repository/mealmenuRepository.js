@@ -51,11 +51,10 @@ const getAllMealMenuDetailsRepository = async (req, res) => {
     console.log(count);
     if (count != 0) {
       for (i = 0; i < count; i++) {
-        console.log(`in for loop round ${i}`);
         let model = new MealMenuModel();
         let result = results[i];
         let menuId = result.meal_menu_id;
-        console.log(`meal menu id is ${menuId}`);
+
         model.fill(
           (mealMenuId = result.meal_menu_id),
           (mealMenuName = result.meal_menu_name),
@@ -247,7 +246,7 @@ const deleteMealMenuRepository = async (id, res) => {
       mealMenuDeleteAffectedRows: value,
       menuContentsDeleteAffectedRows: deleteRecords,
     };
-    console.log(details);
+
     return details;
   } catch (error) {
     console.log(error);
@@ -300,9 +299,6 @@ const insertMealItemsInMenuContents = async (
           newDate,
         ]);
         itemsCreateIds[i] = insert2.insertId; // assinging the inserted ids into created array
-        console.log(
-          `meal items id  ${array[i]}  inserted into meal_menu_contents with inserted ids: ${insert2.insertId} `
-        );
       }
     }
 
@@ -325,11 +321,11 @@ const deleteMenuContentsByMenuId = async (menuId) => {
     let query = "DELETE  FROM `meal_menu_contents` where  meal_menu_id=?";
     let results = await runQuery(query, [menuId]);
     let affectedRows = results.affectedRows;
-    console.log(`Number of records deleted: ${affectedRows}`);
+    // console.log(`Number of records deleted: ${affectedRows}`); //delete
 
     return affectedRows;
   } catch (error) {
-    console.log(`error in deleting menu contents`);
+    //console.log(`error in deleting menu contents`);//delete
     console.log(error);
 
     return null;
@@ -341,7 +337,6 @@ const getMealItems = async (menuId) => {
   let query =
     "SELECT t1.`meal_item_id` as mealItem  ,t2.`meal_item_name` as mealItemName  from meal_menu_contents AS t1  INNER JOIN meal_items AS t2  ON t1.`meal_item_id`= t2.`meal_item`  where  t1.meal_menu_id=?";
   let results = await runQuery(query, [menuId]);
-  console.log(results);
 
   return results;
 };

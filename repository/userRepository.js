@@ -37,11 +37,9 @@ const getUserByIdRepository = async (id, res) => {
       model.fill(
         (userId = array.user_id),
         (fullName = array.full_name),
-        (email = array.email),
         (phoneNumber = array.phone_number),
         (userName = array.username),
         (password = array.password),
-        (profileImage = array.profile_image),
         (usertype = array.user_type),
         (userStatus = array.status),
         (lastLogin = array.last_login),
@@ -69,20 +67,8 @@ let userCheckRepository = async (userName, res) => {
   }
 };
 
-// 3 emailCheckRepository
-let emailCheckRepository = async (email, res) => {
-  let query = "select * from users where email=?";
-  // const sql = con.format(query, [email]);
-  let results = await runQuery(query, [email]);
-  if (results.length == 0) {
-    return 0;
-  } else {
-    return 1;
-  }
-};
-
 /*4 get all residents details*/
-const getAllUsersRepository = async (userType, userStatus, email) => {
+const getAllUsersRepository = async (userType, userStatus) => {
   try {
     let userArray = [];
     let query = "select * from users  where 1=1 ";
@@ -92,11 +78,7 @@ const getAllUsersRepository = async (userType, userStatus, email) => {
     if (userStatus) {
       query += " and status=" + mysql.escape(userStatus);
     }
-    if (email) {
-      query += " and email=" + mysql.escape(email);
-    }
     //  const sql = con.format(query);
-
     let sqlResult = await runQuery(query);
     let count = sqlResult.length;
     for (let i = 0; i < sqlResult.length; i++) {
@@ -105,11 +87,9 @@ const getAllUsersRepository = async (userType, userStatus, email) => {
       model.fill(
         (userId = array.user_id),
         (fullName = array.full_name),
-        (email = array.email),
         (phoneNumber = array.phone_number),
         (userName = array.username),
         (password = array.password),
-        (profileImage = array.profile_image),
         (usertype = array.user_type),
         (userStatus = array.status),
         (lastLogin = array.last_login),
@@ -133,7 +113,6 @@ const getAllUsersRepository = async (userType, userStatus, email) => {
 // 5 createUserRepository
 let createUserRepository = async (
   fullName,
-  email,
   phoneNumber,
   userName,
   password,
@@ -146,24 +125,12 @@ let createUserRepository = async (
   console.log(salt);
   const hashedPassword = await bcrypt.hash(password, salt);
   // hash complete
+
   let query =
-    "INSERT INTO `users`( `full_name`, `email`,`phone_number`,`username`,`password`,`user_type`,`status`,`logged_ip_address`,`created_date`,`updated_date`) VALUES (?,?,?,?,?,?,?,?,?,?) ";
-  // const sql = con.format(query, [
-  //   fullName,
-  //   email,
-  //   phoneNumber,
-  //   userName,
-  //   hashedPassword,
-  //   userType,
-  //   userStatus,
-  //   loggedIpAddress,
-  //   newDate,
-  //   newDate,
-  // ]);
+    "INSERT INTO `users`( `full_name`,`phone_number`,`username`,`password`,`user_type`,`status`,`logged_ip_address`,`created_date`,`updated_date`) VALUES (?,?,?,?,?,?,?,?,?) ";
 
   let results = await runQuery(query, [
     fullName,
-    email,
     phoneNumber,
     userName,
     hashedPassword,
@@ -173,6 +140,12 @@ let createUserRepository = async (
     newDate,
     newDate,
   ]);
+  // if userType =(2 Center Manager 4 center admin 5 nurse  6 facility head) add facility details
+  /**  if( userType == 7){
+  createResidentFacilityController(userId, facilityCenterId, status, createdBy)
+  
+}
+*/
   return results.insertId;
 };
 
@@ -180,11 +153,9 @@ let createUserRepository = async (
 let updateUserRepository = async (
   id,
   fullName,
-  email,
   phoneNumber,
   userName,
-  // password,
-  userType,
+  // userType,
   userStatus,
   loggedIpAddress
 ) => {
@@ -195,10 +166,9 @@ let updateUserRepository = async (
     // console.log(salt);
     // const hashedPassword = await bcrypt.hash(password, salt);
     let query =
-      "UPDATE users SET full_name =?,email=?,phone_number = ?,username=?,user_type=?,status=?,logged_ip_address=?,updated_date=?  WHERE user_id=? ";
+      "UPDATE users SET full_name =?,phone_number = ?,username=?,status=?,logged_ip_address=?,updated_date=?  WHERE user_id=? ";
     // let sql = con.format(query, [
     //   fullName,
-    //   email,
     //   phoneNumber,
     //   userName,
     //   userType,
@@ -210,10 +180,8 @@ let updateUserRepository = async (
 
     let results = await runQuery(query, [
       fullName,
-      email,
       phoneNumber,
       userName,
-      userType,
       userStatus,
       loggedIpAddress,
       newDate,
@@ -245,7 +213,6 @@ let deleteUserRepository = async (id) => {
 module.exports = {
   getUserByIdRepository: getUserByIdRepository,
   userCheckRepository: userCheckRepository,
-  emailCheckRepository: emailCheckRepository,
   getAllUsersRepository: getAllUsersRepository,
   createUserRepository: createUserRepository,
   updateUserRepository: updateUserRepository,

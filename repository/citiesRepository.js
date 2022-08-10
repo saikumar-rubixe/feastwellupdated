@@ -63,11 +63,12 @@ const getCitiesByIdRepository = async (id, res) => {
 };
 
 // 3 create cities
-const createCitiesRepository = async (name, stateCode, countryCode) => {
+const createCitiesRepository = async (name, stateId, countryId) => {
   try {
-    let query = "INSERT into `tableName` (`fieldnames`) VALUES(?,?) ";
+    let query =
+      "INSERT into `cities` (`name`,`state_id`, country_id) VALUES(?,?,?) ";
     // let sql = con.format(query, [values]);
-    let results = await runQuery(query, [values]);
+    let results = await runQuery(query, [name, stateId, countryId]);
     let value = results.insertId;
     if (value && value != 0) {
       return value;

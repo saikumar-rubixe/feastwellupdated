@@ -42,6 +42,7 @@ const getAllPermissionsDetailsRepository = async (req, res) => {
         model.fill(
           (permissionId = result.permission_id),
           (roleId = result.role_id),
+          (menuId = result.menu_id),
           (readAccess = result.read_access),
           (writeAccess = result.write_access),
           (updateAccess = result.update_access),
@@ -75,6 +76,7 @@ const getPermissionsDetailByIdRepository = async (id, res) => {
       model.fill(
         (permissionId = result.permission_id),
         (roleId = result.role_id),
+        (menuId = result.menu_id),
         (readAccess = result.read_access),
         (writeAccess = result.write_access),
         (updateAccess = result.update_access),
@@ -97,6 +99,7 @@ const getPermissionsDetailByIdRepository = async (id, res) => {
 // 3 create
 const createPermissionsRepository = async (
   roleId,
+  menuId,
   readAccess,
   writeAccess,
   updateAccess,
@@ -105,7 +108,7 @@ const createPermissionsRepository = async (
 ) => {
   try {
     let query =
-      "INSERT into `permissions` (`role_id`,read_access,write_access,update_access,delete_access,status,created_date,updated_date) VALUES(?,?,?,?,?,?,?,?) ";
+      "INSERT into `permissions` (`role_id`,menu_id,read_access,write_access,update_access,delete_access,status,created_date,updated_date) VALUES(?,?,?,?,?,?,?,?,?) ";
     // let sql = con.format(query, [
     //   roleId,
     //   readAccess,
@@ -118,6 +121,7 @@ const createPermissionsRepository = async (
     // ]);
     let results = await runQuery(query, [
       roleId,
+      menuId,
       readAccess,
       writeAccess,
       updateAccess,
@@ -142,6 +146,7 @@ const createPermissionsRepository = async (
 const updatePermissionsRepository = async (
   id,
   roleId,
+  menuId,
   readAccess,
   writeAccess,
   updateAccess,
@@ -150,7 +155,7 @@ const updatePermissionsRepository = async (
 ) => {
   try {
     let query =
-      " UPDATE `permissions` set `role_id`=?,`read_access`=?,`write_access`=?,`update_access`=?,`delete_access`=?,`status`=?,`updated_date`=? where permission_id  =?";
+      " UPDATE `permissions` set `role_id`=?,`menu_id`=?,`read_access`=?,`write_access`=?,`update_access`=?,`delete_access`=?,`status`=?,`updated_date`=? where permission_id  =?";
     // let sql = con.format(query, [
     //   roleId,
     //   readAccess,
@@ -163,6 +168,7 @@ const updatePermissionsRepository = async (
     // ]);
     let results = await runQuery(query, [
       roleId,
+      menuId,
       readAccess,
       writeAccess,
       updateAccess,

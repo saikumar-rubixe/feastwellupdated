@@ -27,7 +27,6 @@ const getRolesDetailByIdRepository = async (id, res) => {
       model.fill(
         (roleId = result.role_id),
         (roleName = result.role_name),
-        (menuId = result.menu_id),
         (userTypeId = result.user_type_id),
         (roleStatus = result.status),
         (createdDate = result.created_date),
@@ -59,7 +58,6 @@ const getAllRolesDetailsRepository = async (req, res) => {
         model.fill(
           (roleId = result.role_id),
           (roleName = result.role_name),
-          (menuId = result.menu_id),
           (userTypeId = result.user_type_id),
           (roleStatus = result.status),
           (createdDate = result.created_date),
@@ -79,15 +77,10 @@ const getAllRolesDetailsRepository = async (req, res) => {
 };
 
 // 3 create role
-const createRoleRepository = async (
-  roleName,
-  menuId,
-  userTypeId,
-  roleStatus
-) => {
+const createRoleRepository = async (roleName, userTypeId, roleStatus) => {
   try {
     let query =
-      "INSERT into `roles` (`role_name`,`menu_id`,`user_type_id`,`status`,`created_date`,`updated_date`) VALUES(?,?,?,?,?,?) ";
+      "INSERT into `roles` (`role_name`,`user_type_id`,`status`,`created_date`,`updated_date`) VALUES(?,?,?,?,?,?) ";
     // let sql = con.format(query, [
     //   roleName,
     //   menuId,
@@ -98,7 +91,7 @@ const createRoleRepository = async (
     // ]);
     let results = await runQuery(query, [
       roleName,
-      menuId,
+
       userTypeId,
       roleStatus,
       newDate,
@@ -121,13 +114,13 @@ const createRoleRepository = async (
 const updateRolesRepository = async (
   id,
   roleName,
-  menuId,
+
   userTypeId,
   roleStatus
 ) => {
   try {
     let query =
-      " UPDATE `roles` set `role_name`=?,`menu_id`=?,`user_type_id`=?,`status`=?,`updated_date`=? where role_id  =?";
+      " UPDATE `roles` set `role_name`=?,`user_type_id`=?,`status`=?,`updated_date`=? where role_id  =?";
     // let sql = con.format(query, [
     //   roleName,
     //   menuId,
@@ -138,7 +131,7 @@ const updateRolesRepository = async (
     // ]);
     let results = await runQuery(query, [
       roleName,
-      menuId,
+
       userTypeId,
       roleStatus,
       newDate,

@@ -8,7 +8,7 @@ const getStatesByIdRepository = async (id, res) => {
   try {
     let array = [];
     let query =
-      " select `id`,`name`,`country_code` from  `states` where country_id =?";
+      " select `id`,`name`,`country_code`,`country_id` from  `states` where country_id =?";
     // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     let count = results.length;
@@ -19,6 +19,34 @@ const getStatesByIdRepository = async (id, res) => {
       statesmodel.fill(
         (id = result.id),
         (Statename = result.name),
+        (countryId = result.country_id),
+        (coutryCode = result.country_code)
+      );
+      array.push(statesmodel);
+    }
+    return { count, array };
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+const getStatesByStateIdRepository = async (id, res) => {
+  try {
+    let array = [];
+    let query =
+      " select `id`,`name`,`country_code`,`country_id` from  `states` where id =?";
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
+    let count = results.length;
+
+    for (i = 0; i < count; i++) {
+      let statesmodel = new States();
+      let result = results[i];
+      statesmodel.fill(
+        (id = result.id),
+        (Statename = result.name),
+        (countryId = result.country_id),
         (coutryCode = result.country_code)
       );
       array.push(statesmodel);
@@ -45,6 +73,7 @@ const getAllStatesDetailsRepository = async (req, res) => {
         model.fill(
           (id = result.id),
           (Statename = result.name),
+          (countryId = result.country_id),
           (coutryCode = result.country_code)
         );
         array.push(model);
@@ -61,11 +90,11 @@ const getAllStatesDetailsRepository = async (req, res) => {
 };
 
 // 3 create state
-const createStatesRepository = async (Statename, coutryCode) => {
+const createStatesRepository = async (statename, countryId) => {
   try {
-    let query = "INSERT into `states` (`name`,`country_code`) VALUES(?,?) ";
+    let query = "INSERT into `states` (`name`,`country_id`) VALUES(?,?)  ";
     // let sql = con.format(query, [Statename, coutryCode]);
-    let results = await runQuery(query, [Statename, coutryCode]);
+    let results = await runQuery(query, [statename, countryId]);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -82,8 +111,7 @@ const createStatesRepository = async (Statename, coutryCode) => {
 // 4 update states
 const updateStatesRepository = async (id, Statename, coutryCode) => {
   try {
-    let query =
-      " UPDATE `TABLENAME` set `Statename`=?,`coutryCode`=? where id =?";
+    let query = " UPDATE `states` set `name`=?,`country_code`=? where id =?";
     //  let sql = con.format(query, [Statename, coutryCode, id]);
     let results = await runQuery(query, [Statename, coutryCode, id]);
     let value = results.affectedRows;
@@ -122,6 +150,7 @@ const deleteStatesRepository = async (id, res) => {
 
 module.exports = {
   getStatesByIdRepository,
+  getStatesByStateIdRepository,
   getAllStatesDetailsRepository,
   createStatesRepository,
   updateStatesRepository,
