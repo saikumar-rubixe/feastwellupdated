@@ -44,6 +44,8 @@ class ResidentModel {
   calorieNeeds = null;
   fluidNeeds = null;
   proteinNeeds = null;
+  carePlans = null;
+  recommendations = null;
 
   fill(
     id,
@@ -90,7 +92,9 @@ class ResidentModel {
     idealBodyWeightRange,
     calorieNeeds,
     fluidNeeds,
-    proteinNeeds
+    proteinNeeds,
+    carePlans,
+    recommendations
   ) {
     this.id = id;
     this.userId = userId;
@@ -137,6 +141,8 @@ class ResidentModel {
     this.calorieNeeds = calorieNeeds;
     this.fluidNeeds = fluidNeeds;
     this.proteinNeeds = proteinNeeds;
+    this.carePlans = carePlans;
+    this.recommendations = recommendations;
   }
 }
 

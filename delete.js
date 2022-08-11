@@ -1,11 +1,14 @@
 let Joi = require("joi").extend(require("@joi/date"));
 const Schema = Joi.object({
-  fullName: Joi.string().required(),
-
+  fullName: Joi.string()
+    .regex(/^[a-z]+[a-z0-9]+$/i)
+    .required(),
   phoneNumber: Joi.string().required(),
-  userName: Joi.string().required(),
+  userName: Joi.string()
+    .min(10)
+    .regex(/^[a-z]+$/i)
+    .required(),
   password: Joi.string(),
-
   userType: Joi.number().required(),
   userStatus: Joi.number().max(1).required(),
   lastLogin: Joi.string(),

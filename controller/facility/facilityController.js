@@ -147,7 +147,7 @@ let updateFacilityCenterDetailsController = async (req, res) => {
       } else if (recordcheck) {
         const {
           facilityName,
-          // headId,
+          //headId,
           number,
           countryId,
           stateId,

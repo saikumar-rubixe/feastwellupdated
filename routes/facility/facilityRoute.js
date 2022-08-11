@@ -8,10 +8,16 @@ const {
   updateFacilityCenterDetailsController,
   deleteFacilityCenterDetailsController,
 } = require("../../controller/facility/facilityController");
-
+const {
+  FacilityUserBodyValidation,
+} = require("../../validation/facility/facilityValidation");
 facilityRoute
   .route("/")
-  .post(verifyFunction, insertFacilityCenterDetailsController);
+  .post(
+    verifyFunction,
+    FacilityUserBodyValidation,
+    insertFacilityCenterDetailsController
+  );
 facilityRoute
   .route("/")
   .get(verifyFunction, getAllFacilityCenterDetailsController);

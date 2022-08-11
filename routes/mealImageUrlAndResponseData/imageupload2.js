@@ -50,11 +50,15 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
 
       // Definning the params variable to uplaod the photo
       const date = new Date(Date.now());
+      let value = date.toISOString();
+      let newdate = value.replace(/:/g, "_");
+      let newfileName = req.file.originalname.replace(
+        /[&\/\\#, +()$~%'":*?<>{}]/g,
+        "_"
+      );
       const params = {
         Bucket: process.env.AWS_BUCKET_NAME, // bucket that we made earlier
-        Key: `${req.body.residentId}_${date.toISOString()}_${
-          req.file.originalname
-        }`, // Name of the image
+        Key: `${req.body.residentId}_${newdate}_${newfileName}`, // Name of the image
         Body: image, // Body which will contain the image in buffer format
         ACL: "public-read-write", // defining the permissions to get the public link
         ContentType: "image/jpeg", // Necessary to define the image content-type to view the photo in the browser with the link

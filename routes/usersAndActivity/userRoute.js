@@ -1,6 +1,8 @@
 const express = require("express");
 const userRoute = express.Router();
-const { userBodyValidation } = require("../../validation/userBodyValidation");
+const {
+  userBodyValidation,
+} = require("../../validation/usersAndActivity/userBodyValidation");
 const { verifyFunction } = require("../../helper/verifyjwtToken");
 
 const {

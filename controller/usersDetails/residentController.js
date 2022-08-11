@@ -64,6 +64,8 @@ const insertResidentDetailsController = async (req, res) => {
       calorieNeeds,
       fluidNeeds,
       proteinNeeds,
+      carePlans,
+      recommendations,
     } = req.body;
     const create = await insertResidentDetailsRepository(
       userId,
@@ -109,7 +111,9 @@ const insertResidentDetailsController = async (req, res) => {
       idealBodyWeightRange,
       calorieNeeds,
       fluidNeeds,
-      proteinNeeds
+      proteinNeeds,
+      carePlans,
+      recommendations
     );
     if (create) {
       res.status(200).json({

@@ -44,11 +44,13 @@ const insertResidentDetailsRepository = async (
   idealBodyWeightRange,
   calorieNeeds,
   fluidNeeds,
-  proteinNeeds
+  proteinNeeds,
+  carePlans,
+  recommendations
 ) => {
   try {
     let query =
-      "INSERT into `residents_details` (`user_id`,      `name`,      `gender`,      `dob`,      `age`,      `address`,      `family_contact`,      `enrollment_date`,      `intial_weight`,      `current_weight`,      `physician`,      `diagnosis`,      `food_allergy`,      `medications`,      `nutritional_supplements`,      `laxatives`,      `natural_laxatives`,      `significant_lab_data`,      `monthly_grocery_budget`,      `current_height`,      `usual_weight`,           `waist_circumference`,      `weight_history`,                            `appetite_food_intake`,      `chewing`,      `swallowing`,      `fluid_intake`,      `dentition`,      `sight`,      `communication`,      `comprehension`,      `bowel_function`,      `mobility`,      `dexterity`,      `feeding`,      `special_needs`,      `food_preferences`,      `nutritional_risk_factors` ,`bmi`,`average_wt`,`ideal_body_weight_range`,  `calorie_needs`,`fluid_needs`, `protein_needs`     ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+      "INSERT into `residents_details` (`user_id`,      `name`,      `gender`,      `dob`,      `age`,      `address`,      `family_contact`,      `enrollment_date`,      `intial_weight`,      `current_weight`,      `physician`,      `diagnosis`,      `food_allergy`,      `medications`,      `nutritional_supplements`,      `laxatives`,      `natural_laxatives`,      `significant_lab_data`,      `monthly_grocery_budget`,      `current_height`,      `usual_weight`,           `waist_circumference`,      `weight_history`,                            `appetite_food_intake`,      `chewing`,      `swallowing`,      `fluid_intake`,      `dentition`,      `sight`,      `communication`,      `comprehension`,      `bowel_function`,      `mobility`,      `dexterity`,      `feeding`,      `special_needs`,      `food_preferences`,      `nutritional_risk_factors` ,`bmi`,`average_wt`,`ideal_body_weight_range`,  `calorie_needs`,`fluid_needs`, `protein_needs`,`care_plans`,`recommendations`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
 
     let results = await runQuery(query, [
       userId,
@@ -95,6 +97,8 @@ const insertResidentDetailsRepository = async (
       calorieNeeds,
       fluidNeeds,
       proteinNeeds,
+      carePlans,
+      recommendations,
     ]);
 
     let value = results.insertId;
@@ -165,7 +169,9 @@ const getAllResidentDetailsRepository = async (req, res) => {
           (idealBodyWeightRange = result.ideal_body_weight_range),
           (calorieNeeds = result.calorie_needs),
           (fluidNeeds = result.fluid_needs),
-          (proteinNeeds = result.protein_needs)
+          (proteinNeeds = result.protein_needs),
+          (carePlans = result.care_plans),
+          (recommendations = result.recommendations)
         );
         array.push(model);
       }

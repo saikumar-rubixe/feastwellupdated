@@ -1,5 +1,5 @@
 let { runQuery } = require("../config/database");
-
+let newDate = new Date();
 const {
   ImagePredictionRepsonseModel,
 } = require("../models/imagePredictionResponseModel");
@@ -11,8 +11,8 @@ const insertImagePredictionRespsonseRepository = async (
   try {
     const imageTableId = referenceId;
     let sql =
-      "insert into  `image_prediction_response` (`image_details_table_id`,`json_response`) VALUES (?,?)";
-    const details = await runQuery(sql, [imageTableId, jsonResponse]);
+      "insert into  `image_prediction_response` (`image_details_table_id`,`json_response`,`created_date`) VALUES (?,?,?)";
+    const details = await runQuery(sql, [imageTableId, jsonResponse, newDate]);
     const insertedId = details.insertId;
     if (insertedId) return insertedId;
     else return false;
