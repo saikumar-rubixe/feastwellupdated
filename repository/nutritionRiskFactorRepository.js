@@ -35,4 +35,9 @@ const getAllNutritionalRiskFactorsDetails = async (req, res) => {
     return false;
   }
 };
+
+// 2 post nutritional risk factors
+// const insertNutritinalRiskFactorsDetailsRepository = async(req, res)=> {
+//   let sql = " insert into `resident_nutrition_risk_factors` "
+// }
 module.exports = { getAllNutritionalRiskFactorsDetails };

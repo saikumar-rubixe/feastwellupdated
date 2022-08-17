@@ -1,31 +1,18 @@
-let Joi = require("joi").extend(require("@joi/date"));
+const { string } = require("joi");
 
-/**
-  facilityName:Joi.string(),
-          headId:Joi.number(),
-          number:Joi.string,
-          countryId:Joi.number(),
-          stateId:Joi.number(),
-          cityId:Joi.number(),
-          facilityStatus:Joi.number().max(4),
-          updatedBy:Joi.number(),
-          address:Joi.string(),
-          zipcode:Joi.string().max(6),
- */
+let Joi = require("joi").extend(require("@joi/date"));
 const Schema = Joi.object({
-  facilityName: Joi.string()
-    .min(4)
-    .regex(/^[a-z\-\_]+$/i)
-    .required(),
-  headId: Joi.number(),
-  number: Joi.string,
-  countryId: Joi.number(),
-  stateId: Joi.number(),
-  cityId: Joi.number(),
+  facilityName: Joi.string().min(4).required(),
+  headId: Joi.number().optional(),
+  number: Joi.string().optional(),
+  countryId: Joi.number().required(),
+  stateId: Joi.number().required(),
+  cityId: Joi.number().required(),
   facilityStatus: Joi.number().max(4),
-  updatedBy: Joi.number(),
-  address: Joi.string(),
-  zipcode: Joi.string().max(6),
+  createdBy: Joi.number().optional(),
+  updatedBy: Joi.number().optional(),
+  address: Joi.string().required(),
+  zipcode: Joi.string().max(6).required(),
 });
 // VALIDATE BEFORE SAVING A USER
 const FacilityUserBodyValidation = async (req, res, next) => {
@@ -35,7 +22,7 @@ const FacilityUserBodyValidation = async (req, res, next) => {
   } catch (error) {
     return res.status(404).json({
       error: error.message,
-      message: "user body validation error",
+      message: "request body validation error",
     });
   }
 };

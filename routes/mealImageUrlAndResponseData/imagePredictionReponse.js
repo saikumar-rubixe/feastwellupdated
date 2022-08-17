@@ -1,5 +1,10 @@
 const express = require("express");
 const imagePredictionResponse = express.Router();
+
+const {
+  imageResponseBodyValidation,
+} = require("../../validation/mealImageUrlAndResponseDataValidation.js/imageResponseValidation");
+
 const {
   insertImagePredictionRespsonseController,
   getImagePredictionResponseByReferenceIdController,
@@ -7,7 +12,7 @@ const {
 } = require("../../controller/mealImageUrlAndRepsonseData/imageRepsonseController.js");
 imagePredictionResponse
   .route("/")
-  .post(insertImagePredictionRespsonseController);
+  .post(imageResponseBodyValidation, insertImagePredictionRespsonseController);
 
 imagePredictionResponse
   .route("/byReferenceId/:id")

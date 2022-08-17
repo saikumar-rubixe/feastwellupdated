@@ -71,24 +71,14 @@ const getAllRolesDetailsController = async (req, res) => {
 // 3 create
 const createRolesController = async (req, res) => {
   try {
-    const {
-      roleName,
-
-      userTypeId,
-      roleStatus,
-    } = req.body;
+    const { roleName, userTypeId, roleStatus } = req.body;
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     // const recordCheck = await functionCall();
     // if (recordCheck || recordCheck == true) {
     //   // for exist pass negative
     // } else if (!recordCheck || recordCheck == false) {
-    const create = await createRoleRepository(
-      roleName,
-
-      userTypeId,
-      roleStatus
-    );
+    const create = await createRoleRepository(roleName, userTypeId, roleStatus);
     if (create) {
       res.status(200).json({
         success: true,

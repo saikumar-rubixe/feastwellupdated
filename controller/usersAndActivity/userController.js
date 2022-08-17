@@ -99,6 +99,7 @@ const getAllUsersController = async (req, res) => {
 
 // 3 create user and generate insertid
 let createUserController = async (req, res, next) => {
+  // const menuId;
   try {
     let {
       fullName,
@@ -109,6 +110,12 @@ let createUserController = async (req, res, next) => {
       userStatus,
       loggedIpAddress,
     } = req.body;
+
+    // if userType == 7 {
+    //   menuId = 0;
+    // } else if userType == 6 {
+    //   menuId = 1;
+    // }
 
     let recordCheck = await userCheckRepository(userName, res);
 

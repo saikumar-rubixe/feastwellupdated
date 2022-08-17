@@ -84,7 +84,7 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
     } else if (!req.file) {
       return res.status(403).json({
         success: false,
-        message: "please use correct file format",
+        message: "please upload the   file with correct format",
       });
     }
   } catch (error) {

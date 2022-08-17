@@ -9,12 +9,17 @@ const {
   deleteStatesController,
   getStatesByStateIdController,
 } = require("../../controller/countryStateCity/statesController");
-
-statesRoute.route("/:id").get(getStatesByIdController);
+//get states by state id
 statesRoute.route("/byId/:id").get(getStatesByStateIdController);
-statesRoute.route("/").post(createStatesController);
+//get states by country id
+statesRoute.route("/:id").get(getStatesByIdController);
+//get all states
 statesRoute.route("/").get(getAllStatesDetailsController);
+// create states by id
+statesRoute.route("/").post(createStatesController);
+// update states by state is
 statesRoute.route("/:id").put(updateStatesController);
+// delete states by state id
 statesRoute.route("/:id").delete(deleteStatesController);
 
 module.exports = { statesRoute };

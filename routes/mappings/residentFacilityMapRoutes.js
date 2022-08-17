@@ -1,7 +1,9 @@
 const express = require("express");
 const residentFacilityRoute = express.Router();
 const { verifyFunction } = require("../../helper/verifyjwtToken");
-
+const {
+  userFacilityBodyValidation,
+} = require("../../validation/mappings/userFacilityMapValidation");
 const {
   getUserFacilityDetailByIdController,
   getAllUserFacilityDetailsController,
@@ -15,7 +17,11 @@ residentFacilityRoute
   .get(verifyFunction, getUserFacilityDetailByIdController);
 residentFacilityRoute
   .route("/")
-  .post(verifyFunction, createUserFacilityController);
+  .post(
+    verifyFunction,
+    userFacilityBodyValidation,
+    createUserFacilityController
+  );
 residentFacilityRoute
   .route("/")
   .get(verifyFunction, getAllUserFacilityDetailsController);

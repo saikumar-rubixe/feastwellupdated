@@ -3,13 +3,21 @@ const residentDetailsRoutes = express.Router();
 const { verifyFunction } = require("../../helper/verifyjwtToken");
 
 const {
+  residentAdditionalInformationBodyValidation,
+} = require("../../validation/usersAndActivity/residentAdditionalDetailsValidation");
+
+const {
   insertResidentDetailsController,
   getallResidentDetailsController,
 } = require("../../controller/usersDetails/residentController");
 
 residentDetailsRoutes
   .route("/")
-  .post(verifyFunction, insertResidentDetailsController);
+  .post(
+    verifyFunction,
+    residentAdditionalInformationBodyValidation,
+    insertResidentDetailsController
+  );
 
 residentDetailsRoutes
   .route("/")

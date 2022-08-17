@@ -1,6 +1,6 @@
 const {
   getAllUserFacilityDetailsRepository,
-  getUserFacilityDetailsByIdController,
+  getUserFacilityDetailsByIdRepository,
   createUserFacilityRepository,
   updateUserFacilityRepository,
   deleteUserFacilityRepository,
@@ -43,11 +43,12 @@ const getUserFacilityDetailByIdController = async (req, res) => {
         message: "invalid id Passed:  " + id,
       });
     } else {
-      const details = await getUserFacilityDetailsByIdController(id, res);
-      if (!details || details == false) {
-        res.status(400).json({
-          success: false,
+      const details = await getUserFacilityDetailsByIdRepository(id, res);
+      if (!details || details == null) {
+        res.status(200).json({
+          success: true,
           message: "No record found with id " + id,
+          data: {},
         });
       }
       if (details) {

@@ -25,4 +25,19 @@ const getAllNutritionalRiskFactorsDetailsController = async (req, res) => {
     console.log("Controller:CBE Something Went Wrong !");
   }
 };
+
+// // insert nutritional risk factors
+// const insertNutritinalRiskFactorsDetailsController = async (req, res) => {
+//   try {
+//     const { } = req.body;
+//     const details = await insertNutritinalRiskFactorsDetailsRepository();
+
+//   } catch (error) {
+//     console.log(error);
+//     console.log("Controller:CBE Something Went Wrong !");
+//     res
+//       .status(404)
+//       .json({ success: false, message: "CBE! something went wrong " });
+//   }
+// };
 module.exports = { getAllNutritionalRiskFactorsDetailsController };

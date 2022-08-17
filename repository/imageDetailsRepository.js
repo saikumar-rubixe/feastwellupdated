@@ -6,24 +6,23 @@ let newDate = new Date();
 const getAllimageUploadDetailsRepository = async (req, res) => {
   let array = [];
   try {
-    let query = "select * from `image_details` where 1=1 and flag =1 ";
+    let query = "select * from `image_details` where 1=1 and flag =0 ";
 
     let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
-      for (i = 0; i < count; i++) {
-        let model = new ImageUploadDetails();
-        let result = results[i];
-        model.fill(
-          (tableId = result.id),
-          (residentId = result.resident_id),
-          (nurseId = result.nurse_id),
-          (date = result.created_date),
-          (flag = result.flag),
-          (imageUrl = result.image_url)
-        );
-        array.push(model);
-      }
+      let model = new ImageUploadDetails();
+      let result = results[0];
+      model.fill(
+        (tableId = result.id),
+        (residentId = result.resident_id),
+        (nurseId = result.nurse_id),
+        (date = result.created_date),
+        (flag = result.flag),
+        (imageUrl = result.image_url)
+      );
+      array.push(model);
+
       return { count, array };
     } else {
       return false;

@@ -4,6 +4,7 @@ const env = require("dotenv");
 const { runQuery } = require("../../config/database");
 const tokenList = {};
 const { getUserDetailByUsername } = require("../../helper/getDetailsby");
+const { checkSideBarPermissionContoller } = require("../sideBar/sideBarCheck");
 // controller
 
 const userLogin = async (req, res) => {
@@ -20,22 +21,22 @@ const userLogin = async (req, res) => {
 
     if (!recordExist || recordExist == null) {
       console.log(`im here`);
-      res.status(404).json({
+      res.status(200).json({
         success: false,
-        message: "no user found",
+        message: "No user found",
       });
     } else {
       if (recordExist) {
         let facilityId = 0;
         const usertype = recordExist.userType;
         const userId = recordExist.userId;
+        const username = recordExist.userName;
         if (usertype == 2 || usertype == 7) {
           const value = await getFacilityIdByUserId(userId);
           facilityId = value;
         } else {
-          facilityId = 0;
+          facilityId;
         }
-
         //GETTING HASHED PASSWORD FROM DB
         const dbpassword = recordExist.password;
         const result = await bcrypt.compare(password, dbpassword);
@@ -49,30 +50,55 @@ const userLogin = async (req, res) => {
           //CREATE AND ASSIGN A TOKEN
           console.log(" login succesful");
           const token = jwt.sign(
-            { id: recordExist.userId, facility: facilityId },
+            { id: recordExist.userId },
             process.env.TOKEN_SECRET,
             { expiresIn: process.env.TOKEN_LIFE }
           );
           const refreshToken = jwt.sign(
-            { id: recordExist.userId, facility: facilityId },
+            { id: recordExist.userId },
             process.env.TOKEN_SECRET,
             { expiresIn: process.env.REFRESH_Token_LIFE }
           );
           //  res.header("token", token).send(token);
+
+          //  after login succesful send the sidebars whichever accesable
+          let menuId = await checkSideBarPermissionContoller(
+            recordExist.userType
+          );
+          if (menuId != 0 && menuId !== null) {
+            menuId = menuId;
+          }
+          if (menuId == 0) {
+            menuId = {
+              category_id: 0,
+              category_name: "dashboard",
+            };
+          }
+          console.log(`the menu id got here is`);
+          console.log(menuId);
+          const tokenDetails = {
+            token: token,
+            refreshToken: refreshToken,
+          };
+          tokenList[refreshToken] = tokenDetails;
           let details = {
             success: true, // response.success
             message: "login successful",
             token: token,
             refreshToken: refreshToken,
+            userId: userId,
+            userType: usertype,
+            username: username,
+            facilityId: facilityId,
+            menuAccess: menuId,
           };
-          tokenList[refreshToken] = details;
+
           return res.status(200).json(details);
         }
-      } else {
+      } else
         return res
           .status(401)
           .send("Login Failed! Email Unverified or Disabled ");
-      }
     }
   } catch (error) {
     console.log(error);

@@ -43,9 +43,6 @@ const {
 const {
   userActivityLog,
 } = require("./routes/usersAndActivity/userActivityLogRoutes");
-const {
-  userIdActivityLogRoute,
-} = require("./routes/usersAndActivity/userIdActivityLogRoutes");
 
 const {
   imageUploadRoute,
@@ -65,6 +62,12 @@ const { sideBarCheckRoute } = require("./routes/sideBar/sideBarCheck");
 const {
   residentDetailsRoutes,
 } = require("./routes/usersDetails/residentDetailsRoutes");
+
+const {
+  mealTypes,
+} = require("./routes/mealImageUrlAndResponseData/mealTypesRoutes");
+
+/*********************************************************************************** */
 //  cors cross browser access
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -91,15 +94,15 @@ let localurl = "/feastwell-backend/api/v1/";
 //app.use(`${apiBasePath}centerHead`, centerHeadRoute);//delete
 //app.use(`${apiBasePath}nutritionCategory`, NutritionCategoryRoute);//delete
 
+// !Login!
+app.use(`${apiBasePath}auth/login`, authRoute);
+// !SideBar!
+app.use(`${apiBasePath}menuCategory`, MenuCategoryRoute);
 // ^ Country State City Routes
 app.use(`${apiBasePath}country`, countryRoute);
 app.use(`${apiBasePath}states`, statesRoute);
 app.use(`${apiBasePath}city`, cityRoute);
 
-// !Login!
-app.use(`${apiBasePath}auth/login`, authRoute);
-// !SideBar!
-app.use(`${apiBasePath}menuCategory`, MenuCategoryRoute);
 // ^Roles and Permissions
 app.use(`${apiBasePath}roles`, rolesRoute);
 app.use(`${apiBasePath}permissions`, permissionsRoute);
@@ -107,6 +110,8 @@ app.use(`${apiBasePath}userType`, userTypeRoute);
 app.use(`${apiBasePath}menuAccess`, sideBarCheckRoute);
 
 // ?meal and menu
+
+app.use(`${apiBasePath}mealTypes`, mealTypes);
 app.use(`${apiBasePath}mealItems`, mealItemsRoute);
 app.use(`${apiBasePath}mealMenu`, mealMenuRoute);
 app.use(`${apiBasePath}mealContents`, menuContentsRoute);
@@ -115,15 +120,15 @@ app.use(`${apiBasePath}mealContents`, menuContentsRoute);
 app.use(`${apiBasePath}user`, userRoute);
 app.use(`${apiBasePath}facility`, facilityRoute);
 app.use(`${apiBasePath}userActivityLog`, userActivityLog);
-app.use(`${apiBasePath}userIdActivityLog`, userIdActivityLogRoute);
+
 app.use(`${apiBasePath}residentFacility`, residentFacilityRoute);
 
 app.use(`${apiBasePath}residentsDetails`, residentDetailsRoutes);
 app.use(`${apiBasePath}nutritionalRiskFactors`, NutritionalRiskFactorRoute);
 
 // !images upload and Response
-app.use(`${apiBasePath}imageDetails`, imageDetailsRoute);
 app.use(`${apiBasePath}uploadMealImage`, imageUploadRoute);
+app.use(`${apiBasePath}imageDetails`, imageDetailsRoute);
 app.use(`${apiBasePath}imageResponse`, imagePredictionResponse);
 
 /**   *********************************************************************************************************************************** */
@@ -147,6 +152,7 @@ app.use(`${localurl}userType`, userTypeRoute);
 app.use(`${localurl}menuAccess`, sideBarCheckRoute);
 
 // ?meal and menu
+app.use(`${localurl}mealTypes`, mealTypes);
 app.use(`${localurl}mealItems`, mealItemsRoute);
 app.use(`${localurl}mealMenu`, mealMenuRoute);
 app.use(`${localurl}mealContents`, menuContentsRoute);
@@ -155,7 +161,7 @@ app.use(`${localurl}mealContents`, menuContentsRoute);
 app.use(`${localurl}user`, userRoute);
 app.use(`${localurl}facility`, facilityRoute);
 app.use(`${localurl}userActivityLog`, userActivityLog);
-app.use(`${localurl}userIdActivityLog`, userIdActivityLogRoute);
+
 app.use(`${localurl}residentFacility`, residentFacilityRoute);
 
 app.use(`${localurl}residentsDetails`, residentDetailsRoutes);

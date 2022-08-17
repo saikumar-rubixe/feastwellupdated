@@ -1,5 +1,6 @@
 let { UserFacilityMapModel } = require("../models/userFacilityMapModel");
 let { runQuery, con } = require("../config/database");
+const { array } = require("joi");
 //con = con();
 //runQuery = runQuery();
 let newDate = new Date();
@@ -16,14 +17,17 @@ const getAllUserFacilityDetailsRepository = async () => {
         let model = new UserFacilityMapModel();
         let result = results[i];
         model.fill(
-          (residentFacilityId = result.resident_facility_id),
+          (id = result.id),
           (userId = result.user_id),
-          (facilityId = result.user_id),
+          (facilityId = result.facility_id),
           (status = result.status),
           (createdDate = result.created_date),
           (createdBy = result.created_by),
           (updatedDate = result.updated_date),
           (updatedBy = result.updated_by)
+          // (fullName = result.full_name),
+          // (userName = result.username),
+          // (userType = result.user_type)
         );
         array.push(model);
       }
@@ -37,30 +41,37 @@ const getAllUserFacilityDetailsRepository = async () => {
   }
 };
 
-// 2 get details by id
+// 2 get details by facility id (get all the users of facility n)
 
-const getUserFacilityDetailsByIdController = async (id, res) => {
+const getUserFacilityDetailsByIdRepository = async (id, res) => {
   try {
+    let array = [];
     let query =
-      "select * from `user_facility_map` where resident_facility_id =? ";
+      "select `user_facility_map`.* ,users.full_name,users.username,users.user_type from `user_facility_map` INNER JOIN `users` on user_facility_map.user_id=users.user_id where users.user_type=7 and  facility_id=? ";
     // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     let count = results.length;
     if (count != 0) {
-      let model = new UserFacilityModel();
-      let result = results[0];
-      model.fill(
-        (residentFacilityId = result.resident_facility_id),
-        (userId = result.user_id),
-        (facilityId = result.user_id),
-        (status = result.status),
-        (createdDate = result.created_date),
-        (createdBy = result.created_by),
-        (updatedDate = result.updated_date),
-        (updatedBy = result.updated_by)
-      );
-      return model;
-    } else return false;
+      for (i = 0; i < count; i++) {
+        let model = new UserFacilityMapModel();
+        let result = results[i];
+        model.fill(
+          (id = result.id),
+          (userId = result.user_id),
+          (facilityId = result.facility_id),
+          (status = result.status),
+          (createdDate = result.created_date),
+          (createdBy = result.created_by),
+          (updatedDate = result.updated_date),
+          (updatedBy = result.updated_by),
+          (fullName = result.full_name),
+          (userName = result.username),
+          (userType = result.user_type)
+        );
+        array.push(model);
+      }
+      return { count, array };
+    } else return null;
   } catch (error) {
     console.log(error);
     console.log("Repo Error : Something went wrong CBE");
@@ -173,7 +184,7 @@ const deleteUserFacilityRepository = async (id, res) => {
 
 module.exports = {
   getAllUserFacilityDetailsRepository,
-  getUserFacilityDetailsByIdController,
+  getUserFacilityDetailsByIdRepository,
   createUserFacilityRepository,
   updateUserFacilityRepository,
   deleteUserFacilityRepository,

@@ -14,10 +14,17 @@ const insertImagePredictionRespsonseRepository = async (
       "insert into  `image_prediction_response` (`image_details_table_id`,`json_response`,`created_date`) VALUES (?,?,?)";
     const details = await runQuery(sql, [imageTableId, jsonResponse, newDate]);
     const insertedId = details.insertId;
-    if (insertedId) return insertedId;
-    else return false;
+    if (insertedId) {
+      let sql = "update `image_details`  set `flag` =1 where id = ?  ";
+      let results = await runQuery(sql, [imageTableId]);
+      if (results.affectedRows == 1) {
+        return insertedId;
+      } else {
+        return false; //! need to change and add response accordingly
+      }
+    } else return false;
   } catch (error) {
-    console.log(`something went wrong CBE! error`);
+    console.log(`CBE!  something went wrong error`);
     console.log(error);
     return false;
   }

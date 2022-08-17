@@ -63,7 +63,7 @@ const getImagesUploadedByNurseIdController = async (req, res) => {
 const insertImageUrlDetailsController = async (req, res) => {
   try {
     console.log(req.body); //delete
-    if (!req.body) {
+    if (!req.body.imageUrl) {
       // !no body
       res.status(400).json({
         success: false,

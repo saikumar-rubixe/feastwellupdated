@@ -4,6 +4,9 @@ const express = require("express");
 const menuContentsRoute = express.Router();
 const { verifyFunction } = require("../../helper/verifyjwtToken");
 const {
+  mealContentsBodyValidation,
+} = require("../../validation/mealsAndMenu/mealMenuContentsValidation");
+const {
   getAllMealMenuContentsDetailsController,
   getMealMenuContentsDetailByIdController,
   createMealMenuContentsController,
@@ -12,7 +15,11 @@ const {
 } = require("../../controller/mealsAndMenu/mealMenuContentsController.js");
 menuContentsRoute
   .route("/")
-  .post(verifyFunction, createMealMenuContentsController);
+  .post(
+    verifyFunction,
+    mealContentsBodyValidation,
+    createMealMenuContentsController
+  );
 menuContentsRoute
   .route("/")
   .get(verifyFunction, getAllMealMenuContentsDetailsController);

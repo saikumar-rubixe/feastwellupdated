@@ -1,10 +1,13 @@
+// req.body.imageUrl
 let Joi = require("joi").extend(require("@joi/date"));
 const Schema = Joi.object({
-  name1: Joi.string().required(),
-  name2: Joi.number().required(),
+  imageUrl: Joi.string().required(),
+  residentId: Joi.string().required(),
+  NurseId: Joi.string().required(),
+  mealType: Joi.number().required(),
 });
 // VALIDATE BEFORE SAVING A USER
-const BodyValidation = async (req, res, next) => {
+const imageResponseBodyValidation = async (req, res, next) => {
   try {
     await Schema.validateAsync(req.body);
     next();
@@ -17,5 +20,5 @@ const BodyValidation = async (req, res, next) => {
 };
 
 module.exports = {
-  BodyValidation,
+  imageResponseBodyValidation,
 };

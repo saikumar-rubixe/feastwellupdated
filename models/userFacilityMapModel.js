@@ -1,5 +1,5 @@
 class UserFacilityMapModel {
-  userFacilityId = null;
+  id = null;
   userId = null;
   facilityId = null;
   status = null;
@@ -7,18 +7,24 @@ class UserFacilityMapModel {
   createdBy = null;
   updatedDate = null;
   updatedBy = null;
+  fullName = null;
+  userName = null;
+  userType = null;
 
   fill(
-    userFacilityId,
+    id,
     userId,
     facilityId,
     status,
     createdDate,
     createdBy,
     updatedDate,
-    updatedBy
+    updatedBy,
+    fullName,
+    userName,
+    userType
   ) {
-    this.userFacilityId = userFacilityId;
+    this.id = id;
     this.userId = userId;
     this.facilityId = facilityId;
     this.status = status;
@@ -26,6 +32,9 @@ class UserFacilityMapModel {
     this.createdBy = createdBy;
     this.updatedDate = updatedDate;
     this.updatedBy = updatedBy;
+    this.fullName = fullName;
+    this.userName = userName;
+    this.userType = userType;
   }
 }
 
