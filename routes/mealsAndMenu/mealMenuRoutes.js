@@ -3,9 +3,6 @@ const mealMenuRoute = express.Router();
 const { verifyFunction } = require("../../helper/verifyjwtToken");
 
 const {
-  mealMenuBodyValidation,
-} = require("../../validation/mealsAndMenu/mealMenuValidation");
-const {
   getMealMenuDetailByIdController,
   getAllMealMenuDetailsController,
   createMealMenuController,
@@ -13,9 +10,7 @@ const {
   deleteMealMenuController,
 } = require("../../controller/mealsAndMenu/mealMenuController");
 
-mealMenuRoute
-  .route("/")
-  .post(verifyFunction, mealMenuBodyValidation, createMealMenuController);
+mealMenuRoute.route("/").post(verifyFunction, createMealMenuController);
 
 mealMenuRoute.route("/").get(verifyFunction, getAllMealMenuDetailsController);
 
