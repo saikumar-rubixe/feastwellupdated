@@ -1,5 +1,5 @@
 let { UserFacilityMapModel } = require("../models/userFacilityMapModel");
-let { runQuery, con } = require("../config/database");
+let { runQuery } = require("../config/database");
 const { array } = require("joi");
 //con = con();
 //runQuery = runQuery();
@@ -33,7 +33,7 @@ const getAllUserFacilityDetailsRepository = async () => {
       }
       return { count, array };
     } else {
-      return false;
+      return null;
     }
   } catch (error) {
     console.log(error);
@@ -82,7 +82,7 @@ const getUserFacilityDetailsByIdRepository = async (id, res) => {
 // 3 create user id & facility mappping
 const createUserFacilityRepository = async (
   userId,
-  facilityCenterId,
+  facilityId,
   status,
   createdBy
 ) => {
@@ -101,7 +101,7 @@ const createUserFacilityRepository = async (
     // console.log(sql);
     let results = await runQuery(query, [
       userId,
-      facilityCenterId,
+      facilityId,
       status,
       newDate,
       createdBy,
@@ -124,14 +124,13 @@ const createUserFacilityRepository = async (
 
 const updateUserFacilityRepository = async (
   id,
-  userId,
-  facilityCenterId,
+  facilityId,
   status,
   updatedBy
 ) => {
   try {
     let query =
-      " UPDATE `user_facility_map` set `user_id`=?,facility_id=?,status=?,updated_date=?,updated_by=? where resident_facility_id  =?";
+      " UPDATE `user_facility_map` set facility_id=?,status=?,updated_date=?,updated_by=? where user_id=?";
     // let sql = con.format(query, [
     //   userId,
     //   facilityCenterId,
@@ -141,8 +140,7 @@ const updateUserFacilityRepository = async (
     //   id,
     // ]);
     let results = await runQuery(query, [
-      userId,
-      facilityCenterId,
+      facilityId,
       status,
       newDate,
       updatedBy,
@@ -182,10 +180,72 @@ const deleteUserFacilityRepository = async (id, res) => {
   }
 };
 
+// get the details by table id
+const getUserFacilityDetailsByTableIdRepository = async (id, res) => {
+  try {
+    let query = "select *  from `user_facility_map` where id=? ";
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
+    let count = results.length;
+    if (count != 0) {
+      let model = new UserFacilityMapModel();
+      let result = results[0];
+      model.fill(
+        (id = result.id),
+        (userId = result.user_id),
+        (facilityId = result.facility_id),
+        (status = result.status),
+        (createdDate = result.created_date),
+        (createdBy = result.created_by),
+        (updatedDate = result.updated_date),
+        (updatedBy = result.updated_by)
+      );
+
+      return model;
+    } else return null;
+  } catch (error) {
+    console.log(error);
+    console.log("Repo Error : Something went wrong CBE");
+    return false;
+  }
+};
+
+// get the userFacility   details by User Id
+const getUserFacilityDetailsByUserIdRepository = async (id, res) => {
+  try {
+    let query = "select * from `user_facility_map`  where user_id=?";
+    let results = await runQuery(query, [id]);
+    if (results.length != 0) {
+      let result = results[0];
+      let model = new UserFacilityMapModel();
+      model.fill(
+        (id = result.id),
+        (userId = result.user_id),
+        (facilityId = result.facility_id),
+        (status = result.status),
+        (createdDate = result.created_date),
+        (createdBy = result.created_by),
+        (updatedDate = result.updated_date),
+        (updatedBy = result.updated_by)
+      );
+      return model;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+// a**************************************************************************
 module.exports = {
   getAllUserFacilityDetailsRepository,
   getUserFacilityDetailsByIdRepository,
   createUserFacilityRepository,
   updateUserFacilityRepository,
   deleteUserFacilityRepository,
+  getUserFacilityDetailsByTableIdRepository,
+  getUserFacilityDetailsByUserIdRepository,
 };

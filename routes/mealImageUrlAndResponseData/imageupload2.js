@@ -90,7 +90,7 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log(`something went wrong! CBE`);
-    res.status(404).json({
+    res.status(500).json({
       success: false,
       message: "Something went wrong",
     });

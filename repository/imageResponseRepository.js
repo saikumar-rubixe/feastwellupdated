@@ -34,23 +34,23 @@ const getImagePredictionResponseByReferenceIdRepository = async (
   referenceId
 ) => {
   try {
-    let array = [];
+    //  let array = [];
     let sql =
       " select * from `image_prediction_response` where  image_details_table_id =?";
     let details = await runQuery(sql, [referenceId]);
     const count = details.length;
     if (count != 0) {
-      for (i = 0; i < count; i++) {
-        let result = details[0];
-        let model = new ImagePredictionRepsonseModel();
-        model.fill(
-          (id = result.id),
-          (imageTableId = result.image_details_table_id),
-          (jsonResponse = result.json_response)
-        );
-        array.push(model);
-      }
-      return { count, array };
+      // for (i = 0; i < count; i++) {
+      let result = details[0];
+      let model = new ImagePredictionRepsonseModel();
+      model.fill(
+        (id = result.id),
+        (imageTableId = result.image_details_table_id),
+        (jsonResponse = JSON.parse(result.json_response))
+      );
+      // array.push(model);
+      //}
+      return model;
     } else {
       return false;
     }

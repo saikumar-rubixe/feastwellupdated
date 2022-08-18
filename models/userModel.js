@@ -3,7 +3,6 @@ class UserModel {
   fullName = null;
   phoneNumber = null;
   userName = null;
-  password = null;
   userType = null;
   userStatus = null;
   lastLogin = null;
@@ -11,27 +10,26 @@ class UserModel {
   createdDate = null;
   updatedDate = null;
   enrolmentID = null;
+  password = null;
 
   fill(
     userId,
     fullName,
     phoneNumber,
     userName,
-    password,
     userType,
     userStatus,
     lastLogin,
     loggedIpAddress,
     createdDate,
     updatedDate,
-
-    enrolmentID
+    enrolmentID,
+    password
   ) {
     this.userId = userId;
     this.fullName = fullName;
     this.phoneNumber = phoneNumber;
     this.userName = userName;
-    this.password = password;
     this.userType = userType;
     this.userStatus = userStatus;
     this.lastLogin = lastLogin;
@@ -39,6 +37,7 @@ class UserModel {
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;
     this.enrolmentID = enrolmentID;
+    this.password = password;
   }
 }
 module.exports = { UserModel };

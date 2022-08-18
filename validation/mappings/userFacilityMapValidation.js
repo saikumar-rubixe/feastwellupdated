@@ -4,8 +4,6 @@ const Schema = Joi.object({
   userId: Joi.number().required(),
   facilityId: Joi.number().required(),
   status: Joi.number().required(),
-  createdBy: Joi.number().required(),
-  updatedBy: Joi.number().required(),
 });
 // VALIDATE BEFORE SAVING A USER
 const userFacilityBodyValidation = async (req, res, next) => {
@@ -13,7 +11,7 @@ const userFacilityBodyValidation = async (req, res, next) => {
     await Schema.validateAsync(req.body);
     next();
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
       error: error.message,
       message: "request body validation error",
     });

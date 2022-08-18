@@ -34,7 +34,7 @@ const getMenuCategoryDetailByIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something went wrong!");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });
@@ -60,7 +60,7 @@ const getAllMenuCategoryDetailsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });
@@ -95,7 +95,7 @@ const createMenuCategoryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });
@@ -142,7 +142,7 @@ const updateMenuCategoryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });
@@ -185,7 +185,7 @@ const deleteMenuCategoryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });

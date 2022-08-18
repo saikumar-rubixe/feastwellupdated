@@ -23,6 +23,10 @@ const getAllNutritionalRiskFactorsDetailsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 

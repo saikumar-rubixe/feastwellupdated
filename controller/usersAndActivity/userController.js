@@ -58,7 +58,7 @@ const getUserByIdController = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });
@@ -90,7 +90,7 @@ const getAllUsersController = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });
@@ -154,7 +154,7 @@ let createUserController = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });
@@ -229,6 +229,10 @@ let updateUserController = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.send("something went wrong update failed");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
@@ -273,7 +277,7 @@ let deleteUserController = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });

@@ -8,6 +8,7 @@ const { checkSideBarPermissionContoller } = require("../sideBar/sideBarCheck");
 // controller
 
 const userLogin = async (req, res) => {
+  console.log(req.body);
   try {
     //VALIDATE THE DETAILS WITH USER LOGIN VALIDATION
     var response = {};
@@ -18,10 +19,8 @@ const userLogin = async (req, res) => {
 
     const recordExist = await getUserDetailByUsername(username);
     console.log(recordExist);
-
     if (!recordExist || recordExist == null) {
-      console.log(`im here`);
-      res.status(200).json({
+      res.status(404).json({
         success: false,
         message: "No user found",
       });
@@ -39,7 +38,8 @@ const userLogin = async (req, res) => {
         }
         //GETTING HASHED PASSWORD FROM DB
         const dbpassword = recordExist.password;
-        const result = await bcrypt.compare(password, dbpassword);
+        console.log(password, dbpassword);
+        const result = bcrypt.compare(password, dbpassword);
         if (!result)
           return res.status(401).json({
             success: false,
@@ -97,13 +97,13 @@ const userLogin = async (req, res) => {
         }
       } else
         return res
-          .status(401)
-          .send("Login Failed! Email Unverified or Disabled ");
+          .status(404)
+          .send("Login Failed!  username or password wrong ");
     }
   } catch (error) {
     console.log(error);
     console.log("catch block error");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont",
     });

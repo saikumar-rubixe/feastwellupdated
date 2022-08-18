@@ -45,7 +45,7 @@ const insertImagePredictionRespsonseController = async (req, res) => {
       }
       //  }
     } else {
-      res.status(403).json({
+      res.status(400).json({
         success: false,
         message: "Error! pass all the params ",
         dataSent: req.body, //delete
@@ -54,6 +54,10 @@ const insertImagePredictionRespsonseController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
@@ -71,9 +75,14 @@ const getImagePredictionResponseByReferenceIdController = async (req, res) => {
         res
       );
       if (!details || details == false) {
-        res.status(400).json({
+        res.status(200).json({
           success: false,
           message: "No record found with id " + id,
+          data: {
+            id: 0,
+            imageTableId: 0,
+            jsonResponse: [],
+          },
         });
       }
       if (details) {
@@ -87,6 +96,10 @@ const getImagePredictionResponseByReferenceIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something went wrong!");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 const getImagePredictionResponseByIdController = async (req, res) => {
@@ -100,9 +113,10 @@ const getImagePredictionResponseByIdController = async (req, res) => {
     } else {
       const details = await getImagePredictionResponseByIdRepository(id, res);
       if (!details || details == false) {
-        res.status(400).json({
+        res.status(200).json({
           success: false,
           message: "No record found with id " + id,
+          data: details,
         });
       }
       if (details) {
@@ -116,6 +130,10 @@ const getImagePredictionResponseByIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something went wrong!");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 

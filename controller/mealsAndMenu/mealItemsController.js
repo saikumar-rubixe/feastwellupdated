@@ -17,9 +17,10 @@ const getMealItemsDetailByIdController = async (req, res) => {
     } else {
       const details = await getMealItemsDetailByIdRepository(id, res);
       if (!details || details == false) {
-        res.status(400).json({
+        res.status(200).json({
           success: false,
           message: "No record found with id " + id,
+          data: [],
         });
       }
       if (details) {
@@ -33,7 +34,7 @@ const getMealItemsDetailByIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something went wrong!");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });
@@ -47,6 +48,7 @@ const getAllMealItemsDetailsController = async (req, res) => {
       res.status(400).json({
         success: false,
         message: "data retrieval failed",
+        data: { count: 0, array: [] },
       });
     }
     if (details) {
@@ -59,7 +61,7 @@ const getAllMealItemsDetailsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });
@@ -88,7 +90,7 @@ const createMealItemsController = async (req, res) => {
       });
     }
     if (!create || create == false) {
-      res.status(400).json({
+      res.status(404).json({
         success: false,
         message: "data retrieval failed",
       });
@@ -97,7 +99,7 @@ const createMealItemsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });
@@ -115,7 +117,7 @@ const updateMealItemsController = async (req, res) => {
     } else {
       const recordCheck = await getMealItemsDetailByIdRepository(id, res);
       if (!recordCheck || recordCheck == false) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: "no Record Found With id = " + id,
         });
@@ -134,7 +136,7 @@ const updateMealItemsController = async (req, res) => {
             message: "updated details succesfully",
           });
         } else {
-          res.status(400).json({
+          res.status(404).json({
             success: false,
             message: "update Failed ",
           });
@@ -144,7 +146,7 @@ const updateMealItemsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });
@@ -157,7 +159,7 @@ const deleteMealitemsController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "invalid id Passed: " + id,
       });
     } else {
       const recordCheck = await getMealItemsDetailByIdRepository(id, res);
@@ -176,7 +178,7 @@ const deleteMealitemsController = async (req, res) => {
             message: "delete succesfully",
           });
         } else {
-          res.status(400).json({
+          res.status(404).json({
             success: false,
             message: "delete Failed ",
           });
@@ -186,7 +188,7 @@ const deleteMealitemsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb",
     });

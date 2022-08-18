@@ -16,6 +16,7 @@
 const mysql = require("mysql");
 let { UserModel } = require("../models/userModel");
 let { runQuery, con } = require("../config/database");
+const { enrollementIdTag } = require("../helper/enrollmentIDGenerator");
 
 //con = con();
 //runQuery = runQuery();
@@ -39,13 +40,13 @@ const getUserByIdRepository = async (id, res) => {
         (fullName = array.full_name),
         (phoneNumber = array.phone_number),
         (userName = array.username),
-        // (password = array.password),
         (usertype = array.user_type),
         (userStatus = array.status),
         (lastLogin = array.last_login),
         (loggedIpAddress = array.logged_ip_address),
         (createdDate = array.created_date),
-        (updatedDate = array.updated_date)
+        (updatedDate = array.updated_date),
+        (password = array.password)
       );
       return model;
     }
@@ -89,13 +90,13 @@ const getAllUsersRepository = async (userType, userStatus) => {
         (fullName = array.full_name),
         (phoneNumber = array.phone_number),
         (userName = array.username),
-        // (password = array.password),
         (usertype = array.user_type),
         (userStatus = array.status),
         (lastLogin = array.last_login),
         (loggedIpAddress = array.logged_ip_address),
         (createdDate = array.created_date),
         (updatedDate = array.updated_date)
+        // (password = array.password),
       );
       userArray.push(model);
     }
@@ -122,12 +123,12 @@ let createUserRepository = async (
 ) => {
   // hasing the password
   const salt = await bcrypt.genSalt(10);
-  console.log(salt);
   const hashedPassword = await bcrypt.hash(password, salt);
   // hash complete
-
+  let enrollmentId = enrollementIdTag(userType) + new Date().valueOf();
+  console.log(enrollmentId);
   let query =
-    "INSERT INTO `users`( `full_name`,`phone_number`,`username`,`password`,`user_type`,`status`,`logged_ip_address`,`created_date`,`updated_date`) VALUES (?,?,?,?,?,?,?,?,?) ";
+    "INSERT INTO `users`( `full_name`,`phone_number`,`username`,`password`,`user_type`,`status`,`logged_ip_address`,`created_date`,`updated_date`,`enrolment_id`) VALUES (?,?,?,?,?,?,?,?,?,?) ";
 
   let results = await runQuery(query, [
     fullName,
@@ -139,6 +140,7 @@ let createUserRepository = async (
     loggedIpAddress,
     newDate,
     newDate,
+    enrollmentId,
   ]);
   // if userType =(2 Center Manager 4 center admin 5 nurse  6 facility head) add facility details
   /**  if( userType == 7){

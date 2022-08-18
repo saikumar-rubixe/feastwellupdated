@@ -34,6 +34,10 @@ const checkSideBarPermissionContoller = async (userType) => {
   } catch (error) {
     console.log(error);
     console.log(`CBE! something went wrong catch block error`);
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 

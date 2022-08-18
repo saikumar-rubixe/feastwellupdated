@@ -22,14 +22,14 @@ const getUserDetailByUsername = async (username) => {
       (fullName = user.full_name),
       (phoneNumber = user.phone_number),
       (userName = user.username),
-      (password = user.password), //hashed password from db is sent to userPasswordModel
       (userType = user.user_type),
       (userStatus = user.status),
       (lastLogin = user.last_login),
       (loggedIpAddress = user.logged_ip_address),
       (createdDate = user.created_date),
       (updatedDate = user.updated_date),
-      (enrolmentId = user.enrolment_id)
+      (enrolmentId = user.enrolment_id),
+      (password = user.password) //hashed password from db is sent to userPasswordModel
     );
 
     return userModel;

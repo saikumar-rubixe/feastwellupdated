@@ -2,6 +2,7 @@ const express = require("express");
 const userRoute = express.Router();
 const {
   userBodyValidation,
+  userUpdateBodyValidation,
 } = require("../../validation/usersAndActivity/userBodyValidation");
 const { verifyFunction } = require("../../helper/verifyjwtToken");
 
@@ -13,9 +14,7 @@ const {
   deleteUserController,
 } = require("../../controller/usersAndActivity/userController");
 
-userRoute
-  .route("/")
-  .post(verifyFunction, userBodyValidation, createUserController);
+userRoute.route("/").post(userBodyValidation, createUserController);
 
 userRoute.route("/").get(verifyFunction, getAllUsersController);
 
@@ -23,7 +22,7 @@ userRoute.route("/:id").get(verifyFunction, getUserByIdController);
 
 userRoute
   .route("/:id")
-  .put(verifyFunction, userBodyValidation, updateUserController);
+  .put(verifyFunction, userUpdateBodyValidation, updateUserController);
 
 userRoute.route("/:id").delete(verifyFunction, deleteUserController);
 

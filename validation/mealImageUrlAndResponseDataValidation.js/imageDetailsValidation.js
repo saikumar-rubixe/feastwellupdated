@@ -3,7 +3,7 @@ let Joi = require("joi").extend(require("@joi/date"));
 const Schema = Joi.object({
   imageUrl: Joi.string().required(),
   residentId: Joi.string().required(),
-  NurseId: Joi.string().required(),
+  NurseId: Joi.string(),
   mealType: Joi.number().required(),
 });
 // VALIDATE BEFORE SAVING A USER
@@ -12,7 +12,7 @@ const imageResponseBodyValidation = async (req, res, next) => {
     await Schema.validateAsync(req.body);
     next();
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
       error: error.message,
       message: "request body validation error",
     });

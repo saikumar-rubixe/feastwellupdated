@@ -9,6 +9,10 @@ const getAllMealTypesController = async (req, res) => {
       res.status(400).json({
         success: false,
         message: "data retrieval failed",
+        data: {
+          count: 0,
+          array: [],
+        },
       });
     }
     if (details) {
@@ -21,6 +25,10 @@ const getAllMealTypesController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 module.exports = {

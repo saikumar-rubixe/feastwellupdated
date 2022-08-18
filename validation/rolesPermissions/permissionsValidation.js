@@ -14,7 +14,7 @@ const permissionsBodyValidation = async (req, res, next) => {
     await Schema.validateAsync(req.body);
     next();
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
       error: error.message,
       message: "request body validation error",
     });

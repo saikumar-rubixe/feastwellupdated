@@ -1,14 +1,15 @@
 // imports
 const {
+  getSingleimageUploadDetailRepository,
   getAllimageUploadDetailsRepository,
   getImagesUploadedByNurseIdRepository,
   insertImageUrlDetailsRepository,
 } = require("../../repository/imageDetailsRepository");
 
 //1
-const getAllimageUploadDetailsController = async (req, res) => {
+const getSingleimageUploadDetailController = async (req, res) => {
   try {
-    let details = await getAllimageUploadDetailsRepository();
+    let details = await getSingleimageUploadDetailRepository();
     if (!details || details == false) {
       res.status(400).json({
         success: false,
@@ -25,6 +26,10 @@ const getAllimageUploadDetailsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
@@ -40,9 +45,19 @@ const getImagesUploadedByNurseIdController = async (req, res) => {
     } else {
       const details = await getImagesUploadedByNurseIdRepository(id, res);
       if (!details || details == false) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: "No record found with id " + id,
+          data: {
+            totalUploads: {
+              count: 0,
+              breakfast: 0,
+              afternoonSnack: 0,
+              lunch: 0,
+              eveningSnack: 0,
+              dinner: 0,
+            },
+          },
         });
       }
       if (details) {
@@ -56,6 +71,10 @@ const getImagesUploadedByNurseIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something went wrong!");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
   }
 };
 
@@ -70,16 +89,18 @@ const insertImageUrlDetailsController = async (req, res) => {
         message: " body request is empty",
       });
     } else {
-      const { imageUrl, residentId, NurseId, mealType } = req.body;
+      const { imageUrl, residentId, mealType } = req.body;
+      const adminId = req.userIdValue;
+      console.log(`nurse id is ${adminId}`);
       const create = await insertImageUrlDetailsRepository(
         imageUrl,
         residentId,
-        NurseId,
+        adminId,
         mealType
       );
       if (!create) {
         // ! Creation failed
-        res.status(424).json({
+        res.status(404).json({
           success: false,
           message: " insertion failed",
         });
@@ -87,16 +108,56 @@ const insertImageUrlDetailsController = async (req, res) => {
         res.status(200).json({
           success: true,
           message: " inserted  image url details succesfully ",
-          createdId: create,
+          insertId: create,
         });
       }
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
+  }
 };
+
+// 4 get al  images details
+const getAllimageUploadDetailsController = async (req, res) => {
+  try {
+    const flag = req.query.flag; //! need to put chech filter
+    console.log(flag);
+    let details = await getAllimageUploadDetailsRepository(flag);
+    if (!details || details == false) {
+      res.status(200).json({
+        success: false,
+        message: "data retrieval failed",
+        data: {
+          count: 0,
+          array: [],
+        },
+      });
+    }
+    if (details) {
+      res.status(200).json({
+        success: true,
+        message: "data retrieved succesfully",
+        data: details,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Controller:CBE Something Went Wrong !");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
+  }
+};
+
 module.exports = {
-  getAllimageUploadDetailsController,
+  getSingleimageUploadDetailController,
   getImagesUploadedByNurseIdController,
   insertImageUrlDetailsController,
+  getAllimageUploadDetailsController,
 };
 
 //

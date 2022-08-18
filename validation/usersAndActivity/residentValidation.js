@@ -29,7 +29,7 @@ const residentQueryValidation = async (req, res, next) => {
     await querySchema.validateAsync(req.query);
     next();
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
       error: error.message,
       message: "check the query request",
     });

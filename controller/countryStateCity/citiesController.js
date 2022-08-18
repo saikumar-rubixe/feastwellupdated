@@ -11,9 +11,10 @@ const getAllDetailsController = async (req, res) => {
   try {
     let details = await getAllCitiesDetailsRepository();
     if (!details || details == false) {
-      res.status(400).json({
+      res.status(200).json({
         success: false,
         message: "data retrieval failed",
+        data: [],
       });
     }
     if (details) {
@@ -26,7 +27,7 @@ const getAllDetailsController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont",
     });
@@ -50,16 +51,17 @@ const getCitiesByIdController = async (req, res) => {
           data: details,
         });
       } else {
-        res.status(400).json({
+        res.status(200).json({
           success: false,
           message: "cities fetch failed",
+          data: [],
         });
       }
     }
   } catch (error) {
     console.log(error);
     console.log("Controller: catch block Error");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });
@@ -86,16 +88,16 @@ const createCityController = async (req, res) => {
       });
     }
     if (!create || create == false) {
-      res.status(400).json({
+      res.status(409).json({
         success: false,
-        message: "data retrieval failed",
+        message: "data creation failed",
       });
     }
     //  }
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });
@@ -107,14 +109,14 @@ const updateCityController = async (req, res) => {
   try {
     const id = req.params.id;
     if (isNaN(id)) {
-      res.status(400).json({
+      res.status(401).json({
         success: false,
         message: "invalid id Passed:  " + id,
       });
     } else {
       const recordCheck = await getCitiesByIdRepository(id, res);
       if (!recordCheck || recordCheck == false) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: "no Record Found With id = " + id,
         });
@@ -133,7 +135,7 @@ const updateCityController = async (req, res) => {
             message: "updated details succesfully",
           });
         } else {
-          res.status(400).json({
+          res.status(404).json({
             success: false,
             message: "update Failed ",
           });
@@ -143,7 +145,7 @@ const updateCityController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });
@@ -163,7 +165,7 @@ const deleteCityController = async (req, res) => {
       const recordCheck = await getCitiesByIdRepository(id, res);
 
       if (!recordCheck || recordCheck == false) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: "No Record Found with id " + id,
         });
@@ -176,7 +178,7 @@ const deleteCityController = async (req, res) => {
             message: "delete succesfully",
           });
         } else {
-          res.status(400).json({
+          res.status(409).json({
             success: false,
             message: "delete Failed ",
           });
@@ -186,7 +188,7 @@ const deleteCityController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });

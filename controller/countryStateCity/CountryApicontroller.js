@@ -33,15 +33,16 @@ const getAllCountryController = async (req, res) => {
       });
     }
     if (!details) {
-      res.status(400).json({
+      res.status(200).json({
         success: false,
         message: "countries fetch failed",
+        data: [],
       });
     }
   } catch (error) {
     console.log(error);
     console.log("Controller: catch block Error");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });
@@ -59,9 +60,10 @@ const getCountryByIdController = async (req, res) => {
     } else {
       const details = await getCountryByIdRepository(id, res);
       if (!details || details == false) {
-        res.status(400).json({
+        res.status(200).json({
           success: false,
           message: "No record found with id " + id,
+          data: [],
         });
       }
       if (details) {
@@ -75,7 +77,7 @@ const getCountryByIdController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something went wrong!");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });
@@ -107,7 +109,7 @@ const createCountryController = async (req, res) => {
       });
     }
     if (!create || create == false) {
-      res.status(400).json({
+      res.status(404).json({
         success: false,
         message: "data retrieval failed",
       });
@@ -116,7 +118,7 @@ const createCountryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });
@@ -134,7 +136,7 @@ const updateCountryController = async (req, res) => {
     } else {
       const recordCheck = await getCountryByIdRepository(id, res);
       if (!recordCheck || recordCheck == false) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: "no Record Found With id = " + id,
         });
@@ -154,7 +156,7 @@ const updateCountryController = async (req, res) => {
             message: "updated details succesfully",
           });
         } else {
-          res.status(400).json({
+          res.status(404).json({
             success: false,
             message: "update Failed ",
           });
@@ -164,7 +166,7 @@ const updateCountryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });
@@ -184,7 +186,7 @@ const deleteCountryController = async (req, res) => {
       const recordCheck = await getCountryByIdRepository(id, res);
 
       if (!recordCheck || recordCheck == false) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: "No Record Found with id " + id,
         });
@@ -197,7 +199,7 @@ const deleteCountryController = async (req, res) => {
             message: "delete succesfully",
           });
         } else {
-          res.status(400).json({
+          res.status(404).json({
             success: false,
             message: "delete Failed ",
           });
@@ -207,7 +209,7 @@ const deleteCountryController = async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("Controller:CBE Something Went Wrong !");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });

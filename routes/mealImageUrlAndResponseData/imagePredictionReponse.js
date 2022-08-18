@@ -10,6 +10,7 @@ const {
   getImagePredictionResponseByReferenceIdController,
   getImagePredictionResponseByIdController,
 } = require("../../controller/mealImageUrlAndRepsonseData/imageRepsonseController.js");
+
 imagePredictionResponse
   .route("/")
   .post(imageResponseBodyValidation, insertImagePredictionRespsonseController);
@@ -17,6 +18,7 @@ imagePredictionResponse
 imagePredictionResponse
   .route("/byReferenceId/:id")
   .get(getImagePredictionResponseByReferenceIdController);
+
 imagePredictionResponse
   .route("/byId/:id")
   .get(getImagePredictionResponseByIdController);

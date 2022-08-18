@@ -30,17 +30,17 @@ let getFacilityCenterDetailsByIdController = async (req, res) => {
   try {
     if (isNaN(id)) {
       console.log("pass id as a number only ");
-      res.status(404).json({
+      res.status(400).json({
         success: false,
         message: "invalid  id passed /undefined",
       });
     } else {
       let details = await getFacilityCenterDetailsByIdRepository(id, res);
       if (!details || details == false) {
-        res.status(400).json({
+        res.status(200).json({
           success: false,
           message: "!Error no data found",
-          data: details,
+          data: [],
         });
       } else if (details) {
         res.status(200).json({
@@ -52,7 +52,7 @@ let getFacilityCenterDetailsByIdController = async (req, res) => {
     }
   } catch (error) {
     console.log("Controller: catch block error ");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });
@@ -63,9 +63,10 @@ let getFacilityCenterDetailsByIdController = async (req, res) => {
 let getAllFacilityCenterDetailsController = async (req, res) => {
   let details = await getAllFacilityCenterDetailsRepository();
   if (!details || details == null) {
-    res.status(400).json({
+    res.status(200).json({
       success: false,
-      Message: "no data found or failed to fetch",
+      Message: "No data found or failed to fetch",
+      data: [],
     });
   } else {
     res.status(200).json({
@@ -106,7 +107,7 @@ let insertFacilityCenterDetailsController = async (req, res) => {
     );
 
     if (!create || create == null) {
-      res.status(403).json({
+      res.status(404).json({
         success: false,
         message: "facility center creation failed",
       });
@@ -119,7 +120,7 @@ let insertFacilityCenterDetailsController = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });
@@ -132,7 +133,7 @@ let updateFacilityCenterDetailsController = async (req, res) => {
   try {
     if (isNaN(id)) {
       console.log("pass id as a number only ");
-      res.status(404).json({
+      res.status(400).json({
         success: false,
         message: "invalid  id passed /undefined for update ",
       });
@@ -140,7 +141,7 @@ let updateFacilityCenterDetailsController = async (req, res) => {
       let recordcheck = await getFacilityCenterDetailsByIdRepository(id, res);
 
       if (!recordcheck || recordcheck == false) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: "!Error no data found with id " + id,
         });
@@ -191,7 +192,7 @@ let updateFacilityCenterDetailsController = async (req, res) => {
   } catch (error) {
     console.log("Controller: catch block error ");
     console.log(error);
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });
@@ -202,7 +203,7 @@ let deleteFacilityCenterDetailsController = async (req, res) => {
   let id = req.params.id;
   try {
     if (isNaN(id)) {
-      res.status(404).json({
+      res.status(400).json({
         success: false,
         message: "invalid  id passed /undefined",
       });
@@ -210,14 +211,14 @@ let deleteFacilityCenterDetailsController = async (req, res) => {
       let recordcheck = await getFacilityCenterDetailsByIdRepository(id, res);
 
       if (!recordcheck || recordcheck == false) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: "!Error no data found",
         });
       } else if (recordcheck) {
         let details = await deleteFacilityCenterDetailsRepository(id, res);
         if (!details || details == false) {
-          res.status(400).json({
+          res.status(404).json({
             success: false,
             message: "!Error delete failed",
           });
@@ -231,7 +232,7 @@ let deleteFacilityCenterDetailsController = async (req, res) => {
     }
   } catch (error) {
     console.log("Controller: catch block error ");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
     });
