@@ -114,7 +114,10 @@ getFacilityIdByUserId = async (userId) => {
   const sql = "select `facility_id` from `user_facility_map` where user_id=?";
   const results = await runQuery(sql, [userId]);
   const result = results[0];
+  console.log(`*****`);
+  console.log(result.facility_id);
   if (result) {
+    console.log(`into results thing`);
     let value = result.facility_id;
     return value;
   }

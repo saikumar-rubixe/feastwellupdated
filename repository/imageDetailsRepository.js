@@ -5,7 +5,6 @@ var mysql = require("mysql");
 
 // get all images uploaded where flag =1
 const getSingleimageUploadDetailRepository = async (req, res) => {
-  let array = [];
   try {
     let query = "select * from `image_details` where 1=1 and flag =0 ";
 
@@ -22,9 +21,8 @@ const getSingleimageUploadDetailRepository = async (req, res) => {
         (flag = result.flag),
         (imageUrl = result.image_url)
       );
-      array.push(model);
 
-      return { count, array };
+      return model;
     } else {
       return false;
     }

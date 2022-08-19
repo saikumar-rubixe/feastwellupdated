@@ -40,7 +40,7 @@ let getFacilityCenterDetailsByIdController = async (req, res) => {
         res.status(200).json({
           success: false,
           message: "!Error no data found",
-          data: [],
+          data: {},
         });
       } else if (details) {
         res.status(200).json({

@@ -18,6 +18,7 @@ const getAllUserFacilityDetailsController = async (req, res) => {
         message: "data retrieval failed",
         data: {
           count: 0,
+          array: [],
         },
       });
     }
@@ -27,13 +28,14 @@ const getAllUserFacilityDetailsController = async (req, res) => {
         message: "data retrieval failed",
         data: {
           count: 0,
+          array: [],
         },
       });
     }
     if (details) {
       res.status(200).json({
         success: true,
-        message: "data retrieved succesfully",
+        message: "data retrieve succesfully",
         data: details,
       });
     }
@@ -227,13 +229,9 @@ const getUserFacilityDetailByUserIdController = async (req, res) => {
     } else {
       const details = await getUserFacilityDetailsByUserIdRepository(id, res);
       if (!details || details == null) {
-        res.status(200).json({
+        res.status(404).json({
           success: true,
           message: "No record found with id " + id,
-          data: {
-            count: 0,
-            array: [],
-          },
         });
       }
       if (details) {

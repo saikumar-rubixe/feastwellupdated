@@ -11,7 +11,7 @@ const getSingleimageUploadDetailController = async (req, res) => {
   try {
     let details = await getSingleimageUploadDetailRepository();
     if (!details || details == false) {
-      res.status(400).json({
+      res.status(404).json({
         success: false,
         message: "data retrieval failed",
       });
@@ -45,7 +45,7 @@ const getImagesUploadedByNurseIdController = async (req, res) => {
     } else {
       const details = await getImagesUploadedByNurseIdRepository(id, res);
       if (!details || details == false) {
-        res.status(404).json({
+        res.status(200).json({
           success: false,
           message: "No record found with id " + id,
           data: {
