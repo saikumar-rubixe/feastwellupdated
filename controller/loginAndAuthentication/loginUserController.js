@@ -114,7 +114,13 @@ getFacilityIdByUserId = async (userId) => {
   const sql = "select `facility_id` from `user_facility_map` where user_id=?";
   const results = await runQuery(sql, [userId]);
   const result = results[0];
-  const value = result.facility_id;
-  return value;
+  if (result) {
+    let value = result.facility_id;
+    return value;
+  }
+  // if in case the fcility mappig is not done then facility is returned as 0
+  else {
+    return 0;
+  }
 };
 module.exports = { userLogin };
