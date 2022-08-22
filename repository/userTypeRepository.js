@@ -22,7 +22,7 @@
  */
 
 let { UserTypeModel } = require("../models/userTypeModel");
-let { runQuery, con } = require("../config/database");
+let { runQuery } = require("../config/database");
 //con = con();
 //runQuery = runQuery();
 const getUserTypeDetailByIdRepository = async (id, res) => {
@@ -114,13 +114,18 @@ const updateUserTypeRepository = async (userTypeName, id) => {
   }
 };
 
-const deleteUserTypeRepository = async (userTypeName, id) => {
+const deleteUserTypeRepository = async (id, res) => {
+  console.log(`into respository`);
   try {
+    console.log(`before query`);
     let query = "DELETE from  `users_type` where users_type_id=?";
+
     // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
+    console.log(`after query`);
+    console.log(results);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+    // console.log(`affected rows : ${value}`);
     if (value == 1) {
       return true;
     } else {

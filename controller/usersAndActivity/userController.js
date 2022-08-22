@@ -45,7 +45,7 @@ const getUserByIdController = async (req, res) => {
       } else if (recordExist) {
         res.status(201).json({
           success: true,
-          message: "Details Fetched Succesfuly",
+          message: "Details Fetched Successfuly",
           data: recordExist,
         });
       }
@@ -74,7 +74,7 @@ const getAllUsersController = async (req, res) => {
     if (details) {
       res.status(200).json({
         success: true,
-        message: "Details Fetched Succesfuly",
+        message: "Details Fetched Successfuly",
         data: details,
       });
     } else if (details == false) {

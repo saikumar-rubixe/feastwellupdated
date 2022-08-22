@@ -12,7 +12,7 @@ const Schema = Joi.object({
   createdBy: Joi.number().optional(),
   updatedBy: Joi.number().optional(),
   address: Joi.string().required(),
-  zipcode: Joi.string().max(6).required(),
+  zipcode: Joi.string().max(5).max(10),
 });
 // VALIDATE BEFORE SAVING A USER
 const FacilityUserBodyValidation = async (req, res, next) => {

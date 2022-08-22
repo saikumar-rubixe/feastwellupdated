@@ -2,24 +2,41 @@ const express = require("express");
 const statesRoute = express.Router();
 const { verifyFunction } = require("../../helper/verifyjwtToken");
 const {
-  getStatesByIdController,
-  getAllStatesDetailsController,
   createStatesController,
-  updateStatesController,
-  deleteStatesController,
+  getAllStatesDetailsController,
+  updateStatesByStateIdController,
   getStatesByStateIdController,
+  deleteStatesByStateIdController,
+
+  getStatesByCountryIdController,
+  updateStatesByCountryIdController,
+  deleteStatesByCountryIdController,
 } = require("../../controller/countryStateCity/statesController");
-//get states by state id
-statesRoute.route("/byId/:id").get(getStatesByStateIdController);
-//get states by country id
-statesRoute.route("/:id").get(getStatesByIdController);
-//get all states
-statesRoute.route("/").get(getAllStatesDetailsController);
-// create states by id
+
+// ^create states by id
 statesRoute.route("/").post(createStatesController);
-// update states by state is
-statesRoute.route("/:id").put(updateStatesController);
-// delete states by state id
-statesRoute.route("/:id").delete(deleteStatesController);
+
+//*get all states
+statesRoute.route("/").get(getAllStatesDetailsController);
+
+//*get state by state id
+statesRoute.route("/byStateId/:id").get(getStatesByStateIdController);
+
+// ?update states by state id
+statesRoute.route("/byStateId/:id").put(updateStatesByStateIdController);
+
+//! delete states by state id
+statesRoute.route("/byStateId/:id").delete(deleteStatesByStateIdController);
+
+// BY COUNTRY ID'S
+
+//*get states by country id
+statesRoute.route("/byCountryId/:id").get(getStatesByCountryIdController);
+
+//? update states by country id
+statesRoute.route("/byCountryId/:id").put(updateStatesByCountryIdController);
+
+//! delete states by country Id
+statesRoute.route("/byCountryId/:id").delete(deleteStatesByCountryIdController);
 
 module.exports = { statesRoute };

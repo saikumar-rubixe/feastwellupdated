@@ -88,11 +88,11 @@ let insertFacilityCenterDetailsController = async (req, res) => {
       stateId,
       cityId,
       facilityStatus,
-      createdBy,
+
       address,
       zipcode,
     } = req.body;
-
+    const createdBy = req.userIdvalue;
     const create = await insertFacilityCenterDetailsRepository(
       facilityName,
       headId,
@@ -154,11 +154,11 @@ let updateFacilityCenterDetailsController = async (req, res) => {
           stateId,
           cityId,
           facilityStatus,
-          updatedBy,
+
           address,
           zipcode,
         } = req.body;
-
+        const updatedBy = req.userIdvalue;
         let headId = null;
         let details = await updateFacilityCenterDetailsRepository(
           id,

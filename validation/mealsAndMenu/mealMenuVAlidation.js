@@ -4,7 +4,7 @@ const Schema = Joi.object({
   menuDescription: Joi.string().required(),
   mealType: Joi.number().required(),
   mealStatus: Joi.number().required(),
-  userId: Joi.number().required(),
+
   mealItems: Joi.string().required(),
 });
 // VALIDATE BEFORE SAVING A USER

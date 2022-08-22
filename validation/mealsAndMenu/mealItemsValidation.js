@@ -2,7 +2,6 @@ let Joi = require("joi").extend(require("@joi/date"));
 const Schema = Joi.object({
   mealItemName: Joi.string().min(4).required(),
   Status: Joi.number().required(),
-  userId: Joi.string().required(),
 });
 // VALIDATE BEFORE SAVING A USER
 const mealItemsBodyValidation = async (req, res, next) => {

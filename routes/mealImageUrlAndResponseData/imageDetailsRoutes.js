@@ -10,6 +10,7 @@ const {
   getImagesUploadedByNurseIdController,
   insertImageUrlDetailsController,
 } = require("../../controller/mealImageUrlAndRepsonseData/imageDetailsController");
+//^ create image details
 imageDetailsRoute
   .route("/")
   .post(
@@ -17,9 +18,11 @@ imageDetailsRoute
     verifyFunction,
     insertImageUrlDetailsController
   );
+//* get the image details
 imageDetailsRoute.route("/").get(getSingleimageUploadDetailController);
+//* get all details
 imageDetailsRoute.route("/all/").get(getAllimageUploadDetailsController);
-
+//* get all details of Nurse
 imageDetailsRoute
   .route("/byNurseId/:id")
   .get(getImagesUploadedByNurseIdController);

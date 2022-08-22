@@ -2,7 +2,7 @@ let Joi = require("joi").extend(require("@joi/date"));
 const Schema = Joi.object({
   mealMenuId: Joi.number().required(),
   mealItemId: Joi.number().required(),
-  userId: Joi.number().required(),
+
   menuContentStatus: Joi.number().required(),
 });
 // VALIDATE BEFORE SAVING A USER

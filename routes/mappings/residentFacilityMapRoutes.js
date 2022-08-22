@@ -17,6 +17,7 @@ const {
 residentFacilityRoute
   .route("/:id")
   .get(verifyFunction, getUserFacilityDetailByIdController);
+//^ create
 residentFacilityRoute
   .route("/")
   .post(
@@ -27,9 +28,11 @@ residentFacilityRoute
 residentFacilityRoute
   .route("/")
   .get(verifyFunction, getAllUserFacilityDetailsController);
+//? update
 residentFacilityRoute
   .route("/:id")
   .put(verifyFunction, updateUserFacilityByUserIdController);
+//! delete
 residentFacilityRoute
   .route("/:id")
   .delete(verifyFunction, deleteUserFacilityController);
@@ -39,8 +42,14 @@ residentFacilityRoute
 //   .get(verifyFunction, getUserFacilityDetailByTableIdController);
 
 // get the Single  detail by USER id
+//* get
 residentFacilityRoute
   .route("/byUserId/:id")
   .get(verifyFunction, getUserFacilityDetailByUserIdController);
 
 module.exports = { residentFacilityRoute };
+
+//* get
+//? update
+//^ create
+//! delete

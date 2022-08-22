@@ -141,15 +141,18 @@ const updateUserTypeController = async (req, res) => {
 
 const deleteUserTypeController = async (req, res) => {
   try {
+    console.log(`into controller method`);
     const id = req.params.id;
+    console.log(`id is : ${id}`);
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
         message: "invalid id Passed:  " + id,
       });
     } else {
+      console.log(`into get details method`);
       const recordCheck = await getUserTypeDetailByIdRepository(id, res);
-
+      console.log(`after get details method`);
       if (!recordCheck || recordCheck == false) {
         res.status(400).json({
           success: false,
@@ -157,6 +160,7 @@ const deleteUserTypeController = async (req, res) => {
         });
       }
       if (recordCheck) {
+        console.log(`into update ddetails method`);
         const updatedetails = await deleteUserTypeRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({

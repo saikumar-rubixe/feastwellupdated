@@ -91,9 +91,6 @@ let apiVersion = "v1";
 let apiBasePath = `${apiPath}${apiVersion}/`;
 let localurl = "/feastwell-backend/api/v1/";
 
-//app.use(`${apiBasePath}centerHead`, centerHeadRoute);//delete
-//app.use(`${apiBasePath}nutritionCategory`, NutritionCategoryRoute);//delete
-
 // !Login!
 app.use(`${apiBasePath}auth/login`, authRoute);
 // !SideBar!
@@ -133,8 +130,6 @@ app.use(`${apiBasePath}imageResponse`, imagePredictionResponse);
 
 /**   *********************************************************************************************************************************** */
 //    TODO       FOR  LOCAL HOST TESTING  AND DEVLOPMENT PURPOSE ONLY     //
-//app.use(`${localurl}centerHead`, centerHeadRoute);//delete
-//app.use(`${localurl}nutritionCategory`, NutritionCategoryRoute);//delete
 
 // ^ Country State City Routes
 app.use(`${localurl}country`, countryRoute);
@@ -197,4 +192,7 @@ app.use((error, req, res, next) => {
 });
 
 // port listening on ...
-app.listen(4000, console.log("Feast well Server Running on Port ... "));
+app.listen(
+  4000,
+  console.log(`Feast well Server Running on Port ...${process.env.PORT} `)
+);

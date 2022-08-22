@@ -92,7 +92,8 @@ const getUserFacilityDetailByIdController = async (req, res) => {
 const createUserFacilityController = async (req, res) => {
   try {
     const { userId, facilityId, status } = req.body;
-    const createdBy = req.userIdValue;
+    const createdBy = req.userIdvalue;
+
     let create = await createUserFacilityRepository(
       userId,
       facilityId,

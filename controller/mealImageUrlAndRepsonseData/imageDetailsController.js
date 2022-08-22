@@ -81,7 +81,6 @@ const getImagesUploadedByNurseIdController = async (req, res) => {
 // 3 insert the image url , resident id and nurse id
 const insertImageUrlDetailsController = async (req, res) => {
   try {
-    console.log(req.body); //delete
     if (!req.body.imageUrl) {
       // !no body
       res.status(400).json({
@@ -107,7 +106,7 @@ const insertImageUrlDetailsController = async (req, res) => {
       } else {
         res.status(200).json({
           success: true,
-          message: " inserted  image url details succesfully ",
+          message: "image uploaded successfully",
           insertId: create,
         });
       }

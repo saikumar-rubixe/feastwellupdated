@@ -38,6 +38,7 @@ const getAllDetailsController = async (req, res) => {
 const getCitiesByIdController = async (req, res) => {
   try {
     const id = req.params.id;
+
     if (isNaN(id)) {
       console.log("id passed is not a number");
       res.send("send valid id: ", id, "   is not a number");

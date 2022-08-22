@@ -30,16 +30,11 @@ const userLogin = async (req, res) => {
         const usertype = recordExist.userType;
         const userId = recordExist.userId;
         const username = recordExist.userName;
-        if (usertype == 2 || usertype == 7) {
-          const value = await getFacilityIdByUserId(userId);
-          facilityId = value;
-        } else {
-          facilityId;
-        }
+
         //GETTING HASHED PASSWORD FROM DB
         const dbpassword = recordExist.password;
         console.log(password, dbpassword);
-        const result = bcrypt.compare(password, dbpassword);
+        const result = await bcrypt.compare(password, dbpassword);
         if (!result)
           return res.status(401).json({
             success: false,
@@ -49,6 +44,12 @@ const userLogin = async (req, res) => {
         if (result) {
           //CREATE AND ASSIGN A TOKEN
           console.log(" login succesful");
+          if (usertype == 2 || usertype == 7) {
+            const value = await getFacilityIdByUserId(userId);
+            facilityId = value;
+          } else {
+            facilityId;
+          }
           const token = jwt.sign(
             { id: recordExist.userId },
             process.env.TOKEN_SECRET,
@@ -114,10 +115,8 @@ getFacilityIdByUserId = async (userId) => {
   const sql = "select `facility_id` from `user_facility_map` where user_id=?";
   const results = await runQuery(sql, [userId]);
   const result = results[0];
-  console.log(`*****`);
-  console.log(result.facility_id);
+
   if (result) {
-    console.log(`into results thing`);
     let value = result.facility_id;
     return value;
   }

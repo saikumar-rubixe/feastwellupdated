@@ -116,7 +116,7 @@ const getImagePredictionResponseByIdController = async (req, res) => {
         res.status(200).json({
           success: false,
           message: "No record found with id " + id,
-          data: details,
+          data: {},
         });
       }
       if (details) {

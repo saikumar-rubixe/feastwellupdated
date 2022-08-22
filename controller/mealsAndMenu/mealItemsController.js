@@ -20,7 +20,14 @@ const getMealItemsDetailByIdController = async (req, res) => {
         res.status(200).json({
           success: false,
           message: "No record found with id " + id,
-          data: [],
+          data: {
+            mealItem: 0,
+            mealItemName: 0,
+            Status: 0,
+            userId: 0,
+            createdDate: 0,
+            updatedDate: 0,
+          },
         });
       }
       if (details) {
@@ -36,7 +43,7 @@ const getMealItemsDetailByIdController = async (req, res) => {
     console.log("Controller:CBE Something went wrong!");
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "CBE! something went wrong ",
     });
   }
 };
@@ -70,7 +77,8 @@ const getAllMealItemsDetailsController = async (req, res) => {
 // 3 create meal items
 const createMealItemsController = async (req, res) => {
   try {
-    const { mealItemName, Status, userId } = req.body;
+    const { mealItemName, Status } = req.body;
+    const userId = req.userIdValue;
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     //  const recordCheck = await functionCall();
@@ -123,7 +131,8 @@ const updateMealItemsController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const { mealItemName, Status, userId } = req.body;
+        const { mealItemName, Status } = req.body;
+        const userId = req.userIdvalue;
         const updatedetails = await updateMealItemsRepository(
           id,
           mealItemName,

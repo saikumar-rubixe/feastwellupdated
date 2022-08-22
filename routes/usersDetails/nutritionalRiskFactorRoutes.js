@@ -6,6 +6,7 @@ const {
   getAllNutritionalRiskFactorsDetailsController,
 } = require("../../controller/usersDetails/nutritionRiskFactorController");
 
+//*GET DETAILS
 NutritionalRiskFactorRoute.route("/").get(
   verifyFunction,
   getAllNutritionalRiskFactorsDetailsController

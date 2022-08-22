@@ -73,7 +73,9 @@ const getMealMenuContentsDetailByIdController = async (req, res) => {
 //  3 create
 const createMealMenuContentsController = async (req, res) => {
   try {
-    const { mealMenuId, mealItemId, userId, menuContentStatus } = req.body;
+    const { mealMenuId, mealItemId, menuContentStatus } = req.body;
+    const userId = req.userIdValue;
+    console.log(userId);
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     // const recordCheck = await functionCall();
@@ -89,7 +91,7 @@ const createMealMenuContentsController = async (req, res) => {
     if (create) {
       res.status(200).json({
         success: true,
-        message: "data created succesfully with id" + create,
+        message: "data created succesfully with id  " + create,
         insertId: create,
       });
     }
@@ -127,11 +129,12 @@ const updateMealMenuContentsController = async (req, res) => {
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "no Record Found With id = " + id,
+          message: "No Record Found With id = " + id,
         });
       }
       if (recordCheck) {
-        const { mealMenuId, mealItemId, userId, menuContentStatus } = req.body;
+        const { mealMenuId, mealItemId, menuContentStatus } = req.body;
+        const userId = req.userIdvalue;
         const updatedetails = await updateMealMenuContentsRepository(
           id,
           mealMenuId,

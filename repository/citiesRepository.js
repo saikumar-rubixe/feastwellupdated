@@ -8,6 +8,9 @@ const getAllCitiesDetailsRepository = async (req, res) => {
   try {
     let array = [];
     let query = "select * from `cities` where 1=1 ";
+    if (countryId) {
+      query += " and country_id = " + countryId;
+    }
     //let sql = con.format(query);
     let results = await runQuery(query);
     let count = results.length;
@@ -39,7 +42,11 @@ const getCitiesByIdRepository = async (id, res) => {
   try {
     let array = [];
     let query =
-      " select `id`,`name`,`state_code`,`country_id` from  `cities` where state_id =?";
+      " select `id`,`name`,`state_code`,`country_id` , state_id from  `cities` where state_id =?";
+    // if (countryId) {
+    //   query += " and country_id = " + countryId;
+    // }
+
     // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     let count = results.length;
@@ -51,7 +58,8 @@ const getCitiesByIdRepository = async (id, res) => {
         (id = result.id),
         (cityname = result.name),
         (stateCode = result.state_code),
-        (countryCode = result.country_id)
+        (countryCode = result.country_id),
+        (stateId = result.state_id)
       );
       array.push(model);
     }

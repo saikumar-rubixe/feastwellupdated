@@ -167,11 +167,11 @@ const updateMealMenuController = async (req, res) => {
           menuDescription,
           mealType,
           mealStatus,
-          userId,
+
           mealItems,
         } = req.body;
-        console.log("consolling request body"); //delete
-        console.log(req.body); //delete
+        const userId = req.userIdvalue;
+
         const updatedetails = await updateMealMenuRepository(
           id,
           mealMenuName,

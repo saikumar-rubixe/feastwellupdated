@@ -9,18 +9,17 @@ const getRoleId = async (userType) => {
 
   console.log(roleId);
   if (roleId) {
-    console.log("into if field");
     return roleId;
   } else return 1;
 };
 
 const getListOfMenuIds = async (role) => {
   let listmenu = [];
-  console.log(`into get list of menu ids`); //delete
+  // console.log(`into get list of menu ids`); //delete
   const sql = "select menu_id from `permissions` where role_id =?";
   const details = await runQuery(sql, [role]);
-  console.log(`! consolling the length`);
-  console.log(details.length);
+  // console.log(`! consolling the length`);
+  // console.log(details.length);
   if (details.length != 0) {
     for (i = 0; i < details.length; i++) {
       let result = details[i];

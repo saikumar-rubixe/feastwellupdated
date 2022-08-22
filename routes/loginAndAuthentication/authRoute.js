@@ -6,6 +6,7 @@ const {
 const {
   userLogin,
 } = require("../../controller/loginAndAuthentication/loginUserController");
+// ^ create
 authRoute.route("/").post(userLoginBodyValidation, userLogin);
 
 module.exports = { authRoute };
