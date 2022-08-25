@@ -2,8 +2,12 @@ const {
   insertImagePredictionRespsonseRepository,
   getImagePredictionResponseByReferenceIdRepository,
   getImagePredictionResponseByIdRepository,
+  getHtmlImagePredictionResponseByReferenceIdRepository,
 } = require("../../repository/imageResponseRepository");
+//*
+var imageresponsehtml = require("../../views/imageResponse.hbs");
 
+//*
 const insertImagePredictionRespsonseController = async (req, res) => {
   try {
     console.log(req.body);
@@ -137,8 +141,52 @@ const getImagePredictionResponseByIdController = async (req, res) => {
   }
 };
 
+// 4 send html Response
+
+const getHtmlImagePredictionResponseByReferenceIdController = async (
+  req,
+  res
+) => {
+  // const id = req.params.id;
+  try {
+    res.status(200).render("imageresponsehtml");
+    //   if (isNaN(id)) {
+    //     res.status(400).json({
+    //       success: false,
+    //       message: "invalid id Passed:  " + id,
+    //     });
+    //   } else {
+    //     const details =
+    //       await getHtmlImagePredictionResponseByReferenceIdRepository(id, res);
+    //     if (!details || details == false) {
+    //       res.status(200).json({
+    //         success: false,
+    //         message: "No record found with id " + id,
+    //         data: {
+    //           id: 0,
+    //           imageTableId: 0,
+    //           jsonResponse: [],
+    //         },
+    //       });
+    //     }
+    //     if (details) {
+    //       res.status(200).render(imageresponsehtml);
+    //     }
+    //   }
+    //
+  } catch (error) {
+    console.log(error);
+    console.log("Controller:CBE Something went wrong!");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
+  }
+};
+
 module.exports = {
   insertImagePredictionRespsonseController,
   getImagePredictionResponseByReferenceIdController,
   getImagePredictionResponseByIdController,
+  getHtmlImagePredictionResponseByReferenceIdController,
 };

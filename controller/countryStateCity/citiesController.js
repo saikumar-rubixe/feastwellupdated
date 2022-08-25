@@ -54,7 +54,7 @@ const getCitiesByIdController = async (req, res) => {
       } else {
         res.status(200).json({
           success: false,
-          message: "cities fetch failed",
+          message: "No Cities found with id " + id,
           data: [],
         });
       }

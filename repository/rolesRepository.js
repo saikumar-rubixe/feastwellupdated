@@ -80,7 +80,7 @@ const getAllRolesDetailsRepository = async (req, res) => {
 const createRoleRepository = async (roleName, userTypeId, roleStatus) => {
   try {
     let query =
-      "INSERT into `roles` (`role_name`,`user_type_id`,`status`,`created_date`,`updated_date`) VALUES(?,?,?,?,?,?) ";
+      "INSERT into `roles` (`role_name`,`user_type_id`,`status`,`created_date`,`updated_date`) VALUES(?,?,?,?,?) ";
     // let sql = con.format(query, [
     //   roleName,
     //   menuId,

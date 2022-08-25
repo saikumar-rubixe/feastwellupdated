@@ -6,11 +6,14 @@ const {
   createCityController,
   getAllDetailsController,
 } = require("../../controller/countryStateCity/citiesController");
-//*
+
+//* GET CITITES BY  STATE ID
 cityRoute.route("/:id").get(verifyFunction, getCitiesByIdController);
-//^
+
+//^CREATE CITITES
 cityRoute.route("/").post(verifyFunction, createCityController);
-//*
+
+//* GET ALL CITIES
 cityRoute.route("/").get(verifyFunction, getAllDetailsController);
 
 module.exports = { cityRoute };

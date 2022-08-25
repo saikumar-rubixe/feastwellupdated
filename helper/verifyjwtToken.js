@@ -23,8 +23,8 @@ const verifyFunction = function (req, res, next) {
     } catch (error) {
       console.log(error);
       res.status(500).json({
-        login: false,
-        data: "error",
+        success: false,
+        message: "session expired please login again",
       });
     }
   }

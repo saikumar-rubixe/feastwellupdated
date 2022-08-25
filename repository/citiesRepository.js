@@ -50,18 +50,21 @@ const getCitiesByIdRepository = async (id, res) => {
     // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     let count = results.length;
-
-    for (i = 0; i < count; i++) {
-      let model = new CitiesModel();
-      let result = results[i];
-      model.fill(
-        (id = result.id),
-        (cityname = result.name),
-        (stateCode = result.state_code),
-        (countryCode = result.country_id),
-        (stateId = result.state_id)
-      );
-      array.push(model);
+    if (count != 0) {
+      for (i = 0; i < count; i++) {
+        let model = new CitiesModel();
+        let result = results[i];
+        model.fill(
+          (id = result.id),
+          (cityname = result.name),
+          (stateCode = result.state_code),
+          (countryCode = result.country_id),
+          (stateId = result.state_id)
+        );
+        array.push(model);
+      }
+    } else {
+      return false;
     }
     return { count, array };
   } catch (error) {

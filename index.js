@@ -1,12 +1,12 @@
 const express = require("express");
-
+var fs = require("fs");
 const createHttpError = require("http-errors");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const helmet = require("helmet"); //This library helps to secure Express APIs by defining various HTTP headers
 const xss = require("xss-clean");
-
+const hbs = require("hbs");
 dotenv.config();
 //const AppError = require("./utils/appError");
 
@@ -66,6 +66,7 @@ const {
 const {
   mealTypes,
 } = require("./routes/mealImageUrlAndResponseData/mealTypesRoutes");
+const { array } = require("joi");
 
 /*********************************************************************************** */
 //  cors cross browser access
@@ -166,6 +167,21 @@ app.use(`${localurl}nutritionalRiskFactors`, NutritionalRiskFactorRoute);
 app.use(`${localurl}imageDetails`, imageDetailsRoute);
 app.use(`${localurl}uploadMealImage`, imageUploadRoute);
 app.use(`${localurl}imageResponse`, imagePredictionResponse);
+
+//!
+//* to set view engine
+app.set("view engine", hbs);
+//var responsepred = require("./views/imageResponse.hbs");
+app.get(`${localurl}testing`, (req, res) => {
+  console.log(`printing as json`);
+
+  let html = fs.readFileSync("./views/imageResponse.hbs", "utf8");
+
+  // var htm = JSON.stringify(html);
+  res.status(200).json({ filename: html });
+
+  console.log(html);
+});
 //*  local host testing    */
 
 //  handling wrong navigation url

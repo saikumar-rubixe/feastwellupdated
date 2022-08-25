@@ -217,7 +217,7 @@ const getStatesByCountryIdController = async (req, res) => {
       } else {
         res.status(200).json({
           success: false,
-          message: "States fetch failed",
+          message: "No States Found With Id " + id,
           data: [],
         });
       }

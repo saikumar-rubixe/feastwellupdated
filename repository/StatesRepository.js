@@ -130,17 +130,20 @@ const getStatesByCountryIdRepository = async (id, res) => {
     // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     let count = results.length;
-
-    for (i = 0; i < count; i++) {
-      let statesmodel = new States();
-      let result = results[i];
-      statesmodel.fill(
-        (id = result.id),
-        (Statename = result.name),
-        (countryId = result.country_id),
-        (coutryCode = result.country_code)
-      );
-      array.push(statesmodel);
+    if (count != 0) {
+      for (i = 0; i < count; i++) {
+        let statesmodel = new States();
+        let result = results[i];
+        statesmodel.fill(
+          (id = result.id),
+          (Statename = result.name),
+          (countryId = result.country_id),
+          (coutryCode = result.country_code)
+        );
+        array.push(statesmodel);
+      }
+    } else {
+      return false;
     }
     return { count, array };
   } catch (error) {

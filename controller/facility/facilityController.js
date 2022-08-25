@@ -88,7 +88,6 @@ let insertFacilityCenterDetailsController = async (req, res) => {
       stateId,
       cityId,
       facilityStatus,
-
       address,
       zipcode,
     } = req.body;

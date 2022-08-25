@@ -76,6 +76,8 @@ function isString(value) {
 
 //** 3  create */
 const createMealMenuController = async (req, res) => {
+  console.log(`request body`);
+  console.log(req.body);
   try {
     console.log("consoling controller");
     const {
@@ -167,10 +169,9 @@ const updateMealMenuController = async (req, res) => {
           menuDescription,
           mealType,
           mealStatus,
-
+          userId,
           mealItems,
         } = req.body;
-        const userId = req.userIdvalue;
 
         const updatedetails = await updateMealMenuRepository(
           id,

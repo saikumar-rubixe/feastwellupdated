@@ -9,6 +9,7 @@ const {
   insertImagePredictionRespsonseController,
   getImagePredictionResponseByReferenceIdController,
   getImagePredictionResponseByIdController,
+  getHtmlImagePredictionResponseByReferenceIdController,
 } = require("../../controller/mealImageUrlAndRepsonseData/imageRepsonseController.js");
 
 imagePredictionResponse
@@ -22,5 +23,8 @@ imagePredictionResponse
 imagePredictionResponse
   .route("/byId/:id")
   .get(getImagePredictionResponseByIdController);
-
+//! main
+imagePredictionResponse.route("/display/byReferenceId/").get((req, res) => {
+  res.render("hai");
+});
 module.exports = { imagePredictionResponse };

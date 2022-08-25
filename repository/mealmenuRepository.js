@@ -91,6 +91,7 @@ const createMealMenuRepository = async (
 ) => {
   //** insertion of meal menu  after creation of menu , with (menu id, mealitems ,userid and status ) needed to insert these all ids in menu contents table according to no of meal items id  sent */
   try {
+    console.log(`*************in to repo  *******************`);
     let query =
       "INSERT into `meal_menu` (`meal_menu_name`,`meal_menu_description`,`meal_type`,`status`,`user_id`,`created_date`,`updated_date`) VALUES(?,?,?,?,?,?,?) ";
     /**  let sql = con.format(query, [
