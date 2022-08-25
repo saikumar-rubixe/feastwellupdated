@@ -23,6 +23,7 @@ const {
   createUserRepository,
   updateUserRepository,
   deleteUserRepository,
+  updateUserLoginDetailsRepository,
 } = require("../../repository/userRepository");
 const {
   userCheckRepository,
@@ -173,6 +174,7 @@ let updateUserController = async (req, res, next) => {
       // password,
       // userType,
       userStatus,
+      lastLogin,
       loggedIpAddress,
     } = req.body;
     console.log(req.body);
@@ -204,6 +206,7 @@ let updateUserController = async (req, res, next) => {
             // password,
             // userType,
             userStatus,
+            lastLogin,
             loggedIpAddress
           );
           if (details == 1) {
@@ -284,10 +287,71 @@ let deleteUserController = async (req, res) => {
   }
 };
 
+// 6 update users login details controller by id
+let updateUserLoginDetailsController = async (req, res, next) => {
+  try {
+    let id = req.params.id;
+    console.log(`id passed is ${id}`);
+    const { lastLogin, loggedIpAddress } = req.body;
+    console.log(req.body);
+    if (checkNumber(id)) {
+      const recordExist = await getUserByIdRepository(id, res);
+      if (recordExist == null) {
+        res.status(404).json({
+          success: false,
+          message: "Record not found Updation failed ",
+        });
+      }
+      if (recordExist && recordExist != null) {
+        let recordCheck = await userUpdateCheckRepository(userName, id, res);
+        if (recordCheck == 1) {
+          if (recordCheck == 1) {
+            res.status(404).json({
+              success: false,
+              message: "username not available ",
+            });
+          }
+        } else if (recordCheck == 0) {
+          let details = await updateUserLoginDetailsRepository(
+            id,
+            lastLogin,
+            loggedIpAddress
+          );
+          if (details == 1) {
+            res.status(404).json({
+              success: false,
+              message: "update failed",
+            });
+          } else if (details == 0) {
+            res.status(201).json({
+              success: true,
+              message: "updated User succesfully ",
+            });
+          }
+        }
+      }
+    } else {
+      console.log("id is not a number");
+      res.status(400).json({
+        success: false,
+        message: "Wrong input:id must be a number ",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.send("something went wrong update failed");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
+  }
+};
+
 module.exports = {
   getUserByIdController,
   getAllUsersController,
   createUserController,
   updateUserController,
   deleteUserController,
+  updateUserLoginDetailsController,
 };

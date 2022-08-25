@@ -12,6 +12,7 @@ const {
   createUserController,
   updateUserController,
   deleteUserController,
+  updateUserLoginDetailsController,
 } = require("../../controller/usersAndActivity/userController");
 
 userRoute.route("/").post(userBodyValidation, createUserController);
@@ -23,6 +24,14 @@ userRoute.route("/:id").get(verifyFunction, getUserByIdController);
 userRoute
   .route("/:id")
   .put(verifyFunction, userUpdateBodyValidation, updateUserController);
+
+userRoute
+  .route("/loginDetails/:id")
+  .put(
+    verifyFunction,
+    userUpdateBodyValidation,
+    updateUserLoginDetailsController
+  );
 
 userRoute.route("/:id").delete(verifyFunction, deleteUserController);
 

@@ -157,7 +157,7 @@ let updateUserRepository = async (
   fullName,
   phoneNumber,
   userName,
-  // userType,
+  lastLogin,
   userStatus,
   loggedIpAddress
 ) => {
@@ -168,7 +168,7 @@ let updateUserRepository = async (
     // console.log(salt);
     // const hashedPassword = await bcrypt.hash(password, salt);
     let query =
-      "UPDATE users SET full_name =?,phone_number = ?,username=?,status=?,logged_ip_address=?,updated_date=?  WHERE user_id=? ";
+      "UPDATE users SET full_name =?,phone_number = ?,username=?,status=?,last_login=?,logged_ip_address=?,updated_date=?  WHERE user_id=? ";
     // let sql = con.format(query, [
     //   fullName,
     //   phoneNumber,
@@ -185,12 +185,16 @@ let updateUserRepository = async (
       phoneNumber,
       userName,
       userStatus,
+      lastLogin,
       loggedIpAddress,
       newDate,
       id,
     ]);
-
-    return 0;
+    if (results.affectedRows == 1) {
+      return 0;
+    } else {
+      return 1;
+    }
   } catch (error) {
     console.log("error from catch block");
     console.log(error);
@@ -211,6 +215,34 @@ let deleteUserRepository = async (id) => {
   }
 };
 
+// 8 update user login details
+let updateUserLoginDetailsRepository = async (
+  id,
+  lastLogin,
+  loggedIpAddress
+) => {
+  try {
+    let query =
+      "UPDATE users SET last_login=?,logged_ip_address=?,updated_date=?  WHERE user_id=? ";
+
+    let results = await runQuery(query, [
+      lastLogin,
+      loggedIpAddress,
+      newDate,
+      id,
+    ]);
+
+    if (results.affectedRows == 1) {
+      return 0;
+    } else {
+      return 1;
+    }
+  } catch (error) {
+    console.log("error from catch block");
+    console.log(error);
+    return 1;
+  }
+};
 // ************************  export modules  *********************************** */
 module.exports = {
   getUserByIdRepository: getUserByIdRepository,
@@ -219,4 +251,5 @@ module.exports = {
   createUserRepository: createUserRepository,
   updateUserRepository: updateUserRepository,
   deleteUserRepository: deleteUserRepository,
+  updateUserLoginDetailsRepository: updateUserLoginDetailsRepository,
 };
