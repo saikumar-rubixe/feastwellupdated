@@ -16,4 +16,5 @@ const sideBarAccessController = async (req, res) => {
 
 const sideBarAccessRepository = async (userType) => {
   let sql = " select ";
+  app.post;
 };

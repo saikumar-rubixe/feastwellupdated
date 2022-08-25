@@ -3,7 +3,7 @@
  *  the response received from Repo is Shown  as final response with data and Status Codes
  * 
  ** users is to create new residents , admin,super admins etc based on uSerType 
-
+  
  * in this Controller the method calls were as follows
  * 1. getUserByIdController --> get the user details by ID
  * 2. getAllUsersController    --> get all the users
@@ -290,6 +290,9 @@ let deleteUserController = async (req, res) => {
 // 6 update users login details controller by id
 let updateUserLoginDetailsController = async (req, res, next) => {
   try {
+    console.log(`***************************`);
+    console.log(req.body);
+    console.log(`***************************`);
     let id = req.params.id;
     console.log(`id passed is ${id}`);
     const { lastLogin, loggedIpAddress } = req.body;
