@@ -3,7 +3,7 @@ let { runQuery } = require("../config/database");
 const { array } = require("joi");
 //con = con();
 //runQuery = runQuery();
-let newDate = new Date();
+const { getPstDate } = require("../helper/getCanadaTime");
 
 //1 get all details
 const getAllUserFacilityDetailsRepository = async () => {
@@ -89,23 +89,14 @@ const createUserFacilityRepository = async (
   try {
     let query =
       " INSERT INTO `user_facility_map` (`user_id`,`facility_id`,`status`,`created_date`,`created_by`,`updated_date`,`updated_by`) VALUES(?,?,?,?,?,?,?)";
-    // let sql = con.format(query, [
-    //   userId,
-    //   facilityCenterId,
-    //   status,
-    //   newDate,
-    //   createdBy,
-    //   newDate,
-    //   createdBy,
-    // ]);
-    // console.log(sql);
+
     let results = await runQuery(query, [
       userId,
       facilityId,
       status,
-      newDate,
+      getPstDate(),
       createdBy,
-      newDate,
+      getPstDate(),
       createdBy,
     ]);
     let value = results.insertId;
@@ -131,18 +122,11 @@ const updateUserFacilityRepository = async (
   try {
     let query =
       " UPDATE `user_facility_map` set facility_id=?,status=?,updated_date=?,updated_by=? where user_id=?";
-    // let sql = con.format(query, [
-    //   userId,
-    //   facilityCenterId,
-    //   status,
-    //   newDate,
-    //   updatedBy,
-    //   id,
-    // ]);
+
     let results = await runQuery(query, [
       facilityId,
       status,
-      newDate,
+      getPstDate(),
       updatedBy,
       id,
     ]);

@@ -25,7 +25,7 @@ let { runQuery, con } = require("../config/database");
 //con = con();
 //runQuery = runQuery();
 let { permissionsModel } = require("../models/permissionsModel");
-let newDate = new Date();
+const { getPstDate } = require("../helper/getCanadaTime");
 
 // 1 get all permissions
 const getAllPermissionsDetailsRepository = async (req, res) => {
@@ -109,16 +109,7 @@ const createPermissionsRepository = async (
   try {
     let query =
       "INSERT into `permissions` (`role_id`,menu_id,read_access,write_access,update_access,delete_access,status,created_date,updated_date) VALUES(?,?,?,?,?,?,?,?,?) ";
-    // let sql = con.format(query, [
-    //   roleId,
-    //   readAccess,
-    //   writeAccess,
-    //   updateAccess,
-    //   deleteAccess,
-    //   permissionStatus,
-    //   newDate,
-    //   newDate,
-    // ]);
+
     let results = await runQuery(query, [
       roleId,
       menuId,
@@ -127,8 +118,8 @@ const createPermissionsRepository = async (
       updateAccess,
       deleteAccess,
       permissionStatus,
-      newDate,
-      newDate,
+      getPstDate(),
+      getPstDate(),
     ]);
     let value = results.insertId;
     if (value && value != 0) {
@@ -156,16 +147,7 @@ const updatePermissionsRepository = async (
   try {
     let query =
       " UPDATE `permissions` set `role_id`=?,`menu_id`=?,`read_access`=?,`write_access`=?,`update_access`=?,`delete_access`=?,`status`=?,`updated_date`=? where permission_id  =?";
-    // let sql = con.format(query, [
-    //   roleId,
-    //   readAccess,
-    //   writeAccess,
-    //   updateAccess,
-    //   deleteAccess,
-    //   permissionStatus,
-    //   newDate,
-    //   id,
-    // ]);
+
     let results = await runQuery(query, [
       roleId,
       menuId,
@@ -174,7 +156,7 @@ const updatePermissionsRepository = async (
       updateAccess,
       deleteAccess,
       permissionStatus,
-      newDate,
+      getPstDate(),
       id,
     ]);
     let value = results.affectedRows;

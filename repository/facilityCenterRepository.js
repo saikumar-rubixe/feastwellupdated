@@ -21,7 +21,9 @@ let { runQuery, con } = require("../config/database");
 //runQuery = runQuery();
 let { FacilityModel } = require("../models/facilityModel");
 const date = require("date-and-time");
-let newDate = new Date();
+
+const { getPstDate } = require("../helper/getCanadaTime");
+let newDate = getPstDate();
 //1 get details By ID
 let getFacilityCenterDetailsByIdRepository = async (id, res) => {
   try {
@@ -176,19 +178,7 @@ let updateFacilityCenterDetailsRepository = async (
     console.log("into update repository");
     let query =
       "UPDATE `facility` SET facility_name =?,facility_head_id=?,facility_contact_number=?,facility_country_id=?,facility_state_id=?,facility_city_id=?,status=?,updated_date=?,updated_by=? ,address=?,zipcode=? WHERE facility_id =? ";
-    // let sql = con.format(query, [
-    //   facilityName,
-    //   headId,
-    //   email,
-    //   number,
-    //   countryId,
-    //   stateId,
-    //   cityId,
-    //   facilityStatus,
-    //   newDate,
-    //   updatedBy,
-    //   id,
-    // ]);
+    s;
     let results = await runQuery(query, [
       facilityName,
       headId,

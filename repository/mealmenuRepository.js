@@ -3,7 +3,7 @@ let { runQuery, con } = require("../config/database");
 //runQuery = runQuery();
 let { MealMenuModel } = require("../models/mealMenuModel");
 const date = require("date-and-time");
-let newDate = new Date();
+const { getPstDate } = require("../helper/getCanadaTime");
 
 //**  1 get details By id */
 const getMealMenuDetailByIdRepository = async (id, res) => {
@@ -47,7 +47,7 @@ const getAllMealMenuDetailsRepository = async (req, res) => {
     // let sql = con.format(query);
     let results = await runQuery(query);
     let count = results.length;
-    console.log("consolling results length");
+    console.log("consolling results length"); //delete
     console.log(count);
     if (count != 0) {
       for (i = 0; i < count; i++) {
@@ -94,24 +94,15 @@ const createMealMenuRepository = async (
     console.log(`*************in to repo  *******************`);
     let query =
       "INSERT into `meal_menu` (`meal_menu_name`,`meal_menu_description`,`meal_type`,`status`,`user_id`,`created_date`,`updated_date`) VALUES(?,?,?,?,?,?,?) ";
-    /**  let sql = con.format(query, [
-      mealMenuName,
-      menuDescription,
-      mealType,
-      mealStatus,
-      userId,
-      newDate,
-      newDate,
-    ]);
-    */
+
     let insert = await runQuery(query, [
       mealMenuName,
       menuDescription,
       mealType,
       mealStatus,
       userId,
-      newDate,
-      newDate,
+      getPstDate(),
+      getPstDate(),
     ]);
     const menuId = insert.insertId; // menu inserted Id
     // insert meal items into  menuContents with the menuId
@@ -161,7 +152,7 @@ const updateMealMenuRepository = async (
       mealType,
       mealStatus,
       userId,
-      newDate,
+      getPstDate(),
       id,
     ]);
 
@@ -296,8 +287,8 @@ const insertMealItemsInMenuContents = async (
           array[i],
           userId,
           mealStatus,
-          newDate,
-          newDate,
+          getPstDate(),
+          getPstDate(),
         ]);
         itemsCreateIds[i] = insert2.insertId; // assinging the inserted ids into created array
       }

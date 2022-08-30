@@ -90,6 +90,9 @@ const getUserFacilityDetailByIdController = async (req, res) => {
 
 // 1 create  facility and user id mapping details
 const createUserFacilityController = async (req, res) => {
+  console.log(`user facilty maoping `);
+  console.log(req.body);
+  console.log(`user facilty maoping `);
   try {
     const { userId, facilityId, status } = req.body;
     const createdBy = req.userIdValue;

@@ -15,16 +15,23 @@
  */
 const mysql = require("mysql");
 let { UserModel } = require("../models/userModel");
-let { runQuery, con } = require("../config/database");
-const { enrollementIdTag } = require("../helper/enrollmentIDGenerator");
-
+let { runQuery } = require("../config/database");
+const {
+  generateRandomNumber,
+  enrollementIdTag,
+  checkEnrolmentIdRepository,
+} = require("../helper/enrollmentIDGenerator");
+const { getPstDate } = require("../helper/getCanadaTime");
 //con = con();
 //runQuery = runQuery();
 
 const date = require("date-and-time");
 const bcrypt = require("bcrypt");
 let newDate = new Date();
-console.log(date.format(newDate, "YYYY/MM/DD HH:mm:ss"));
+console.log(newDate);
+console.log(`IST : ${date.format(newDate, "YYYY/MM/DD HH:mm:ss")}`);
+let canadaDate = getPstDate();
+console.log(`PST : ${canadaDate}`);
 
 /*1 get resident Details By ID  */
 const getUserByIdRepository = async (id, res) => {
@@ -46,6 +53,7 @@ const getUserByIdRepository = async (id, res) => {
         (loggedIpAddress = array.logged_ip_address),
         (createdDate = array.created_date),
         (updatedDate = array.updated_date),
+        (enrolmentId = array.enrolment_id),
         (password = array.password)
       );
       return model;
@@ -95,7 +103,9 @@ const getAllUsersRepository = async (userType, userStatus) => {
         (lastLogin = array.last_login),
         (loggedIpAddress = array.logged_ip_address),
         (createdDate = array.created_date),
-        (updatedDate = array.updated_date)
+        (updatedDate = array.updated_date),
+        (enrolmentId = array.enrolment_id)
+
         // (password = array.password),
       );
       userArray.push(model);
@@ -118,18 +128,21 @@ let createUserRepository = async (
   userName,
   password,
   userType,
-  userStatus,
-  loggedIpAddress
+  userStatus
 ) => {
   // hasing the password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   // hash complete
-  let enrollmentId = enrollementIdTag(userType) + new Date().valueOf();
-  console.log(enrollmentId);
-  let query =
-    "INSERT INTO `users`( `full_name`,`phone_number`,`username`,`password`,`user_type`,`status`,`logged_ip_address`,`created_date`,`updated_date`,`enrolment_id`) VALUES (?,?,?,?,?,?,?,?,?,?) ";
+  const getTag = await enrollementIdTag(userType);
+  const randomId = await generateRandomNumber(getTag);
 
+  let uniqueId = getTag + randomId;
+  console.log(`value from the enroll ment id is ${randomId}`);
+  let date = getPstDate();
+  console.log(date); //delete
+  let query =
+    "INSERT INTO `users`( `full_name`,`phone_number`,`username`,`password`,`user_type`,`status`,`created_date`,`updated_date`,`enrolment_id`) VALUES (?,?,?,?,?,?,?,?,?) ";
   let results = await runQuery(query, [
     fullName,
     phoneNumber,
@@ -137,10 +150,9 @@ let createUserRepository = async (
     hashedPassword,
     userType,
     userStatus,
-    loggedIpAddress,
-    newDate,
-    newDate,
-    enrollmentId,
+    getPstDate(),
+    getPstDate(),
+    uniqueId,
   ]);
   // if userType =(2 Center Manager 4 center admin 5 nurse  6 facility head) add facility details
   /**  if( userType == 7){
@@ -157,37 +169,27 @@ let updateUserRepository = async (
   fullName,
   phoneNumber,
   userName,
-  lastLogin,
-  userStatus,
-  loggedIpAddress
+  userStatus
 ) => {
   try {
+    console.log(`checking the value passed`);
+    console.log(`****************************************`);
+    console.log(id, fullName, phoneNumber, userName, userStatus);
+    console.log(`****************************************`);
     // const salt = await bcrypt.genSalt(10);
     // console.log(password);
     // console.log("password and sal are ");
     // console.log(salt);
     // const hashedPassword = await bcrypt.hash(password, salt);
     let query =
-      "UPDATE users SET full_name =?,phone_number = ?,username=?,status=?,last_login=?,logged_ip_address=?,updated_date=?  WHERE user_id=? ";
-    // let sql = con.format(query, [
-    //   fullName,
-    //   phoneNumber,
-    //   userName,
-    //   userType,
-    //   userStatus,
-    //   loggedIpAddress,
-    //   newDate,
-    //   id,
-    // ]);
+      "UPDATE users SET full_name =?,phone_number = ?,username=?,status=?,updated_date=?  WHERE user_id=? ";
 
     let results = await runQuery(query, [
       fullName,
       phoneNumber,
       userName,
       userStatus,
-      lastLogin,
-      loggedIpAddress,
-      newDate,
+      getPstDate(),
       id,
     ]);
     if (results.affectedRows == 1) {
@@ -228,7 +230,7 @@ let updateUserLoginDetailsRepository = async (
     let results = await runQuery(query, [
       lastLogin,
       loggedIpAddress,
-      newDate,
+      getPstDate(),
       id,
     ]);
 

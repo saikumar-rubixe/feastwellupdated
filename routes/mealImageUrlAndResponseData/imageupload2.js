@@ -4,7 +4,8 @@ const multer = require("multer"); // multer will be used to handle the form data
 const Aws = require("aws-sdk"); // aws-sdk library will used to upload image to s3 bucket.
 require("dotenv/config"); // for using the environment variables that stores the confedential information.
 let { runQuery } = require("../../config/database");
-let newDate = new Date();
+const { getPstDate } = require("../../helper/getCanadaTime");
+let newDate = getPstDate();
 
 // creating the storage variable to upload the file and providing the destination folder,
 // if nothing is provided in the callback it will get uploaded in main directory

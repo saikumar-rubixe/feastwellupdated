@@ -102,16 +102,9 @@ const getAllUsersController = async (req, res) => {
 let createUserController = async (req, res, next) => {
   // const menuId;
   try {
-    let {
-      fullName,
-      phoneNumber,
-      userName,
-      password,
-      userType,
-      userStatus,
-      loggedIpAddress,
-    } = req.body;
-
+    let { fullName, phoneNumber, userName, password, userType, userStatus } =
+      req.body;
+    console.log(req.body);
     // if userType == 7 {
     //   menuId = 0;
     // } else if userType == 6 {
@@ -134,8 +127,7 @@ let createUserController = async (req, res, next) => {
         userName,
         password,
         userType,
-        userStatus,
-        loggedIpAddress
+        userStatus
       );
 
       if (!createUser) {
@@ -167,16 +159,9 @@ let updateUserController = async (req, res, next) => {
   try {
     let id = req.params.id;
     console.log(`id passed is ${id}`);
-    const {
-      fullName,
-      phoneNumber,
-      userName,
-      // password,
-      // userType,
-      userStatus,
-      lastLogin,
-      loggedIpAddress,
-    } = req.body;
+    const { fullName, phoneNumber, userName, userStatus } = req.body;
+    console.log(`this is the jfbwueif`);
+    console.log(userStatus);
     console.log(req.body);
     if (checkNumber(id)) {
       const recordExist = await getUserByIdRepository(id, res);
@@ -188,8 +173,6 @@ let updateUserController = async (req, res, next) => {
       }
       if (recordExist && recordExist != null) {
         let recordCheck = await userUpdateCheckRepository(userName, id, res);
-        // let emailCheck = await emailUpdateCheckRepository(email, id, res);
-
         if (recordCheck == 1) {
           if (recordCheck == 1) {
             res.status(404).json({
@@ -203,11 +186,7 @@ let updateUserController = async (req, res, next) => {
             fullName,
             phoneNumber,
             userName,
-            // password,
-            // userType,
-            userStatus,
-            lastLogin,
-            loggedIpAddress
+            userStatus
           );
           if (details == 1) {
             res.status(404).json({

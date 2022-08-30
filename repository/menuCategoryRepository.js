@@ -15,7 +15,7 @@ let { runQuery, con } = require("../config/database");
 //con = con();
 //runQuery = runQuery();
 let { menuCategoryModel } = require("../models/menuCategoryModel");
-let newDate = new Date();
+const { getPstDate } = require("../helper/getCanadaTime");
 
 // 1 get all categories
 const getAllMenuCategoryDetailsRepository = async (req, res) => {
@@ -81,12 +81,12 @@ const createMenuCategoryRepository = async (categoryName, menuStatus) => {
   try {
     let query =
       "INSERT into `menu_category` (`category_name`,`status`,`created_date`,`updated_date`) VALUES(?,?,?,?) ";
-    // let sql = con.format(query, [categoryName, menuStatus, newDate, newDate]);
+
     let results = await runQuery(query, [
       categoryName,
       menuStatus,
-      newDate,
-      newDate,
+      getPstDate(),
+      getPstDate(),
     ]);
     let value = results.insertId;
     if (value && value != 0) {
@@ -106,11 +106,11 @@ const updateMenuCategoryRepository = async (id, categoryName, menuStatus) => {
   try {
     let query =
       " UPDATE `menu_category` set `category_name`=?,`status`=?,`updated_date`=? where category_id  =?";
-    // let sql = con.format(query, [categoryName, menuStatus, newDate, id]);
+
     let results = await runQuery(query, [
       categoryName,
       menuStatus,
-      newDate,
+      getPstDate(),
       id,
     ]);
     let value = results.affectedRows;

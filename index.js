@@ -23,6 +23,8 @@ app.use(helmet()); //Helmet helps you secure your Express apps by setting variou
 const { authRoute } = require("./routes/loginAndAuthentication/authRoute");
 const { userRoute } = require("./routes/usersAndActivity/userRoute");
 const { facilityRoute } = require("./routes/facility/facilityRoute");
+const { kitchenRoute } = require("./routes/facility/kitchenRoutes");
+
 const { countryRoute } = require("./routes/countryStateCity/countryRoutes");
 const { statesRoute } = require("./routes/countryStateCity/stateRoutes");
 const { cityRoute } = require("./routes/countryStateCity/cityRoutes");
@@ -117,6 +119,7 @@ app.use(`${apiBasePath}mealContents`, menuContentsRoute);
 // ^ users and users details
 app.use(`${apiBasePath}user`, userRoute);
 app.use(`${apiBasePath}facility`, facilityRoute);
+app.use(`${apiBasePath}kitchen`, kitchenRoute);
 app.use(`${apiBasePath}userActivityLog`, userActivityLog);
 
 app.use(`${apiBasePath}residentFacility`, residentFacilityRoute);
@@ -156,6 +159,7 @@ app.use(`${localurl}mealContents`, menuContentsRoute);
 // ^ users and users details
 app.use(`${localurl}user`, userRoute);
 app.use(`${localurl}facility`, facilityRoute);
+app.use(`${localurl}kitchen`, kitchenRoute);
 app.use(`${localurl}userActivityLog`, userActivityLog);
 
 app.use(`${localurl}residentFacility`, residentFacilityRoute);

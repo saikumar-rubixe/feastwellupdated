@@ -14,7 +14,7 @@ let { RolesModel } = require("../models/rolesModel");
 let { runQuery, con } = require("../config/database");
 //con = con();
 //runQuery = runQuery();
-const newDate = new Date();
+const { getPstDate } = require("../helper/getCanadaTime");
 // 1 get by id roles
 const getRolesDetailByIdRepository = async (id, res) => {
   try {
@@ -81,21 +81,14 @@ const createRoleRepository = async (roleName, userTypeId, roleStatus) => {
   try {
     let query =
       "INSERT into `roles` (`role_name`,`user_type_id`,`status`,`created_date`,`updated_date`) VALUES(?,?,?,?,?) ";
-    // let sql = con.format(query, [
-    //   roleName,
-    //   menuId,
-    //   userTypeId,
-    //   roleStatus,
-    //   newDate,
-    //   newDate,
-    // ]);
+
     let results = await runQuery(query, [
       roleName,
 
       userTypeId,
       roleStatus,
-      newDate,
-      newDate,
+      getPstDate(),
+      getPstDate(),
     ]);
     let value = results.insertId;
     if (value && value != 0) {
@@ -121,20 +114,13 @@ const updateRolesRepository = async (
   try {
     let query =
       " UPDATE `roles` set `role_name`=?,`user_type_id`=?,`status`=?,`updated_date`=? where role_id  =?";
-    // let sql = con.format(query, [
-    //   roleName,
-    //   menuId,
-    //   userTypeId,
-    //   roleStatus,
-    //   newDate,
-    //   id,
-    // ]);
+
     let results = await runQuery(query, [
       roleName,
 
       userTypeId,
       roleStatus,
-      newDate,
+      getPstDate(),
       id,
     ]);
     let value = results.affectedRows;

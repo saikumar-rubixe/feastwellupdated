@@ -1,6 +1,5 @@
 const permissionsCheck = function(menuId,permissionType,req,res,next){
-    try {   
-        
+    try {           
         const userId = req.userIdValue;
         await permissionBodyValidation()   
         let results = await checkpermissionsRepository(userId, menuId, permissionType)

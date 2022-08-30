@@ -9,7 +9,7 @@ class UserModel {
   loggedIpAddress = null;
   createdDate = null;
   updatedDate = null;
-  enrolmentID = null;
+  enrolmentId = null;
   password = null;
 
   fill(
@@ -23,7 +23,7 @@ class UserModel {
     loggedIpAddress,
     createdDate,
     updatedDate,
-    enrolmentID,
+    enrolmentId,
     password
   ) {
     this.userId = userId;
@@ -36,7 +36,7 @@ class UserModel {
     this.loggedIpAddress = loggedIpAddress;
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;
-    this.enrolmentID = enrolmentID;
+    this.enrolmentId = enrolmentId;
     this.password = password;
   }
 }

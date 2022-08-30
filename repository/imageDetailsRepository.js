@@ -1,7 +1,8 @@
 const { ImageUploadDetails } = require("../models/imageDetailsModel");
 let { runQuery, con } = require("../config/database");
-let newDate = new Date();
+const { getPstDate } = require("../helper/getCanadaTime");
 var mysql = require("mysql");
+require("dotenv");
 
 // get all images uploaded where flag =1
 const getSingleimageUploadDetailRepository = async (req, res) => {
@@ -137,10 +138,10 @@ const insertImageUrlDetailsRepository = async (
       adminId,
       0,
       imageUrl,
-      newDate,
+      getPstDate(),
       mealType,
     ]);
-
+    console.log(results);
     let value = results.insertId;
     if (value && value != 0) {
       return value;

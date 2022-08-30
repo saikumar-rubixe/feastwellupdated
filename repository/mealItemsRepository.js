@@ -1,7 +1,7 @@
 let { runQuery, con } = require("../config/database");
 //con = con();
 //runQuery = runQuery();
-let newDate = new Date();
+const { getPstDate } = require("../helper/getCanadaTime");
 let { mealItemsModel } = require("../models/mealitemsModel");
 
 const getMealItemsDetailByIdRepository = async (id, res) => {
@@ -66,19 +66,13 @@ const createMealItemsRepository = async (mealItemName, Status, userId) => {
   try {
     let query =
       "INSERT into `meal_items` (`meal_item_name`,`status`,`user_id`,`created_date`,`updated_date`) VALUES(?,?,?,?,?) ";
-    // let sql = con.format(query, [
-    //   mealItemName,
-    //   Status,
-    //   userId,
-    //   newDate,
-    //   newDate,
-    // ]);
+
     let results = await runQuery(query, [
       mealItemName,
       Status,
       userId,
-      newDate,
-      newDate,
+      getPstDate(),
+      getPstDate(),
     ]);
     let value = results.insertId;
     if (value && value != 0) {
@@ -97,12 +91,12 @@ const updateMealItemsRepository = async (id, mealItemName, Status, userId) => {
   try {
     let query =
       " UPDATE `meal_items` set `meal_item_name`=?,`status`=?,`user_id`=?,`updated_date`=? where meal_item  =?";
-    //  let sql = con.format(query, [mealItemName, Status, userId, newDate, id]);
+
     let results = await runQuery(query, [
       mealItemName,
       Status,
       userId,
-      newDate,
+      getPstDate(),
       id,
     ]);
     let value = results.affectedRows;

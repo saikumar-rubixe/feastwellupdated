@@ -13,10 +13,11 @@
  */
 
 let { runQuery, con } = require("../config/database");
+const { getPstDate } = require("../helper/getCanadaTime");
 //con = con();
 //runQuery = runQuery();
 let { mealMenuContentsModel } = require("../models/mealMenuContentsModel");
-let newDate = new Date();
+
 // 1 get all details
 const getAllMealMenuDetailsRepository = async (req, res) => {
   try {
@@ -89,21 +90,14 @@ const createMealMenuContentsRepository = async (
   try {
     let query =
       "INSERT into `meal_menu_contents` (`meal_menu_id`,`meal_item_id`,`user_id`,`status`,created_date,updated_date) VALUES(?,?,?,?,?,?) ";
-    // let sql = con.format(query, [
-    //   mealMenuId,
-    //   mealItemId,
-    //   userId,
-    //   menuContentStatus,
-    //   newDate,
-    //   newDate,
-    // ]);
+
     let results = await runQuery(query, [
       mealMenuId,
       mealItemId,
       userId,
       menuContentStatus,
-      newDate,
-      newDate,
+      getPstDate(),
+      getPstDate(),
     ]);
     let value = results.insertId;
     if (value && value != 0) {
@@ -128,20 +122,13 @@ const updateMealMenuContentsRepository = async (
   try {
     let query =
       " UPDATE `meal_menu_contents` set `meal_menu_id`=?,`meal_item_id`=?,`user_id`=?,`status`=?,`updated_date`=? where meal_content_id  =?";
-    // let sql = con.format(query, [
-    //   mealMenuId,
-    //   mealItemId,
-    //   userId,
-    //   menuContentStatus,
-    //   newDate,
-    //   id,
-    // ]);
+
     let results = await runQuery(query, [
       mealMenuId,
       mealItemId,
       userId,
       menuContentStatus,
-      newDate,
+      getPstDate(),
       id,
     ]);
     let value = results.affectedRows;

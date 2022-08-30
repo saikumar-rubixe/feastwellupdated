@@ -15,7 +15,7 @@ let { runQuery, con } = require("../config/database");
 //con = con();
 //runQuery = runQuery();
 let { UserActivityLogModel } = require("../models/userActivityLogModel");
-let newDate = new Date();
+const { getPstDate } = require("../helper/getCanadaTime");
 
 // 1 get detail by id
 const getUserLogDetailByIdRepository = async (userId, res) => {
@@ -48,8 +48,12 @@ const createUserLogRepository = async (activityDescription, userId) => {
   try {
     let query =
       "INSERT into `user_activity_log` (`activity_description`,`activity_logged_date`,`userid`) VALUES(?,?,?) ";
-    //  let sql = con.format(query, [activityDescription, newDate, userId]);
-    let results = await runQuery(query, [activityDescription, newDate, userId]);
+
+    let results = await runQuery(query, [
+      activityDescription,
+      getPstDate(),
+      userId,
+    ]);
     let value = results.insertId;
     if (value && value != 0) {
       return value;

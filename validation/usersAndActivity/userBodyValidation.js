@@ -11,8 +11,6 @@ const Schema = Joi.object({
   password: Joi.string().min(6).required(),
   userType: Joi.number().required(),
   userStatus: Joi.number().max(1).required(),
-
-  loggedIpAddress: Joi.string(),
 });
 // VALIDATE BEFORE SAVING A USER
 const userBodyValidation = async (req, res, next) => {
@@ -20,6 +18,7 @@ const userBodyValidation = async (req, res, next) => {
     await Schema.validateAsync(req.body);
     next();
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       error: error.message,
       message: "request body validation error",
@@ -37,7 +36,7 @@ const updateSchema = Joi.object({
     .regex(/^[a-z]+[a-z0-9_]*$/i),
   userStatus: Joi.number().max(1),
   lastLogin: Joi.date().format(["YYYY-MM-DD HH:mm:ss", "YYYY/MM/DD HH:mm:ss"]),
-  loggedIpAddress: Joi.string(),
+  loggedIpAddress: Joi.string().optional(),
 });
 // VALIDATE BEFORE SAVING A USER
 const userUpdateBodyValidation = async (req, res, next) => {

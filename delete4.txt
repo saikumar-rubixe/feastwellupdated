@@ -1,0 +1,78 @@
+// console.log(`starts hhere`);
+
+// const { date } = require("joi");
+
+// const date = new Date().timeZone;
+// console.log(new Date());
+
+// console.log(pst);
+// console.log(date.format(pst, "YYYY/MM/DD HH:mm:ss"));
+// let tmp_date = new Date(pst)
+
+//altered code #008 test date format start--
+// let tmp_date = new Date(pst);
+// console.log(tmp_date);
+// let dformat =
+//   [
+//     (tmp_date.getMonth() + 1).padLeft(),
+//     tmp_date.getDate().padLeft(),
+//     tmp_date.getFullYear(),
+//   ].join("/") +
+//   " " +
+//   [
+//     tmp_date.getHours().padLeft(),
+//     tmp_date.getMinutes().padLeft(),
+//     tmp_date.getSeconds().padLeft(),
+//   ].join(":");
+//altered code #008 test date format end --
+//console.log(pst);
+
+// var d = new Date(); /* midnight in China on April 13th */
+// d.toLocaleString("en-GB", { timeZone: "Europe/Moscow" });
+// console.log(d);
+// var dd = String(d.getDate()).padStart(2, "0");
+// var mm = String(d.getMonth() + 1).padStart(2, "0"); //January is 0!
+// var yyyy = d.getFullYear();
+// var hours = String(d.getHours()).padStart(2, "0");
+// var minutes = String(d.getMinutes()).padStart(2, "0");
+// var seconds = String(d.getSeconds()).padStart(2, "0");
+// today =
+//   yyyy + "/" + mm + "/" + dd + " " + hours + ":" + minutes + ":" + seconds;
+// console.log(today);
+
+// console.log(`ends here`);
+
+// console.log("hai");
+
+// TZ = "Canada/Pacific";
+// console.log(new Date().toString());
+// console.log(new Date().toDateString);
+// let pst = date.toLocaleString(
+//   "en-GB",
+//   { timeZone: "America/Los_Angeles" },
+//   "YYYY/MM/DD HH:mm:ss"
+// );
+
+const pstDate = new Date().toLocaleDateString("en-GB", {
+  timeZone: "America/Los_Angeles",
+});
+console.log(pstDate);
+console.log(`**********************************************`);
+
+console.log(`&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&`);
+console.log(convertDigitIn(pstDate));
+console.log(`&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&`);
+const pstTime = new Date().toLocaleTimeString("en-GB", {
+  timeZone: "America/Los_Angeles",
+});
+console.log(pstTime);
+console.log(`******************************`);
+console.log(pstDate, pstTime);
+
+console.log(`**********************************************`);
+
+// const date = require("date-and-time");
+// let value = new Date().toLocaleDateString();
+// console.log(nDate);
+
+//console.log(Date.now());

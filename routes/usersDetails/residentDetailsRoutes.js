@@ -9,8 +9,12 @@ const {
 const {
   insertResidentDetailsController,
   getallResidentDetailsController,
+
+  getResidentDetailByIdController,
+  updateResidentDetailsController,
 } = require("../../controller/usersDetails/residentController");
 
+//^ create
 residentDetailsRoutes
   .route("/")
   .post(
@@ -19,7 +23,19 @@ residentDetailsRoutes
     insertResidentDetailsController
   );
 
+// *get all details
 residentDetailsRoutes
   .route("/")
   .get(verifyFunction, getallResidentDetailsController);
+
+//*get detail By Id
+residentDetailsRoutes
+  .route("/:id")
+  .get(verifyFunction, getResidentDetailByIdController);
+
+//? update details  By Id
+residentDetailsRoutes
+  .route("/:userId")
+  .put(verifyFunction, updateResidentDetailsController);
+
 module.exports = { residentDetailsRoutes };

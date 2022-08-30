@@ -1,5 +1,5 @@
 let { runQuery } = require("../config/database");
-let newDate = new Date();
+const { getPstDate } = require("../helper/getCanadaTime");
 const {
   ImagePredictionRepsonseModel,
 } = require("../models/imagePredictionResponseModel");
@@ -12,7 +12,11 @@ const insertImagePredictionRespsonseRepository = async (
     const imageTableId = referenceId;
     let sql =
       "insert into  `image_prediction_response` (`image_details_table_id`,`json_response`,`created_date`) VALUES (?,?,?)";
-    const details = await runQuery(sql, [imageTableId, jsonResponse, newDate]);
+    const details = await runQuery(sql, [
+      imageTableId,
+      jsonResponse,
+      getPstDate(),
+    ]);
     const insertedId = details.insertId;
     if (insertedId) {
       let sql = "update `image_details`  set `flag` =1 where id = ?  ";

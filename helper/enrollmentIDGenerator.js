@@ -1,29 +1,34 @@
-const enrollementIdTag = function (userType) {
+let { runQuery } = require("../config/database");
+console.log(Math.floor(1000 + Math.random() * 9000));
+// 1 create tag based upon the userType
+const enrollementIdTag = async (userType) => {
   try {
     if (userType == 1) {
-      return (tag = "SA01");
+      tag = "S"; // SUPER ADMIN
+      return tag;
     }
-
     if (userType == 2) {
-      return (tag = "CM02");
+      tag = "A"; //ADMIN
+      return tag;
     }
-
     if (userType == 3) {
-      return (tag = "AD03");
+      tag = "F"; // FACILITY
+      return tag;
     }
     if (userType == 4) {
-      return (tag = "CA04");
+      tag = "N"; // NURSE
+      return tag;
     }
     if (userType == 5) {
-      return (tag = "NS05");
+      tag = "D"; //DIETICIAN
+      return tag;
     }
     if (userType == 6) {
-      return (tag = "DN06");
-    }
-    if (userType == 7) {
-      return (tag = "RS07");
+      tag = "R"; // RESIDENT
+      return tag;
     } else {
-      return (tag = "GT01");
+      tag = "G"; // GUEST
+      return tag;
     }
   } catch (error) {
     console.log(error);
@@ -34,5 +39,45 @@ const enrollementIdTag = function (userType) {
     });
   }
 };
+// generate random number
+const generateRandomNumber = async () => {
+  let value = Math.floor(1000 + Math.random() * 9000);
+  return value;
+};
 
-module.exports = { enrollementIdTag };
+// check whether the random number exists or not
+const checkEnrolmentIdRepository = async (randomId) => {
+  try {
+    let sql = " select max(user_id) from users ";
+    let results = await runQuery(sql, [randomId]);
+    let count = results.toString().length;
+
+    if (count == 1) {
+      return (value = "000");
+    }
+    if (count == 2) {
+      return (value = "00");
+    }
+    if (count == 3) {
+      return (value = "0");
+    }
+    if (count == 4) {
+      return (value = "");
+    }
+    // else {
+    //   return false;
+    // }
+
+    if (results.length == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {}
+};
+
+module.exports = {
+  generateRandomNumber,
+  enrollementIdTag,
+  checkEnrolmentIdRepository,
+};

@@ -44,6 +44,7 @@ class ResidentModel {
   calorieNeeds = null;
   fluidNeeds = null;
   proteinNeeds = null;
+  proteinNeedsValue = null;
   carePlans = null;
   recommendations = null;
 
@@ -93,6 +94,7 @@ class ResidentModel {
     calorieNeeds,
     fluidNeeds,
     proteinNeeds,
+    proteinNeedsValue,
     carePlans,
     recommendations
   ) {
@@ -141,6 +143,7 @@ class ResidentModel {
     this.calorieNeeds = calorieNeeds;
     this.fluidNeeds = fluidNeeds;
     this.proteinNeeds = proteinNeeds;
+    this.proteinNeedsValue = proteinNeedsValue;
     this.carePlans = carePlans;
     this.recommendations = recommendations;
   }
