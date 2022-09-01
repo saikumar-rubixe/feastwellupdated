@@ -4,6 +4,7 @@ const {
   createCitiesRepository,
   updateCityRepository,
   deleteCityRepository,
+  getCitiesByCityIdRepository,
 } = require("../../repository/citiesRepository");
 
 // 1 get all city details
@@ -34,7 +35,7 @@ const getAllDetailsController = async (req, res) => {
   }
 };
 
-// 2 get city by id
+// 2 get city by state  id
 const getCitiesByIdController = async (req, res) => {
   try {
     const id = req.params.id;
@@ -196,10 +197,45 @@ const deleteCityController = async (req, res) => {
   }
 };
 
+//  6 get citiy by city Id
+const getCityByCityIdController = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    if (isNaN(id)) {
+      console.log("id passed is not a number");
+      res.send("send valid id: ", id, "   is not a number");
+    } else {
+      const details = await getCitiesByCityIdRepository(id, res);
+      //  console.log(details.array[0]);
+      if (details) {
+        res.status(200).json({
+          success: true,
+          message: "fetched details of cities",
+          data: details,
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+          message: "No Cities found with id " + id,
+          data: [],
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Controller: catch block Error");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
+  }
+};
 module.exports = {
   getAllDetailsController,
   getCitiesByIdController,
   createCityController,
   updateCityController,
   deleteCityController,
+  getCityByCityIdController,
 };

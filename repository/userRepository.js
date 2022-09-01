@@ -41,6 +41,7 @@ const getUserByIdRepository = async (id, res) => {
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let array = results[0];
+      console.log(array.created_date);
       let model = new UserModel();
       model.fill(
         (userId = array.user_id),

@@ -133,6 +133,36 @@ const deleteCityRepository = async (id, res) => {
   }
 };
 
+// 6 get cities by city id
+const getCitiesByCityIdRepository = async (id, res) => {
+  try {
+    let array = [];
+    let query =
+      " select `id`,`name`,`state_code`,`country_id` , state_id from  `cities` where id =?";
+    let results = await runQuery(query, [id]);
+    let count = results.length;
+    if (count != 0) {
+      for (i = 0; i < count; i++) {
+        let model = new CitiesModel();
+        let result = results[i];
+        model.fill(
+          (id = result.id),
+          (cityname = result.name),
+          (stateCode = result.state_code),
+          (countryCode = result.country_id),
+          (stateId = result.state_id)
+        );
+        array.push(model);
+      }
+    } else {
+      return false;
+    }
+    return { count, array };
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
 // module export
 module.exports = {
   getAllCitiesDetailsRepository,
@@ -140,4 +170,5 @@ module.exports = {
   createCitiesRepository,
   updateCityRepository,
   deleteCityRepository,
+  getCitiesByCityIdRepository,
 };

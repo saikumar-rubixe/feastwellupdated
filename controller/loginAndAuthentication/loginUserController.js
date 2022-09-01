@@ -26,75 +26,85 @@ const userLogin = async (req, res) => {
       });
     } else {
       if (recordExist) {
-        let facilityId = 0;
         const usertype = recordExist.userType;
-        const userId = recordExist.userId;
-        const username = recordExist.userName;
+        if (
+          usertype == 1 ||
+          usertype == 2 ||
+          usertype == 3 ||
+          (usertype == 4 && usertype != 5 && usertype != 6)
+        ) {
+          let facilityId = 0;
+          const userId = recordExist.userId;
+          const username = recordExist.userName;
+          //GETTING HASHED PASSWORD FROM DB
+          const dbpassword = recordExist.password;
+          console.log(password, dbpassword);
+          const result = await bcrypt.compare(password, dbpassword);
+          if (!result)
+            return res.status(401).json({
+              success: false,
+              message: " invalid password",
+            });
 
-        //GETTING HASHED PASSWORD FROM DB
-        const dbpassword = recordExist.password;
-        console.log(password, dbpassword);
-        const result = await bcrypt.compare(password, dbpassword);
-        if (!result)
-          return res.status(401).json({
-            success: false,
-            message: " invalid password",
-          });
+          if (result) {
+            //CREATE AND ASSIGN A TOKEN
+            console.log(" login succesful");
+            if (usertype == 2 || usertype == 7) {
+              const value = await getFacilityIdByUserId(userId);
+              facilityId = value;
+            } else {
+              facilityId;
+            }
+            const token = jwt.sign(
+              { id: recordExist.userId },
+              process.env.TOKEN_SECRET,
+              { expiresIn: process.env.TOKEN_LIFE }
+            );
+            const refreshToken = jwt.sign(
+              { id: recordExist.userId },
+              process.env.TOKEN_SECRET,
+              { expiresIn: process.env.REFRESH_Token_LIFE }
+            );
+            //  res.header("token", token).send(token);
 
-        if (result) {
-          //CREATE AND ASSIGN A TOKEN
-          console.log(" login succesful");
-          if (usertype == 2 || usertype == 7) {
-            const value = await getFacilityIdByUserId(userId);
-            facilityId = value;
-          } else {
-            facilityId;
-          }
-          const token = jwt.sign(
-            { id: recordExist.userId },
-            process.env.TOKEN_SECRET,
-            { expiresIn: process.env.TOKEN_LIFE }
-          );
-          const refreshToken = jwt.sign(
-            { id: recordExist.userId },
-            process.env.TOKEN_SECRET,
-            { expiresIn: process.env.REFRESH_Token_LIFE }
-          );
-          //  res.header("token", token).send(token);
-
-          //  after login succesful send the sidebars whichever accesable
-          let menuId = await checkSideBarPermissionContoller(
-            recordExist.userType
-          );
-          if (menuId != 0 && menuId !== null) {
-            menuId = menuId;
-          }
-          if (menuId == 0) {
-            menuId = {
-              category_id: 0,
-              category_name: "dashboard",
+            //  after login succesful send the sidebars whichever accesable
+            let menuId = await checkSideBarPermissionContoller(
+              recordExist.userType
+            );
+            if (menuId != 0 && menuId !== null) {
+              menuId = menuId;
+            }
+            if (menuId == 0) {
+              menuId = {
+                category_id: 0,
+                category_name: "dashboard",
+              };
+            }
+            console.log(`the menu id got here is`);
+            console.log(menuId);
+            const tokenDetails = {
+              token: token,
+              refreshToken: refreshToken,
             };
-          }
-          console.log(`the menu id got here is`);
-          console.log(menuId);
-          const tokenDetails = {
-            token: token,
-            refreshToken: refreshToken,
-          };
-          tokenList[refreshToken] = tokenDetails;
-          let details = {
-            success: true, // response.success
-            message: "login successful",
-            token: token,
-            refreshToken: refreshToken,
-            userId: userId,
-            userType: usertype,
-            username: username,
-            facilityId: facilityId,
-            menuAccess: menuId,
-          };
+            tokenList[refreshToken] = tokenDetails;
+            let details = {
+              success: true, // response.success
+              message: "login successful",
+              token: token,
+              refreshToken: refreshToken,
+              userId: userId,
+              userType: usertype,
+              username: username,
+              facilityId: facilityId,
+              menuAccess: menuId,
+            };
 
-          return res.status(200).json(details);
+            return res.status(200).json(details);
+          }
+        } else {
+          return res
+            .status(401)
+            .send({ success: false, message: "Unauthorized User" });
         }
       } else
         return res
