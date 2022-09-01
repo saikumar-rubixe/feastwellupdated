@@ -1,24 +1,25 @@
 const { runQuery } = require("../config/database");
 const { MealTypeModel } = require("../models/mealTypesModel");
-
-const getAllMealTypesRepository = async (req, res) => {
+const { getPstDate } = require("../helper/getCanadaTime");
+const date = getPstDate();
+/* * 1 GET meal types based on resident Id
+ * @param {*} residentId
+ * @returns
+ */
+const getAllMealTypesRepository = async (residentId) => {
   let array = [];
   try {
-    let sql = "select * from `meal_types`";
-
-    let results = await runQuery(sql);
+    /** */
+    let sql =
+      "SELECT distinct id,meal_name as name from meal_types mt where NOT EXISTS (select id from image_details where resident_id = ? and DATE(?) and mt.id = image_details.meal_type )";
+    let results = await runQuery(sql, [residentId, date]);
+    console.log(results);
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
         let model = new MealTypeModel();
         let result = results[i];
-        model.fill(
-          (id = result.id),
-          (mealName = result.meal_name),
-          (status = result.status),
-          (createdDate = result.created_date),
-          (updatedDate = result.updated_date)
-        );
+        model.fill((id = result.id), (mealName = result.name));
         array.push(model);
       }
       return { count, array };

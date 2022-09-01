@@ -4,7 +4,8 @@ const {
 // 1 get meal types
 const getAllMealTypesController = async (req, res) => {
   try {
-    let details = await getAllMealTypesRepository();
+    const residentId = req.body.residentId;
+    let details = await getAllMealTypesRepository(residentId);
     if (!details || details == false) {
       res.status(400).json({
         success: false,
