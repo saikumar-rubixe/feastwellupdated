@@ -4,7 +4,7 @@ const getRoleId = async (userType) => {
   console.log(`into get role id`); // delete
   let sql = "select `role_id` from `roles` where user_type_id =?";
   let details = await runQuery(sql, [userType]);
-  let roleId = details[0];
+  let roleId = details[0].role_id;
   //let roleid = detail.role_id;
 
   console.log(roleId);
@@ -15,11 +15,14 @@ const getRoleId = async (userType) => {
 
 const getListOfMenuIds = async (role) => {
   let listmenu = [];
-  // console.log(`into get list of menu ids`); //delete
-  const sql = "select menu_id from `permissions` where role_id =?";
+
+  console.log(`into get list of menu ids for role id ${role}`); //delete
+
+  const sql =
+    "select menu_id from `permissions` where role_id =? ORDER BY menu_id";
   const details = await runQuery(sql, [role]);
-  // console.log(`! consolling the length`);
-  // console.log(details.length);
+  console.log(`! consolling the length`); //delete
+  console.log(details.length); //deete
   if (details.length != 0) {
     for (i = 0; i < details.length; i++) {
       let result = details[i];
@@ -29,7 +32,7 @@ const getListOfMenuIds = async (role) => {
     console.log(
       `******************************************************************************************`
     );
-    console.log(`consolling list of menu id's ${listmenu}`);
+    console.log(`consolling list of menu id's ${listmenu}`); //delete
     return listmenu;
   } else {
     return null;

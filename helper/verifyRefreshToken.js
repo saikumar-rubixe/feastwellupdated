@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const verifyFunction = function (req, res, next) {
+const verifyRefreshFunction = function (req, res, next) {
   let jtoken = req.header("Authorization");
 
   //unauthorized
@@ -13,8 +13,8 @@ const verifyFunction = function (req, res, next) {
   else {
     let token = jtoken.replace("Bearer ", "");
     try {
-      //           passing the    token and the secret key
-      const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+      // passing the    token and the secret key
+      const verified = jwt.verify(token, process.env.REFRESH_TOKEN);
       // once the token is verified ...from that id can be extracted and that id will be user )
       req.userIdValue = verified.id;
       // ..which we can use for fetching the details of user by id ,, that api is already there from usersgetby id
@@ -24,10 +24,10 @@ const verifyFunction = function (req, res, next) {
       console.log(error);
       res.status(401).json({
         success: false,
-        message: "session expired try with refresh token",
+        message: "invalid token",
       });
     }
   }
 };
 
-module.exports = { verifyFunction };
+module.exports = { verifyRefreshFunction };

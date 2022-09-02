@@ -4,9 +4,10 @@ const env = require("dotenv");
 const { runQuery } = require("../../config/database");
 const tokenList = {};
 const { getUserDetailByUsername } = require("../../helper/getDetailsby");
+const { getUserByIdRepository } = require("../../repository/userRepository");
 const { checkSideBarPermissionContoller } = require("../sideBar/sideBarCheck");
 // controller
-
+//* USER LOGIN
 const userLogin = async (req, res) => {
   console.log(req.body);
   try {
@@ -62,7 +63,7 @@ const userLogin = async (req, res) => {
             );
             const refreshToken = jwt.sign(
               { id: recordExist.userId },
-              process.env.TOKEN_SECRET,
+              process.env.REFRESH_TOKEN,
               { expiresIn: process.env.REFRESH_Token_LIFE }
             );
             //  res.header("token", token).send(token);
@@ -121,6 +122,77 @@ const userLogin = async (req, res) => {
   }
 };
 
+// ! TOKEN LOGIN
+
+const TokenLogin = async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "application/json");
+    const usersId = req.userIdValue;
+    const userExist = await getUserByIdRepository(usersId);
+    console.log(`calling *******************************************`);
+    console.log(userExist);
+    console.log(`calling *******************************************`);
+    if (userExist) {
+      const usertype = userExist.userType;
+      console.log(`user type is passing ${usertype}`);
+      let facilityId = 0;
+      // const value = await getFacilityIdByUserId(userId);
+      // if (value) {
+      //   facilityId = value;
+      // } else {
+      //   facilityId;
+      // }
+
+      const token = jwt.sign({ id: usersId }, process.env.TOKEN_SECRET, {
+        expiresIn: process.env.TOKEN_LIFE,
+      });
+
+      const refreshToken = jwt.sign(
+        { id: usersId },
+        process.env.REFRESH_TOKEN,
+        { expiresIn: process.env.REFRESH_Token_LIFE }
+      );
+
+      //  after login succesful send the sidebars whichever accesable
+      let menuId = await checkSideBarPermissionContoller(userExist.usertype);
+      if (menuId != 0 && menuId !== null) {
+        menuId = menuId;
+      }
+      if (menuId == 0) {
+        menuId = {
+          category_id: 0,
+          category_name: "dashboard",
+        };
+      }
+      console.log(`the menu id got here is`);
+      console.log(menuId);
+      let details = {
+        success: true, // response.success
+        message: "login successful",
+        token: token,
+        refreshToken: refreshToken,
+        userId: userId,
+        userType: usertype,
+        username: userExist.userName,
+        facilityId: facilityId,
+        menuAccess: menuId,
+      };
+
+      return res.status(200).json(details);
+    } else {
+      return res.status(401).send({ success: false, message: "invalid token" });
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("catch block error");
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb cont",
+    });
+  }
+};
+
+//
 getFacilityIdByUserId = async (userId) => {
   const sql = "select `facility_id` from `user_facility_map` where user_id=?";
   const results = await runQuery(sql, [userId]);
@@ -135,4 +207,4 @@ getFacilityIdByUserId = async (userId) => {
     return 0;
   }
 };
-module.exports = { userLogin };
+module.exports = { userLogin, TokenLogin };

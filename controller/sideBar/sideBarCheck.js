@@ -8,12 +8,12 @@ const {
 const checkSideBarPermissionContoller = async (userType) => {
   try {
     const role = await getRoleId(userType); // check for roleId of usertype
-    // console.log(`role id is`);
-    // console.log(role); //delete
-    // console.log(`calling get list of menu ids `); //delete
+    console.log(`role id is`);
+    console.log(role); //delete
+    console.log(`calling get list of menu ids `); //delete
     let values = await getListOfMenuIds(role);
-    // console.log(values); //delete
-    //console.log(`consolled values`); //delete
+    console.log(values); //delete
+    console.log(`consolled values`); //delete
     if (values != null) {
       let menuIdArray = [];
       for (i = 0; i < values.length; i++) {
@@ -24,7 +24,8 @@ const checkSideBarPermissionContoller = async (userType) => {
         console.log(normalObj);
         menuIdArray.push(normalObj);
       }
-
+      console.log(`menu Id Array is `);
+      console.log(menuIdArray);
       return menuIdArray;
     } else {
       return 0;

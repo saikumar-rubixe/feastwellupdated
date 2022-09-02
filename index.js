@@ -21,6 +21,10 @@ app.use(helmet()); //Helmet helps you secure your Express apps by setting variou
 //const { centerHeadRoute } = require("./routes/centerHeadRoutes"); // delete
 
 const { authRoute } = require("./routes/loginAndAuthentication/authRoute");
+const {
+  refreshRoute,
+} = require("./routes/loginAndAuthentication/refreshRoute");
+
 const { userRoute } = require("./routes/usersAndActivity/userRoute");
 const { facilityRoute } = require("./routes/facility/facilityRoute");
 const { kitchenRoute } = require("./routes/facility/kitchenRoutes");
@@ -96,6 +100,7 @@ let localurl = "/feastwell-backend/api/v1/";
 
 // !Login!
 app.use(`${apiBasePath}auth/login`, authRoute);
+app.use(`${apiBasePath}auth/refresh`, refreshRoute);
 // !SideBar!
 app.use(`${apiBasePath}menuCategory`, MenuCategoryRoute);
 // ^ Country State City Routes
@@ -135,15 +140,18 @@ app.use(`${apiBasePath}imageResponse`, imagePredictionResponse);
 /**   *********************************************************************************************************************************** */
 //    TODO       FOR  LOCAL HOST TESTING  AND DEVLOPMENT PURPOSE ONLY     //
 
+// !Login!
+app.use(`${localurl}auth/login`, authRoute);
+app.use(`${localurl}auth/refresh`, refreshRoute);
+
+// !SideBar!
+app.use(`${localurl}menuCategory`, MenuCategoryRoute);
+
 // ^ Country State City Routes
 app.use(`${localurl}country`, countryRoute);
 app.use(`${localurl}states`, statesRoute);
 app.use(`${localurl}city`, cityRoute);
 
-// !Login!
-app.use(`${localurl}auth/login`, authRoute);
-// !SideBar!
-app.use(`${localurl}menuCategory`, MenuCategoryRoute);
 // ^Roles and Permissions
 app.use(`${localurl}roles`, rolesRoute);
 app.use(`${localurl}permissions`, permissionsRoute);
