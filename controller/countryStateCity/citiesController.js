@@ -26,8 +26,8 @@ const getAllDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
+    console.log(error); //delete
+    console.log("Controller:CBE Something Went Wrong !"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont",
@@ -41,7 +41,7 @@ const getCitiesByIdController = async (req, res) => {
     const id = req.params.id;
 
     if (isNaN(id)) {
-      console.log("id passed is not a number");
+      // console.log("id passed is not a number"); //delete
       res.send("send valid id: ", id, "   is not a number");
     } else {
       const details = await getCitiesByIdRepository(id, res);
@@ -61,8 +61,8 @@ const getCitiesByIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller: catch block Error");
+    console.log(error); //delete
+    console.log("Controller: catch block Error"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -74,7 +74,7 @@ const getCitiesByIdController = async (req, res) => {
 const createCityController = async (req, res) => {
   try {
     const { name, stateId, countryId } = req.body;
-    console.log(req.body);
+    // console.log(req.body);//delete
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     // const recordCheck = await functionCall();
@@ -97,8 +97,8 @@ const createCityController = async (req, res) => {
     }
     //  }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
+    console.log(error); //delete
+    console.log("Controller:CBE Something Went Wrong !"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -145,8 +145,8 @@ const updateCityController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
+    console.log(error); //delete
+    console.log("Controller:CBE Something Went Wrong !"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -188,8 +188,8 @@ const deleteCityController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
+    console.log(error); //delete
+    console.log("Controller:CBE Something Went Wrong !"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -203,7 +203,7 @@ const getCityByCityIdController = async (req, res) => {
     const id = req.params.id;
 
     if (isNaN(id)) {
-      console.log("id passed is not a number");
+      //console.log("id passed is not a number");
       res.send("send valid id: ", id, "   is not a number");
     } else {
       const details = await getCitiesByCityIdRepository(id, res);
@@ -223,8 +223,8 @@ const getCityByCityIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller: catch block Error");
+    console.log(error); //delete
+    console.log("Controller: catch block Error"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",

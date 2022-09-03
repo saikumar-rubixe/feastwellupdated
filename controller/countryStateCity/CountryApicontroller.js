@@ -40,8 +40,8 @@ const getAllCountryController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller: catch block Error");
+    // console.log(error);//delete
+    console.log("Controller: catch block Error"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -75,8 +75,8 @@ const getCountryByIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
+    console.log(error); //delete
+    console.log("Controller:CBE Something went wrong!"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -88,7 +88,7 @@ const getCountryByIdController = async (req, res) => {
 const createCountryController = async (req, res) => {
   try {
     const { name, phoneCode, is02, timeZones } = req.body;
-    console.log(req.body);
+    // console.log(req.body);//delete
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     // const recordCheck = await functionCall();
@@ -116,8 +116,7 @@ const createCountryController = async (req, res) => {
     }
     //  }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
+    // console.log("Controller:CBE Something Went Wrong !");//delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",

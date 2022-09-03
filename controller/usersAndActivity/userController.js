@@ -32,7 +32,7 @@ const {
 
 // 1  to get the details of one single User by Id
 const getUserByIdController = async (req, res) => {
-  console.log("Header: " + req.header("Authorization"));
+  // console.log("Header: " + req.header("Authorization"));
   try {
     const id = req.params.id;
     if (checkNumber(id)) {
@@ -68,7 +68,7 @@ const getUserByIdController = async (req, res) => {
 
 // 2 to get all Users of users table
 const getAllUsersController = async (req, res) => {
-  console.log("Header: " + req.header("Authorization"));
+  // console.log("Header: " + req.header("Authorization"));
   try {
     const { userType, userStatus } = req.query;
     const details = await getAllUsersRepository(userType, userStatus);
@@ -158,7 +158,7 @@ let createUserController = async (req, res, next) => {
 let updateUserController = async (req, res, next) => {
   try {
     let id = req.params.id;
-    console.log(`id passed is ${id}`);
+    // console.log(`id passed is ${id}`);//delete
     const { fullName, phoneNumber, userName, userStatus } = req.body;
     console.log(`this is the jfbwueif`);
     console.log(userStatus);
@@ -269,11 +269,7 @@ let deleteUserController = async (req, res) => {
 // 6 update users login details controller by id
 let updateUserLoginDetailsController = async (req, res, next) => {
   try {
-    console.log(`***************************`);
-    console.log(req.body);
-    console.log(`***************************`);
     let id = req.params.id;
-    console.log(`id passed is ${id}`);
     const { lastLogin, loggedIpAddress } = req.body;
     console.log(req.body);
     if (checkNumber(id)) {

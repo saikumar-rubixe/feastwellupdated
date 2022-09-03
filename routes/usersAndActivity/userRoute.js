@@ -25,13 +25,11 @@ userRoute
   .route("/:id")
   .put(verifyFunction, userUpdateBodyValidation, updateUserController);
 
-userRoute
-  .route("/loginDetails/:id")
-  .put(
-    verifyFunction,
-    userUpdateBodyValidation,
-    updateUserLoginDetailsController
-  );
+userRoute.route("/loginDetails/:id").put(
+  verifyFunction,
+  // userUpdateBodyValidation,
+  updateUserLoginDetailsController
+);
 
 userRoute.route("/:id").delete(verifyFunction, deleteUserController);
 

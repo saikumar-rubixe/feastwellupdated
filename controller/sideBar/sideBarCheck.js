@@ -5,15 +5,18 @@ const {
   checkAccess,
 } = require("../../repository/sidebarCheckRepository");
 
-const checkSideBarPermissionContoller = async (userType) => {
+const checkSideBarPermissionContoller = async (userType, res) => {
   try {
-    const role = await getRoleId(userType); // check for roleId of usertype
-    console.log(`role id is`);
-    console.log(role); //delete
-    console.log(`calling get list of menu ids `); //delete
+    // console.log(`into the check side bar permission controller`);//delete
+    //console.log(`usertype is ${userType}`);//delete
+    // check for roleId of usertype//delete
+    const role = await getRoleId(userType);
+    // console.log(`role id is`);//delete
+    // console.log(role); //delete
+    // console.log(`calling get list of menu ids `); //delete
     let values = await getListOfMenuIds(role);
-    console.log(values); //delete
-    console.log(`consolled values`); //delete
+    //console.log(values); //delete
+    //console.log(`consolled values`); //delete
     if (values != null) {
       let menuIdArray = [];
       for (i = 0; i < values.length; i++) {
@@ -21,7 +24,7 @@ const checkSideBarPermissionContoller = async (userType) => {
           "select category_id ,category_name from `menu_category` where status=1 and category_id =?";
         let results = await runQuery(sql, [values[i]]);
         var normalObj = Object.assign({}, results[0]);
-        console.log(normalObj);
+        // console.log(normalObj);//delete
         menuIdArray.push(normalObj);
       }
       console.log(`menu Id Array is `);

@@ -1,12 +1,15 @@
 const express = require("express");
 var fs = require("fs");
 const createHttpError = require("http-errors");
-const morgan = require("morgan");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const helmet = require("helmet"); //This library helps to secure Express APIs by defining various HTTP headers
 const xss = require("xss-clean");
 const hbs = require("hbs");
+
+const morgan = require("morgan"); // for logs
+var path = require("path"); // for logs
+var rfs = require("rotating-file-stream"); // for logs
 dotenv.config();
 //const AppError = require("./utils/appError");
 
@@ -16,10 +19,17 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet()); //Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
 
-// routes import
-//const { NutritionCategoryRoute } = require("./routes/nutritionCategoryRoutes"); // delete
-//const { centerHeadRoute } = require("./routes/centerHeadRoutes"); // delete
+var accessLogStream = rfs.createStream("access.log", {
+  interval: "1d", // rotate daily
+  path: path.join(__dirname, "log"),
+});
 
+// setup the logger
+app.use(morgan("combined", { stream: accessLogStream }));
+// checking the logs using morgan
+app.use(morgan("dev"));
+
+// routes import
 const { authRoute } = require("./routes/loginAndAuthentication/authRoute");
 const {
   refreshRoute,
@@ -82,9 +92,6 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
-
-// checking the logs using morgan
-app.use(morgan("dev"));
 
 // homepage response
 app.get("/", (req, res) => {
@@ -169,9 +176,7 @@ app.use(`${localurl}user`, userRoute);
 app.use(`${localurl}facility`, facilityRoute);
 app.use(`${localurl}kitchen`, kitchenRoute);
 app.use(`${localurl}userActivityLog`, userActivityLog);
-
 app.use(`${localurl}residentFacility`, residentFacilityRoute);
-
 app.use(`${localurl}residentsDetails`, residentDetailsRoutes);
 app.use(`${localurl}nutritionalRiskFactors`, NutritionalRiskFactorRoute);
 
@@ -185,14 +190,14 @@ app.use(`${localurl}imageResponse`, imagePredictionResponse);
 app.set("view engine", hbs);
 //var responsepred = require("./views/imageResponse.hbs");
 app.get(`${localurl}testing`, (req, res) => {
-  console.log(`printing as json`);
+  console.log(`printing as json`); //delete
 
   let html = fs.readFileSync("./views/imageResponse.hbs", "utf8");
 
   // var htm = JSON.stringify(html);
   res.status(200).json({ filename: html });
 
-  console.log(html);
+  console.log(html); //delete
 });
 //*  local host testing    */
 

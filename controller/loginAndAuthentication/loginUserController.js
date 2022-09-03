@@ -19,7 +19,7 @@ const userLogin = async (req, res) => {
     console.log(`password from request is ${password}`);
 
     const recordExist = await getUserDetailByUsername(username);
-    console.log(recordExist);
+
     if (!recordExist || recordExist == null) {
       res.status(404).json({
         success: false,
@@ -81,8 +81,7 @@ const userLogin = async (req, res) => {
                 category_name: "dashboard",
               };
             }
-            console.log(`the menu id got here is`);
-            console.log(menuId);
+
             const tokenDetails = {
               token: token,
               refreshToken: refreshToken,
@@ -129,9 +128,7 @@ const TokenLogin = async (req, res) => {
     res.setHeader("Content-Type", "application/json");
     const usersId = req.userIdValue;
     const userExist = await getUserByIdRepository(usersId);
-    console.log(`calling *******************************************`);
     console.log(userExist);
-    console.log(`calling *******************************************`);
     if (userExist) {
       const usertype = userExist.userType;
       console.log(`user type is passing ${usertype}`);
@@ -154,7 +151,7 @@ const TokenLogin = async (req, res) => {
       );
 
       //  after login succesful send the sidebars whichever accesable
-      let menuId = await checkSideBarPermissionContoller(userExist.usertype);
+      let menuId = await checkSideBarPermissionContoller(userExist.userType);
       if (menuId != 0 && menuId !== null) {
         menuId = menuId;
       }
@@ -164,8 +161,7 @@ const TokenLogin = async (req, res) => {
           category_name: "dashboard",
         };
       }
-      console.log(`the menu id got here is`);
-      console.log(menuId);
+
       let details = {
         success: true, // response.success
         message: "login successful",

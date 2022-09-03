@@ -126,7 +126,7 @@ const getStatesByStateIdController = async (req, res) => {
   try {
     const id = req.params.id;
     if (isNaN(id)) {
-      console.log("id passed is not a number");
+      // console.log("id passed is not a number");
       res.status(401).send("send valid id: ", id, "   is not a number");
     } else {
       const details = await getStatesByStateIdRepository(id, res);
@@ -203,7 +203,7 @@ const getStatesByCountryIdController = async (req, res) => {
   try {
     const id = req.params.id;
     if (isNaN(id)) {
-      console.log("id passed is not a number");
+      // console.log("id passed is not a number");
       res.status(401).send("send valid id: ", id, "   is not a number");
     } else {
       const details = await getStatesByCountryIdRepository(id, res);

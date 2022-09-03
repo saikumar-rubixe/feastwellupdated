@@ -26,7 +26,7 @@ const {
 // 1 get details by id
 let getFacilityCenterDetailsByIdController = async (req, res) => {
   let id = req.params.id;
-  console.log(`id passed is ${id}`);
+  // console.log(`id passed is ${id}`);
   try {
     if (isNaN(id)) {
       console.log("pass id as a number only ");

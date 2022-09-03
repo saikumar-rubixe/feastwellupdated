@@ -11,7 +11,6 @@ const getUserDetailByUsername = async (username) => {
   const query = "select * from users where username =?";
   // const sql = con.format(query, [email]);
   let users = await runQuery(query, [username]);
-  console.log(users);
 
   const user = users[0];
   var userModel = new UserModel();

@@ -8,10 +8,12 @@ const verifyRefreshFunction = function (req, res, next) {
   let jtoken = req.header("Authorization");
 
   //unauthorized
-  if (!jtoken)
+  if (!jtoken || jtoken == "Bearer undefined") {
+    console.log(`value undefined`);
     return res.status(401).json({ success: false, message: "Access denied" });
-  else {
+  } else {
     let token = jtoken.replace("Bearer ", "");
+
     try {
       // passing the    token and the secret key
       const verified = jwt.verify(token, process.env.REFRESH_TOKEN);
@@ -21,7 +23,7 @@ const verifyRefreshFunction = function (req, res, next) {
       next();
       // by calling the next function we can call the getuserById method and get the details
     } catch (error) {
-      console.log(error);
+      console.log("expired");
       res.status(401).json({
         success: false,
         message: "invalid token",

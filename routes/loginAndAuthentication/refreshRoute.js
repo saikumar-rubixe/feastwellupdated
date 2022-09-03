@@ -7,6 +7,6 @@ const {
 } = require("../../controller/loginAndAuthentication/refreshTokens");
 
 // ^ create new tokens
-refreshRoute.route("/").post(verifyRefreshFunction, createTokensController);
+refreshRoute.route("/").get(verifyRefreshFunction, createTokensController);
 
 module.exports = { refreshRoute };

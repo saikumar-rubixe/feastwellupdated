@@ -21,7 +21,7 @@ const verifyFunction = function (req, res, next) {
       next();
       // by calling the next function we can call the getuserById method and get the details
     } catch (error) {
-      console.log(error);
+      console.log("expired");
       res.status(401).json({
         success: false,
         message: "session expired try with refresh token",
