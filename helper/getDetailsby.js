@@ -3,8 +3,6 @@
  */
 let { UserModel } = require("../models/userModel");
 let { runQuery, con } = require("../config/database");
-//con = con();
-//runQuery = runQuery();
 
 // 1 get user details by email id
 const getUserDetailByUsername = async (username) => {
@@ -60,10 +58,37 @@ let userUpdateCheckRepository = async (userName, id, res) => {
   }
 };
 
+// 6 get user details by enrolment Id
+const getUserDetailByEnrolmentId = async (enrolmentId) => {
+  const query = "select * from users where enrolment_id =?";
+  let users = await runQuery(query, [enrolmentId]);
+  const user = users[0];
+  var userModel = new UserModel();
+  if (!user) return null;
+  else {
+    userModel.fill(
+      (userId = user.user_id),
+      (fullName = user.full_name),
+      (phoneNumber = user.phone_number),
+      (userName = user.username),
+      (userType = user.user_type),
+      (userStatus = user.status),
+      (lastLogin = user.last_login),
+      (loggedIpAddress = user.logged_ip_address),
+      (createdDate = user.created_date),
+      (updatedDate = user.updated_date),
+      (enrolmentId = user.enrolment_id),
+      (password = user.password) //hashed password from db is sent to userPasswordModel
+    );
+
+    return userModel;
+  }
+};
 /** */
 module.exports = {
   getUserDetailByUsername,
   userCheckRepository,
+  getUserDetailByEnrolmentId,
 
   userUpdateCheckRepository,
 };
