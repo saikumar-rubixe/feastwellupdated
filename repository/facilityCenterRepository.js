@@ -175,10 +175,10 @@ let updateFacilityCenterDetailsRepository = async (
   res
 ) => {
   try {
-    console.log("into update repository");
+    //console.log("into update repository");
     let query =
       "UPDATE `facility` SET facility_name =?,facility_head_id=?,facility_contact_number=?,facility_country_id=?,facility_state_id=?,facility_city_id=?,status=?,updated_date=?,updated_by=? ,address=?,zipcode=? WHERE facility_id =? ";
-    s;
+
     let results = await runQuery(query, [
       facilityName,
       headId,

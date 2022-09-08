@@ -143,7 +143,7 @@ let updateKitchenDetailsRepository = async (
   res
 ) => {
   try {
-    console.log("into update repository");
+    // console.log("into update repository");
     let query =
       "UPDATE `kitchen` SET name =?,contact_number=?,country_id=?,state_id=?,city_id=?,status=?,updated_date=?,updated_by=? ,address=?,zipcode=? WHERE kitchen_id =? ";
 

@@ -22,9 +22,6 @@ const {
   checkEnrolmentIdRepository,
 } = require("../helper/enrollmentIDGenerator");
 const { getPstDate } = require("../helper/getCanadaTime");
-//con = con();
-//runQuery = runQuery();
-
 const date = require("date-and-time");
 const bcrypt = require("bcrypt");
 let newDate = new Date();
@@ -33,6 +30,8 @@ console.log(`IST : ${date.format(newDate, "YYYY/MM/DD HH:mm:ss")}`);
 let canadaDate = getPstDate();
 console.log(`PST : ${canadaDate}`);
 
+//* generate enrolment id imports
+const { valueExistCheck } = require("../helper/enrollmentIdCheck");
 /*1 get resident Details By ID  */
 const getUserByIdRepository = async (id, res) => {
   try {
@@ -131,37 +130,43 @@ let createUserRepository = async (
   userType,
   userStatus
 ) => {
-  // hasing the password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  // hash complete
-  const getTag = await enrollementIdTag(userType);
-  const randomId = await generateRandomNumber(getTag);
-
-  let uniqueId = getTag + randomId;
-  console.log(`value from the enroll ment id is ${randomId}`);
-  let date = getPstDate();
-  console.log(date); //delete
-  let query =
-    "INSERT INTO `users`( `full_name`,`phone_number`,`username`,`password`,`user_type`,`status`,`created_date`,`updated_date`,`enrolment_id`) VALUES (?,?,?,?,?,?,?,?,?) ";
-  let results = await runQuery(query, [
-    fullName,
-    phoneNumber,
-    userName,
-    hashedPassword,
-    userType,
-    userStatus,
-    getPstDate(),
-    getPstDate(),
-    uniqueId,
-  ]);
-  // if userType =(2 Center Manager 4 center admin 5 nurse  6 facility head) add facility details
-  /**  if( userType == 7){
-  createResidentFacilityController(userId, facilityCenterId, status, createdBy)
-  
+  try {
+    // hasing the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt); // hash complete
+    const getTag = await enrollementIdTag(userType);
+    console.log(`calling the uniqueId`);
+    //  let uniqueId = await valueExistCheck(getTag);
+    let randomId = await generateRandomNumber();
+    let uniqueId = getTag + randomId;
+    console.log(`checking the unique id`);
+    console.log(uniqueId);
+    console.log(`value from the enrollment id is ${randomId}`);
+    let date = getPstDate();
+    console.log(date); //delete
+    let query =
+      "INSERT INTO `users`( `full_name`,`phone_number`,`username`,`password`,`user_type`,`status`,`created_date`,`updated_date`,`enrolment_id`) VALUES (?,?,?,?,?,?,?,?,?) ";
+    let results = await runQuery(query, [
+      fullName,
+      phoneNumber,
+      userName,
+      hashedPassword,
+      userType,
+      userStatus,
+      getPstDate(),
+      getPstDate(),
+      uniqueId,
+    ]);
+    // if userType =(2 Center Manager 4 center admin 5 nurse  6 facility head) add facility details
+    /**  if( userType == 7){
+  createResidentFacilityController(userId, facilityCenterId, status, createdBy)  
 }
 */
-  return results.insertId;
+    return results.insertId;
+  } catch (error) {
+    console.log("CBE! something went  wrong");
+    return false;
+  }
 };
 
 // 6 update UserRepository

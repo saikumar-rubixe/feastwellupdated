@@ -105,11 +105,6 @@ let createUserController = async (req, res, next) => {
     let { fullName, phoneNumber, userName, password, userType, userStatus } =
       req.body;
     console.log(req.body);
-    // if userType == 7 {
-    //   menuId = 0;
-    // } else if userType == 6 {
-    //   menuId = 1;
-    // }
 
     let recordCheck = await userCheckRepository(userName, res);
 
@@ -130,7 +125,7 @@ let createUserController = async (req, res, next) => {
         userStatus
       );
 
-      if (!createUser) {
+      if (!createUser || createUser == false) {
         res.status(404).json({
           success: false,
           message: "something went wrong , registration failed ",
@@ -140,6 +135,7 @@ let createUserController = async (req, res, next) => {
           success: true,
           message: "Registration  succesfully with id: " + createUser,
           insertId: createUser,
+          fullName: fullName,
         });
       }
     } else {

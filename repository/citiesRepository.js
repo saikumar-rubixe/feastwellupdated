@@ -4,7 +4,7 @@ let { runQuery, con } = require("../config/database");
 let { CitiesModel } = require("../models/citiesmodel");
 
 // 1 get all cities
-const getAllCitiesDetailsRepository = async (req, res) => {
+const getAllCitiesDetailsRepository = async (req, res, countryId) => {
   try {
     let array = [];
     let query = "select * from `cities` where 1=1 ";
