@@ -13289,3 +13289,5 @@
 ::1 - - [08/Sep/2022:12:12:49 +0000] "POST /feastwell-backend/api/v1/auth/login HTTP/1.1" 403 45 "-" "PostmanRuntime/7.29.2"
 ::1 - - [08/Sep/2022:12:17:50 +0000] "POST /feastwell-backend/api/v1/auth/login HTTP/1.1" 500 59 "-" "PostmanRuntime/7.29.2"
 ::1 - - [08/Sep/2022:12:19:04 +0000] "POST /feastwell-backend/api/v1/auth/login HTTP/1.1" 200 478 "-" "PostmanRuntime/7.29.2"
+::1 - - [09/Sep/2022:04:22:38 +0000] "POST /feastwell-backend/api/v1/auth/login HTTP/1.1" 500 59 "-" "PostmanRuntime/7.29.2"
+::1 - - [09/Sep/2022:04:28:17 +0000] "POST /feastwell-backend/api/v1/auth/login HTTP/1.1" 200 478 "-" "PostmanRuntime/7.29.2"

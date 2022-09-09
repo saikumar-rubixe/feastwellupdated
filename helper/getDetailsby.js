@@ -6,9 +6,9 @@ let { runQuery, con } = require("../config/database");
 
 // 1 get user details by email id
 const getUserDetailByUsername = async (username) => {
-  const query = "select * from users where username =?";
+  const query = "select * from users where (username =? OR enrolment_id =?)";
   // const sql = con.format(query, [email]);
-  let users = await runQuery(query, [username]);
+  let users = await runQuery(query, [username, username]);
 
   const user = users[0];
   var userModel = new UserModel();
@@ -58,6 +58,7 @@ let userUpdateCheckRepository = async (userName, id, res) => {
   }
 };
 
+/**
 // 6 get user details by enrolment Id
 const getUserDetailByEnrolmentId = async (enrolmentId) => {
   const query = "select * from users where enrolment_id =?";
@@ -84,11 +85,11 @@ const getUserDetailByEnrolmentId = async (enrolmentId) => {
     return userModel;
   }
 };
-/** */
+ */
 module.exports = {
   getUserDetailByUsername,
   userCheckRepository,
-  getUserDetailByEnrolmentId,
+  // getUserDetailByEnrolmentId,
 
   userUpdateCheckRepository,
 };
