@@ -22,7 +22,10 @@ const {
 // 1 create
 const insertResidentDetailsController = async (req, res) => {
   try {
-    console.log(req.body);
+    console.log(`consoling the reques body `); //delete
+    //console.log(req.body.nutritionalRiskFactors);
+    // console.log(JSON.stringify(req.body.nutritionalRiskFactors));
+    console.log(`*****************************`); //delete
     const {
       userId,
       name,
@@ -61,7 +64,7 @@ const insertResidentDetailsController = async (req, res) => {
       feeding,
       specialNeeds,
       foodPreferences,
-      nutritionalRiskFactors,
+
       bmi,
       averageWt,
       idealBodyWeightRange,
@@ -72,6 +75,10 @@ const insertResidentDetailsController = async (req, res) => {
       carePlans,
       recommendations,
     } = req.body;
+    const nutritionalRiskFactors = JSON.stringify(
+      req.body.nutritionalRiskFactors
+    );
+    console.log(`paases the string value`);
     const create = await insertResidentDetailsRepository(
       userId,
       name,

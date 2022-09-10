@@ -26,9 +26,9 @@ const date = require("date-and-time");
 const bcrypt = require("bcrypt");
 let newDate = new Date();
 console.log(newDate);
-console.log(`IST : ${date.format(newDate, "YYYY/MM/DD HH:mm:ss")}`);
+console.log(`IST : ${date.format(newDate, "YYYY/MM/DD HH:mm:ss")}`); //delete
 let canadaDate = getPstDate();
-console.log(`PST : ${canadaDate}`);
+console.log(`PST : ${canadaDate}`); //delete
 
 //* generate enrolment id imports
 const { valueExistCheck } = require("../helper/enrollmentIdCheck");
@@ -135,13 +135,13 @@ let createUserRepository = async (
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt); // hash complete
     const getTag = await enrollementIdTag(userType);
-    console.log(`calling the uniqueId`);
-    //  let uniqueId = await valueExistCheck(getTag);
-    let randomId = await generateRandomNumber();
-    let uniqueId = getTag + randomId;
-    console.log(`checking the unique id`);
-    console.log(uniqueId);
-    console.log(`value from the enrollment id is ${randomId}`);
+    console.log(`calling the uniqueId`); //delete
+
+    let uniqueId = await valueExistCheck(getTag);
+
+    console.log(`checking the unique id`); //delete
+    console.log(uniqueId); //delete
+
     let date = getPstDate();
     console.log(date); //delete
     let query =
@@ -164,6 +164,7 @@ let createUserRepository = async (
 */
     return results.insertId;
   } catch (error) {
+    console.log(error);
     console.log("CBE! something went  wrong");
     return false;
   }
@@ -251,6 +252,7 @@ let updateUserLoginDetailsRepository = async (
     return 1;
   }
 };
+
 // ************************  export modules  *********************************** */
 module.exports = {
   getUserByIdRepository: getUserByIdRepository,

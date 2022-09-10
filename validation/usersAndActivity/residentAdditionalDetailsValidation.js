@@ -39,7 +39,7 @@ const Schema = Joi.object({
   feeding: Joi.number().required(),
   specialNeeds: Joi.string().required(),
   foodPreferences: Joi.string().required(),
-  nutritionalRiskFactors: Joi.string().required(),
+  nutritionalRiskFactors: Joi.array().required(),
   bmi: Joi.number().precision(2).required(), // lowest can be 12
   averageWt: Joi.number().precision(2).required(),
   idealBodyWeightRange: Joi.string().max(500).required(),

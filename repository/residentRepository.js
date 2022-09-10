@@ -200,7 +200,7 @@ const getResidentDetailByIdRepository = async (id, res) => {
     let query = "select * from `residents_details`  where user_id=?";
     let results = await runQuery(query, [id]);
     console.log(`*****************************`);
-    console.log(query.sql);
+    console.log(results);
     console.log(`*****************************`);
     if (results.length != 0) {
       let result = results[0];

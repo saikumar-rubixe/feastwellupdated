@@ -98,16 +98,14 @@ const getAllUsersController = async (req, res) => {
   }
 };
 
-// 3 create user and generate insertid
+// 3 create user and generate insertId
 let createUserController = async (req, res, next) => {
   // const menuId;
   try {
     let { fullName, phoneNumber, userName, password, userType, userStatus } =
       req.body;
     console.log(req.body);
-
     let recordCheck = await userCheckRepository(userName, res);
-
     if (recordCheck == 1) {
       if (recordCheck == 1) {
         res.status(404).json({

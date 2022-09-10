@@ -190,8 +190,6 @@ app.use(`${localurl}imageResponse`, imagePredictionResponse);
 app.set("view engine", hbs);
 //var responsepred = require("./views/imageResponse.hbs");
 app.get(`${localurl}testing`, (req, res) => {
-  console.log(`printing as json`); //delete
-
   let html = fs.readFileSync("./views/imageResponse.hbs", "utf8");
 
   // var htm = JSON.stringify(html);

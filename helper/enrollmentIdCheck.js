@@ -1,29 +1,48 @@
 let { runQuery } = require("../config/database");
 const valueExistCheck = async (tag) => {
-  do {
+  try {
     let id = 0;
-    const randomId = tag + (await generateRandomNumber());
-    console.log(`inside th model and the number is ${randomId}`);
-    console.log(`step before checking the results`);
-    const query = "select enrolment_id from users where enrolment_id=?";
-    const results = await runQuery(query, [randomId]);
-    console.log(results[0].enrolment_id);
-    if (!results || results == null) {
-      id = randomId;
-    } else {
-      id = 0;
+
+    while (true) {
+      let randomId = tag + (await generateRandomNumber());
+      console.log(`generated id is ${randomId}`);
+      const query = "select enrolment_id from users where enrolment_id=?";
+      const results = await runQuery(query, [randomId]);
+      if (results.length == 0) {
+        console.log(`no results found`);
+        id = randomId;
+        break;
+      }
     }
-  } while (id == 0);
-  console.log(`last stage of model consolling the Id`);
-  console.log(id);
-  return id;
+
+    return id;
+  } catch (error) {
+    console.log("something went wrong int value check");
+    console.log(error);
+  }
 };
 
 const generateRandomNumber = async () => {
   let value = Math.floor(1000 + Math.random() * 9000);
+  console.log(value);
   return value;
 };
 
 module.exports = {
   valueExistCheck,
 };
+
+// let randomId = tag + (await generateRandomNumber());
+// console.log(`generated id is ${randomId}`);
+// const query = "select enrolment_id from users where enrolment_id=?";
+
+// const results = await runQuery(query, [randomId]);
+// if (results.length == 0) {
+//   console.log(`no results found`);
+//   id = randomId;
+// }
+// else {
+//   console.log(`record exist`);
+//   randomId = randomId + 1;
+//   id = 0;
+// }
