@@ -1,8 +1,9 @@
+//* to generate random id for enrolment id and check whether the id exist or not and if not retutn the uniqueid
+
 let { runQuery } = require("../config/database");
 const valueExistCheck = async (tag) => {
   try {
     let id = 0;
-
     while (true) {
       let randomId = tag + (await generateRandomNumber());
       console.log(`generated id is ${randomId}`);

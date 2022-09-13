@@ -17,6 +17,7 @@ const verifyFunction = function (req, res, next) {
       const verified = jwt.verify(token, process.env.TOKEN_SECRET);
       // once the token is verified ...from that id can be extracted and that id will be user )
       req.userIdValue = verified.id;
+
       // ..which we can use for fetching the details of user by id ,, that api is already there from usersgetby id
       next();
       // by calling the next function we can call the getuserById method and get the details

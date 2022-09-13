@@ -56,6 +56,10 @@ const { mealMenuRoute } = require("./routes/mealsAndMenu/mealMenuRoutes");
 const {
   residentFacilityRoute,
 } = require("./routes/mappings/residentFacilityMapRoutes");
+// residents by nurse id route
+const {
+  nurseResident,
+} = require("./routes/usersAndActivity/nurseResidentFacilityRoute");
 const {
   userActivityLog,
 } = require("./routes/usersAndActivity/userActivityLogRoutes");
@@ -135,6 +139,8 @@ app.use(`${apiBasePath}kitchen`, kitchenRoute);
 app.use(`${apiBasePath}userActivityLog`, userActivityLog);
 
 app.use(`${apiBasePath}residentFacility`, residentFacilityRoute);
+// get residents of facility n of nurse id x
+app.use(`${apiBasePath}nurseResident`, nurseResident);
 
 app.use(`${apiBasePath}residentsDetails`, residentDetailsRoutes);
 app.use(`${apiBasePath}nutritionalRiskFactors`, NutritionalRiskFactorRoute);
@@ -176,7 +182,11 @@ app.use(`${localurl}user`, userRoute);
 app.use(`${localurl}facility`, facilityRoute);
 app.use(`${localurl}kitchen`, kitchenRoute);
 app.use(`${localurl}userActivityLog`, userActivityLog);
+// get users of facility n
 app.use(`${localurl}residentFacility`, residentFacilityRoute);
+// get residents of facility n of nurse id x
+app.use(`${localurl}nurseResident`, nurseResident);
+
 app.use(`${localurl}residentsDetails`, residentDetailsRoutes);
 app.use(`${localurl}nutritionalRiskFactors`, NutritionalRiskFactorRoute);
 

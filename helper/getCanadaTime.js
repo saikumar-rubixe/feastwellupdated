@@ -1,3 +1,5 @@
+//* to get the canada time (timeZone PST)
+
 function reverseDate(str) {
   return str.split("/").reverse().join("/");
 }
