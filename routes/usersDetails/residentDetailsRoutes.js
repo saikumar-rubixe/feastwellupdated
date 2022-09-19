@@ -36,6 +36,10 @@ residentDetailsRoutes
 //? update details  By Id
 residentDetailsRoutes
   .route("/:userId")
-  .put(verifyFunction, updateResidentDetailsController);
+  .put(
+    verifyFunction,
+    residentAdditionalInformationBodyValidation,
+    updateResidentDetailsController
+  );
 
 module.exports = { residentDetailsRoutes };

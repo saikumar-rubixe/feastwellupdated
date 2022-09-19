@@ -12,6 +12,7 @@ const databaseConfig = {
 };
 
 const pool = mysql.createPool(databaseConfig);
+
 const promiseQuery = promisify(pool.query).bind(pool);
 const promisePoolEnd = promisify(pool.end).bind(pool);
 //promisePoolEnd();

@@ -11,7 +11,7 @@ const getAllMealTypesRepository = async (residentId) => {
   try {
     /** */
     let sql =
-      "SELECT distinct id,meal_name as name from meal_types mt where NOT EXISTS (select id from image_details where resident_id = ? and DATE(?) and mt.id = image_details.meal_type )";
+      "SELECT distinct id,meal_name as name ,meal_image as image from meal_types mt where NOT EXISTS (select id from image_details where resident_id = ? and DATE(?) and mt.id = image_details.meal_type )";
     let results = await runQuery(sql, [residentId, date]);
     console.log(results);
     let count = results.length;
@@ -19,7 +19,11 @@ const getAllMealTypesRepository = async (residentId) => {
       for (i = 0; i < count; i++) {
         let model = new MealTypeModel();
         let result = results[i];
-        model.fill((id = result.id), (mealName = result.name));
+        model.fill(
+          (id = result.id),
+          (mealName = result.name),
+          (mealImage = result.image)
+        );
         array.push(model);
       }
       return { count, array };

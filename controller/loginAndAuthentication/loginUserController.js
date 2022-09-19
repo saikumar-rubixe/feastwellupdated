@@ -75,7 +75,7 @@ const userLogin = async (req, res) => {
             }
             if (menuId == 0) {
               menuId = {
-                category_id: 0,
+                menu_category_id: 0,
                 category_name: "dashboard",
               };
             }

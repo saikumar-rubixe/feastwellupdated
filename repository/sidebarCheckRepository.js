@@ -41,8 +41,8 @@ const getListOfMenuIds = async (role) => {
 
 const checkAccess = async (requestCRUDAccess, role, menu_id) => {
   if (req.method == "GET") {
-    const sql = req.method;
-    ("select `read_access` from permissions where  role_id=? and menu_id =?");
+    const sql =
+      "select `read_access` from permissions where  role_id=? and menu_id =?";
     const details = await runQuery(sql, [role, menu_id]);
     return details;
   }

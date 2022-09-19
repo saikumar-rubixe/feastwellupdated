@@ -6,6 +6,8 @@ const {
 } = require("../../validation/usersAndActivity/userBodyValidation");
 const { verifyFunction } = require("../../helper/verifyjwtToken");
 
+const { permissionsCheck } = require("../../helper/permissionsCheck");
+
 const {
   getUserByIdController,
   getAllUsersController,
@@ -15,7 +17,12 @@ const {
   updateUserLoginDetailsController,
 } = require("../../controller/usersAndActivity/userController");
 
-userRoute.route("/").post(userBodyValidation, createUserController);
+userRoute.route("/").post(
+  verifyFunction,
+
+  userBodyValidation,
+  createUserController
+);
 
 userRoute.route("/").get(verifyFunction, getAllUsersController);
 

@@ -30,7 +30,7 @@ const getAllMenuCategoryDetailsRepository = async (req, res) => {
         let model = new menuCategoryModel();
         let result = results[i];
         model.fill(
-          (categoryId = result.category_id),
+          (categoryId = result.menu_category_id),
           (categoryName = result.category_name),
           (menuStatus = result.status),
           (createdDate = result.created_date),
@@ -52,14 +52,14 @@ const getAllMenuCategoryDetailsRepository = async (req, res) => {
 // 2 get by id
 const getMenuCategoryDetailByIdRepository = async (id, res) => {
   try {
-    let query = "SELECT * FROM `menu_category` where `category_id` =?";
+    let query = "SELECT * FROM `menu_category` where `menu_category_id` =?";
     // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
       let model = new menuCategoryModel();
       model.fill(
-        (categoryId = result.category_id),
+        (categoryId = result.menu_category_id),
         (categoryName = result.category_name),
         (menuStatus = result.status),
         (createdDate = result.created_date),
@@ -105,7 +105,7 @@ const createMenuCategoryRepository = async (categoryName, menuStatus) => {
 const updateMenuCategoryRepository = async (id, categoryName, menuStatus) => {
   try {
     let query =
-      " UPDATE `menu_category` set `category_name`=?,`status`=?,`updated_date`=? where category_id  =?";
+      " UPDATE `menu_category` set `category_name`=?,`status`=?,`updated_date`=? where menu_category_id  =?";
 
     let results = await runQuery(query, [
       categoryName,
@@ -130,7 +130,7 @@ const updateMenuCategoryRepository = async (id, categoryName, menuStatus) => {
 //  delete
 const deleteMenuCategoryRepository = async (id, res) => {
   try {
-    let query = "DELETE  from  `menu_category` where category_id=?";
+    let query = "DELETE  from  `menu_category` where menu_category_id=?";
     // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;

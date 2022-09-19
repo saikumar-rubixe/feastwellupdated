@@ -1,7 +1,9 @@
 const permissionsCheck = async (menuId, permissionType, req, res, next) => {
   try {
+    console.log(`in the permissions check  consolling`);
+    console.log(menuId, permissionType);
     const userId = req.userIdValue;
-    await permissionBodyValidation();
+    // await permissionBodyValidation();
     let results = await checkpermissionsRepository(
       userId,
       menuId,
@@ -50,3 +52,5 @@ const checkpermissionsRepository = async (userId, menuId, permissionType) => {
     }
   } catch (error) {}
 };
+
+module.exports = { permissionsCheck, checkpermissionsRepository };

@@ -23,7 +23,7 @@ const {
 const insertResidentDetailsController = async (req, res) => {
   try {
     console.log(`consoling the reques body `); //delete
-    //console.log(req.body.nutritionalRiskFactors);
+    console.log(req.body.nutritionalRiskFactors);
     // console.log(JSON.stringify(req.body.nutritionalRiskFactors));
     console.log(`*****************************`); //delete
     const {
@@ -214,6 +214,8 @@ const updateResidentDetailsController = async (req, res) => {
   const id = req.params.userId;
   console.log(`checking the user id passed`);
   console.log(id);
+  console.log(req.body.nutritionalRiskFactors);
+  console.log(`*************************`);
   const {
     name,
     gender,
@@ -251,7 +253,7 @@ const updateResidentDetailsController = async (req, res) => {
     feeding,
     specialNeeds,
     foodPreferences,
-    nutritionalRiskFactors,
+
     bmi,
     averageWt,
     idealBodyWeightRange,
@@ -263,6 +265,11 @@ const updateResidentDetailsController = async (req, res) => {
     recommendations,
   } = req.body;
   try {
+    console.log(`in the Controller body checking the type`);
+    //!TODO  important changing the nutrional values to an array string
+    let nutritionalRiskFactors = `[${req.body.nutritionalRiskFactors}]`;
+    console.log(nutritionalRiskFactors); //delete
+
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
