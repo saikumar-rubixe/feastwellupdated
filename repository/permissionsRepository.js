@@ -42,7 +42,7 @@ const getAllPermissionsDetailsRepository = async (req, res) => {
         model.fill(
           (permissionId = result.permission_id),
           (roleId = result.role_id),
-          (menuId = result.menu_id),
+          (menuId = result.menu_category_id),
           (readAccess = result.read_access),
           (writeAccess = result.write_access),
           (updateAccess = result.update_access),
@@ -108,7 +108,7 @@ const createPermissionsRepository = async (
 ) => {
   try {
     let query =
-      "INSERT into `permissions` (`role_id`,menu_id,read_access,write_access,update_access,delete_access,status,created_date,updated_date) VALUES(?,?,?,?,?,?,?,?,?) ";
+      "INSERT into `permissions` (`role_id`,menu_category_id,read_access,write_access,update_access,delete_access,status,created_date,updated_date) VALUES(?,?,?,?,?,?,?,?,?) ";
 
     let results = await runQuery(query, [
       roleId,
@@ -146,7 +146,7 @@ const updatePermissionsRepository = async (
 ) => {
   try {
     let query =
-      " UPDATE `permissions` set `role_id`=?,`menu_id`=?,`read_access`=?,`write_access`=?,`update_access`=?,`delete_access`=?,`status`=?,`updated_date`=? where permission_id  =?";
+      " UPDATE `permissions` set `role_id`=?,`menu_category_id`=?,`read_access`=?,`write_access`=?,`update_access`=?,`delete_access`=?,`status`=?,`updated_date`=? where permission_id  =?";
 
     let results = await runQuery(query, [
       roleId,

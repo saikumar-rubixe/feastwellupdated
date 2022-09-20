@@ -29,19 +29,19 @@ const checkpermissionsRepository = async (userId, menuId, permissionType) => {
   try {
     if (permissionType == 1) {
       sql =
-        " select `read_acces` from `permissions` where user_id =? and menu_id=? and read_acces=1 ";
+        " select `read_acces` from `permissions` where user_id =? and menu_category_id=? and read_acces=1 ";
     }
     if (permissionType == 2) {
       sql =
-        " select write_access from permissions where user_id =? and menu_id=? and write_access=1 ";
+        " select write_access from permissions where user_id =? and menu_category_id=? and write_access=1 ";
     }
     if (permissionType == 3) {
       sql =
-        " select update_access from permissions where user_id =? and menu_id=? and update_access=1 ";
+        " select update_access from permissions where user_id =? and menu_category_id=? and update_access=1 ";
     }
     if (permissionType == 4) {
       sql =
-        " select delete_access from permissions where user_id =? and menu_id=? and delete_access=1 ";
+        " select delete_access from permissions where user_id =? and menu_category_id=? and delete_access=1 ";
     }
 
     const results = await runQuery(sql, [userId, menuId]);

@@ -1,5 +1,6 @@
 const express = require("express");
 const userRoute = express.Router();
+
 const {
   userBodyValidation,
   userUpdateBodyValidation,
@@ -23,15 +24,17 @@ userRoute.route("/").post(
   userBodyValidation,
   createUserController
 );
-
+//* get all users detaiils
 userRoute.route("/").get(verifyFunction, getAllUsersController);
-
+//* get user details by Id(userId)
 userRoute.route("/:id").get(verifyFunction, getUserByIdController);
 
+//? Update the user details BY ID(userId)
 userRoute
   .route("/:id")
   .put(verifyFunction, userUpdateBodyValidation, updateUserController);
 
+//? update the  USER login time details  immediately after Login
 userRoute.route("/loginDetails/:id").put(
   verifyFunction,
   // userUpdateBodyValidation,

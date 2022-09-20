@@ -12,6 +12,7 @@ const Schema = Joi.object({
   userType: Joi.number().required(),
   userStatus: Joi.number().max(1).required(),
 });
+
 // VALIDATE BEFORE SAVING A USER
 const userBodyValidation = async (req, res, next) => {
   try {

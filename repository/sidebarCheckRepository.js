@@ -22,14 +22,14 @@ const getListOfMenuIds = async (role) => {
   let listmenu = [];
   console.log(`into get list of menu ids for role id ${role}`); //delete
   const sql =
-    "select menu_id from `permissions` where role_id =? ORDER BY menu_id";
+    "select menu_category_id from `permissions` where role_id =? ORDER BY menu_category_id";
   const details = await runQuery(sql, [role]);
   // console.log(`! consolling the length`); //delete
   // console.log(details.length); //delete
   if (details.length != 0) {
     for (i = 0; i < details.length; i++) {
       let result = details[i];
-      menuId = result.menu_id;
+      menuId = result.menu_category_id;
       listmenu.push(menuId);
     }
 
@@ -39,29 +39,29 @@ const getListOfMenuIds = async (role) => {
   }
 };
 
-const checkAccess = async (requestCRUDAccess, role, menu_id) => {
+const checkAccess = async (requestCRUDAccess, role, menu_category_id) => {
   if (req.method == "GET") {
     const sql =
-      "select `read_access` from permissions where  role_id=? and menu_id =?";
-    const details = await runQuery(sql, [role, menu_id]);
+      "select `read_access` from permissions where  role_id=? and menu_category_id =?";
+    const details = await runQuery(sql, [role, menu_category_id]);
     return details;
   }
   if (req.method == "POST") {
     const sql =
-      "select `write_access` from permissions where  role_id=? and menu_id =?";
-    const details = await runQuery(sql, [role, menu_id]);
+      "select `write_access` from permissions where  role_id=? and menu_category_id =?";
+    const details = await runQuery(sql, [role, menu_category_id]);
     return details;
   }
   if (req.method == "PUT") {
     const sql =
-      "select `update_access` from permissions where  role_id=? and menu_id =?";
-    const details = await runQuery(sql, [role, menu_id]);
+      "select `update_access` from permissions where  role_id=? and menu_category_id =?";
+    const details = await runQuery(sql, [role, menu_category_id]);
     return details;
   }
   if (req.method == "DELETE") {
     const sql =
-      "select `delete_access` from permissions where  role_id=? and menu_id =?";
-    const details = await runQuery(sql, [role, menu_id]);
+      "select `delete_access` from permissions where  role_id=? and menu_category_id =?";
+    const details = await runQuery(sql, [role, menu_category_id]);
     return details;
   } else {
     return null;
