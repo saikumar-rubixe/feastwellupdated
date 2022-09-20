@@ -1,21 +1,18 @@
 let Joi = require("joi").extend(require("@joi/date"));
 
 const Schema = Joi.object({
-  username: Joi.string().min(6).required(),
+  username: Joi.string().min(5).required(),
   password: Joi.string().min(6).required(),
 });
 // VALIDATE BEFORE SAVING A USER
-const userLoginBodyValidation = async (req, res, next) => {
+const userLoginBodyValidation = async (req) => {
+  returnError = null;
   try {
-    console.log(req.body);
     await Schema.validateAsync(req.body);
-    next();
   } catch (error) {
-    return res.status(500).json({
-      error: error.message,
-      message: "request body validation error",
-    });
+    returnError = error;
   }
+  return returnError;
 };
 module.exports = {
   userLoginBodyValidation,

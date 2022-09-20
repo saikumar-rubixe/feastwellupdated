@@ -1,6 +1,7 @@
 const express = require("express");
 const mealMenuRoute = express.Router();
-const { verifyFunction } = require("../../helper/verifyjwtToken");
+const { verify } = require("../../helper/verifyjwtToken");
+const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 
 const {
   getMealMenuDetailByIdController,
@@ -10,16 +11,69 @@ const {
   deleteMealMenuController,
 } = require("../../controller/mealsAndMenu/mealMenuController");
 
-mealMenuRoute.route("/").post(verifyFunction, createMealMenuController);
+//^ Create
+mealMenuRoute.post("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await createMealMenuController(req, res);
+  }
+});
 
-mealMenuRoute.route("/").get(verifyFunction, getAllMealMenuDetailsController);
+//* get All Details
+mealMenuRoute.get("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getAllMealMenuDetailsController(req, res);
+  }
+});
 
-mealMenuRoute
-  .route("/:id")
-  .get(verifyFunction, getMealMenuDetailByIdController);
+//* get details By Id
+mealMenuRoute.get("/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getMealMenuDetailByIdController(req, res);
+  }
+});
 
-mealMenuRoute.route("/:id").put(verifyFunction, updateMealMenuController);
+//? Update Details By Id
+mealMenuRoute.put("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await updateMealMenuController(req, res);
+  }
+});
 
-mealMenuRoute.route("/:id").delete(verifyFunction, deleteMealMenuController);
+//! Delete Details By Id
+mealMenuRoute.delete("/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await deleteMealMenuController(req, res);
+  }
+});
 
 module.exports = { mealMenuRoute };

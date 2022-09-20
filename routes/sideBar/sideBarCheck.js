@@ -5,12 +5,24 @@ const {
 
 const express = require("express");
 const sideBarCheckRoute = express.Router();
-const { verifyFunction } = require("../../helper/verifyjwtToken");
+const { verify } = require("../../helper/verifyjwtToken");
+const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 
-// sideBarCheckRoute.route("/:id").get(verifyFunction, getRolesDetailByIdController);
-// sideBarCheckRoute.route("/:id").put(verifyFunction, updateRolesController);
-// sideBarCheckRoute.route("/:id").delete(verifyFunction, deleteRolesController);
-sideBarCheckRoute.route("/").post(checkSideBarPermissionContoller);
-// sideBarCheckRoute.route("/").post(verifyFunction, createRolesController);
+sideBarCheckRoute.post("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await checkSideBarPermissionContoller(req, res);
+  }
+});
+
+// sideBarCheckRoute.route("/:id").get(verify, getRolesDetailByIdController);
+// sideBarCheckRoute.route("/:id").put(verify, updateRolesController);
+// sideBarCheckRoute.route("/:id").delete(verify, deleteRolesController);
+// sideBarCheckRoute.route("/").post(verify, createRolesController);
 
 module.exports = { sideBarCheckRoute };

@@ -1,6 +1,6 @@
 const express = require("express");
 const statesRoute = express.Router();
-const { verifyFunction } = require("../../helper/verifyjwtToken");
+const { verify } = require("../../helper/verifyjwtToken");
 const {
   createStatesController,
   getAllStatesDetailsController,

@@ -1,6 +1,9 @@
+const { color, log } = require("console-log-colors");
+const { red, green, cyan } = color;
+
 const express = require("express");
 const facilityRoute = express.Router();
-const { verifyFunction } = require("../../helper/verifyjwtToken");
+const { verify } = require("../../helper/verifyjwtToken");
 const {
   getFacilityCenterDetailsByIdController,
   getAllFacilityCenterDetailsController,
@@ -8,33 +11,94 @@ const {
   updateFacilityCenterDetailsController,
   deleteFacilityCenterDetailsController,
 } = require("../../controller/facility/facilityController");
+
+const { checkRoutePermission } = require("../../helper/checkRoutePermission");
+
 const {
   FacilityUserBodyValidation,
 } = require("../../validation/facility/facilityValidation");
 
 //^ create
-facilityRoute
-  .route("/")
-  .post(
-    verifyFunction,
-    FacilityUserBodyValidation,
-    insertFacilityCenterDetailsController
-  );
+facilityRoute.post("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    const err = await FacilityUserBodyValidation(req);
+    if (err) {
+      return res.status(500).json({
+        error: err.message,
+        message: "request body validation error",
+      });
+    } else {
+      await insertFacilityCenterDetailsController(req, res);
+    }
+  }
+});
+
 //* get all
-facilityRoute
-  .route("/")
-  .get(verifyFunction, getAllFacilityCenterDetailsController);
+facilityRoute.get("/", async (req, res) => {
+  console.log(green(" 1 in the router")); //delete
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getAllFacilityCenterDetailsController(req, res);
+  }
+});
+
 //* get by Id
-facilityRoute
-  .route("/:id")
-  .get(verifyFunction, getFacilityCenterDetailsByIdController);
+facilityRoute.get("/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getFacilityCenterDetailsByIdController(req, res);
+  }
+});
+
 //? Update
-facilityRoute
-  .route("/:id")
-  .put(verifyFunction, updateFacilityCenterDetailsController);
+facilityRoute.put("/", async (req, res) => {
+  console.log(`im in the router to check permission`); //delete
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    const err = await FacilityUserBodyValidation(req);
+    if (err) {
+      return res.status(500).json({
+        error: err.message,
+        message: "request body validation error",
+      });
+    } else {
+      await updateFacilityCenterDetailsController(req, res);
+    }
+  }
+});
+
 //! DELETE
-facilityRoute
-  .route("/:id")
-  .delete(verifyFunction, deleteFacilityCenterDetailsController);
+facilityRoute.delete("/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await deleteFacilityCenterDetailsController(req, res);
+  }
+});
 
 module.exports = { facilityRoute };

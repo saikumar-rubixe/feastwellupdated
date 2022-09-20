@@ -12,16 +12,14 @@ const Schema = Joi.object({
   zipcode: Joi.string().max(5).max(10),
 });
 // VALIDATE BEFORE SAVING A USER
-const KitchenUserBodyValidation = async (req, res, next) => {
+const KitchenUserBodyValidation = async (req) => {
+  returnError = null;
   try {
     await Schema.validateAsync(req.body);
-    next();
   } catch (error) {
-    return res.status(500).json({
-      error: error.message,
-      message: "request body validation error",
-    });
+    returnError = error;
   }
+  return returnError;
 };
 
 module.exports = {

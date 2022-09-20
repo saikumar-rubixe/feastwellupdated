@@ -6,15 +6,13 @@ const Schema = Joi.object({
 });
 // VALIDATE BEFORE SAVING A USER
 const rolesBodyValidation = async (req, res, next) => {
+  returnError = null;
   try {
     await Schema.validateAsync(req.body);
-    next();
   } catch (error) {
-    return res.status(500).json({
-      error: error.message,
-      message: "request body validation error",
-    });
+    returnError = error;
   }
+  return returnError;
 };
 
 module.exports = {

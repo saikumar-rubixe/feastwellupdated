@@ -12,9 +12,10 @@
  */
 let { RolesModel } = require("../models/rolesModel");
 let { runQuery, con } = require("../config/database");
+const { getPstDate } = require("../helper/getCanadaTime");
+
 //con = con();
 //runQuery = runQuery();
-const { getPstDate } = require("../helper/getCanadaTime");
 // 1 get by id roles
 const getRolesDetailByIdRepository = async (id, res) => {
   try {
@@ -156,10 +157,46 @@ const deleteRolesRepository = async (id) => {
     return false;
   }
 };
+
+// 6. getRoleForUserTypeRepository will return user RolesModel for particular user type
+/*
+  @param userType
+  @return RolesModel
+  @author galab
+*/
+const { color, log } = require("console-log-colors");
+const { red, green, cyan } = color;
+const getRoleForUserTypeRepository = async (userType) => {
+  console.log(color.green(`5 in the get roole for User Type`));
+  var roleReturnModel = null;
+  try {
+    let query = " select * from `roles` where user_type_id =?";
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [userType]);
+    if (results.length != 0) {
+      let result = results[0];
+      let model = new RolesModel();
+      model.fill(
+        (roleId = result.role_id),
+        (roleName = result.role_name),
+        (userTypeId = result.user_type_id),
+        (roleStatus = result.status),
+        (createdDate = result.created_date),
+        (updatedDate = result.updated_date)
+      );
+      roleReturnModel = model;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+  return roleReturnModel;
+};
+
 module.exports = {
   getRolesDetailByIdRepository,
   getAllRolesDetailsRepository,
   createRoleRepository,
   updateRolesRepository,
   deleteRolesRepository,
+  getRoleForUserTypeRepository,
 };

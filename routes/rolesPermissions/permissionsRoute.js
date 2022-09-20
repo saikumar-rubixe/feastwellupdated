@@ -1,6 +1,9 @@
 const express = require("express");
 const permissionsRoute = express.Router();
-const { verifyFunction } = require("../../helper/verifyjwtToken");
+const { verify } = require("../../helper/verifyjwtToken");
+const { checkRoutePermission } = require("../../helper/checkRoutePermission");
+
+// controller imports
 const {
   getAllPermissionsDetailsController,
   getPermissionsDetailByIdController,
@@ -8,16 +11,70 @@ const {
   updatePermissionsController,
   deletePermissionsController,
 } = require("../../controller/rolesPermissions/permissionsController.js");
-permissionsRoute.route("/").post(verifyFunction, createPermissionsController);
-permissionsRoute
-  .route("/")
-  .get(verifyFunction, getAllPermissionsDetailsController);
-permissionsRoute
-  .route("/:id")
-  .get(verifyFunction, getPermissionsDetailByIdController);
-permissionsRoute.route("/:id").put(verifyFunction, updatePermissionsController);
-permissionsRoute
-  .route("/:id")
-  .delete(verifyFunction, deletePermissionsController);
+
+//^Create
+permissionsRoute.post("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await createPermissionsController(req, res);
+  }
+});
+
+//* get ALL Details
+permissionsRoute.get("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getAllPermissionsDetailsController(req, res);
+  }
+});
+
+//* get details By Id
+permissionsRoute.get("/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getPermissionsDetailByIdController(req, res);
+  }
+});
+
+//? Update Details By Id
+permissionsRoute.put("/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await updatePermissionsController(req, res);
+  }
+});
+
+//!Delete details By Id
+permissionsRoute.delete("/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await deletePermissionsController(req, res);
+  }
+});
 
 module.exports = { permissionsRoute };

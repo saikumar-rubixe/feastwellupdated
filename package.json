@@ -15,6 +15,7 @@
     "aws-sdk": "^2.1182.0",
     "bcrypt": "^5.0.1",
     "colors": "^1.4.0",
+    "console-log-colors": "^0.2.3",
     "cors": "^2.8.5",
     "date-and-time": "^2.4.1",
     "date-fns": "^2.29.2",

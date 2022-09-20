@@ -48,16 +48,28 @@ const getImagesUploadedByNurseIdController = async (req, res) => {
         res.status(200).json({
           success: false,
           message: "No record found with id " + id,
-          data: {
-            totalUploads: {
+          data: [
+            {
+              label: "breakfast",
               count: 0,
-              breakfast: 0,
-              afternoonSnack: 0,
-              lunch: 0,
-              eveningSnack: 0,
-              dinner: 0,
             },
-          },
+            {
+              label: "lunch",
+              count: 0,
+            },
+            {
+              label: "dinner",
+              count: 0,
+            },
+            {
+              label: "afternoonSnack",
+              count: 0,
+            },
+            {
+              label: "eveningSnack",
+              count: 0,
+            },
+          ],
         });
       }
       if (details) {

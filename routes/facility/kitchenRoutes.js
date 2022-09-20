@@ -1,6 +1,6 @@
 const express = require("express");
 const kitchenRoute = express.Router();
-const { verifyFunction } = require("../../helper/verifyjwtToken");
+const { verify } = require("../../helper/verifyjwtToken");
 const {
   getKitchenDetailsByIdController,
   getAllKitchenDetailsController,
@@ -8,27 +8,91 @@ const {
   updateKitchenDetailsController,
   deleteKitchenDetailsController,
 } = require("../../controller/facility/kitchenController");
+
+const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 const {
   KitchenUserBodyValidation,
 } = require("../../validation/facility/kitchenValidation");
 
 //^ create
-kitchenRoute
-  .route("/")
-  .post(
-    verifyFunction,
-    KitchenUserBodyValidation,
-    insertKitchenDetailsController
-  );
+kitchenRoute.post("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    const error = await KitchenUserBodyValidation(req);
+    if (error) {
+      return res.status(500).json({
+        error: error.message,
+        message: "Create Kitchen Route Error",
+      });
+    } else {
+      await insertKitchenDetailsController(req, res);
+    }
+  }
+});
+
 //* get all
-kitchenRoute.route("/").get(verifyFunction, getAllKitchenDetailsController);
+kitchenRoute.get("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    const err = await KitchenUserBodyValidation(req);
+    if (err) {
+      return res.status(500).json({
+        error: err.message,
+        message: "request body validation error",
+      });
+    } else {
+      await getAllKitchenDetailsController(req, res);
+    }
+  }
+});
+
 //* get by Id
-kitchenRoute.route("/:id").get(verifyFunction, getKitchenDetailsByIdController);
+kitchenRoute.get("/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getKitchenDetailsByIdController(req, res);
+  }
+});
+
 //? Update
-kitchenRoute.route("/:id").put(verifyFunction, updateKitchenDetailsController);
+kitchenRoute.put("/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await updateKitchenDetailsController(req, res);
+  }
+});
+
 //! DELETE
-kitchenRoute
-  .route("/:id")
-  .delete(verifyFunction, deleteKitchenDetailsController);
+kitchenRoute.delete("/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await deleteKitchenDetailsController(req, res);
+  }
+});
 
 module.exports = { kitchenRoute };

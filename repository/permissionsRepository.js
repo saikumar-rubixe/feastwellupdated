@@ -21,6 +21,8 @@
  * 1.getPermissionsDetailByIdRepository -->fetch the user by ID
  *
  */
+
+const { color } = require("console-log-colors");
 let { runQuery, con } = require("../config/database");
 //con = con();
 //runQuery = runQuery();
@@ -173,7 +175,7 @@ const updatePermissionsRepository = async (
   }
 };
 
-// delete
+//5  delete
 const deletePermissionsRepository = async (id, res) => {
   try {
     let query = "DELETE from `permissions` where permission_id =?";
@@ -193,10 +195,45 @@ const deletePermissionsRepository = async (id, res) => {
   }
 };
 
+// 6. getPermissionForCategoryAndRoleId will return permission for given category/menu id  by role id
+/*
+  @param routeName, accessType
+  @return 1/0
+  @author galab
+*/
+
+const getPermissionForCategoryAndRoleId = async (
+  categoryId,
+  roleId,
+  accessType
+) => {
+  console.log(color.magenta(" 6 in the get permission for category"));
+  var access = 0;
+  try {
+    let query = `SELECT ${accessType} FROM permissions WHERE menu_category_id=${categoryId} and role_id=${roleId} and ${accessType}=1 `;
+    //let sql = con.format(query);
+    console.log("Getting permission");
+    console.log(query);
+    let permissionResults = await runQuery(query);
+    console.log("Got permission");
+    let count = permissionResults.length;
+    console.log(count);
+    if (count != 0) {
+      var permission = permissionResults[0];
+      console.log(permission);
+      access = permission[accessType];
+    }
+  } catch (error) {
+    console.log("getPermissionForCategoryAndRoleId: " + error);
+  }
+  return access;
+};
 module.exports = {
   getPermissionsDetailByIdRepository,
   getAllPermissionsDetailsRepository,
   createPermissionsRepository,
   updatePermissionsRepository,
   deletePermissionsRepository,
+  // 6 get permissions value
+  getPermissionForCategoryAndRoleId,
 };

@@ -105,15 +105,30 @@ const getImagesUploadedByNurseIdRepository = async (id, res) => {
           eveningSnack_count += 1;
         }
       }
-      let totalUploads = {
-        count: count,
-        breakfast: breakfast_count,
-        afternoonSnack: afternoonSnack_count,
-        lunch: lunch_count,
-        eveningSnack: eveningSnack_count,
-        dinner: dinner_count,
-      };
-      return { totalUploads };
+      let totalUploads = [
+        {
+          label: "breakfast",
+          count: breakfast_count,
+        },
+        {
+          label: "lunch",
+          count: lunch_count,
+        },
+        {
+          label: "dinner",
+          count: dinner_count,
+        },
+        {
+          label: "afternoonSnack",
+          count: afternoonSnack_count,
+        },
+        {
+          label: "eveningSnack",
+          count: eveningSnack_count,
+        },
+      ];
+
+      return totalUploads;
     } else {
       return false;
     }

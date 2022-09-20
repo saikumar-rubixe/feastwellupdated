@@ -1,6 +1,6 @@
 const express = require("express");
 const countryRoute = express.Router();
-const { verifyFunction } = require("../../helper/verifyjwtToken");
+const { verify } = require("../../helper/verifyjwtToken");
 const {
   getAllCountryController,
   getCountryByIdController,
@@ -9,14 +9,14 @@ const {
   deleteCountryController,
 } = require("../../controller/countryStateCity/CountryApicontroller");
 //* GET ALL COUNTRIES
-countryRoute.route("/").get(verifyFunction, getAllCountryController);
+countryRoute.route("/").get(verify, getAllCountryController);
 //* GET BY ID
-countryRoute.route("/:id").get(verifyFunction, getCountryByIdController);
+countryRoute.route("/:id").get(verify, getCountryByIdController);
 //^ CREATE
-countryRoute.route("/").post(verifyFunction, createCountryController);
+countryRoute.route("/").post(verify, createCountryController);
 //?  UPDATE
-countryRoute.route("/:id").put(verifyFunction, updateCountryController);
+countryRoute.route("/:id").put(verify, updateCountryController);
 //! DELETE
-countryRoute.route("/:id").delete(verifyFunction, deleteCountryController);
+countryRoute.route("/:id").delete(verify, deleteCountryController);
 
 module.exports = { countryRoute };

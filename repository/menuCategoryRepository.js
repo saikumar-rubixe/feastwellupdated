@@ -12,8 +12,7 @@
  *
  */
 let { runQuery, con } = require("../config/database");
-//con = con();
-//runQuery = runQuery();
+
 let { menuCategoryModel } = require("../models/menuCategoryModel");
 const { getPstDate } = require("../helper/getCanadaTime");
 
@@ -77,6 +76,12 @@ const getMenuCategoryDetailByIdRepository = async (id, res) => {
 };
 
 //  3 create
+/**
+ *
+ * @param {*} categoryName
+ * @param {*} menuStatus
+ * @returns created Id
+ */
 const createMenuCategoryRepository = async (categoryName, menuStatus) => {
   try {
     let query =
@@ -102,6 +107,13 @@ const createMenuCategoryRepository = async (categoryName, menuStatus) => {
 };
 
 // 4 update
+/**
+ *
+ * @param {*} id
+ * @param {*} categoryName
+ * @param {*} menuStatus
+ * @returns  true or false
+ */
 const updateMenuCategoryRepository = async (id, categoryName, menuStatus) => {
   try {
     let query =
@@ -127,7 +139,14 @@ const updateMenuCategoryRepository = async (id, categoryName, menuStatus) => {
   }
 };
 
-//  delete
+// 5   delete deleteMenuCategoryRepository deletes the record
+/**
+ *
+ * @param {*} id
+ * @param {*} res
+ * @returns  true or false
+ * @author
+ */
 const deleteMenuCategoryRepository = async (id, res) => {
   try {
     let query = "DELETE  from  `menu_category` where menu_category_id=?";
@@ -147,10 +166,41 @@ const deleteMenuCategoryRepository = async (id, res) => {
   }
 };
 
+// 6. getMenuCategoryIdByMenuRouteRepository will return categroy id for the provided routeName
+/*
+ * @param routeName
+ *  @return category_id
+ * @author galab
+ */
+const { color, log } = require("console-log-colors");
+const getMenuCategoryIdByRepository = async (routeName) => {
+  console.log(color.yellow("4 in the get menu Category Id By Repository "));
+  var returnId = null;
+  try {
+    let query = `SELECT menu_category_id FROM menu_category where 
+    menu_routes = '${routeName}'
+    OR menu_routes LIKE '${routeName},%'  
+    OR menu_routes LIKE '%,${routeName},%' 
+    OR menu_routes LIKE '%,${routeName}' limit 1`;
+    console.log(query);
+    let results = await runQuery(query);
+    console.log("got result");
+    if (results.length != 0) {
+      let result = results[0];
+      returnId = result.menu_category_id;
+    }
+  } catch (error) {
+    console.log("Error: getMenuCategoryIdByRepository, " + error);
+  }
+  return returnId;
+};
+
 module.exports = {
   getMenuCategoryDetailByIdRepository,
   getAllMenuCategoryDetailsRepository,
   createMenuCategoryRepository,
   updateMenuCategoryRepository,
   deleteMenuCategoryRepository,
+  // get category by route name
+  getMenuCategoryIdByRepository,
 };

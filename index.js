@@ -209,16 +209,6 @@ app.get(`${localurl}testing`, (req, res) => {
 });
 //*  local host testing    */
 
-//  handling wrong navigation url
-// app.use((req, res, next) => {
-//   next(createHttpError.NotFound());
-// });
-// app.use((error, req, res, next) => {
-//   error.status = error.status || 500;
-//   res.status(error.status);
-//   res.send(error);
-// });
-
 // Data Sanitization against XSS attacks
 app.use(xss());
 
@@ -234,6 +224,16 @@ app.use((error, req, res, next) => {
 
 // port listening on ...
 app.listen(
-  4000,
+  process.env.PORT,
   console.log(`Feast well Server Running on Port ...${process.env.PORT} `)
 );
+
+//  handling wrong navigation url
+// app.use((req, res, next) => {
+//   next(createHttpError.NotFound());
+// });
+// app.use((error, req, res, next) => {
+//   error.status = error.status || 500;
+//   res.status(error.status);
+//   res.send(error);
+// });

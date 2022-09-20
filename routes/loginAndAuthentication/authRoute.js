@@ -1,7 +1,7 @@
 const express = require("express");
 const authRoute = express.Router();
 
-const { verifyFunction } = require("../../helper/verifyjwtToken");
+const { verify } = require("../../helper/verifyjwtToken");
 
 const {
   userLoginBodyValidation,
@@ -12,10 +12,32 @@ const {
   TokenLogin,
 } = require("../../controller/loginAndAuthentication/loginUserController");
 
-// ^ create
-authRoute.route("/").post(userLoginBodyValidation, userLogin);
+// ^ Login
+authRoute.post("/", async (req, res) => {
+  console.log(`im in the router to check permission`); //delete
+  const err = await userLoginBodyValidation(req);
+  if (err) {
+    return res.status(500).json({
+      error: err.message,
+      message: "request body validation error",
+    });
+  } else {
+    await userLogin(req, res);
+  }
+});
 
 // * token login
-authRoute.route("/").get(verifyFunction, TokenLogin);
+
+authRoute.get("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await TokenLogin(req, res);
+  }
+});
 
 module.exports = { authRoute };

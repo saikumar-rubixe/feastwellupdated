@@ -1,4 +1,3 @@
-const DecimalExtension = require("joi-decimal");
 let Joi = require("joi").extend(require("@joi/date"));
 
 const Schema = Joi.object({
@@ -52,16 +51,13 @@ const Schema = Joi.object({
 });
 // VALIDATE BEFORE SAVING A USER
 const residentAdditionalInformationBodyValidation = async (req, res, next) => {
+  returnError = null;
   try {
     await Schema.validateAsync(req.body);
-    next();
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      error: error.message,
-      message: "request body validation error",
-    });
+    returnError = error;
   }
+  return returnError;
 };
 
 module.exports = {

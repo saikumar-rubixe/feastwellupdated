@@ -1,15 +1,22 @@
 const express = require("express");
 const NutritionalRiskFactorRoute = express.Router();
-const { verifyFunction } = require("../../helper/verifyjwtToken");
-
+const { verify } = require("../../helper/verifyjwtToken");
+const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 const {
   getAllNutritionalRiskFactorsDetailsController,
 } = require("../../controller/usersDetails/nutritionRiskFactorController");
 
 //*GET DETAILS
-NutritionalRiskFactorRoute.route("/").get(
-  verifyFunction,
-  getAllNutritionalRiskFactorsDetailsController
-);
+NutritionalRiskFactorRoute.get("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getAllNutritionalRiskFactorsDetailsController(req, res);
+  }
+});
 
 module.exports = { NutritionalRiskFactorRoute };

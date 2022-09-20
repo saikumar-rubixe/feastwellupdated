@@ -4,22 +4,19 @@ const Schema = Joi.object({
   fullName: Joi.string()
     .regex(/^[a-z]+[ a-z0-9]*$/i)
     .required(),
-  phoneNumber: Joi.string().required(),
+  phoneNumber: Joi.string().optional(),
   userType: Joi.number().required(),
   userStatus: Joi.number().max(1).required(),
 });
 // VALIDATE BEFORE SAVING A USER
 const residentDetailsValidation = async (req, res, next) => {
+  returnError = null;
   try {
     await Schema.validateAsync(req.body);
-    next();
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      error: error.message,
-      message: "request body validation error",
-    });
+    returnError = error;
   }
+  return returnError;
 };
 
 module.exports = {

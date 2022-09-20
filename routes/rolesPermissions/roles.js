@@ -1,6 +1,7 @@
 const express = require("express");
 const rolesRoute = express.Router();
-const { verifyFunction } = require("../../helper/verifyjwtToken");
+const { verify } = require("../../helper/verifyjwtToken");
+const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 const {
   getRolesDetailByIdController,
   getAllRolesDetailsController,
@@ -8,10 +9,68 @@ const {
   updateRolesController,
   deleteRolesController,
 } = require("../../controller/rolesPermissions/rolesController.js");
-rolesRoute.route("/:id").get(verifyFunction, getRolesDetailByIdController);
-rolesRoute.route("/:id").put(verifyFunction, updateRolesController);
-rolesRoute.route("/:id").delete(verifyFunction, deleteRolesController);
-rolesRoute.route("/").get(getAllRolesDetailsController);
-rolesRoute.route("/").post(verifyFunction, createRolesController);
+
+//* GET Details By Id
+rolesRoute.get("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getRolesDetailByIdController(req, res);
+  }
+});
+
+//? Update
+rolesRoute.put("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await updateRolesController(req, res);
+  }
+});
+
+//!delete
+rolesRoute.delete("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await deleteRolesController(req, res);
+  }
+});
+//* Get ALL Details
+rolesRoute.get("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getAllRolesDetailsController(req, res);
+  }
+});
+// ^ Create
+rolesRoute.post("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await createRolesController(req, res);
+  }
+});
 
 module.exports = { rolesRoute };
