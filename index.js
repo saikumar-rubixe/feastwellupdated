@@ -5,7 +5,6 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const helmet = require("helmet"); //This library helps to secure Express APIs by defining various HTTP headers
 const xss = require("xss-clean");
-const hbs = require("hbs");
 
 const morgan = require("morgan"); // for logs
 var path = require("path"); // for logs
@@ -26,10 +25,10 @@ var accessLogStream = rfs.createStream("access.log", {
 
 // setup the logger
 app.use(morgan("combined", { stream: accessLogStream }));
-// checking the logs using morgan
+//* checking the logs using morgan
 app.use(morgan("dev"));
 
-// routes import
+//* Routes import
 const { authRoute } = require("./routes/loginAndAuthentication/authRoute");
 const {
   refreshRoute,
@@ -88,7 +87,7 @@ const {
 } = require("./routes/mealImageUrlAndResponseData/mealTypesRoutes");
 const { array } = require("joi");
 
-/*********************************************************************************** */
+//***********************************************************************************
 //  cors cross browser access
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -107,107 +106,55 @@ app.get("/", (req, res) => {
 let apiPath = "/feastwell-backend/api/";
 let apiVersion = "v1";
 let apiBasePath = `${apiPath}${apiVersion}/`;
-let localurl = "/feastwell-backend/api/v1/";
 
 // !Login!
 app.use(`${apiBasePath}auth/login`, authRoute);
 app.use(`${apiBasePath}auth/refresh`, refreshRoute);
-// !SideBar!
-app.use(`${apiBasePath}menuCategory`, MenuCategoryRoute);
+
 // ^ Country State City Routes
 app.use(`${apiBasePath}country`, countryRoute);
 app.use(`${apiBasePath}states`, statesRoute);
 app.use(`${apiBasePath}city`, cityRoute);
 
+//* SideBar! MENU
+app.use(`${apiBasePath}menuCategory`, MenuCategoryRoute);
+
 // ^Roles and Permissions
 app.use(`${apiBasePath}roles`, rolesRoute);
 app.use(`${apiBasePath}permissions`, permissionsRoute);
-app.use(`${apiBasePath}userType`, userTypeRoute);
-app.use(`${apiBasePath}menuAccess`, sideBarCheckRoute);
+app.use(`${apiBasePath}menuAccess`, sideBarCheckRoute); //delete
 
 // ?meal and menu
-
 app.use(`${apiBasePath}mealTypes`, mealTypes);
 app.use(`${apiBasePath}mealItems`, mealItemsRoute);
 app.use(`${apiBasePath}mealMenu`, mealMenuRoute);
 app.use(`${apiBasePath}mealContents`, menuContentsRoute);
 
-// ^ users and users details
-app.use(`${apiBasePath}user`, userRoute);
-app.use(`${apiBasePath}facility`, facilityRoute);
-app.use(`${apiBasePath}kitchen`, kitchenRoute);
-app.use(`${apiBasePath}userActivityLog`, userActivityLog);
+// * Facility and kitchen
+app.use(`${apiBasePath}facility`, facilityRoute); // facility
+app.use(`${apiBasePath}kitchen`, kitchenRoute); // kitchen
 
-app.use(`${apiBasePath}residentFacility`, residentFacilityRoute);
-// get residents of facility n of nurse id x
-app.use(`${apiBasePath}nurseResident`, nurseResident);
+// ^ users
+app.use(`${apiBasePath}userType`, userTypeRoute);
+app.use(`${apiBasePath}user`, userRoute); // users {residents,admins,nurse,manger etc}
 
-app.use(`${apiBasePath}residentsDetails`, residentDetailsRoutes);
-app.use(`${apiBasePath}nutritionalRiskFactors`, NutritionalRiskFactorRoute);
+//* Activity Log
+app.use(`${apiBasePath}userActivityLog`, userActivityLog); // users activity log
 
-// !images upload and Response
-app.use(`${apiBasePath}uploadMealImage`, imageUploadRoute);
-app.use(`${apiBasePath}imageDetails`, imageDetailsRoute);
-app.use(`${apiBasePath}imageResponse`, imagePredictionResponse);
+//! Mappings with user and nurse etc
+app.use(`${apiBasePath}residentFacility`, residentFacilityRoute); // residents facility mapping
+app.use(`${apiBasePath}nurseResident`, nurseResident); // resident of a faciluty where nurse works
 
-/**   *********************************************************************************************************************************** */
-//    TODO       FOR  LOCAL HOST TESTING  AND DEVLOPMENT PURPOSE ONLY     //
-
-// !Login!
-app.use(`${localurl}auth/login`, authRoute);
-app.use(`${localurl}auth/refresh`, refreshRoute);
-
-// !SideBar!
-app.use(`${localurl}menuCategory`, MenuCategoryRoute);
-
-// ^ Country State City Routes
-app.use(`${localurl}country`, countryRoute);
-app.use(`${localurl}states`, statesRoute);
-app.use(`${localurl}city`, cityRoute);
-
-// ^Roles and Permissions
-app.use(`${localurl}roles`, rolesRoute);
-app.use(`${localurl}permissions`, permissionsRoute);
-app.use(`${localurl}userType`, userTypeRoute);
-app.use(`${localurl}menuAccess`, sideBarCheckRoute);
-
-// ?meal and menu
-app.use(`${localurl}mealTypes`, mealTypes);
-app.use(`${localurl}mealItems`, mealItemsRoute);
-app.use(`${localurl}mealMenu`, mealMenuRoute);
-app.use(`${localurl}mealContents`, menuContentsRoute);
-
-// ^ users and users details
-app.use(`${localurl}user`, userRoute);
-app.use(`${localurl}facility`, facilityRoute);
-app.use(`${localurl}kitchen`, kitchenRoute);
-app.use(`${localurl}userActivityLog`, userActivityLog);
-// get users of facility n
-app.use(`${localurl}residentFacility`, residentFacilityRoute);
-// get residents of facility n of nurse id x
-app.use(`${localurl}nurseResident`, nurseResident);
-
-app.use(`${localurl}residentsDetails`, residentDetailsRoutes);
-app.use(`${localurl}nutritionalRiskFactors`, NutritionalRiskFactorRoute);
+// ^ Residents and addtional details
+app.use(`${apiBasePath}residentsDetails`, residentDetailsRoutes); //resident additional routes
+app.use(`${apiBasePath}nutritionalRiskFactors`, NutritionalRiskFactorRoute); //resident additional details risk factors
 
 // !images upload and Response
-app.use(`${localurl}imageDetails`, imageDetailsRoute);
-app.use(`${localurl}uploadMealImage`, imageUploadRoute);
-app.use(`${localurl}imageResponse`, imagePredictionResponse);
+app.use(`${apiBasePath}uploadMealImage`, imageUploadRoute); //image uploads
+app.use(`${apiBasePath}imageDetails`, imageDetailsRoute); //iage details
+app.use(`${apiBasePath}imageResponse`, imagePredictionResponse); //images prediction details
 
-//!
-//* to set view engine
-app.set("view engine", hbs);
-//var responsepred = require("./views/imageResponse.hbs");
-app.get(`${localurl}testing`, (req, res) => {
-  let html = fs.readFileSync("./views/imageResponse.hbs", "utf8");
-
-  // var htm = JSON.stringify(html);
-  res.status(200).json({ filename: html });
-
-  console.log(html); //delete
-});
-//*  local host testing    */
+//*************                    END OF ROUTES           ****************** */
 
 // Data Sanitization against XSS attacks
 app.use(xss());
@@ -227,13 +174,3 @@ app.listen(
   process.env.PORT,
   console.log(`Feast well Server Running on Port ...${process.env.PORT} `)
 );
-
-//  handling wrong navigation url
-// app.use((req, res, next) => {
-//   next(createHttpError.NotFound());
-// });
-// app.use((error, req, res, next) => {
-//   error.status = error.status || 500;
-//   res.status(error.status);
-//   res.send(error);
-// });

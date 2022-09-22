@@ -1,7 +1,6 @@
 const express = require("express");
 const residentDetailsRoutes = express.Router();
 const { verify } = require("../../helper/verifyjwtToken");
-
 const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 const {
   residentAdditionalInformationBodyValidation,

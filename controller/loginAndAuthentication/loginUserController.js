@@ -25,6 +25,8 @@ const userLogin = async (req, res) => {
       });
     } else {
       if (recordExist) {
+        console.log(`consolling the user details`);
+        console.log(recordExist);
         const usertype = recordExist.userType;
         if (
           usertype == 1 ||

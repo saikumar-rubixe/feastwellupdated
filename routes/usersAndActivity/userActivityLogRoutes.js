@@ -9,13 +9,20 @@ const {
 
 require("../../controller/usersAndActivity/userActivitylogController.js");
 //record the log
-userActivityLog.route("/").post(createUserLogController);
+
+userActivityLog.post("/", async (req, res) => {
+  await createUserLogController(req, res);
+});
+
 // get the log
-userActivityLog.route("/:id").get(getUserLogDetailByIdController);
+userActivityLog.get("/:id", async (req, res) => {
+  await getUserLogDetailByIdController(req, res);
+});
+
 // GET USER'S ACTIVITY LOG BY USER ID
-userActivityLog.route("/ByUserId/:id").get(getUserLogDetailByUserIdController);
-//userActivityLog.route("/:id").put(update);
-//userActivityLog.route("/:id").delete(deleted);
-//userActivityLog.route("/").get(getAll);
+
+userActivityLog.get("/ByUserId/:id", async (req, res) => {
+  await getUserLogDetailByUserIdController(req, res);
+});
 
 module.exports = { userActivityLog };

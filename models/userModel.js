@@ -10,7 +10,11 @@ class UserModel {
   createdDate = null;
   updatedDate = null;
   enrolmentId = null;
+  createdBy = null;
+  updatedBy = null;
   password = null;
+  facilityId = null;
+  facilityName = null;
 
   fill(
     userId,
@@ -24,7 +28,11 @@ class UserModel {
     createdDate,
     updatedDate,
     enrolmentId,
-    password
+    createdBy,
+    updatedBy,
+    password,
+    facilityId,
+    facilityName
   ) {
     this.userId = userId;
     this.fullName = fullName;
@@ -37,7 +45,11 @@ class UserModel {
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;
     this.enrolmentId = enrolmentId;
+    this.createdBy = createdBy;
+    this.updatedBy = updatedBy;
     this.password = password;
+    this.facilityId = facilityId;
+    this.facilityName = facilityName;
   }
 }
 module.exports = { UserModel };

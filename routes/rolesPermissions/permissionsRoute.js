@@ -1,6 +1,6 @@
 const express = require("express");
 const permissionsRoute = express.Router();
-const { verify } = require("../../helper/verifyjwtToken");
+
 const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 
 // controller imports

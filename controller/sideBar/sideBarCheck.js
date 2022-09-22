@@ -21,7 +21,7 @@ const checkSideBarPermissionContoller = async (userType, res) => {
       let menuIdArray = [];
       for (i = 0; i < values.length; i++) {
         let sql =
-          "select menu_category_id ,category_name from `menu_category` where status=1 and menu_category_id =?";
+          "select menu_category_id ,category_name,desktop_sort_order,mobile_sort_order, destop_icons from `menu_category` where status=1 and menu_category_id =?";
         let results = await runQuery(sql, [values[i]]);
         var normalObj = Object.assign({}, results[0]);
         // console.log(normalObj);//delete

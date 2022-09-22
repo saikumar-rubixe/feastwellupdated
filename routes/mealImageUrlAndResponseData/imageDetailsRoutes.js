@@ -35,14 +35,19 @@ imageDetailsRoute.post("/", async (req, res) => {
 });
 
 //* get the image details
-imageDetailsRoute.route("/").get(getSingleimageUploadDetailController);
+
+imageDetailsRoute.get("/", async (req, res) => {
+  await getSingleimageUploadDetailController(req, res);
+});
 
 //* get all details
-imageDetailsRoute.route("/all/").get(getAllimageUploadDetailsController);
 
+imageDetailsRoute.get("/all/", async (req, res) => {
+  await getAllimageUploadDetailsController(req, res);
+});
 //* get all details of Nurse
-imageDetailsRoute
-  .route("/byNurseId/:id")
-  .get(getImagesUploadedByNurseIdController);
+imageDetailsRoute.get("/byNurseId/:id", async (req, res) => {
+  await getImagesUploadedByNurseIdController(req, res);
+});
 
 module.exports = { imageDetailsRoute };

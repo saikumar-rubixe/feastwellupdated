@@ -1,0 +1,46 @@
+/**   *********************************************************************************************************************************** */
+//    TODO       FOR  LOCAL HOST TESTING  AND DEVLOPMENT PURPOSE ONLY     //
+
+// !Login!
+app.use(`${localurl}auth/login`, authRoute);
+app.use(`${localurl}auth/refresh`, refreshRoute);
+
+// !SideBar!
+app.use(`${localurl}menuCategory`, MenuCategoryRoute);
+
+// ^ Country State City Routes
+app.use(`${localurl}country`, countryRoute);
+app.use(`${localurl}states`, statesRoute);
+app.use(`${localurl}city`, cityRoute);
+
+// ^Roles and Permissions
+app.use(`${localurl}roles`, rolesRoute);
+app.use(`${localurl}permissions`, permissionsRoute);
+app.use(`${localurl}userType`, userTypeRoute);
+app.use(`${localurl}menuAccess`, sideBarCheckRoute);
+
+// ?meal and menu
+app.use(`${localurl}mealTypes`, mealTypes);
+app.use(`${localurl}mealItems`, mealItemsRoute);
+app.use(`${localurl}mealMenu`, mealMenuRoute);
+app.use(`${localurl}mealContents`, menuContentsRoute);
+
+// ^ users and users details
+app.use(`${localurl}user`, userRoute);
+app.use(`${localurl}userActivityLog`, userActivityLog);
+app.use(`${localurl}facility`, facilityRoute);
+app.use(`${localurl}kitchen`, kitchenRoute);
+// get users of facility n
+app.use(`${localurl}residentFacility`, residentFacilityRoute);
+// get residents of facility n of nurse id x
+app.use(`${localurl}nurseResident`, nurseResident);
+
+app.use(`${localurl}residentsDetails`, residentDetailsRoutes);
+app.use(`${localurl}nutritionalRiskFactors`, NutritionalRiskFactorRoute);
+
+// !images upload and Response
+app.use(`${localurl}imageDetails`, imageDetailsRoute);
+app.use(`${localurl}uploadMealImage`, imageUploadRoute);
+app.use(`${localurl}imageResponse`, imagePredictionResponse);
+
+//!

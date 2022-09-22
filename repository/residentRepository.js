@@ -1,7 +1,99 @@
 let { runQuery } = require("../config/database");
 let { ResidentModel } = require("../models/residentModel");
-let SqlString = require("sqlstring");
-// 1 create resident addittional details
+const { getPstDate } = require("../helper/getCanadaTime");
+const { enrollementIdTag } = require("../helper/enrollmentIDGenerator");
+
+// 1 insert residentdetails
+/**
+ * enter details into users table
+ * @param {*} name,usertype,status ,created date ,updated date
+ * @param {*} createdBy
+ * @param {*} updatedBy
+ * @returns  insertedId ,enrolmentId
+ */
+const insertResindentBasicDetailsRepository = async (
+  fullname,
+  createdBy,
+  updatedBy
+) => {
+  try {
+    const getTag = await enrollementIdTag(6);
+    console.log(`calling the uniqueId`); //delete
+    let enrolmentId = await valueExistCheck(getTag);
+    let sql =
+      "insert into `users` (full_name,user_type,status,enrolment_id,created_date,updated_date,created_by,updated_byenrolment_id) values(?,?,?,?,?,?,?)";
+    let results = await runQuery(sql, [
+      fullname,
+      7,
+      1,
+      enrolmentId,
+      getPstDate(),
+      getPstDate(),
+      createdBy,
+      updatedBy,
+    ]);
+    let insertId = results.insertId;
+    return { insertId, enrolmentId };
+  } catch (error) {
+    console.log(error);
+    console.log("CBE! something went  wrong");
+    console.log(error);
+    return false;
+  }
+};
+
+// 2 create resident addittional details
+/** inseet the reidents additional details into resident details
+ *
+ * @param {*} userId
+ * @param {*} name
+ * @param {*} gender
+ * @param {*} dob
+ * @param {*} age
+ * @param {*} address
+ * @param {*} familyContact
+ * @param {*} enrollmentDate
+ * @param {*} intialWeight
+ * @param {*} currentWeight
+ * @param {*} physician
+ * @param {*} diagnosis
+ * @param {*} foodAllergy
+ * @param {*} medications
+ * @param {*} nutritionalSupplements
+ * @param {*} laxatives
+ * @param {*} naturalLaxatives
+ * @param {*} significantlabData
+ * @param {*} monthlyGroceryBudget
+ * @param {*} currentHeight
+ * @param {*} usualWeight
+ * @param {*} waistCircumference
+ * @param {*} weightHistory
+ * @param {*} appetiteFoodIntake
+ * @param {*} chewing
+ * @param {*} swallowing
+ * @param {*} fluidIntake
+ * @param {*} dentition
+ * @param {*} sight
+ * @param {*} communication
+ * @param {*} comprehension
+ * @param {*} bowelFunction
+ * @param {*} mobility
+ * @param {*} dexterity
+ * @param {*} feeding
+ * @param {*} specialNeeds
+ * @param {*} foodPreferences
+ * @param {*} nutritionalRiskFactors
+ * @param {*} bmi
+ * @param {*} averageWt
+ * @param {*} idealBodyWeightRange
+ * @param {*} calorieNeeds
+ * @param {*} fluidNeeds
+ * @param {*} proteinNeeds
+ * @param {*} proteinNeedsValue
+ * @param {*} carePlans
+ * @param {*} recommendations
+ * @returns  inserted Id
+ */
 const insertResidentDetailsRepository = async (
   userId,
   name,
@@ -195,6 +287,7 @@ const getAllResidentDetailsRepository = async (req, res) => {
 
 // 3 get detail By Id
 const getResidentDetailByIdRepository = async (id, res) => {
+  console.log(`in to the get detail by id folder`);
   try {
     let query = "select * from `residents_details`  where user_id=?";
     let results = await runQuery(query, [id]);
@@ -316,10 +409,6 @@ const updateResidentDetailRepository = async (
   recommendations
 ) => {
   try {
-    console.log(`in the repository body checking the type`);
-    console.log(nutritionalRiskFactors);
-    console.log(`******************************`);
-
     let query =
       " UPDATE `residents_details` set `name`=?,`gender`=?,`dob`=?,`age`=?,`address`=?,`family_contact`=?,`enrollment_date`=?,`intial_weight`=?,`current_weight`=?,`physician`=?,`diagnosis`=?,`food_allergy`=?,`medications`=?,`nutritional_supplements`=?,`laxatives`=?,`natural_laxatives`=?,`significant_lab_data`=?,`monthly_grocery_budget`=?,`current_height`=?,`usual_weight`=?,`waist_circumference`=?,`weight_history`=?,`appetite_food_intake`=?,`chewing`=?,`swallowing`=?,`fluid_intake`=?,`dentition`=?,`sight`=?,`communication`=?,`comprehension`=?,`bowel_function`=?,`mobility`=?,`dexterity`=?,`feeding`=?,`special_needs`=?,`food_preferences`=?,`nutritional_risk_factors`=?,`bmi`=?,`average_wt`=?,`ideal_body_weight_range`=?,`calorie_needs`=?,`fluid_needs`=?,`protein_needs`=?,`protein_needs_value`=?,`care_plans`=?,`recommendations`=? where user_id =?";
 
@@ -386,6 +475,7 @@ const updateResidentDetailRepository = async (
   }
 };
 module.exports = {
+  insertResindentBasicDetailsRepository,
   insertResidentDetailsRepository,
   getAllResidentDetailsRepository,
   getResidentDetailByIdRepository,

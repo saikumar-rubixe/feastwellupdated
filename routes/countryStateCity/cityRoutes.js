@@ -8,16 +8,61 @@ const {
   getCityByCityIdController,
 } = require("../../controller/countryStateCity/citiesController");
 
+const { checkRoutePermission } = require("../../helper/checkRoutePermission");
+
 //* GET CITITES BY  STATE ID
-cityRoute.route("/:id").get(verify, getCitiesByIdController);
+
+cityRoute.get("/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getCitiesByIdController(req, res);
+  }
+});
 
 //^CREATE CITITES
-cityRoute.route("/").post(verify, createCityController);
+cityRoute.post("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await createCityController(req, res);
+  }
+});
+//route("/").post(verify, createCityController);
 
 //* GET ALL CITIES
-cityRoute.route("/").get(verify, getAllDetailsController);
+cityRoute.get("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getAllDetailsController(req, res);
+  }
+});
 
 //* GET CITY BY CITY ID
-cityRoute.route("/byCity/:id").get(verify, getCityByCityIdController);
+
+cityRoute.get("/byCity/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getCityByCityIdController(req, res);
+  }
+});
 
 module.exports = { cityRoute };

@@ -29,15 +29,7 @@ authRoute.post("/", async (req, res) => {
 // * token login
 
 authRoute.get("/", async (req, res) => {
-  const permission = await checkRoutePermission(req);
-  if (permission !== 1) {
-    res.status(401).json({
-      success: false,
-      message: "unauthorized access",
-    });
-  } else {
-    await TokenLogin(req, res);
-  }
+  await TokenLogin(req, res);
 });
 
 module.exports = { authRoute };

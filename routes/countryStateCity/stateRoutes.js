@@ -1,6 +1,6 @@
 const express = require("express");
 const statesRoute = express.Router();
-const { verify } = require("../../helper/verifyjwtToken");
+const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 const {
   createStatesController,
   getAllStatesDetailsController,
@@ -14,29 +14,116 @@ const {
 } = require("../../controller/countryStateCity/statesController");
 
 // ^create states by id
-statesRoute.route("/").post(createStatesController);
+statesRoute.post("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await createStatesController(req, res);
+  }
+});
 
 //*get all states
-statesRoute.route("/").get(getAllStatesDetailsController);
+
+statesRoute.get("/", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getAllStatesDetailsController(req, res);
+  }
+});
 
 //*get state by state id
-statesRoute.route("/byStateId/:id").get(getStatesByStateIdController);
+
+statesRoute.get("/byStateId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getStatesByStateIdController(req, res);
+  }
+});
 
 // ?update states by state id
-statesRoute.route("/byStateId/:id").put(updateStatesByStateIdController);
+
+statesRoute.put("/byStateId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await updateStatesByStateIdController(req, res);
+  }
+});
 
 //! delete states by state id
-statesRoute.route("/byStateId/:id").delete(deleteStatesByStateIdController);
+
+statesRoute.delete("/byStateId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await deleteStatesByStateIdController(req, res);
+  }
+});
 
 // BY COUNTRY ID'S
 
 //*get states by country id
-statesRoute.route("/byCountryId/:id").get(getStatesByCountryIdController);
+//route("/byCountryId/:id").get(getStatesByCountryIdController);
+statesRoute.getget("/byCountryId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getStatesByCountryIdController(req, res);
+  }
+});
 
 //? update states by country id
-statesRoute.route("/byCountryId/:id").put(updateStatesByCountryIdController);
+//route("/byCountryId/:id").put(updateStatesByCountryIdController);
+statesRoute.put("/byCountryId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await updateStatesByCountryIdController(req, res);
+  }
+});
 
 //! delete states by country Id
-statesRoute.route("/byCountryId/:id").delete(deleteStatesByCountryIdController);
+
+statesRoute.delete("/byCountryId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await deleteStatesByCountryIdController(req, res);
+  }
+});
 
 module.exports = { statesRoute };

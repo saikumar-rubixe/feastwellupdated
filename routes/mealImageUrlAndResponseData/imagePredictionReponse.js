@@ -12,18 +12,46 @@ const {
   getImagePredictionResponseByReferenceIdController,
   getImagePredictionResponseByIdController,
 } = require("../../controller/mealImageUrlAndRepsonseData/imageRepsonseController.js");
+
 //^ Create image prediction response
-imagePredictionResponse
-  .route("/")
-  .post(imageResponseBodyValidation, insertImagePredictionRespsonseController);
+
+imagePredictionResponse.post("/", async (req, res) => {
+  const err = await imageResponseBodyValidation(req);
+  if (err) {
+    return res.status(500).json({
+      error: err.message,
+      message: "request body validation error",
+    });
+  } else {
+    await insertImagePredictionRespsonseController(req, res);
+  }
+});
 //* get image prediction details by reference ID (image details table id)
-imagePredictionResponse
-  .route("/byReferenceId/:id")
-  .get(getImagePredictionResponseByReferenceIdController);
+
+imagePredictionResponse.get("/byReferenceId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getImagePredictionResponseByReferenceIdController(req, res);
+  }
+});
 
 //*get the image prediction response details by table Id
-imagePredictionResponse
-  .route("/byId/:id")
-  .get(getImagePredictionResponseByIdController);
+
+imagePredictionResponse.get("/byId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getImagePredictionResponseByIdController(req, res);
+  }
+});
 
 module.exports = { imagePredictionResponse };

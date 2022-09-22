@@ -11,7 +11,7 @@ const {
 } = require("../../controller/rolesPermissions/rolesController.js");
 
 //* GET Details By Id
-rolesRoute.get("/", async (req, res) => {
+rolesRoute.get("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -24,7 +24,7 @@ rolesRoute.get("/", async (req, res) => {
 });
 
 //? Update
-rolesRoute.put("/", async (req, res) => {
+rolesRoute.put("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -37,7 +37,7 @@ rolesRoute.put("/", async (req, res) => {
 });
 
 //!delete
-rolesRoute.delete("/", async (req, res) => {
+rolesRoute.delete("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({

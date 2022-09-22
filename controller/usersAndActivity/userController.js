@@ -20,10 +20,12 @@ const { checkNumber } = require("../../helper/checkNumber");
 const {
   getUserByIdRepository,
   getAllUsersRepository,
+  createResidentrepository,
   createUserRepository,
   updateUserRepository,
   deleteUserRepository,
   updateUserLoginDetailsRepository,
+  getuserType,
 } = require("../../repository/userRepository");
 const {
   userCheckRepository,
@@ -99,55 +101,153 @@ const getAllUsersController = async (req, res) => {
 };
 
 // 3 create user and generate insertId
-let createUserController = async (req, res, next) => {
-  // const menuId;
+/**1 create user controller
+ *
+ * @param {*} req
+ * @param {*} res
+ * @return {*} inserted ID
+ */
+const createUserController = async (req, res) => {
   try {
-    let { fullName, phoneNumber, userName, password, userType, userStatus } =
-      req.body;
-    console.log(req.body);
-    let recordCheck = await userCheckRepository(userName, res);
-    if (recordCheck == 1) {
-      if (recordCheck == 1) {
-        res.status(404).json({
-          success: false,
-          message: "username not available ",
-        });
+    const userId = req.userIdValue; //get the user id of logged in user
+    const userType = await getuserType(userId); // get the userType of the user ID
+    const createUserTypeRequest = req.body.userType; // type of user to be added
+    // TODO check for creating resident
+    if (createUserTypeRequest == 6) {
+      console.log(`int creating  resident  controller starting`);
+      console.log(req.body);
+      if (userType == 1 || userType == 2 || userType == 3 || userType == 4) {
+        let fullName = req.body.fullName;
+        const createUser = await createResidentrepository(
+          fullName,
+          createUserTypeRequest,
+          req,
+          res
+        );
+        //* return from repository with created Id
+        if (!createUser || createUser == false) {
+          res.status(404).json({
+            success: false,
+            message: "something went wrong , registration failed ",
+          });
+        } else {
+          res.status(201).json({
+            success: true,
+            message: "Registration  succesfully with id: " + createUser,
+            insertId: createUser,
+            fullName: fullName,
+          });
+        }
       }
-    } else if (recordCheck == 0) {
-      let createUser = await createUserRepository(
-        fullName,
-        phoneNumber,
-        userName,
-        password,
-        userType,
-        userStatus
-      );
+    }
+    //TODO check for creating nurse and dietician
+    else if (createUserTypeRequest == 5 || createUserTypeRequest == 4) {
+      console.log(`in creating the nurse controller`);
+      if (userType == 3 || userType == 2 || userType == 1) {
+        const { fullName, username, password } = req.body;
+        let recordCheck = await userCheckRepository(username, res);
+        console.log(`checking the record exist results ${recordCheck}`);
+        if (recordCheck == 1) {
+          if (recordCheck == 1) {
+            res.status(404).json({
+              success: false,
+              message: "username not available ",
+            });
+          }
+        } else if (recordCheck == 0) {
+          let createUser = await createUserRepository(
+            fullName,
+            username,
+            password,
+            createUserTypeRequest,
+            req,
+            res
+          );
+          //*
+          if (!createUser || createUser == false) {
+            res.status(404).json({
+              success: false,
+              message: "something went wrong , registration failed ",
+            });
+          } else {
+            res.status(201).json({
+              success: true,
+              message: "Registration  succesfully with id: " + createUser,
+              insertId: createUser,
+              fullName: fullName,
+            });
+          }
+        }
+      }
+    }
 
-      if (!createUser || createUser == false) {
-        res.status(404).json({
-          success: false,
-          message: "something went wrong , registration failed ",
-        });
-      } else {
-        res.status(201).json({
-          success: true,
-          message: "Registration  succesfully with id: " + createUser,
-          insertId: createUser,
-          fullName: fullName,
-        });
+    //TODO check for creating facility Manager
+    else if (createUserTypeRequest == 3) {
+      if (userType == 2 || userType == 1) {
+        const { fullName, username, password } = req.body;
+        let createuser = await createUserRepository(
+          fullName,
+          username,
+          password,
+          createUserTypeRequest,
+          req,
+          res
+        );
+        //** */
+        if (!createUser || createUser == false) {
+          res.status(404).json({
+            success: false,
+            message: "something went wrong , registration failed ",
+          });
+        } else {
+          res.status(201).json({
+            success: true,
+            message: "Registration  succesfully with id: " + createUser,
+            insertId: createUser,
+            fullName: fullName,
+          });
+        }
       }
-    } else {
-      res.send("out of the box error");
+    }
+    //TODO for creating ADMIN
+    else if (createUserTypeRequest == 2) {
+      if (userType == 1) {
+        const { fullName, username, password } = req.body;
+        let createUser = await createUserRepository(
+          fullName,
+          username,
+          password,
+          createUserTypeRequest,
+          req,
+          res
+        );
+        //** */
+        if (!createUser || createUser == false) {
+          res.status(404).json({
+            success: false,
+            message: "something went wrong , registration failed ",
+          });
+        } else {
+          res.status(201).json({
+            success: true,
+            message: "Registration  succesfully with id: " + createUser,
+            insertId: createUser,
+            fullName: fullName,
+          });
+        }
+      }
+    }
+    //TODO invalid creation request
+    else {
+      res.status(404).json({
+        success: false,
+        message: "invalid user creation request",
+      });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-      success: false,
-      message: " something went wrong cb",
-    });
   }
 };
-
 // 4 update User by id
 let updateUserController = async (req, res, next) => {
   try {

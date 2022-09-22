@@ -172,9 +172,8 @@ const deleteMenuCategoryRepository = async (id, res) => {
  *  @return category_id
  * @author galab
  */
-const { color, log } = require("console-log-colors");
+
 const getMenuCategoryIdByRepository = async (routeName) => {
-  console.log(color.yellow("4 in the get menu Category Id By Repository "));
   var returnId = null;
   try {
     let query = `SELECT menu_category_id FROM menu_category where 

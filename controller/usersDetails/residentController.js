@@ -13,21 +13,36 @@
  
  */
 const {
+  insertResindentBasicDetailsRepository,
   insertResidentDetailsRepository,
   getAllResidentDetailsRepository,
   getResidentDetailByIdRepository,
   updateResidentDetailRepository,
 } = require("../../repository/residentRepository");
 
-// 1 create
+// 1 create resident
 const insertResidentDetailsController = async (req, res) => {
   try {
-    console.log(`consoling the reques body `); //delete
-    console.log(req.body.nutritionalRiskFactors);
-    // console.log(JSON.stringify(req.body.nutritionalRiskFactors));
+    console.log(`consoling the request body `); //delete
+    console.log(req.body);
     console.log(`*****************************`); //delete
+    const { userId, createdBy, updatedBy } = req.userIdValue;
+    const fullName = req.body.name;
+    // create user details in users table with name and status only
+    //return the enrolment id and user created Id
+    let createUser = await insertResindentBasicDetailsRepository(
+      fullName,
+      createdBy,
+      updatedBy
+    );
+    if (createUser == false) {
+      res.status(400).json({
+        success: false,
+        message: "record insertion failed halted further ",
+      });
+    }
+    let userTableInsertedId = createUser.insertId; //insert id of users table
     const {
-      userId,
       name,
       gender,
       dob,
@@ -64,7 +79,6 @@ const insertResidentDetailsController = async (req, res) => {
       feeding,
       specialNeeds,
       foodPreferences,
-
       bmi,
       averageWt,
       idealBodyWeightRange,
@@ -78,6 +92,7 @@ const insertResidentDetailsController = async (req, res) => {
     const nutritionalRiskFactors = JSON.stringify(
       req.body.nutritionalRiskFactors
     );
+
     console.log(`paases the string value`);
     const create = await insertResidentDetailsRepository(
       userId,
@@ -133,6 +148,7 @@ const insertResidentDetailsController = async (req, res) => {
         success: true,
         message: "data created succesfully with id : " + create,
         data: create,
+        userId: userTableInsertedId,
       });
     }
     if (!create || create == false) {
@@ -214,8 +230,6 @@ const updateResidentDetailsController = async (req, res) => {
   const id = req.params.userId;
   console.log(`checking the user id passed`);
   console.log(id);
-  console.log(req.body.nutritionalRiskFactors);
-  console.log(`*************************`);
   const {
     name,
     gender,
@@ -253,7 +267,7 @@ const updateResidentDetailsController = async (req, res) => {
     feeding,
     specialNeeds,
     foodPreferences,
-
+    nutritionalRiskFactors,
     bmi,
     averageWt,
     idealBodyWeightRange,
@@ -265,11 +279,6 @@ const updateResidentDetailsController = async (req, res) => {
     recommendations,
   } = req.body;
   try {
-    console.log(`in the Controller body checking the type`);
-    //!TODO  important changing the nutrional values to an array string
-    let nutritionalRiskFactors = `[${req.body.nutritionalRiskFactors}]`;
-    console.log(nutritionalRiskFactors); //delete
-
     if (isNaN(id)) {
       res.status(400).json({
         success: false,

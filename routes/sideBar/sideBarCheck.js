@@ -5,7 +5,6 @@ const {
 
 const express = require("express");
 const sideBarCheckRoute = express.Router();
-const { verify } = require("../../helper/verifyjwtToken");
 const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 
 sideBarCheckRoute.post("/", async (req, res) => {

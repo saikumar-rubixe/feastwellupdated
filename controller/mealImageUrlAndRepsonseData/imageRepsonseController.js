@@ -2,10 +2,8 @@ const {
   insertImagePredictionRespsonseRepository,
   getImagePredictionResponseByReferenceIdRepository,
   getImagePredictionResponseByIdRepository,
-  getHtmlImagePredictionResponseByReferenceIdRepository,
 } = require("../../repository/imageResponseRepository");
 //*
-var imageresponsehtml = require("../../views/imageResponse.hbs");
 
 //*
 const insertImagePredictionRespsonseController = async (req, res) => {
@@ -19,14 +17,7 @@ const insertImagePredictionRespsonseController = async (req, res) => {
           message: "pass valid id",
           dataSent: req.body, //delete
         });
-      }
-      // check for user/email/etc doesnot exits
-      // check for user/email/etc doesnot exits
-      // const recordCheck = await functionCall();
-      // if (recordCheck || recordCheck == true) {
-      //   // for exist pass negative
-      // } else if (!recordCheck || recordCheck == false) {
-      else {
+      } else {
         const create = await insertImagePredictionRespsonseRepository(
           referenceId,
           jsonResponse

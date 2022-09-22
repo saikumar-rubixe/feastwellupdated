@@ -207,7 +207,6 @@ const getPermissionForCategoryAndRoleId = async (
   roleId,
   accessType
 ) => {
-  console.log(color.magenta(" 6 in the get permission for category"));
   var access = 0;
   try {
     let query = `SELECT ${accessType} FROM permissions WHERE menu_category_id=${categoryId} and role_id=${roleId} and ${accessType}=1 `;

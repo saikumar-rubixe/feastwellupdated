@@ -1,9 +1,6 @@
-const { color, log } = require("console-log-colors");
-const { red, green, cyan } = color;
-
 const express = require("express");
 const facilityRoute = express.Router();
-const { verify } = require("../../helper/verifyjwtToken");
+
 const {
   getFacilityCenterDetailsByIdController,
   getAllFacilityCenterDetailsController,
@@ -41,7 +38,6 @@ facilityRoute.post("/", async (req, res) => {
 
 //* get all
 facilityRoute.get("/", async (req, res) => {
-  console.log(green(" 1 in the router")); //delete
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -67,7 +63,7 @@ facilityRoute.get("/:id", async (req, res) => {
 });
 
 //? Update
-facilityRoute.put("/", async (req, res) => {
+facilityRoute.put("/:id", async (req, res) => {
   console.log(`im in the router to check permission`); //delete
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {

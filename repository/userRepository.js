@@ -17,8 +17,8 @@ const mysql = require("mysql");
 let { UserModel } = require("../models/userModel");
 let { runQuery } = require("../config/database");
 const {
-  generateRandomNumber,
   enrollementIdTag,
+  generateRandomNumber,
   checkEnrolmentIdRepository,
 } = require("../helper/enrollmentIDGenerator");
 const { getPstDate } = require("../helper/getCanadaTime");
@@ -35,7 +35,7 @@ const { valueExistCheck } = require("../helper/enrollmentIdCheck");
 /*1 get resident Details By ID  */
 const getUserByIdRepository = async (id, res) => {
   try {
-    let query = "select * from users where user_id =?";
+    let query = "select users.* from users where user_id =?";
     //let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
@@ -54,7 +54,11 @@ const getUserByIdRepository = async (id, res) => {
         (createdDate = array.created_date),
         (updatedDate = array.updated_date),
         (enrolmentId = array.enrolment_id),
-        (password = array.password)
+        (createdBy = array.created_by),
+        (updatedBy = array.updated_by),
+        (password = array.password),
+        (facilityId = array.facility_id),
+        (facilityName = array.facility_name)
       );
       return model;
     }
@@ -80,7 +84,8 @@ let userCheckRepository = async (userName, res) => {
 const getAllUsersRepository = async (userType, userStatus) => {
   try {
     let userArray = [];
-    let query = "select * from users  where 1=1 ";
+    let query =
+      "select users.*,user_facility_map.facility_id,facility.facility_name from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on facility.facility_id = user_facility_map.facility_id where 1=1";
     if (userType) {
       query += " and user_type=" + mysql.escape(userType);
     }
@@ -104,7 +109,12 @@ const getAllUsersRepository = async (userType, userStatus) => {
         (loggedIpAddress = array.logged_ip_address),
         (createdDate = array.created_date),
         (updatedDate = array.updated_date),
-        (enrolmentId = array.enrolment_id)
+        (enrolmentId = array.enrolment_id),
+        (createdBy = array.created_by),
+        (updatedBy = array.updated_by),
+        null,
+        (facilityId = array.facility_id),
+        (facilityName = array.facility_name)
 
         // (password = array.password),
       );
@@ -121,51 +131,111 @@ const getAllUsersRepository = async (userType, userStatus) => {
   }
 };
 
+// create resident repository
+/**
+ *
+ * @param {*} fullName
+ * @param {*} createUserTypeRequest (6)
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+const createResidentrepository = async (
+  fullName,
+  createUserTypeRequest,
+  req,
+  res
+) => {
+  try {
+    console.log(`consoling the user id value ${req.userIdValue}`);
+    const getTag = await enrollementIdTag(createUserTypeRequest); //get the tag as per userType
+    let uniqueId = await valueExistCheck(getTag); //randomId generate
+    let date = getPstDate();
+    let password = "carecrop123";
+
+    console.log(`checking the unique id ${uniqueId} date is ${date}`); //delete
+
+    let sql =
+      "INSERT INTO `users`(`full_name`,`username`,`password`,`user_type`,`status`,`created_date`,`updated_date`,`enrolment_id`,created_by,updated_by) VALUES (?,?,?,?,?,?,?,?,?,?) ";
+    let results = await runQuery(sql, [
+      fullName,
+      uniqueId,
+      password,
+      createUserTypeRequest,
+      1,
+      date,
+      date,
+      uniqueId,
+      req.userIdValue,
+      req.userIdValue,
+    ]);
+    console.log(results);
+    console.log(`im at after the run query`);
+    if (results) {
+      console.log(`results afftected are ${results.affectedRows}`);
+      return results.insertId;
+    } else return false;
+  } catch (error) {
+    console.log(
+      `something went wrong  in creating resident repository  :  ${error}`
+    );
+    return error;
+  }
+};
+
+/**
+ *
+ * @param {*} fullName
+ * @param {*} username
+ * @param {*} password
+ * @param {*} createUserTypeRequest
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
 // 5 createUserRepository
 let createUserRepository = async (
   fullName,
-  phoneNumber,
-  userName,
+  username,
   password,
-  userType,
-  userStatus
+  createUserTypeRequest,
+  req,
+  res
 ) => {
   try {
+    console.log(`consoling the user id value ${req.userIdValue}`);
     // hasing the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt); // hash complete
-    const getTag = await enrollementIdTag(userType);
-    console.log(`calling the uniqueId`); //delete
-
-    let uniqueId = await valueExistCheck(getTag);
-
-    console.log(`checking the unique id`); //delete
-    console.log(uniqueId); //delete
-
+    const getTag = await enrollementIdTag(createUserTypeRequest); //get the tag as per userType
+    let uniqueId = await valueExistCheck(getTag); //randomId generate
     let date = getPstDate();
-    console.log(date); //delete
-    let query =
-      "INSERT INTO `users`( `full_name`,`phone_number`,`username`,`password`,`user_type`,`status`,`created_date`,`updated_date`,`enrolment_id`) VALUES (?,?,?,?,?,?,?,?,?) ";
-    let results = await runQuery(query, [
+    console.log(`unique id and pst date `);
+    let sql =
+      "INSERT INTO `users`( `full_name`,`username`,`password`,`user_type`,`status`,`created_date`,`updated_date`,`enrolment_id`,created_by,updated_by) VALUES (?,?,?,?,?,?,?,?,?,?) ";
+
+    let results = await runQuery(sql, [
       fullName,
-      phoneNumber,
-      userName,
+      username,
       hashedPassword,
-      userType,
-      userStatus,
-      getPstDate(),
-      getPstDate(),
+      createUserTypeRequest,
+      1,
+      date,
+      date,
       uniqueId,
+      req.userIdValue,
+      req.userIdValue,
     ]);
-    // if userType =(2 Center Manager 4 center admin 5 nurse  6 facility head) add facility details
-    /**  if( userType == 7){
-  createResidentFacilityController(userId, facilityCenterId, status, createdBy)  
-}
-*/
-    return results.insertId;
+
+    if (results) {
+      console.log(results);
+      return results.insertId;
+    } else return false;
   } catch (error) {
     console.log(error);
-    console.log("CBE! something went  wrong");
+    console.log(
+      `something went wrong  in creating user repository  :  ${error}`
+    );
     return false;
   }
 };
@@ -253,13 +323,28 @@ let updateUserLoginDetailsRepository = async (
   }
 };
 
+// 9 get the userType of the userId
+const getuserType = async (userId) => {
+  try {
+    let sql = "select user_type from users where user_id =" + userId;
+    let results = await runQuery(sql);
+    results[0].user_type;
+    console.log(results[0].user_type);
+    return results[0].user_type;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // ************************  export modules  *********************************** */
 module.exports = {
   getUserByIdRepository: getUserByIdRepository,
   userCheckRepository: userCheckRepository,
   getAllUsersRepository: getAllUsersRepository,
+  createResidentrepository: createResidentrepository,
   createUserRepository: createUserRepository,
   updateUserRepository: updateUserRepository,
   deleteUserRepository: deleteUserRepository,
   updateUserLoginDetailsRepository: updateUserLoginDetailsRepository,
+  getuserType: getuserType,
 };

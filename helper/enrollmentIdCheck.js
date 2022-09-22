@@ -32,18 +32,3 @@ const generateRandomNumber = async () => {
 module.exports = {
   valueExistCheck,
 };
-
-// let randomId = tag + (await generateRandomNumber());
-// console.log(`generated id is ${randomId}`);
-// const query = "select enrolment_id from users where enrolment_id=?";
-
-// const results = await runQuery(query, [randomId]);
-// if (results.length == 0) {
-//   console.log(`no results found`);
-//   id = randomId;
-// }
-// else {
-//   console.log(`record exist`);
-//   randomId = randomId + 1;
-//   id = 0;
-// }

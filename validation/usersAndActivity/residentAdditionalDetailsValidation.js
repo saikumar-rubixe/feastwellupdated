@@ -1,7 +1,6 @@
 let Joi = require("joi").extend(require("@joi/date"));
 
 const Schema = Joi.object({
-  userId: Joi.number().required(),
   name: Joi.string().max(255).required(),
   gender: Joi.number().max(3).required(),
   dob: Joi.date().format(["YYYY-MM-DD", "YYYY/MM/DD"]).required(),

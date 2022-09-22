@@ -3,7 +3,6 @@
  *
  */
 
-const { color, log } = require("console-log-colors"); //delete
 const {
   getPermissionForCategoryAndRoleId,
 } = require("../repository/permissionsRepository");
@@ -21,7 +20,6 @@ const { getRouteId } = require("../helper/getRouteId");
   @author galab
 */
 const checkRoutePermission = async (req) => {
-  console.log(color.red("2 in the check route permission")); //delete
   var permission = 0;
   const user = await verify(req);
   if (user) {

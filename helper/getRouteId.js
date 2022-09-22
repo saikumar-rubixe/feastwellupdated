@@ -13,9 +13,8 @@ const {
   @return to next function defined in route
   @author galab
 */
-const { color, log } = require("console-log-colors");
+
 const getRouteId = async (routeName) => {
-  console.log(color.blue("3 in theget route")); //delete
   var categoryId = null;
   try {
     console.log("getting category id");

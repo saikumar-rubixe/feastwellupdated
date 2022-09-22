@@ -2,14 +2,13 @@
  *
  */
 let { UserModel } = require("../models/userModel");
-let { runQuery, con } = require("../config/database");
+let { runQuery } = require("../config/database");
 
 // 1 get user details by email id
 const getUserDetailByUsername = async (username) => {
+  console.log(`in to the  get details By id repo with username ${username}`);
   const query = "select * from users where (username =? OR enrolment_id =?)";
-  // const sql = con.format(query, [email]);
   let users = await runQuery(query, [username, username]);
-
   const user = users[0];
   var userModel = new UserModel();
   if (!user) return null;
@@ -26,6 +25,8 @@ const getUserDetailByUsername = async (username) => {
       (createdDate = user.created_date),
       (updatedDate = user.updated_date),
       (enrolmentId = user.enrolment_id),
+      (createdBy = user.created_date),
+      (updatedBy = user.updated_date),
       (password = user.password) //hashed password from db is sent to userPasswordModel
     );
 
@@ -35,6 +36,7 @@ const getUserDetailByUsername = async (username) => {
 
 // 3 userCheckRepository
 let userCheckRepository = async (userName, res) => {
+  console.log(`checkingthe record exist or not`);
   let query = "select * from users where username=?";
   //let sql = con.format(query);
   var results = await runQuery(query, [userName]);
