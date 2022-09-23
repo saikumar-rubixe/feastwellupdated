@@ -29,7 +29,15 @@ authRoute.post("/", async (req, res) => {
 // * token login
 
 authRoute.get("/", async (req, res) => {
-  await TokenLogin(req, res);
+  const user = await verify(req);
+  if (user) {
+    await TokenLogin(req, res);
+  } else {
+    res.status(401).json({
+      success: false,
+      message: "no user  Found with provided token ",
+    });
+  }
 });
 
 module.exports = { authRoute };

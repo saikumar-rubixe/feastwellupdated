@@ -86,7 +86,7 @@ statesRoute.delete("/byStateId/:id", async (req, res) => {
 
 //*get states by country id
 //route("/byCountryId/:id").get(getStatesByCountryIdController);
-statesRoute.getget("/byCountryId/:id", async (req, res) => {
+statesRoute.get("/byCountryId/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({

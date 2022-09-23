@@ -17,9 +17,4 @@ mealTypes.get("/", async (req, res) => {
   }
 });
 
-//mealTypes.route("/").post(Insert);
-//mealTypes.route("/:id").get(getById);
-//mealTypes.route("/:id").put(update);
-//mealTypes.route("/:id").delete(deleted);
-
 module.exports = { mealTypes };

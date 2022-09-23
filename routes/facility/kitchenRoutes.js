@@ -44,15 +44,7 @@ kitchenRoute.get("/", async (req, res) => {
       message: "unauthorized access",
     });
   } else {
-    const err = await KitchenUserBodyValidation(req);
-    if (err) {
-      return res.status(500).json({
-        error: err.message,
-        message: "request body validation error",
-      });
-    } else {
-      await getAllKitchenDetailsController(req, res);
-    }
+    await getAllKitchenDetailsController(req, res);
   }
 });
 
