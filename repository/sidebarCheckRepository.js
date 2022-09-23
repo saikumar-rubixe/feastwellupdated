@@ -1,4 +1,5 @@
 let { runQuery } = require("../config/database");
+const { menuCategoryModel } = require("../models/menuCategoryModel");
 
 const getRoleId = async (userType) => {
   console.log(`into get role id`); // delete
@@ -18,25 +19,32 @@ const getRoleId = async (userType) => {
   }
 };
 
-const getListOfMenuIds = async (role) => {
+const getCategoryMenu = async (parentId, parentFlag) => {
   let listmenu = [];
-  console.log(`into get list of menu ids for role id ${role}`); //delete
   const sql =
-    "select menu_category_id from `permissions` where role_id =? ORDER BY menu_category_id";
-  const details = await runQuery(sql, [role]);
-  // console.log(`! consolling the length`); //delete
-  // console.log(details.length); //delete
-  if (details.length != 0) {
-    for (i = 0; i < details.length; i++) {
-      let result = details[i];
-      menuId = result.menu_category_id;
-      listmenu.push(menuId);
+    "select * from `menu_category` where 1=1 and  parent_id = ? and parent_flag=? ORDER BY menu_category_id";
+  const categories = await runQuery(sql, [parentId, parentFlag]);
+  if (categories.length != 0) {
+    for (i = 0; i < categories.length; i++) {
+      let category = categories[i];
+      let menuCategory = new menuCategoryModel();
+      menuCategory.fill(
+        (menuId = category.menu_category_id),
+        (menuName = category.category_name),
+        (menuStatus = category.status),
+        (createdDate = category.created_date),
+        (updatedDate = category.updated_date),
+        (parentFlag = category.parent_flag),
+        (parentId = category.parent_id),
+        (menuRoutes = category.menu_routes),
+        (desktopSortOrder = category.desktop_sort_order),
+        (mobileSortOrder = category.mobile_sort_order),
+        (desktopIcons = category.desktop_icons)
+      );
+      listmenu.push(menuCategory);
     }
-
-    return listmenu;
-  } else {
-    return null;
   }
+  return listmenu;
 };
 
 const checkAccess = async (requestCRUDAccess, role, menu_category_id) => {
@@ -70,6 +78,6 @@ const checkAccess = async (requestCRUDAccess, role, menu_category_id) => {
 //************************************************************************************* */
 module.exports = {
   getRoleId,
-  getListOfMenuIds,
+  getCategoryMenu,
   checkAccess,
 };

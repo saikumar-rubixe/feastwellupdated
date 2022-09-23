@@ -1,47 +1,16 @@
 const { runQuery } = require("../../config/database");
+const { verify } = require("../../helper/verifyjwtToken");
 const {
   getRoleId,
-  getListOfMenuIds,
+  getCategoryMenu,
   checkAccess,
 } = require("../../repository/sidebarCheckRepository");
 
 const checkSideBarPermissionContoller = async (userType, res) => {
-  try {
-    // console.log(`into the check side bar permission controller`);//delete
-    //console.log(`usertype is ${userType}`);//delete
-    // check for roleId of usertype//delete
-    const role = await getRoleId(userType);
-    // console.log(`role id is`);//delete
-    // console.log(role); //delete
-    // console.log(`calling get list of menu ids `); //delete
-    let values = await getListOfMenuIds(role);
-    //console.log(values); //delete
-    //console.log(`consolled values`); //delete
-    if (values != null) {
-      let menuIdArray = [];
-      for (i = 0; i < values.length; i++) {
-        let sql =
-          "select menu_category_id ,category_name,desktop_sort_order,mobile_sort_order, destop_icons from `menu_category` where status=1 and menu_category_id =?";
-        let results = await runQuery(sql, [values[i]]);
-        var normalObj = Object.assign({}, results[0]);
-        // console.log(normalObj);//delete
-        menuIdArray.push(normalObj);
-      }
-      console.log(`menu Id Array is `);
-      console.log(menuIdArray);
-      return menuIdArray;
-    } else {
-      return 0;
-    }
-  } catch (error) {
-    console.log(error);
-    console.log(`CBE! something went wrong catch block error`);
-    res.status(500).json({
-      success: false,
-      message: " something went wrong cb",
-    });
-  }
+  return response;
 };
+
+const getMenuIdsRepository = async () => {};
 
 // 2
 const checkCRUDPermissionsController = async (req, res) => {

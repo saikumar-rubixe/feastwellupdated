@@ -10,6 +10,7 @@ const {
 const {
   userLogin,
   TokenLogin,
+  getSideBar,
 } = require("../../controller/loginAndAuthentication/loginUserController");
 
 // ^ Login
@@ -24,6 +25,9 @@ authRoute.post("/", async (req, res) => {
   } else {
     await userLogin(req, res);
   }
+});
+authRoute.get("/sidebar", async (req, res) => {
+  await getSideBar(req, res);
 });
 
 // * token login

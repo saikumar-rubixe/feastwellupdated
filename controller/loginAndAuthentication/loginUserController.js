@@ -6,94 +6,60 @@ const tokenList = {};
 const { getUserDetailByUsername } = require("../../helper/getDetailsby");
 const { getUserByIdRepository } = require("../../repository/userRepository");
 const { checkSideBarPermissionContoller } = require("../sideBar/sideBarCheck");
+const { getCategoryMenu } = require("../../repository/sidebarCheckRepository");
+const {
+  getRoleForUserTypeRepository,
+} = require("../../repository/rolesRepository");
+const {
+  getPermissionForCategoryAndRoleId,
+} = require("../../repository/permissionsRepository");
+
+const { verify } = require("../../helper/verifyjwtToken");
 // controller
 
-const menusSubmenus = [
-  {
-    menuId: 1,
-    menuName: "Resident",
-    subMenus: [
-      {
-        subMenuId: 100,
-        subMenuName: "Residents",
-      },
-      {
-        subMenuId: 101,
-        subMenuName: "Add Resident",
-      },
-    ],
-  },
-  {
-    menuId: 2,
-    menuName: "Facility",
-    subMenus: [
-      {
-        subMenuId: 200,
-        subMenuName: "Facility",
-      },
-      {
-        subMenuId: 201,
-        subMenuName: "Add Facility",
-      },
-    ],
-  },
-  {
-    menuId: 3,
-    menuName: "Kitchen",
-    subMenus: [
-      {
-        subMenuId: 300,
-        subMenuName: "Kitchen",
-      },
-      {
-        subMenuId: 301,
-        subMenuName: "Add Kitchen",
-      },
-    ],
-  },
-  {
-    menuId: 1,
-    menuName: "Meal Items",
-    subMenus: [
-      {
-        subMenuId: 400,
-        subMenuName: "Meal Item",
-      },
-      {
-        subMenuId: 401,
-        subMenuName: "Add Meal Item",
-      },
-    ],
-  },
-  {
-    menuId: 1,
-    menuName: "Mean Menu",
-    subMenus: [
-      {
-        subMenuId: 501,
-        subMenuName: "Mean Menu",
-      },
-      {
-        subMenuId: 502,
-        subMenuName: "Add Mean Menu",
-      },
-    ],
-  },
-  {
-    menuId: 1,
-    menuName: "Nurse",
-    subMenus: [
-      {
-        subMenuId: 600,
-        subMenuName: "Nurse",
-      },
-      {
-        subMenuId: 601,
-        subMenuName: "Add Nurse",
-      },
-    ],
-  },
-];
+const getSideBar = async (req, res) => {
+  var response = [];
+  const user = await verify(req);
+  if (!user) {
+    res.status(401).send({ success: false, message: "unauthorized user" });
+  } else {
+    const userType = user.userType;
+    const roleId = await getRoleForUserTypeRepository(userType);
+    console.log("Role id " + roleId.roleId);
+
+    var response = {};
+    response["menus"] = [];
+    const mainMenus = await getCategoryMenu(0, 1);
+    for (var i = 0; i < mainMenus.length; i++) {
+      var dbMenu = mainMenus[i];
+      var menu = {
+        menuId: dbMenu["menuId"],
+        menuName: dbMenu["menuName"],
+      };
+      const subMenus = await getCategoryMenu(menu.menuId, 0);
+      menu["subMenus"] = [];
+      for (var j = 0; j < subMenus.length; j++) {
+        var subMenuId = subMenus[j].menuId;
+        console.log(subMenuId, roleId.roleId);
+        var permission = await getPermissionForCategoryAndRoleId(
+          subMenuId,
+          roleId.roleId,
+          "read_access"
+        );
+        if (permission === 1) {
+          console.log("Permission equals");
+          console.log(subMenus[j]);
+          menu["subMenus"].push({
+            subMenuId: subMenus[j]["menuId"],
+            subMenuName: subMenus[j]["menuName"],
+          });
+        }
+      }
+      if (menu.subMenus.length > 0) response["menus"].push(menu);
+    }
+    res.send(response);
+  }
+};
 
 //* USER LOGIN
 const userLogin = async (req, res) => {
@@ -154,22 +120,7 @@ const userLogin = async (req, res) => {
               process.env.REFRESH_TOKEN,
               { expiresIn: process.env.REFRESH_Token_LIFE }
             );
-            //  res.header("token", token).send(token);
-
-            //  after login succesful send the sidebars whichever accesable
-            let menuId = await checkSideBarPermissionContoller(
-              recordExist.userType
-            );
-            if (menuId != 0 && menuId !== null) {
-              menuId = menuId;
-            }
-            if (menuId == 0) {
-              menuId = {
-                menu_category_id: 0,
-                category_name: "dashboard",
-              };
-            }
-
+            //  res.
             const tokenDetails = {
               token: token,
               refreshToken: refreshToken,
@@ -184,7 +135,7 @@ const userLogin = async (req, res) => {
               userType: usertype,
               username: username,
               facilityId: facilityId,
-              menuAccess: menusSubmenus,
+              // menuAccess: menusSubmenus,
               // menuAccess: menuId,
             };
 
@@ -293,4 +244,4 @@ getFacilityIdByUserId = async (userId) => {
     return 0;
   }
 };
-module.exports = { userLogin, TokenLogin };
+module.exports = { userLogin, TokenLogin, getSideBar };

@@ -210,13 +210,8 @@ const getPermissionForCategoryAndRoleId = async (
   var access = 0;
   try {
     let query = `SELECT ${accessType} FROM permissions WHERE menu_category_id=${categoryId} and role_id=${roleId} and ${accessType}=1 `;
-    //let sql = con.format(query);
-    console.log("Getting permission");
-    console.log(query);
     let permissionResults = await runQuery(query);
-    console.log("Got permission");
     let count = permissionResults.length;
-    console.log(count);
     if (count != 0) {
       var permission = permissionResults[0];
       console.log(permission);
