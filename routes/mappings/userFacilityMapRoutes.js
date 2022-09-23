@@ -1,5 +1,5 @@
 const express = require("express");
-const residentFacilityRoute = express.Router();
+const userFacilityRoute = express.Router();
 const { verify } = require("../../helper/verifyjwtToken");
 
 const {
@@ -18,7 +18,7 @@ const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 
 // *get the details by facility id
 
-residentFacilityRoute.get("/:id", async (req, res) => {
+userFacilityRoute.get("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -31,7 +31,7 @@ residentFacilityRoute.get("/:id", async (req, res) => {
 });
 
 //^ create
-residentFacilityRoute.post("/", async (req, res) => {
+userFacilityRoute.post("/", async (req, res) => {
   console.log(`im in the router to check permission`); //delete
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -52,7 +52,7 @@ residentFacilityRoute.post("/", async (req, res) => {
   }
 });
 
-residentFacilityRoute.get("/", async (req, res) => {
+userFacilityRoute.get("/", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -65,7 +65,7 @@ residentFacilityRoute.get("/", async (req, res) => {
 });
 
 //? update
-residentFacilityRoute.put("/:id", async (req, res) => {
+userFacilityRoute.put("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -78,7 +78,7 @@ residentFacilityRoute.put("/:id", async (req, res) => {
 });
 
 //! delete
-residentFacilityRoute.delete("/:id", async (req, res) => {
+userFacilityRoute.delete("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -91,7 +91,7 @@ residentFacilityRoute.delete("/:id", async (req, res) => {
 });
 
 //* get
-residentFacilityRoute.get("/byUserId/:id", async (req, res) => {
+userFacilityRoute.get("/byUserId/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -104,13 +104,13 @@ residentFacilityRoute.get("/byUserId/:id", async (req, res) => {
 });
 
 // get the Single  detail by table id
-// residentFacilityRoute
+// userFacilityRoute
 //   .route("/byId/:id")
 //   .get(verify, getUserFacilityDetailByTableIdController);
 
 // get the Single  detail by USER id
 
-module.exports = { residentFacilityRoute };
+module.exports = { userFacilityRoute };
 
 //* get
 //? update

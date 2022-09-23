@@ -53,8 +53,8 @@ const {
 const { mealItemsRoute } = require("./routes/mealsAndMenu/mealItemsRoutes");
 const { mealMenuRoute } = require("./routes/mealsAndMenu/mealMenuRoutes");
 const {
-  residentFacilityRoute,
-} = require("./routes/mappings/residentFacilityMapRoutes");
+  userFacilityRoute,
+} = require("./routes/mappings/userFacilityMapRoutes");
 // residents by nurse id route
 const {
   nurseResident,
@@ -142,7 +142,7 @@ app.use(`${apiBasePath}user`, userRoute); // users {residents,admins,nurse,mange
 app.use(`${apiBasePath}userActivityLog`, userActivityLog); // users activity log
 
 //! Mappings with user and nurse etc
-app.use(`${apiBasePath}residentFacility`, residentFacilityRoute); // residents facility mapping
+app.use(`${apiBasePath}userFacility`, userFacilityRoute); // residents facility mapping
 app.use(`${apiBasePath}nurseResident`, nurseResident); // resident of a faciluty where nurse works
 
 // ^ Residents and addtional details

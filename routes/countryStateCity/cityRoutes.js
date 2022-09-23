@@ -12,7 +12,7 @@ const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 
 //* GET CITITES BY  STATE ID
 
-cityRoute.get("/:id", async (req, res) => {
+cityRoute.get("/byStateId/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -53,7 +53,7 @@ cityRoute.get("/", async (req, res) => {
 
 //* GET CITY BY CITY ID
 
-cityRoute.get("/byCity/:id", async (req, res) => {
+cityRoute.get("/byCityId/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
