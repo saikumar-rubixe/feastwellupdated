@@ -111,21 +111,22 @@ const createUserController = async (req, res) => {
   try {
     const userId = req.userIdValue; //get the user id of logged in user
     const userType = await getuserType(userId); // get the userType of the user ID
+    console.log(`user type of the user id is ${userType}`);
     const createUserTypeRequest = req.body.userType; // type of user to be added
-    // TODO check for creating resident
+    //* TODO check for creating resident
     if (createUserTypeRequest == 6) {
       console.log(`int creating  resident  controller starting`);
       console.log(req.body);
       if (userType == 1 || userType == 2 || userType == 3 || userType == 4) {
         let fullName = req.body.fullName;
-        const createUser = await createResidentrepository(
+        const details = await createResidentrepository(
           fullName,
           createUserTypeRequest,
           req,
           res
         );
         //* return from repository with created Id
-        if (!createUser || createUser == false) {
+        if (!details || details == false) {
           res.status(404).json({
             success: false,
             message: "something went wrong , registration failed ",
@@ -133,14 +134,19 @@ const createUserController = async (req, res) => {
         } else {
           res.status(201).json({
             success: true,
-            message: "Registration  succesfully with id: " + createUser,
-            insertId: createUser,
+            message: "Registration  succesfully with id: " + details,
+            insertId: details,
             fullName: fullName,
           });
         }
+      } else {
+        res.status(404).json({
+          success: false,
+          message: "your are not authorised  " + userType,
+        });
       }
     }
-    //TODO check for creating nurse and dietician
+    //* TODO check for creating nurse and dietician
     else if (createUserTypeRequest == 5 || createUserTypeRequest == 4) {
       console.log(`in creating the nurse controller`);
       if (userType == 3 || userType == 2 || userType == 1) {
@@ -155,7 +161,7 @@ const createUserController = async (req, res) => {
             });
           }
         } else if (recordCheck == 0) {
-          let createUser = await createUserRepository(
+          let details = await createUserRepository(
             fullName,
             username,
             password,
@@ -164,7 +170,7 @@ const createUserController = async (req, res) => {
             res
           );
           //*
-          if (!createUser || createUser == false) {
+          if (!details || details == false) {
             res.status(404).json({
               success: false,
               message: "something went wrong , registration failed ",
@@ -172,20 +178,25 @@ const createUserController = async (req, res) => {
           } else {
             res.status(201).json({
               success: true,
-              message: "Registration  succesfully with id: " + createUser,
-              insertId: createUser,
+              message: "Registration  succesfully with id: " + details,
+              insertId: details,
               fullName: fullName,
             });
           }
         }
+      } else {
+        res.status(404).json({
+          success: false,
+          message: "your are not authorised  " + userType,
+        });
       }
     }
 
-    //TODO check for creating facility Manager
+    //* TODO check for creating facility Manager
     else if (createUserTypeRequest == 3) {
       if (userType == 2 || userType == 1) {
         const { fullName, username, password } = req.body;
-        let createuser = await createUserRepository(
+        let details = await createUserRepository(
           fullName,
           username,
           password,
@@ -194,7 +205,7 @@ const createUserController = async (req, res) => {
           res
         );
         //** */
-        if (!createUser || createUser == false) {
+        if (!details || details == false) {
           res.status(404).json({
             success: false,
             message: "something went wrong , registration failed ",
@@ -202,18 +213,25 @@ const createUserController = async (req, res) => {
         } else {
           res.status(201).json({
             success: true,
-            message: "Registration  succesfully with id: " + createUser,
-            insertId: createUser,
+            message: "Registration  succesfully with id: " + details,
+            insertId: details,
             fullName: fullName,
           });
         }
+      } else {
+        res.status(404).json({
+          success: false,
+          message: "your are not authorised  " + userType,
+        });
       }
     }
-    //TODO for creating ADMIN
+    //* TODO for creating ADMIN
     else if (createUserTypeRequest == 2) {
+      console.log(`im in the controller to create admin`);
+      console.log(`checking the user type in method ${userType}`);
       if (userType == 1) {
         const { fullName, username, password } = req.body;
-        let createUser = await createUserRepository(
+        let details = await createUserRepository(
           fullName,
           username,
           password,
@@ -222,7 +240,7 @@ const createUserController = async (req, res) => {
           res
         );
         //** */
-        if (!createUser || createUser == false) {
+        if (!details || details == false) {
           res.status(404).json({
             success: false,
             message: "something went wrong , registration failed ",
@@ -230,14 +248,20 @@ const createUserController = async (req, res) => {
         } else {
           res.status(201).json({
             success: true,
-            message: "Registration  succesfully with id: " + createUser,
-            insertId: createUser,
+            message: "Registration  succesfully with id: " + details,
+            insertId: details,
             fullName: fullName,
           });
         }
+      } else {
+        res.status(404).json({
+          success: false,
+
+          message: "your are not authorised  " + userType,
+        });
       }
     }
-    //TODO invalid creation request
+    //* TODO invalid creation request
     else {
       res.status(404).json({
         success: false,
@@ -246,9 +270,22 @@ const createUserController = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(404).json({
+      success: false,
+      error: error,
+      message: "something went wrong",
+    });
   }
 };
+
 // 4 update User by id
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+
 let updateUserController = async (req, res, next) => {
   try {
     let id = req.params.id;

@@ -3,14 +3,14 @@ const Schema = Joi.object({
   fullName: Joi.string()
     .regex(/^[a-z]+[ a-z0-9]*$/i)
     .required(),
-  phoneNumber: Joi.string().optional(),
-  userName: Joi.string()
-    .min(6)
+  phoneNumber: Joi.string(),
+  username: Joi.string()
+    .min(5)
     .regex(/^[a-z]+[a-z0-9_]*$/i)
     .optional(),
   password: Joi.string().min(6).optional(),
   userType: Joi.number().required(),
-  userStatus: Joi.number().max(1).required(),
+  userStatus: Joi.number(),
 });
 
 // VALIDATE BEFORE SAVING A USER

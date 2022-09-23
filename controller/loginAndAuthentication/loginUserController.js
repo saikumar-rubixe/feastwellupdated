@@ -7,6 +7,94 @@ const { getUserDetailByUsername } = require("../../helper/getDetailsby");
 const { getUserByIdRepository } = require("../../repository/userRepository");
 const { checkSideBarPermissionContoller } = require("../sideBar/sideBarCheck");
 // controller
+
+const menusSubmenus = [
+  {
+    menuId: 1,
+    menuName: "Resident",
+    subMenus: [
+      {
+        subMenuId: 100,
+        subMenuName: "Residents",
+      },
+      {
+        subMenuId: 101,
+        subMenuName: "Add Resident",
+      },
+    ],
+  },
+  {
+    menuId: 2,
+    menuName: "Facility",
+    subMenus: [
+      {
+        subMenuId: 200,
+        subMenuName: "Facility",
+      },
+      {
+        subMenuId: 201,
+        subMenuName: "Add Facility",
+      },
+    ],
+  },
+  {
+    menuId: 3,
+    menuName: "Kitchen",
+    subMenus: [
+      {
+        subMenuId: 300,
+        subMenuName: "Kitchen",
+      },
+      {
+        subMenuId: 301,
+        subMenuName: "Add Kitchen",
+      },
+    ],
+  },
+  {
+    menuId: 1,
+    menuName: "Meal Items",
+    subMenus: [
+      {
+        subMenuId: 400,
+        subMenuName: "Meal Item",
+      },
+      {
+        subMenuId: 401,
+        subMenuName: "Add Meal Item",
+      },
+    ],
+  },
+  {
+    menuId: 1,
+    menuName: "Mean Menu",
+    subMenus: [
+      {
+        subMenuId: 501,
+        subMenuName: "Mean Menu",
+      },
+      {
+        subMenuId: 502,
+        subMenuName: "Add Mean Menu",
+      },
+    ],
+  },
+  {
+    menuId: 1,
+    menuName: "Nurse",
+    subMenus: [
+      {
+        subMenuId: 600,
+        subMenuName: "Nurse",
+      },
+      {
+        subMenuId: 601,
+        subMenuName: "Add Nurse",
+      },
+    ],
+  },
+];
+
 //* USER LOGIN
 const userLogin = async (req, res) => {
   console.log(req.body);
@@ -96,7 +184,8 @@ const userLogin = async (req, res) => {
               userType: usertype,
               username: username,
               facilityId: facilityId,
-              menuAccess: menuId,
+              menuAccess: menusSubmenus,
+              // menuAccess: menuId,
             };
 
             return res.status(200).json(details);
@@ -171,7 +260,8 @@ const TokenLogin = async (req, res) => {
         userType: usertype,
         username: userExist.userName,
         facilityId: facilityId,
-        menuAccess: menuId,
+        menuAccess: menusSubmenus,
+        // menuAccess: menuId,
       };
 
       return res.status(200).json(details);

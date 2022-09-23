@@ -72,7 +72,8 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
           console.log(error);
           res.status(500).send({ err: error }); // if we get any error while uploading error message will be returned.
         }
-
+        console.log(`trying to console dat in s3 iuploads `);
+        console.log(data);
         const url = data.Location;
         // If not then below code will be executed
 

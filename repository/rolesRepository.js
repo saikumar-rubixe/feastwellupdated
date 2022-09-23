@@ -167,7 +167,6 @@ const deleteRolesRepository = async (id) => {
 const { color, log } = require("console-log-colors");
 const { red, green, cyan } = color;
 const getRoleForUserTypeRepository = async (userType) => {
-  console.log(color.green(`5 in the get roole for User Type`));
   var roleReturnModel = null;
   try {
     let query = " select * from `roles` where user_type_id =?";

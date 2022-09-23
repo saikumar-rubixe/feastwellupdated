@@ -192,6 +192,8 @@ const deleteMenuCategoryController = async (req, res) => {
   }
 };
 
+const getMenuAndSubMenuController = async () => {};
+
 module.exports = {
   getMenuCategoryDetailByIdController,
   getAllMenuCategoryDetailsController,

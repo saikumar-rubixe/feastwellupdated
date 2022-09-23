@@ -330,6 +330,9 @@ const getuserType = async (userId) => {
     let results = await runQuery(sql);
     results[0].user_type;
     console.log(results[0].user_type);
+    console.log(
+      `in the usertype method checking the usertype values are beimg getting or not`
+    );
     return results[0].user_type;
   } catch (error) {
     console.log(error);

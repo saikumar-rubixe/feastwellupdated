@@ -6,7 +6,7 @@ const {
   createTokensController,
 } = require("../../controller/loginAndAuthentication/refreshTokens");
 
-// ^ create new tokens
+// *get  new tokens
 refreshRoute.get("/", verifyRefreshFunction, async (req, res) => {
   await createTokensController(req, res);
 });
