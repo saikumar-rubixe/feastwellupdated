@@ -49,7 +49,7 @@ const Schema = Joi.object({
   recommendations: Joi.string().required(),
 });
 // VALIDATE BEFORE SAVING A USER
-const residentAdditionalInformationBodyValidation = async (req, res, next) => {
+const residentCrePlanBodyValidation = async (req, res, next) => {
   returnError = null;
   try {
     await Schema.validateAsync(req.body);
@@ -60,5 +60,5 @@ const residentAdditionalInformationBodyValidation = async (req, res, next) => {
 };
 
 module.exports = {
-  residentAdditionalInformationBodyValidation,
+  residentCrePlanBodyValidation,
 };

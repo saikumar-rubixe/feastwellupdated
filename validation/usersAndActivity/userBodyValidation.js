@@ -29,12 +29,12 @@ const userBodyValidation = async (req, res, next) => {
 const updateSchema = Joi.object({
   fullName: Joi.string().regex(/^[a-z]+[ a-z0-9]*$/i),
   phoneNumber: Joi.string(),
-  userName: Joi.string()
+  username: Joi.string()
     .min(5)
     .regex(/^[a-z]+[a-z0-9_]*$/i),
   userStatus: Joi.number().max(1),
   lastLogin: Joi.date().format(["YYYY-MM-DD HH:mm:ss", "YYYY/MM/DD HH:mm:ss"]),
-  loggedIpAddress: Joi.string().optional(),
+  loggedIpAddress: Joi.string(),
 });
 // VALIDATE BEFORE SAVING A USER
 const userUpdateBodyValidation = async (req, res, next) => {

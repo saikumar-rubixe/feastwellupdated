@@ -1,20 +1,20 @@
 const express = require("express");
-const residentDetailsRoutes = express.Router();
+const residentCarePlanRoutes = express.Router();
 const { verify } = require("../../helper/verifyjwtToken");
 const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 const {
-  residentAdditionalInformationBodyValidation,
-} = require("../../validation/usersAndActivity/residentAdditionalDetailsValidation");
+  residentCrePlanBodyValidation,
+} = require("../../validation/usersAndActivity/residentCarePlanValidation");
 
 const {
-  insertResidentDetailsController,
-  getallResidentDetailsController,
-  getResidentDetailByIdController,
-  updateResidentDetailsController,
-} = require("../../controller/usersDetails/residentController");
+  insertResidentCarePlanDetailsController,
+  getallResidentCarePlanDetailsController,
+  getResidentCarePlanDetailByIdController,
+  updateResidentCarePlanDetailsController,
+} = require("../../controller/usersDetails/residentCarePlanController");
 
 //^ create
-residentDetailsRoutes.post("/", async (req, res) => {
+residentCarePlanRoutes.post("/", async (req, res) => {
   console.log(`im in the router to check permission`); //delete
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -30,13 +30,13 @@ residentDetailsRoutes.post("/", async (req, res) => {
         message: "request body validation error",
       });
     } else {
-      await insertResidentDetailsController(req, res);
+      await insertResidentCarePlanDetailsController(req, res);
     }
   }
 });
 
 // *get all details
-residentDetailsRoutes.get("/", async (req, res) => {
+residentCarePlanRoutes.get("/", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -44,12 +44,12 @@ residentDetailsRoutes.get("/", async (req, res) => {
       message: "unauthorized access",
     });
   } else {
-    await getallResidentDetailsController(req, res);
+    await getallResidentCarePlanDetailsController(req, res);
   }
 });
 
 //*get detail By Id
-residentDetailsRoutes.get("/:id", async (req, res) => {
+residentCarePlanRoutes.get("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -57,12 +57,12 @@ residentDetailsRoutes.get("/:id", async (req, res) => {
       message: "unauthorized access",
     });
   } else {
-    await getResidentDetailByIdController(req, res);
+    await getResidentCarePlanDetailByIdController(req, res);
   }
 });
 
 //? update details  By Id
-residentDetailsRoutes.put("/:userId", async (req, res) => {
+residentCarePlanRoutes.put("/:userId", async (req, res) => {
   console.log(`im in the router to check permission`); //delete
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -78,9 +78,9 @@ residentDetailsRoutes.put("/:userId", async (req, res) => {
         message: "request body validation error",
       });
     } else {
-      await updateResidentDetailsController(req, res);
+      await updateResidentCarePlanDetailsController(req, res);
     }
   }
 });
 
-module.exports = { residentDetailsRoutes };
+module.exports = { residentCarePlanRoutes };

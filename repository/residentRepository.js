@@ -1,36 +1,37 @@
 let { runQuery } = require("../config/database");
+
 let { ResidentModel } = require("../models/residentModel");
+
 const { getPstDate } = require("../helper/getCanadaTime");
 const { enrollementIdTag } = require("../helper/enrollmentIDGenerator");
+const { valueExistCheck } = require("../helper/enrollmentIdCheck");
 
-// 1 insert residentdetails
-/**
- * enter details into users table
- * @param {*} name,usertype,status ,created date ,updated date
- * @param {*} createdBy
- * @param {*} updatedBy
- * @returns  insertedId ,enrolmentId
- */
-const insertResindentBasicDetailsRepository = async (
+// create resident
+const createResidentRepository = async (
   fullname,
+  userType,
   createdBy,
   updatedBy
 ) => {
   try {
-    const getTag = await enrollementIdTag(6);
+    console.log(`*************************`);
+    console.log(fullname, userType, createdBy, updatedBy);
+    console.log(`*********************`);
+    const getTag = await enrollementIdTag();
     console.log(`calling the uniqueId`); //delete
     let enrolmentId = await valueExistCheck(getTag);
     let sql =
-      "insert into `users` (full_name,user_type,status,enrolment_id,created_date,updated_date,created_by,updated_byenrolment_id) values(?,?,?,?,?,?,?)";
+      "insert into `users` (full_name,user_type,status,username,created_date,updated_date,created_by,updated_by,enrolment_id) values(?,?,?,?,?,?,?,?,?)";
     let results = await runQuery(sql, [
       fullname,
-      7,
+      userType,
       1,
       enrolmentId,
       getPstDate(),
       getPstDate(),
       createdBy,
       updatedBy,
+      enrolmentId,
     ]);
     let insertId = results.insertId;
     return { insertId, enrolmentId };
@@ -42,442 +43,175 @@ const insertResindentBasicDetailsRepository = async (
   }
 };
 
-// 2 create resident addittional details
-/** inseet the reidents additional details into resident details
- *
- * @param {*} userId
- * @param {*} name
- * @param {*} gender
- * @param {*} dob
- * @param {*} age
- * @param {*} address
- * @param {*} familyContact
- * @param {*} enrollmentDate
- * @param {*} intialWeight
- * @param {*} currentWeight
- * @param {*} physician
- * @param {*} diagnosis
- * @param {*} foodAllergy
- * @param {*} medications
- * @param {*} nutritionalSupplements
- * @param {*} laxatives
- * @param {*} naturalLaxatives
- * @param {*} significantlabData
- * @param {*} monthlyGroceryBudget
- * @param {*} currentHeight
- * @param {*} usualWeight
- * @param {*} waistCircumference
- * @param {*} weightHistory
- * @param {*} appetiteFoodIntake
- * @param {*} chewing
- * @param {*} swallowing
- * @param {*} fluidIntake
- * @param {*} dentition
- * @param {*} sight
- * @param {*} communication
- * @param {*} comprehension
- * @param {*} bowelFunction
- * @param {*} mobility
- * @param {*} dexterity
- * @param {*} feeding
- * @param {*} specialNeeds
- * @param {*} foodPreferences
- * @param {*} nutritionalRiskFactors
- * @param {*} bmi
- * @param {*} averageWt
- * @param {*} idealBodyWeightRange
- * @param {*} calorieNeeds
- * @param {*} fluidNeeds
- * @param {*} proteinNeeds
- * @param {*} proteinNeedsValue
- * @param {*} carePlans
- * @param {*} recommendations
- * @returns  inserted Id
- */
-const insertResidentDetailsRepository = async (
-  userId,
-  name,
-  gender,
-  dob,
-  age,
-  address,
-  familyContact,
-  enrollmentDate,
-  intialWeight,
-  currentWeight,
-  physician,
-  diagnosis,
-  foodAllergy,
-  medications,
-  nutritionalSupplements,
-  laxatives,
-  naturalLaxatives,
-  significantlabData,
-  monthlyGroceryBudget,
-  currentHeight,
-  usualWeight,
-  waistCircumference,
-  weightHistory,
-  appetiteFoodIntake,
-  chewing,
-  swallowing,
-  fluidIntake,
-  dentition,
-  sight,
-  communication,
-  comprehension,
-  bowelFunction,
-  mobility,
-  dexterity,
-  feeding,
-  specialNeeds,
-  foodPreferences,
-  nutritionalRiskFactors,
-  bmi,
-  averageWt,
-  idealBodyWeightRange,
-  calorieNeeds,
-  fluidNeeds,
-  proteinNeeds,
-  proteinNeedsValue,
-  carePlans,
-  recommendations
-) => {
-  try {
-    let query =
-      "INSERT into `residents_details` (`user_id`,      `name`,      `gender`,      `dob`,      `age`,      `address`,      `family_contact`,      `enrollment_date`,      `intial_weight`,      `current_weight`,      `physician`,      `diagnosis`,      `food_allergy`,      `medications`,      `nutritional_supplements`,      `laxatives`,      `natural_laxatives`,      `significant_lab_data`,      `monthly_grocery_budget`,      `current_height`,      `usual_weight`,           `waist_circumference`,      `weight_history`,                            `appetite_food_intake`,      `chewing`,      `swallowing`,      `fluid_intake`,      `dentition`,      `sight`,      `communication`,      `comprehension`,      `bowel_function`,      `mobility`,      `dexterity`,      `feeding`,      `special_needs`,      `food_preferences`,      `nutritional_risk_factors` ,`bmi`,`average_wt`,`ideal_body_weight_range`,  `calorie_needs`,`fluid_needs`, `protein_needs`,`protein_needs_value`,`care_plans`,`recommendations`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
-
-    let results = await runQuery(query, [
-      userId,
-      name,
-      gender,
-      dob,
-      age,
-      address,
-      familyContact,
-      enrollmentDate,
-      intialWeight,
-      currentWeight,
-      physician,
-      diagnosis,
-      foodAllergy,
-      medications,
-      nutritionalSupplements,
-      laxatives,
-      naturalLaxatives,
-      significantlabData,
-      monthlyGroceryBudget,
-      currentHeight,
-      usualWeight,
-      waistCircumference,
-      weightHistory,
-      appetiteFoodIntake,
-      chewing,
-      swallowing,
-      fluidIntake,
-      dentition,
-      sight,
-      communication,
-      comprehension,
-      bowelFunction,
-      mobility,
-      dexterity,
-      feeding,
-      specialNeeds,
-      foodPreferences,
-      nutritionalRiskFactors,
-      bmi,
-      averageWt,
-      idealBodyWeightRange,
-      calorieNeeds,
-      fluidNeeds,
-      proteinNeeds,
-      proteinNeedsValue,
-      carePlans,
-      recommendations,
-    ]);
-
-    let value = results.insertId;
-    if (value && value != 0) {
-      return value;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
-    return false;
-  }
-};
-
-// 2 get all resident additional details
-const getAllResidentDetailsRepository = async (req, res) => {
-  let array = [];
-  try {
-    let query = "select * from `residents_details`";
-    // let sql = con.format(query);
-    let results = await runQuery(query);
-    let count = results.length;
-    if (count != 0) {
-      for (i = 0; i < count; i++) {
-        let model = new ResidentModel();
-        let result = results[i];
-        model.fill(
-          (id = result.id),
-          (userId = result.user_id),
-          (name = result.name),
-          (gender = result.gender),
-          (dob = result.dob),
-          (age = result.age),
-          (address = result.address),
-          (familyContact = result.family_contact),
-          (enrollmentDate = result.enrollment_date),
-          (intialWeight = result.intial_weight),
-          (currentWeight = result.current_height),
-          (physician = result.physician),
-          (diagnosis = result.diagnosis),
-          (foodAllergy = result.food_allergy),
-          (medications = result.medications),
-          (nutritionalSupplements = result.nutritional_supplements),
-          (laxatives = result.laxatives),
-          (naturalLaxatives = result.natural_laxatives),
-          (significantlabData = result.significant_lab_data),
-          (monthlyGroceryBudget = result.monthly_grocery_budget),
-          (currentHeight = result.current_height),
-          (usualWeight = result.usual_weight),
-          (waistCircumference = result.waist_circumference),
-          (weightHistory = result.weight_history),
-          (appetiteFoodIntake = result.appetite_food_intake),
-          (chewing = result.chewing),
-          (swallowing = result.swallowing),
-          (fluidIntake = result.fluid_intake),
-          (dentition = result.dentition),
-          (sight = result.sight),
-          (communication = result.communication),
-          (comprehension = result.comprehension),
-          (bowelFunction = result.bowel_function),
-          (mobility = result.mobility),
-          (dexterity = result.dexterity),
-          (feeding = result.feeding),
-          (specialNeeds = result.special_needs),
-          (foodPreferences = result.food_preferences),
-          (nutritionalRiskFactors = result.nutritional_risk_factors),
-          (bmi = result.bmi),
-          (averageWt = result.average_wt),
-          (idealBodyWeightRange = result.ideal_body_weight_range),
-          (calorieNeeds = result.calorie_needs),
-          (fluidNeeds = result.fluid_needs),
-          (proteinNeeds = result.protein_needs),
-          (proteinNeedsValue = result.protein_needs_value),
-          (carePlans = result.care_plans),
-          (recommendations = result.recommendations)
-        );
-        array.push(model);
-      }
-      return { count, array };
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
-    return false;
-  }
-};
-
-// 3 get detail By Id
-const getResidentDetailByIdRepository = async (id, res) => {
-  console.log(`in to the get detail by id folder`);
-  try {
-    let query = "select * from `residents_details`  where user_id=?";
-    let results = await runQuery(query, [id]);
-    console.log(`*****************************`);
-    console.log(results);
-    console.log(`*****************************`);
-    if (results.length != 0) {
-      let result = results[0];
-      let model = new ResidentModel();
-      model.fill(
-        (id = result.id),
-        (userId = result.user_id),
-        (name = result.name),
-        (gender = result.gender),
-        (dob = result.dob),
-        (age = result.age),
-        (address = result.address),
-        (familyContact = result.family_contact),
-        (enrollmentDate = result.enrollment_date),
-        (intialWeight = result.intial_weight),
-        (currentWeight = result.current_height),
-        (physician = result.physician),
-        (diagnosis = result.diagnosis),
-        (foodAllergy = result.food_allergy),
-        (medications = result.medications),
-        (nutritionalSupplements = result.nutritional_supplements),
-        (laxatives = result.laxatives),
-        (naturalLaxatives = result.natural_laxatives),
-        (significantlabData = result.significant_lab_data),
-        (monthlyGroceryBudget = result.monthly_grocery_budget),
-        (currentHeight = result.current_height),
-        (usualWeight = result.usual_weight),
-        (waistCircumference = result.waist_circumference),
-        (weightHistory = result.weight_history),
-        (appetiteFoodIntake = result.appetite_food_intake),
-        (chewing = result.chewing),
-        (swallowing = result.swallowing),
-        (fluidIntake = result.fluid_intake),
-        (dentition = result.dentition),
-        (sight = result.sight),
-        (communication = result.communication),
-        (comprehension = result.comprehension),
-        (bowelFunction = result.bowel_function),
-        (mobility = result.mobility),
-        (dexterity = result.dexterity),
-        (feeding = result.feeding),
-        (specialNeeds = result.special_needs),
-        (foodPreferences = result.food_preferences),
-        (nutritionalRiskFactors = result.nutritional_risk_factors),
-        (bmi = result.bmi),
-        (averageWt = result.average_wt),
-        (idealBodyWeightRange = result.ideal_body_weight_range),
-        (calorieNeeds = result.calorie_needs),
-        (fluidNeeds = result.fluid_needs),
-        (proteinNeeds = result.protein_needs),
-        (proteinNeedsValue = result.protein_needs_value),
-        (carePlans = result.care_plans),
-        (recommendations = result.recommendations)
-      );
-      return model;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
-    return false;
-  }
-};
-
-// 4  update resident addiitonal details  by user Id
-const updateResidentDetailRepository = async (
+//2 update resident repository
+const updateResidentRepository = async (
   id,
-  name,
-  gender,
-  dob,
-  age,
-  address,
-  familyContact,
-  enrollmentDate,
-  intialWeight,
-  currentWeight,
-  physician,
-  diagnosis,
-  foodAllergy,
-  medications,
-  nutritionalSupplements,
-  laxatives,
-  naturalLaxatives,
-  significantlabData,
-  monthlyGroceryBudget,
-  currentHeight,
-  usualWeight,
-  waistCircumference,
-  weightHistory,
-  appetiteFoodIntake,
-  chewing,
-  swallowing,
-  fluidIntake,
-  dentition,
-  sight,
-  communication,
-  comprehension,
-  bowelFunction,
-  mobility,
-  dexterity,
-  feeding,
-  specialNeeds,
-  foodPreferences,
-  nutritionalRiskFactors,
-  bmi,
-  averageWt,
-  idealBodyWeightRange,
-  calorieNeeds,
-  fluidNeeds,
-  proteinNeeds,
-  proteinNeedsValue,
-  carePlans,
-  recommendations
+  fullName,
+  userStatus,
+  updatedBy
 ) => {
   try {
+    console.log(`consolling in repository`); //delete
+    console.log(id, fullName, userStatus, updatedBy); //delete
     let query =
-      " UPDATE `residents_details` set `name`=?,`gender`=?,`dob`=?,`age`=?,`address`=?,`family_contact`=?,`enrollment_date`=?,`intial_weight`=?,`current_weight`=?,`physician`=?,`diagnosis`=?,`food_allergy`=?,`medications`=?,`nutritional_supplements`=?,`laxatives`=?,`natural_laxatives`=?,`significant_lab_data`=?,`monthly_grocery_budget`=?,`current_height`=?,`usual_weight`=?,`waist_circumference`=?,`weight_history`=?,`appetite_food_intake`=?,`chewing`=?,`swallowing`=?,`fluid_intake`=?,`dentition`=?,`sight`=?,`communication`=?,`comprehension`=?,`bowel_function`=?,`mobility`=?,`dexterity`=?,`feeding`=?,`special_needs`=?,`food_preferences`=?,`nutritional_risk_factors`=?,`bmi`=?,`average_wt`=?,`ideal_body_weight_range`=?,`calorie_needs`=?,`fluid_needs`=?,`protein_needs`=?,`protein_needs_value`=?,`care_plans`=?,`recommendations`=? where user_id =?";
+      "UPDATE users SET full_name =?,status=?,updated_date=?,updated_by=? WHERE user_id=? ";
 
     let results = await runQuery(query, [
-      name,
-      gender,
-      dob,
-      age,
-      address,
-      familyContact,
-      enrollmentDate,
-      intialWeight,
-      currentWeight,
-      physician,
-      diagnosis,
-      foodAllergy,
-      medications,
-      nutritionalSupplements,
-      laxatives,
-      naturalLaxatives,
-      significantlabData,
-      monthlyGroceryBudget,
-      currentHeight,
-      usualWeight,
-      waistCircumference,
-      weightHistory,
-      appetiteFoodIntake,
-      chewing,
-      swallowing,
-      fluidIntake,
-      dentition,
-      sight,
-      communication,
-      comprehension,
-      bowelFunction,
-      mobility,
-      dexterity,
-      feeding,
-      specialNeeds,
-      foodPreferences,
-      nutritionalRiskFactors,
-      bmi,
-      averageWt,
-      idealBodyWeightRange,
-      calorieNeeds,
-      fluidNeeds,
-      proteinNeeds,
-      proteinNeedsValue,
-      carePlans,
-      recommendations,
+      fullName,
+      userStatus,
+      getPstDate(),
+      updatedBy,
       id,
     ]);
-    let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
-    if (value == 1) {
+    if (results.affectedRows == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
     console.log(error);
-    console.log("Repo:CBE Something went wrong!");
+    console.log("CBE! something went  wrong");
+    console.log(error);
     return false;
   }
 };
+
+// 3 delete resident respository
+const deleteResidentRepository = async (id, res) => {
+  try {
+    let query = "delete from users where user_type =6 and user_id =?";
+    let results = await runQuery(query, [id]);
+    console.log(results);
+    if (results.affectedRows == 1 || results.affectedRows > 0) return true;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    console.log("CBE! something went  wrong");
+    console.log(error);
+    return false;
+  }
+};
+
+// 4 get resident details by id repository
+const getresidentDetailByIdRepository = async (id, res) => {
+  try {
+    console.log(`test`);
+    let query =
+      "select users.*,user_facility_map.facility_id,facility.facility_name  from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on user_facility_map.facility_id = facility.facility_id where users.user_id= ?  and user_type=6";
+    let results = await runQuery(query, [id]);
+    if (results.length != 0) {
+      let array = results[0];
+      console.log(array.created_date);
+      let model = new ResidentModel();
+      model.fill(
+        (userId = array.user_id),
+        (enrolmentId = array.enrolment_id),
+        (fullName = array.full_name),
+        (userName = array.username),
+        (userType = array.user_type),
+        (userStatus = array.status),
+        (createdDate = array.created_date),
+        (updatedDate = array.updated_date),
+        (createdBy = array.created_by),
+        (updatedBy = array.updated_by),
+        (facilityId = array.facility_id),
+        (facilityName = array.facility_name)
+      );
+
+      return model;
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+// 5 get all residents
+const getAllResidentsRepository = async (req, res) => {
+  try {
+    let userArray = [];
+    let sql = "select * from users where 1= 1 and user_type =6";
+    let results = await runQuery(sql);
+
+    let count = results.length;
+    if (count > 0) {
+      for (let i = 0; i < count; i++) {
+        let model = new ResidentModel();
+        let array = sqlResult[i];
+        model.fill(
+          (userId = array.user_id),
+          (enrolmentId = array.enrolment_id),
+          (fullName = array.full_name),
+          (userName = array.username),
+          (userType = array.user_type),
+          (userStatus = array.status),
+          (createdDate = array.created_date),
+          (updatedDate = array.updated_date),
+          (createdBy = array.created_by),
+          (updatedBy = array.updated_by),
+          (facilityId = ""),
+          (facilityName = "")
+          // (password = array.password),
+        );
+        userArray.push(model);
+      }
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(`something went wring in get residents repo`);
+    return false;
+  }
+};
+
+// 6 get all residents  by facility id respository details
+const getAllResidentsOfFacilityRepository = async (userStatus) => {
+  try {
+    let userArray = [];
+    let query =
+      "select users.*,user_facility_map.facility_id,facility.facility_name from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on facility.facility_id = user_facility_map.facility_id where 1=1 and user_type= 6";
+
+    if (userStatus) {
+      query += " and status=" + mysql.escape(userStatus);
+    }
+    let sqlResult = await runQuery(query);
+    let count = sqlResult.length;
+    for (let i = 0; i < sqlResult.length; i++) {
+      let model = new ResidentModel();
+      let array = sqlResult[i];
+      model.fill(
+        (userId = array.user_id),
+        (enrolmentId = array.enrolment_id),
+        (fullName = array.full_name),
+        (userName = array.username),
+        (userType = array.user_type),
+        (userStatus = array.status),
+        (createdDate = array.created_date),
+        (updatedDate = array.updated_date),
+        (createdBy = array.created_by),
+        (updatedBy = array.updated_by),
+        (facilityId = array.facility_id),
+        (facilityName = array.facility_name)
+        //(password = "")
+      );
+      userArray.push(model);
+    }
+    response = {};
+    response["count"] = count;
+    response["userArray"] = userArray;
+
+    return response;
+  } catch (error) {
+    console.log(`error in catch block is ${error}`);
+    return false;
+  }
+};
+
 module.exports = {
-  insertResindentBasicDetailsRepository,
-  insertResidentDetailsRepository,
-  getAllResidentDetailsRepository,
-  getResidentDetailByIdRepository,
-  updateResidentDetailRepository,
+  createResidentRepository,
+  updateResidentRepository,
+  deleteResidentRepository,
+  getresidentDetailByIdRepository,
+  getAllResidentsRepository,
+  getAllResidentsOfFacilityRepository,
 };

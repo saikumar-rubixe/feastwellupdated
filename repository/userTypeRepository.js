@@ -35,7 +35,8 @@ const getUserTypeDetailByIdRepository = async (id, res) => {
       let model = new UserTypeModel();
       model.fill(
         (usersTypeId = result.users_type_id),
-        (userTypeName = result.user_type_name)
+        (userTypeName = result.user_type_name),
+        (userHierarchy = result.user_heirarchy)
       );
       return model;
     } else {

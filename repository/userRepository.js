@@ -32,51 +32,111 @@ console.log(`PST : ${canadaDate}`); //delete
 
 //* generate enrolment id imports
 const { valueExistCheck } = require("../helper/enrollmentIdCheck");
-/*1 get resident Details By ID  */
-const getUserByIdRepository = async (id, res) => {
+
+/**1 createUserRepository
+ *
+ * @param {*} fullName
+ * @param {*} username
+ * @param {*} password
+ * @param {*} createUserTypeRequest
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+let createUserRepository = async (
+  fullName,
+  username,
+  password,
+  userType,
+  createdBy,
+  updatedBy
+) => {
   try {
-    let query = "select users.* from users where user_id =?";
-    //let sql = con.format(query, [id]);
-    let results = await runQuery(query, [id]);
-    if (results.length != 0) {
-      let array = results[0];
-      console.log(array.created_date);
-      let model = new UserModel();
-      model.fill(
-        (userId = array.user_id),
-        (fullName = array.full_name),
-        (phoneNumber = array.phone_number),
-        (userName = array.username),
-        (usertype = array.user_type),
-        (userStatus = array.status),
-        (lastLogin = array.last_login),
-        (loggedIpAddress = array.logged_ip_address),
-        (createdDate = array.created_date),
-        (updatedDate = array.updated_date),
-        (enrolmentId = array.enrolment_id),
-        (createdBy = array.created_by),
-        (updatedBy = array.updated_by),
-        (password = array.password),
-        (facilityId = array.facility_id),
-        (facilityName = array.facility_name)
-      );
-      return model;
-    }
+    // hasing the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt); // hash complete
+    const getTag = await enrollementIdTag(userType); //get the tag as per userType
+    let uniqueId = await valueExistCheck(getTag); //randomId generate
+    let date = getPstDate();
+    console.log(`unique id and pst date `); //delete
+    let sql =
+      "INSERT INTO `users`( `full_name`,`username`,`password`,`user_type`,`status`,`created_date`,`updated_date`,`enrolment_id`,created_by,updated_by) VALUES (?,?,?,?,?,?,?,?,?,?) ";
+
+    let results = await runQuery(sql, [
+      fullName,
+      username,
+      hashedPassword,
+      userType,
+      1,
+      date,
+      date,
+      uniqueId,
+      createdBy,
+      updatedBy,
+    ]);
+
+    if (results) {
+      console.log(results); //delete
+      values = {
+        insertId: results.insertId,
+        enrolmentId: uniqueId,
+      };
+      return values;
+    } else return false;
   } catch (error) {
     console.log(error);
+    console.log(
+      `something went wrong  in creating user repository  :  ${error}`
+    );
     return false;
   }
 };
 
-// 2 userCheckRepository
-let userCheckRepository = async (userName, res) => {
-  let query = "select * from users where username=?";
-  //const sql = con.format(query, [userName]);
-  let results = await runQuery(query, [userName]);
-  if (results.length == 0) {
-    return 0;
-  } else {
+// 2 update UserRepository
+let updateUserRepository = async (id, fullName, username, userStatus) => {
+  try {
+    console.log(`checking the value passed`);
+    console.log(`****************************************`);
+    console.log(id, fullName, username, userStatus);
+    console.log(`****************************************`);
+    // const salt = await bcrypt.genSalt(10);
+    // console.log(password);
+    // console.log("password and sal are ");
+    // console.log(salt);
+    // const hashedPassword = await bcrypt.hash(password, salt);
+    let query =
+      "UPDATE users SET full_name =?,username=?,status=?,updated_date=?  WHERE user_id=? ";
+
+    let results = await runQuery(query, [
+      fullName,
+      username,
+      userStatus,
+      getPstDate(),
+      id,
+    ]);
+    if (results.affectedRows == 1) {
+      return 0;
+    } else {
+      return 1;
+    }
+  } catch (error) {
+    console.log("error from catch block");
+    console.log(error);
     return 1;
+  }
+};
+// 3 delete UserRepository
+let deleteUserRepository = async (id) => {
+  try {
+    let query = "delete from users where user_id =?";
+
+    let results = await runQuery(query, [id]);
+    console.log(results);
+    if (results.affectedRows == 1 || results.affectedRows > 0) return true;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return 0;
   }
 };
 
@@ -85,14 +145,14 @@ const getAllUsersRepository = async (userType, userStatus) => {
   try {
     let userArray = [];
     let query =
-      "select users.*,user_facility_map.facility_id,facility.facility_name from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on facility.facility_id = user_facility_map.facility_id where 1=1";
+      "select users.*,user_facility_map.facility_id,facility.facility_name from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on facility.facility_id = user_facility_map.facility_id where 1=1 ";
     if (userType) {
       query += " and user_type=" + mysql.escape(userType);
     }
     if (userStatus) {
       query += " and status=" + mysql.escape(userStatus);
     }
-    //  const sql = con.format(query);
+
     let sqlResult = await runQuery(query);
     let count = sqlResult.length;
     for (let i = 0; i < sqlResult.length; i++) {
@@ -112,7 +172,6 @@ const getAllUsersRepository = async (userType, userStatus) => {
         (enrolmentId = array.enrolment_id),
         (createdBy = array.created_by),
         (updatedBy = array.updated_by),
-        null,
         (facilityId = array.facility_id),
         (facilityName = array.facility_name)
 
@@ -131,8 +190,130 @@ const getAllUsersRepository = async (userType, userStatus) => {
   }
 };
 
-// create resident repository
-/**
+/*5 get resident Details By ID  */
+const getUserByIdRepository = async (id, res) => {
+  try {
+    let query =
+      "select users.*,user_facility_map.facility_id,facility.facility_name  from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on user_facility_map.facility_id = facility.facility_id where users.user_id= ? ";
+    //let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
+    if (results.length != 0) {
+      let array = results[0];
+      console.log(array.created_date);
+      let model = new UserModel();
+      model.fill(
+        (userId = array.user_id),
+        (fullName = array.full_name),
+        (phoneNumber = array.phone_number),
+        (userName = array.username),
+        (userType = array.user_type),
+        (userStatus = array.status),
+        (lastLogin = array.last_login),
+        (loggedIpAddress = array.logged_ip_address),
+        (createdDate = array.created_date),
+        (updatedDate = array.updated_date),
+        (enrolmentId = array.enrolment_id),
+        (createdBy = array.created_by),
+        (updatedBy = array.updated_by),
+        (facilityId = array.facility_id),
+        (facilityName = array.facility_name)
+        // (password = array.password)
+      );
+
+      return model;
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+// 6 get user details by id without pwd  for fetching and showing
+const getUserDetailsDisplayRepository = async (id, res) => {
+  try {
+    let query = "select users.* from users where user_id =?";
+    //let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
+    if (results.length != 0) {
+      let array = results[0];
+      console.log(array.created_date);
+      let model = new UserModel();
+      model.fill(
+        (userId = array.user_id),
+        (fullName = array.full_name),
+        (phoneNumber = array.phone_number),
+        (userName = array.username),
+        (userType = array.user_type),
+        (userStatus = array.status),
+        (lastLogin = array.last_login),
+        (loggedIpAddress = array.logged_ip_address),
+        (createdDate = array.created_date),
+        (updatedDate = array.updated_date),
+        (enrolmentId = array.enrolment_id),
+        (createdBy = array.created_by),
+        (updatedBy = array.updated_by),
+        (facilityId = array.facility_id),
+        (facilityName = array.facility_name)
+      );
+
+      return model;
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+// 7 userCheckRepository
+let userCheckRepository = async (userName, res) => {
+  let query = "select * from users where username=?";
+  let results = await runQuery(query, [userName]);
+  if (results.length == 0) {
+    return 0;
+  } else {
+    return 1;
+  }
+};
+// 8 update user check repository
+let updateuserCheckRepository = async (userName, id) => {
+  let query = "select * from users where username=? and user_id != ?";
+  let results = await runQuery(query, [userName, id]);
+  if (results.length == 0) {
+    return 0;
+  } else {
+    return 1;
+  }
+};
+
+// 9 update user login details
+let updateUserLoginDetailsRepository = async (
+  id,
+  lastLogin,
+  loggedIpAddress
+) => {
+  try {
+    let query =
+      "UPDATE users SET last_login=?,logged_ip_address=?,updated_date=?  WHERE user_id=? ";
+
+    let results = await runQuery(query, [
+      lastLogin,
+      loggedIpAddress,
+      getPstDate(),
+      id,
+    ]);
+
+    if (results.affectedRows == 1) {
+      return 0;
+    } else {
+      return 1;
+    }
+  } catch (error) {
+    console.log("error from catch block");
+    console.log(error);
+    return 1;
+  }
+};
+
+/**10 create resident repository
  *
  * @param {*} fullName
  * @param {*} createUserTypeRequest (6)
@@ -183,147 +364,7 @@ const createResidentrepository = async (
   }
 };
 
-/**
- *
- * @param {*} fullName
- * @param {*} username
- * @param {*} password
- * @param {*} createUserTypeRequest
- * @param {*} req
- * @param {*} res
- * @returns
- */
-// 5 createUserRepository
-let createUserRepository = async (
-  fullName,
-  username,
-  password,
-  createUserTypeRequest,
-  req,
-  res
-) => {
-  try {
-    console.log(`consoling the user id value ${req.userIdValue}`);
-    // hasing the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt); // hash complete
-    const getTag = await enrollementIdTag(createUserTypeRequest); //get the tag as per userType
-    let uniqueId = await valueExistCheck(getTag); //randomId generate
-    let date = getPstDate();
-    console.log(`unique id and pst date `);
-    let sql =
-      "INSERT INTO `users`( `full_name`,`username`,`password`,`user_type`,`status`,`created_date`,`updated_date`,`enrolment_id`,created_by,updated_by) VALUES (?,?,?,?,?,?,?,?,?,?) ";
-
-    let results = await runQuery(sql, [
-      fullName,
-      username,
-      hashedPassword,
-      createUserTypeRequest,
-      1,
-      date,
-      date,
-      uniqueId,
-      req.userIdValue,
-      req.userIdValue,
-    ]);
-
-    if (results) {
-      console.log(results);
-      return results.insertId;
-    } else return false;
-  } catch (error) {
-    console.log(error);
-    console.log(
-      `something went wrong  in creating user repository  :  ${error}`
-    );
-    return false;
-  }
-};
-
-// 6 update UserRepository
-let updateUserRepository = async (
-  id,
-  fullName,
-  phoneNumber,
-  userName,
-  userStatus
-) => {
-  try {
-    console.log(`checking the value passed`);
-    console.log(`****************************************`);
-    console.log(id, fullName, phoneNumber, userName, userStatus);
-    console.log(`****************************************`);
-    // const salt = await bcrypt.genSalt(10);
-    // console.log(password);
-    // console.log("password and sal are ");
-    // console.log(salt);
-    // const hashedPassword = await bcrypt.hash(password, salt);
-    let query =
-      "UPDATE users SET full_name =?,phone_number = ?,username=?,status=?,updated_date=?  WHERE user_id=? ";
-
-    let results = await runQuery(query, [
-      fullName,
-      phoneNumber,
-      userName,
-      userStatus,
-      getPstDate(),
-      id,
-    ]);
-    if (results.affectedRows == 1) {
-      return 0;
-    } else {
-      return 1;
-    }
-  } catch (error) {
-    console.log("error from catch block");
-    console.log(error);
-    return 1;
-  }
-};
-// 7 delete UserRepository
-let deleteUserRepository = async (id) => {
-  try {
-    let query = "delete from users where user_id =?";
-    // let sql = con.format(query, [id]);
-    let results = await runQuery(query, [id]);
-
-    return results.affectedRows;
-  } catch (error) {
-    console.log(error);
-    return 0;
-  }
-};
-
-// 8 update user login details
-let updateUserLoginDetailsRepository = async (
-  id,
-  lastLogin,
-  loggedIpAddress
-) => {
-  try {
-    let query =
-      "UPDATE users SET last_login=?,logged_ip_address=?,updated_date=?  WHERE user_id=? ";
-
-    let results = await runQuery(query, [
-      lastLogin,
-      loggedIpAddress,
-      getPstDate(),
-      id,
-    ]);
-
-    if (results.affectedRows == 1) {
-      return 0;
-    } else {
-      return 1;
-    }
-  } catch (error) {
-    console.log("error from catch block");
-    console.log(error);
-    return 1;
-  }
-};
-
-// 9 get the userType of the userId
+// 11 get the userType of the userId
 const getuserType = async (userId) => {
   try {
     let sql = "select user_type from users where user_id =" + userId;
@@ -343,6 +384,7 @@ const getuserType = async (userId) => {
 module.exports = {
   getUserByIdRepository: getUserByIdRepository,
   userCheckRepository: userCheckRepository,
+  updateuserCheckRepository: updateuserCheckRepository,
   getAllUsersRepository: getAllUsersRepository,
   createResidentrepository: createResidentrepository,
   createUserRepository: createUserRepository,
@@ -350,4 +392,6 @@ module.exports = {
   deleteUserRepository: deleteUserRepository,
   updateUserLoginDetailsRepository: updateUserLoginDetailsRepository,
   getuserType: getuserType,
+
+  getUserDetailsDisplayRepository: getUserDetailsDisplayRepository,
 };

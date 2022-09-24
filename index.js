@@ -35,6 +35,7 @@ const {
 } = require("./routes/loginAndAuthentication/refreshRoute");
 
 const { userRoute } = require("./routes/usersAndActivity/userRoute");
+const { residentRoute } = require("./routes/usersDetails/residentRoutes");
 const { facilityRoute } = require("./routes/facility/facilityRoute");
 const { kitchenRoute } = require("./routes/facility/kitchenRoutes");
 
@@ -67,7 +68,6 @@ const {
   imageUploadRoute,
 } = require("./routes/mealImageUrlAndResponseData/imageupload2"); // image upload to s3
 
-const { rolesRoute2 } = require("./helper/rolesCheck");
 const {
   NutritionalRiskFactorRoute,
 } = require("./routes/usersDetails/nutritionalRiskFactorRoutes");
@@ -79,8 +79,8 @@ const {
 } = require("./routes/mealImageUrlAndResponseData/imageDetailsRoutes");
 const { sideBarCheckRoute } = require("./routes/sideBar/sideBarCheck");
 const {
-  residentDetailsRoutes,
-} = require("./routes/usersDetails/residentDetailsRoutes");
+  residentCarePlanRoutes,
+} = require("./routes/usersDetails/residentCarePlanRoutes");
 
 const {
   mealTypes,
@@ -136,7 +136,8 @@ app.use(`${apiBasePath}kitchen`, kitchenRoute); // kitchen
 
 // ^ users
 app.use(`${apiBasePath}userType`, userTypeRoute);
-app.use(`${apiBasePath}user`, userRoute); // users {residents,admins,nurse,manger etc}
+app.use(`${apiBasePath}user`, userRoute); // users {admins,nurse,manger,dietcian etc}
+app.use(`${apiBasePath}resident`, residentRoute); // residents
 
 //* Activity Log
 app.use(`${apiBasePath}userActivityLog`, userActivityLog); // users activity log
@@ -146,7 +147,7 @@ app.use(`${apiBasePath}userFacility`, userFacilityRoute); // residents facility 
 app.use(`${apiBasePath}nurseResident`, nurseResident); // resident of a faciluty where nurse works
 
 // ^ Residents and addtional details
-app.use(`${apiBasePath}residentsDetails`, residentDetailsRoutes); //resident additional routes
+app.use(`${apiBasePath}residentsDetails`, residentCarePlanRoutes); //resident additional routes
 app.use(`${apiBasePath}nutritionalRiskFactors`, NutritionalRiskFactorRoute); //resident additional details risk factors
 
 // !images upload and Response

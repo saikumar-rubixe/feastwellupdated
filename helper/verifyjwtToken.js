@@ -17,7 +17,9 @@ const verify = async (req) => {
       const verified = jwt.verify(token, process.env.TOKEN_SECRET);
       console.log(verified);
       user = await getUserByIdRepository(verified.id);
+
       req.userIdValue = user.userId;
+      req.userIdUserType = user.usertype;
     } catch (error) {
       console.log(error);
       console.log("expired");

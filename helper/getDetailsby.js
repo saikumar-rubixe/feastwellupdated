@@ -27,6 +27,8 @@ const getUserDetailByUsername = async (username) => {
       (enrolmentId = user.enrolment_id),
       (createdBy = user.created_date),
       (updatedBy = user.updated_date),
+      (facilityId = ""),
+      (facilityName = ""),
       (password = user.password) //hashed password from db is sent to userPasswordModel
     );
 

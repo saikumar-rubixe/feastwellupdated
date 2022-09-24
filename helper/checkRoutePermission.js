@@ -39,7 +39,7 @@ const checkRoutePermission = async (req) => {
       }
       try {
         console.log("Access type: " + accessType);
-        console.log(user);
+        // console.log(user);
         // !TODO: get roles by user type
         const role = await getRoleForUserTypeRepository(user.userType);
         console.log(categoryId, role.roleId, accessType);

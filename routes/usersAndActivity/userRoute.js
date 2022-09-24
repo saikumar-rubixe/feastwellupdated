@@ -1,6 +1,12 @@
 const express = require("express");
 const userRoute = express.Router();
-
+//*importing routes  from tsting
+const {
+  createUsersController,
+  updateUsersController,
+  deleteUsersController,
+} = require("../../testingFolder/userController");
+//* imported testing routes from testing
 const {
   userBodyValidation,
   userUpdateBodyValidation,
@@ -11,31 +17,24 @@ const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 const {
   getUserByIdController,
   getAllUsersController,
-  createUserController,
-  updateUserController,
-  deleteUserController,
+  // createUserController,
+  // updateUserController,
+  // deleteUserController,
   updateUserLoginDetailsController,
 } = require("../../controller/usersAndActivity/userController");
 
 //^ Create User Details
 userRoute.post("/", async (req, res) => {
   console.log(`im in the router to check permission`); //delete
-  const permission = await checkRoutePermission(req);
-  if (permission !== 1) {
-    res.status(401).json({
-      success: false,
-      message: "unauthorized access",
+
+  const err = await userBodyValidation(req);
+  if (err) {
+    return res.status(500).json({
+      error: err.message,
+      message: "request body validation error",
     });
   } else {
-    const err = await userBodyValidation(req);
-    if (err) {
-      return res.status(500).json({
-        error: err.message,
-        message: "request body validation error",
-      });
-    } else {
-      await createUserController(req, res);
-    }
+    await createUsersController(req, res);
   }
 });
 
@@ -82,7 +81,7 @@ userRoute.put("/:id", async (req, res) => {
         message: "request body validation error",
       });
     } else {
-      await updateUserController(req, res);
+      await updateUsersController(req, res);
     }
   }
 });
@@ -112,23 +111,17 @@ userRoute.put("/loginDetails/:id", async (req, res) => {
 //! Delete User Details
 userRoute.delete("/:id", async (req, res) => {
   console.log(`im in the router to check permission`); //delete
-  const permission = await checkRoutePermission(req);
-  if (permission !== 1) {
-    res.status(401).json({
-      success: false,
-      message: "unauthorized access",
-    });
-  } else {
-    const err = await Validation(req);
-    if (err) {
-      return res.status(500).json({
-        error: err.message,
-        message: "request body validation error",
-      });
-    } else {
-      await deleteUserController(req, res);
-    }
-  }
+
+  //   const err = await Validation(req);
+  //   if (err) {
+  //     return res.status(500).json({
+  //       error: err.message,
+  //       message: "request body validation error",
+  //     });
+  //   } else {
+  await deleteUsersController(req, res);
+  //   }
+  // }
 });
 
 module.exports = { userRoute };

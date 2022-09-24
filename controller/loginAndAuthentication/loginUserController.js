@@ -17,10 +17,17 @@ const {
 const { verify } = require("../../helper/verifyjwtToken");
 // controller
 
+/** 3 side bar menus and side menu
+ *
+ * @param {*} req
+ * @param {*} res
+ * @return list of menus and sub menus as per user login id type
+ */
 const getSideBar = async (req, res) => {
   var response = [];
-  const user = await verify(req);
+  const user = await verify(req); //verify whether user exist or not
   if (!user) {
+    // if no user exist return unauthorised
     res.status(401).send({ success: false, message: "unauthorized user" });
   } else {
     const userType = user.userType;
