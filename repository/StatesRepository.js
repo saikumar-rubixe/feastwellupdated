@@ -1,13 +1,11 @@
-let { runQuery, con } = require("../config/database");
-//con = con();
-//runQuery = runQuery();
+let { runQuery } = require("../config/database");
 let { States } = require("../models/statesModel");
 
 //^ 1 create state
 const createStatesRepository = async (statename, countryId) => {
   try {
     let query = "INSERT into `states` (`name`,`country_id`) VALUES(?,?)  ";
-    // let sql = con.format(query, [Statename, coutryCode]);
+
     let results = await runQuery(query, [statename, countryId]);
     let value = results.insertId;
     if (value && value != 0) {
@@ -27,7 +25,7 @@ const getAllStatesDetailsRepository = async (req, res) => {
   let array = [];
   try {
     let query = "SELECT * from `states` where 1=1 ";
-    //let sql = con.format(query);
+
     let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
@@ -59,7 +57,7 @@ const getStatesByStateIdRepository = async (id, res) => {
     let array = [];
     let query =
       " select `id`,`name`,`country_code`,`country_id` from  `states` where id =?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let count = results.length;
 
@@ -82,11 +80,12 @@ const getStatesByStateIdRepository = async (id, res) => {
 };
 
 //? 4 update states by state Id
-const updateStatesByStateIdRepository = async (id, Statename, coutryCode) => {
+const updateStatesByStateIdRepository = async (id, statename, coutryId) => {
   try {
-    let query = " UPDATE `states` set `name`=?,`country_code`=? where id =?";
-    //  let sql = con.format(query, [Statename, coutryCode, id]);
-    let results = await runQuery(query, [Statename, coutryCode, id]);
+    console.log(`in the repositoy${statename} ${countryId}`);
+    let query = " UPDATE `states` set `name`=?,`country_id`=? where id =?";
+
+    let results = await runQuery(query, [statename, countryId, id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
     if (value == 1) {
@@ -105,7 +104,7 @@ const updateStatesByStateIdRepository = async (id, Statename, coutryCode) => {
 const deleteStatesByStateIdRepository = async (id, res) => {
   try {
     let query = "DELETE from  `states` where `id`=?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
@@ -127,7 +126,7 @@ const getStatesByCountryIdRepository = async (id, res) => {
     let array = [];
     let query =
       " select `id`,`name`,`country_code`,`country_id` from  `states` where country_id =?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let count = results.length;
     if (count != 0) {
@@ -162,7 +161,7 @@ const updateStatesByCountryIdRepository = async (
   try {
     let query =
       " UPDATE `states` set `name`=?,`country_code`=? where id =? and country_id=?";
-    //  let sql = con.format(query, [Statename, coutryCode, id]);
+
     let results = await runQuery(query, [Statename, coutryCode, id, countryId]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);
@@ -182,7 +181,7 @@ const updateStatesByCountryIdRepository = async (
 const deleteStatesByCountryIdRepository = async (id, res) => {
   try {
     let query = "DELETE from  `states` where `country_id `=?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
     console.log(`affected rows : ${value}`);

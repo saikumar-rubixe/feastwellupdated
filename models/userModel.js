@@ -2,7 +2,7 @@ class UserModel {
   userId = null;
   fullName = null;
   phoneNumber = null;
-  userName = null;
+  username = null;
   userType = null;
   userStatus = null;
   lastLogin = null;
@@ -20,7 +20,7 @@ class UserModel {
     userId,
     fullName,
     phoneNumber,
-    userName,
+    username,
     userType,
     userStatus,
     lastLogin,
@@ -37,7 +37,7 @@ class UserModel {
     this.userId = userId;
     this.fullName = fullName;
     this.phoneNumber = phoneNumber;
-    this.userName = userName;
+    this.username = username;
     this.userType = userType;
     this.userStatus = userStatus;
     this.lastLogin = lastLogin;

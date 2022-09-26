@@ -33,7 +33,7 @@ const getAllUserFacilityDetailsRepository = async () => {
       }
       return { count, array };
     } else {
-      return null;
+      return { count, array };
     }
   } catch (error) {
     console.log(error);

@@ -1,7 +1,7 @@
 class menuCategoryModel {
-  menuId = null;
-  menuName = null;
-  menuStatus = null;
+  menuCategoryId = null;
+  menuCategoryName = null;
+  menuCategoryStatus = null;
   createdDate = null;
   updatedDate = null;
   parentFlag = null;
@@ -10,10 +10,11 @@ class menuCategoryModel {
   desktopSortOrder = null;
   mobileSortOrder = null;
   desktopIcons = null;
+  mobileIcons = null;
   fill(
-    menuId,
-    menuName,
-    menuStatus,
+    menuCategoryId,
+    menuCategoryName,
+    menuCategoryStatus,
     createdDate,
     updatedDate,
     parentFlag,
@@ -21,11 +22,12 @@ class menuCategoryModel {
     menuRoutes,
     desktopSortOrder,
     mobileSortOrder,
-    desktopIcons
+    desktopIcons,
+    mobileIcons
   ) {
-    this.menuId = menuId;
-    this.menuName = menuName;
-    this.menuStatus = menuStatus;
+    this.menuCategoryId = menuCategoryId;
+    this.menuCategoryName = menuCategoryName;
+    this.menuCategoryStatus = menuCategoryStatus;
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;
     this.parentFlag = parentFlag;
@@ -34,6 +36,7 @@ class menuCategoryModel {
     this.desktopSortOrder = desktopSortOrder;
     this.mobileSortOrder = mobileSortOrder;
     this.desktopIcons = desktopIcons;
+    this.mobileIcons = mobileIcons;
   }
 }
 module.exports = {

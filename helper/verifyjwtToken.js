@@ -12,10 +12,10 @@ const verify = async (req) => {
   let jtoken = req.header("Authorization");
   if (jtoken) {
     let token = jtoken.replace("Bearer ", "");
-    console.log(token);
+    // console.log(token);//delete
     try {
       const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-      console.log(verified);
+      //  console.log(verified);//delete
       user = await getUserByIdRepository(verified.id);
 
       req.userIdValue = user.userId;

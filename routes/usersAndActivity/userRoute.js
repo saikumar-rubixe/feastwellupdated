@@ -1,11 +1,11 @@
 const express = require("express");
 const userRoute = express.Router();
 //*importing routes  from tsting
-const {
-  createUsersController,
-  updateUsersController,
-  deleteUsersController,
-} = require("../../testingFolder/userController");
+// const {
+//   createUsersController,
+//   updateUsersController,
+//   deleteUsersController,
+// } = require("../../testingFolder/userController");
 //* imported testing routes from testing
 const {
   userBodyValidation,
@@ -17,10 +17,10 @@ const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 const {
   getUserByIdController,
   getAllUsersController,
-  // createUserController,
-  // updateUserController,
-  // deleteUserController,
   updateUserLoginDetailsController,
+  createUsersController,
+  updateUsersController,
+  deleteUsersController,
 } = require("../../controller/usersAndActivity/userController");
 
 //^ Create User Details
@@ -29,7 +29,7 @@ userRoute.post("/", async (req, res) => {
 
   const err = await userBodyValidation(req);
   if (err) {
-    return res.status(500).json({
+    return res.status(400).json({
       error: err.message,
       message: "request body validation error",
     });
@@ -76,7 +76,7 @@ userRoute.put("/:id", async (req, res) => {
   } else {
     const err = await userUpdateBodyValidation(req);
     if (err) {
-      return res.status(500).json({
+      return res.status(400).json({
         error: err.message,
         message: "request body validation error",
       });
@@ -98,7 +98,7 @@ userRoute.put("/loginDetails/:id", async (req, res) => {
   } else {
     const err = await updateUserLoginDetailsController(req);
     if (err) {
-      return res.status(500).json({
+      return res.status(400).json({
         error: err.message,
         message: "request body validation error",
       });

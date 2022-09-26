@@ -27,7 +27,7 @@ kitchenRoute.post("/", async (req, res) => {
     if (error) {
       return res.status(500).json({
         error: error.message,
-        message: "Create Kitchen Route Error",
+        message: "Create Kitchen validation error",
       });
     } else {
       await insertKitchenDetailsController(req, res);

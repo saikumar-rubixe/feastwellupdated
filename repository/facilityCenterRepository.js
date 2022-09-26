@@ -72,33 +72,36 @@ let getAllFacilityCenterDetailsRepository = async (req, res) => {
       "select facility.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `facility` INNER JOIN `countries`  ON facility.facility_country_id=countries.id INNER JOIN `states` ON facility.facility_state_id=states.id INNER JOIN `cities` ON facility.facility_city_id= cities.id ";
     let results = await runQuery(query);
     let count = results.length;
-
-    for (i = 0; i < count; i++) {
-      let result = results[i];
-      let model = new FacilityModel();
-      model.fill(
-        (facilityCenterId = result.facility_id),
-        (facilityName = result.facility_name),
-        (headId = result.facility_head_id),
-        (email = result.facility_email),
-        (number = result.facility_contact_number),
-        (countryId = result.facility_country_id),
-        (stateId = result.facility_state_id),
-        (cityId = result.facility_city_id),
-        (facilityStatus = result.status),
-        (createdDate = result.created_date),
-        (createdBy = result.created_by),
-        (updatedDate = result.updated_date),
-        (updatedBy = result.updated_by),
-        (address = result.address),
-        (zipcode = result.zipcode),
-        (countryName = result.CountryName),
-        (stateName = result.StateName),
-        (cityName = result.CityName)
-      );
-      facilityArray.push(model);
+    if (count != 0) {
+      for (i = 0; i < count; i++) {
+        let result = results[i];
+        let model = new FacilityModel();
+        model.fill(
+          (facilityCenterId = result.facility_id),
+          (facilityName = result.facility_name),
+          (headId = result.facility_head_id),
+          (email = result.facility_email),
+          (number = result.facility_contact_number),
+          (countryId = result.facility_country_id),
+          (stateId = result.facility_state_id),
+          (cityId = result.facility_city_id),
+          (facilityStatus = result.status),
+          (createdDate = result.created_date),
+          (createdBy = result.created_by),
+          (updatedDate = result.updated_date),
+          (updatedBy = result.updated_by),
+          (address = result.address),
+          (zipcode = result.zipcode),
+          (countryName = result.CountryName),
+          (stateName = result.StateName),
+          (cityName = result.CityName)
+        );
+        facilityArray.push(model);
+      }
+      return { count, facilityArray };
+    } else {
+      return { count, facilityArray };
     }
-    return { count, facilityArray };
   } catch (error) {
     console.log("repo: catch block error ");
     console.log(error);

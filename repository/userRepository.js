@@ -155,35 +155,37 @@ const getAllUsersRepository = async (userType, userStatus) => {
 
     let sqlResult = await runQuery(query);
     let count = sqlResult.length;
-    for (let i = 0; i < sqlResult.length; i++) {
-      let model = new UserModel();
-      let array = sqlResult[i];
-      model.fill(
-        (userId = array.user_id),
-        (fullName = array.full_name),
-        (phoneNumber = array.phone_number),
-        (userName = array.username),
-        (usertype = array.user_type),
-        (userStatus = array.status),
-        (lastLogin = array.last_login),
-        (loggedIpAddress = array.logged_ip_address),
-        (createdDate = array.created_date),
-        (updatedDate = array.updated_date),
-        (enrolmentId = array.enrolment_id),
-        (createdBy = array.created_by),
-        (updatedBy = array.updated_by),
-        (facilityId = array.facility_id),
-        (facilityName = array.facility_name)
+    if (count != 0) {
+      for (let i = 0; i < sqlResult.length; i++) {
+        let model = new UserModel();
+        let array = sqlResult[i];
+        model.fill(
+          (userId = array.user_id),
+          (fullName = array.full_name),
+          (phoneNumber = array.phone_number),
+          (userName = array.username),
+          (usertype = array.user_type),
+          (userStatus = array.status),
+          (lastLogin = array.last_login),
+          (loggedIpAddress = array.logged_ip_address),
+          (createdDate = array.created_date),
+          (updatedDate = array.updated_date),
+          (enrolmentId = array.enrolment_id),
+          (createdBy = array.created_by),
+          (updatedBy = array.updated_by),
+          (facilityId = array.facility_id),
+          (facilityName = array.facility_name)
 
-        // (password = array.password),
-      );
-      userArray.push(model);
-    }
-    response = {};
-    response["count"] = count;
-    response["userArray"] = userArray;
+          // (password = array.password),
+        );
+        userArray.push(model);
+      }
+      response = {};
+      response["count"] = count;
+      response["userArray"] = userArray;
 
-    return response;
+      return response;
+    } else return { count, userArray };
   } catch (error) {
     console.log(`error in catch block is ${error}`);
     return false;

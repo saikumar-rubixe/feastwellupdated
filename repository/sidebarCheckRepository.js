@@ -29,9 +29,9 @@ const getCategoryMenu = async (parentId, parentFlag) => {
       let category = categories[i];
       let menuCategory = new menuCategoryModel();
       menuCategory.fill(
-        (menuId = category.menu_category_id),
-        (menuName = category.category_name),
-        (menuStatus = category.status),
+        (menuCategoryId = category.menu_category_id),
+        (menuCategoryName = category.category_name),
+        (menuCategoryStatus = category.status),
         (createdDate = category.created_date),
         (updatedDate = category.updated_date),
         (parentFlag = category.parent_flag),
@@ -39,7 +39,8 @@ const getCategoryMenu = async (parentId, parentFlag) => {
         (menuRoutes = category.menu_routes),
         (desktopSortOrder = category.desktop_sort_order),
         (mobileSortOrder = category.mobile_sort_order),
-        (desktopIcons = category.desktop_icons)
+        (desktopIcons = category.desktop_icons),
+        (mobileIcons = category.mobile_icons)
       );
       listmenu.push(menuCategory);
     }

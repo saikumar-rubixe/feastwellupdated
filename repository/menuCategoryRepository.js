@@ -33,7 +33,14 @@ const getAllMenuCategoryDetailsRepository = async (req, res) => {
           (categoryName = result.category_name),
           (menuStatus = result.status),
           (createdDate = result.created_date),
-          (updatedDate = result.updated_date)
+          (updatedDate = result.updated_date),
+          (parentFlag = result.parent_flag),
+          (parentId = result.parent_id),
+          (menuRoutes = result.menu_routes),
+          (desktopSortOrder = result.desktop_sort_order),
+          (mobileSortOrder = result.mobile_sort_order),
+          (desktopIcons = result.desktop_icons),
+          (mobileIcons = result.mobile_icons)
         );
         array.push(model);
       }
@@ -62,7 +69,14 @@ const getMenuCategoryDetailByIdRepository = async (id, res) => {
         (categoryName = result.category_name),
         (menuStatus = result.status),
         (createdDate = result.created_date),
-        (updatedDate = result.updated_date)
+        (updatedDate = result.updated_date),
+        (parentFlag = result.parent_flag),
+        (parentId = result.parent_id),
+        (menuRoutes = result.menu_routes),
+        (desktopSortOrder = result.desktop_sort_order),
+        (mobileSortOrder = result.mobile_sort_order),
+        (desktopIcons = result.desktop_icons),
+        (mobileIcons = result.mobile_icons)
       );
       return model;
     } else {

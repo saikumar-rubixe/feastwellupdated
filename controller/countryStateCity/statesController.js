@@ -15,15 +15,10 @@ const createStatesController = async (req, res) => {
   try {
     const { statename, countryId } = req.body;
     console.log(req.body);
-    // check for user/email/etc doesnot exits
-    // check for user/email/etc doesnot exits
-    // const recordCheck = await functionCall();
-    // if (recordCheck || recordCheck == true) {
-    //   // for exist pass negative
-    // } else if (!recordCheck || recordCheck == false) {
+
     const create = await createStatesRepository(statename, countryId);
     if (create) {
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         message: "data created succesfully with id" + create,
         insertId: create,
@@ -92,11 +87,11 @@ const updateStatesByStateIdController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const { Statename, coutryCode } = req.body;
+        const { statename, coutryId } = req.body;
         const updatedetails = await updateStatesByStateIdRepository(
           id,
-          Statename,
-          coutryCode
+          statename,
+          coutryId
         );
         if (updatedetails == true) {
           res.status(200).json({

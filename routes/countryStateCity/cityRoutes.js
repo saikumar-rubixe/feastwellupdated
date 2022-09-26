@@ -2,27 +2,17 @@ const express = require("express");
 const cityRoute = express.Router();
 const { verify } = require("../../helper/verifyjwtToken");
 const {
-  getCitiesByIdController,
-  createCityController,
   getAllDetailsController,
+  createCityController,
+  updateCityController,
+  deleteCityController,
   getCityByCityIdController,
+
+  getCitiesByStateIdController,
+  getCitiesByCountryIdController,
 } = require("../../controller/countryStateCity/citiesController");
 
 const { checkRoutePermission } = require("../../helper/checkRoutePermission");
-
-//* GET CITITES BY  STATE ID
-
-cityRoute.get("/byStateId/:id", async (req, res) => {
-  const permission = await checkRoutePermission(req);
-  if (permission !== 1) {
-    res.status(401).json({
-      success: false,
-      message: "unauthorized access",
-    });
-  } else {
-    await getCitiesByIdController(req, res);
-  }
-});
 
 //^CREATE CITITES
 cityRoute.post("/", async (req, res) => {
@@ -65,4 +55,79 @@ cityRoute.get("/byCityId/:id", async (req, res) => {
   }
 });
 
+//* GET CITITES BY  STATE ID
+cityRoute.get("/byStateId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getCitiesByStateIdController(req, res);
+  }
+});
+
+//* GET CITIES BY COUNTRY ID
+cityRoute.get("/byCountryId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await getCitiesByCountryIdController(req, res);
+  }
+});
+
+//? update city by city id
+cityRoute.put("/byCityId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await updateCityController(req, res);
+  }
+});
+
+//! delete city by city id
+cityRoute.delete("/byCityId/:id", async (req, res) => {
+  const permission = await checkRoutePermission(req);
+  if (permission !== 1) {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access",
+    });
+  } else {
+    await deleteCityController(req, res);
+  }
+});
+//! delete city by state id
+// cityRoute.delete("/byStateId/:id", async (req, res) => {
+//   const permission = await checkRoutePermission(req);
+//   if (permission !== 1) {
+//     res.status(401).json({
+//       success: false,
+//       message: "unauthorized access",
+//     });
+//   } else {
+//     await getCitiesByCountryIdController(req, res);
+//   }
+// })
+// //! delete city by country id
+// cityRoute.delete("/byCountryId/:id", async (req, res) => {
+//   const permission = await checkRoutePermission(req);
+//   if (permission !== 1) {
+//     res.status(401).json({
+//       success: false,
+//       message: "unauthorized access",
+//     });
+//   } else {
+//     await getCitiesByCountryIdController(req, res);
+//   }
+// })
 module.exports = { cityRoute };

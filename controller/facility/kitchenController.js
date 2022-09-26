@@ -101,7 +101,7 @@ let insertKitchenDetailsController = async (req, res) => {
         message: "facility center creation failed",
       });
     } else {
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         message: "facility center created Succesfully with id " + create,
         insertId: create,

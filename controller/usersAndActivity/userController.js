@@ -42,7 +42,6 @@ const {
 
 // 1  to get the details of one single User by Id
 const getUserByIdController = async (req, res) => {
-  // console.log("Header: " + req.header("Authorization"));
   try {
     let user = await verify(req);
     if (!user) {
@@ -52,61 +51,65 @@ const getUserByIdController = async (req, res) => {
       });
     } else {
       // get the logged in usertype userType
-      let loggedInUserType = user.userType;
-      //check the hierarchy
-      let hierarchy = await getUserTypeDetailByIdRepository(loggedInUserType);
-      console.log(`heirarchy is `);
-      console.log(hierarchy);
+      let loggedUserId = user.userId; //
+      const id = req.params.id; //user id of get details
 
       // fetch the user id details by ID(provided frm req.params.id) using getUserByIdRepository
-      const id = req.params.id;
       const recordExist = await getUserByIdRepository(id, res);
+      // if no details found  return false
       if (recordExist == null || recordExist == false) {
         res.status(404).json({
           success: false,
           message: "residents records not found ",
         });
       } else {
-        // get the usertype of the user details to be updated
-        getRequesUserType = recordExist.userType;
-        let getRequestUserTypeHierarchy = await getUserTypeDetailByIdRepository(
-          getRequesUserType
-        );
-
-        //now compare and check whether the user has access to do the requested updation acces or not!
-        const levelUp = hierarchy.userHeirarchy;
-        const levelDown = getRequestUserTypeHierarchy.userHeirarchy;
-        console.log(
-          `user level (up) is ${levelUp} and update user level ( down) is ${levelDown} `
-        );
-
-        if (levelUp < levelDown) {
-          //*true
-
-          // if (recordExist == null) {
-          //   res.status(404).json({
-          //     success: false,
-          //     message: "update failed",
-          //   });
-          // } else if (recordExist) {
-          res.status(201).json({
+        //  case 1 : if user trying to acces his own details
+        if (loggedUserId == id) {
+          res.status(200).json({
             success: true,
             message: "  user  details retrived succesfully ",
             data: recordExist,
           });
-          //  }
-          //*
         } else {
-          //! false
-          res.status(401).json({
-            success: false,
-            message: "you are not permitted to get details",
-          });
+          let loggedInUserType = user.userType;
+          //check the hierarchy
+          let hierarchy = await getUserTypeDetailByIdRepository(
+            loggedInUserType
+          );
+          console.log(`heirarchy is `); //delete
+          console.log(hierarchy); //delete
+
+          // get the usertype of the user details to be updated
+          getRequesUserType = recordExist.userType;
+          let getRequestUserTypeHierarchy =
+            await getUserTypeDetailByIdRepository(getRequesUserType);
+
+          //now compare and check whether the user has access to do the requested updation acces or not!
+          const levelUp = hierarchy.userHeirarchy;
+          const levelDown = getRequestUserTypeHierarchy.userHeirarchy;
+          console.log(
+            `user level (up) is ${levelUp} and update user level ( down) is ${levelDown} `
+          ); //delete
+
+          if (levelUp < levelDown) {
+            //*true
+            res.status(200).json({
+              success: true,
+              message: "  user  details retrived succesfully ",
+              data: recordExist,
+            });
+          } else {
+            //! false
+            res.status(401).json({
+              success: false,
+              message: "you are not permitted to get details",
+            });
+          }
         }
       }
     }
   } catch (error) {
-    console.log(error);
+    console.log(error); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -116,7 +119,6 @@ const getUserByIdController = async (req, res) => {
 
 // 2 to get all Users of users table
 const getAllUsersController = async (req, res) => {
-  // console.log("Header: " + req.header("Authorization"));
   try {
     const user = await verify(req);
     if (!user) {
@@ -130,7 +132,7 @@ const getAllUsersController = async (req, res) => {
       if (details && details != false) {
         res.status(200).json({
           success: true,
-          message: "details t=retreived sucesfully",
+          message: "details retreived sucesfully",
           data: details,
         });
       } else {
@@ -154,7 +156,7 @@ let updateUserLoginDetailsController = async (req, res, next) => {
   try {
     let id = req.params.id;
     const { lastLogin, loggedIpAddress } = req.body;
-    console.log(req.body);
+    //  console.log(req.body); //delete
     if (checkNumber(id)) {
       const recordExist = await getUserByIdRepository(id, res);
       if (recordExist == null) {
@@ -192,7 +194,7 @@ let updateUserLoginDetailsController = async (req, res, next) => {
         }
       }
     } else {
-      console.log("id is not a number");
+      //console.log("id is not a number"); //delete
       res.status(400).json({
         success: false,
         message: "Wrong input:id must be a number ",
@@ -227,11 +229,10 @@ const createUsersController = async (req, res) => {
       console.log(user); //delete
       let loggedInUserId = user.userId;
       let loggedInUserType = user.userType;
-      console.log(`loggin usertype is ${loggedInUserType}`);
+      console.log(`loggin usertype is ${loggedInUserType}`); //delete
       //get the logged in user hierarchy
       let hierarchy = await getUserTypeDetailByIdRepository(loggedInUserType);
-      console.log(`checking the heirarchy`);
-      console.log(hierarchy);
+
       console.log(` got the user hierarchy ${hierarchy.userHeirarchy} `); //delete
 
       // get the usertype of create request from req.body.userType
@@ -243,7 +244,7 @@ const createUsersController = async (req, res) => {
       const levelDown = createRequestUserTypeHierarchy.userHeirarchy;
       console.log(
         `user level (up) is ${levelUp} and create user level ( down) is ${levelDown} `
-      );
+      ); //delete
       if (levelUp < levelDown) {
         //*true
 
@@ -271,7 +272,7 @@ const createUsersController = async (req, res) => {
 
           // check if user is created succesfully
           if (userCreate && userCreate != false) {
-            res.status(200).json({
+            res.status(201).json({
               success: true,
               message: `user created succesfully with userId ${userCreate.insertId} and enrolmentId ${userCreate.enrolmentId}`,
               userId: userCreate.insertId,
@@ -300,7 +301,7 @@ const createUsersController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(`something went wrong in creating user controller `);
+    console.log(`something went wrong in creating user controller `); //delete
     console.log(error);
     res.status(500).json({
       success: false,
@@ -316,6 +317,9 @@ const createUsersController = async (req, res) => {
  */
 const updateUsersController = async (req, res) => {
   try {
+    console.log(`updae user req body`); //delete
+    console.log(req.body); //delete
+    console.log(`******************************`);
     let user = await verify(req);
     if (!user) {
       res.status(403).json({
@@ -323,81 +327,80 @@ const updateUsersController = async (req, res) => {
         message: "user verification failed ",
       });
     } else {
-      // get the logged in usertype userType
-      console.log(`****************`);
+      // check whther user is trying to edit his own details
+      const id = req.params.id;
+      const loggedUserId = user.userId;
+      if (loggedUserId == id) {
+      }
 
       // get the logged in usertype userType
       let loggedInUserType = user.userType;
       //check the hierarchy
       let hierarchy = await getUserTypeDetailByIdRepository(loggedInUserType);
-      console.log(`heirarchy is `);
-      console.log(hierarchy);
 
       // fetch the user id details by ID(provided frm req.params.id) using getUserByIdRepository
-      const id = req.params.id;
+
       const recordExist = await getUserByIdRepository(id, res);
       if (recordExist == null) {
         res.status(404).json({
           success: false,
           message: "user records not found ",
         });
-      }
+      } else {
+        // get the usertype of the user details to be updated
+        updateRequesUserType = recordExist.userType;
+        let updateRequestUserTypeHierarchy =
+          await getUserTypeDetailByIdRepository(updateRequesUserType);
 
-      // get the usertype of the user details to be updated
-      updateRequesUserType = recordExist.userType;
-      let updateRequestUserTypeHierarchy =
-        await getUserTypeDetailByIdRepository(updateRequesUserType);
+        //now compare and check whether the user has access to do the requested updation acces or not!
+        const levelUp = hierarchy.userHeirarchy;
+        const levelDown = updateRequestUserTypeHierarchy.userHeirarchy;
+        console.log(
+          `user level (up) is ${levelUp} and update user level ( down) is ${levelDown} `
+        ); //delete
 
-      //now compare and check whether the user has access to do the requested updation acces or not!
-      const levelUp = hierarchy.userHeirarchy;
-      const levelDown = updateRequestUserTypeHierarchy.userHeirarchy;
-      console.log(
-        `user level (up) is ${levelUp} and update user level ( down) is ${levelDown} `
-      );
-
-      if (levelUp < levelDown) {
-        //*true
-        // before updating the details check whether the requested username is available to insert or not
-        const { fullName, username, userStatus } = req.body;
-        let usernameCheck = await updateuserCheckRepository(username, id);
-        if (usernameCheck == 0) {
-          // if username is available to update then
-          //*
-
-          let details = await updateUserRepository(
-            id,
-            fullName,
-            username,
-            userStatus
-          );
-          if (details == 1) {
-            res.status(404).json({
+        if (levelUp < levelDown || loggedUserId == id) {
+          //*true
+          // before updating the details check whether the requested username is available to insert or not
+          const { fullName, username, userStatus } = req.body;
+          let usernameCheck = await updateuserCheckRepository(username, id);
+          if (usernameCheck == 0) {
+            // if username is available to update then
+            let details = await updateUserRepository(
+              id,
+              fullName,
+              username,
+              userStatus
+            );
+            if (details == 1) {
+              res.status(404).json({
+                success: false,
+                message: "update failed",
+              });
+            } else if (details == 0) {
+              res.status(201).json({
+                success: true,
+                message: "updated User  details succesfully ",
+              });
+            }
+            //*
+          } else {
+            res.status(403).json({
               success: false,
-              message: "update failed",
-            });
-          } else if (details == 0) {
-            res.status(201).json({
-              success: true,
-              message: "updated User  details succesfully ",
+              message: "username not available to update ",
             });
           }
-          //*
         } else {
-          res.status(403).json({
+          //! false
+          res.status(401).json({
             success: false,
-            message: "username not available to update ",
+            message: "you are not permitted to update this user",
           });
         }
-      } else {
-        //! false
-        res.status(401).json({
-          success: false,
-          message: "you are not permitted to update this user",
-        });
       }
     }
   } catch (error) {
-    console.log(`something went wrong in creating user controller `);
+    console.log(`something went wrong in creating user controller `); //delete
     console.log(error);
     res.status(500).json({
       success: false,
@@ -445,27 +448,27 @@ const deleteUsersController = async (req, res) => {
         let deleteRequestUserTypeHierarchy =
           await getUserTypeDetailByIdRepository(deleteRequesUserType);
 
-        console.log(deleteRequestUserTypeHierarchy);
+        console.log(deleteRequestUserTypeHierarchy); //delete
         //now compare and check whether the user has access to do the requested updation acces or not!
         const levelUp = hierarchy.userHeirarchy;
         const levelDown = deleteRequestUserTypeHierarchy.userHeirarchy;
         console.log(
           `user level (up) is ${levelUp} and delete user level ( down) is ${levelDown} `
-        );
+        ); //delete
 
         if (levelUp < levelDown) {
           //*true
 
           let details = await deleteUserRepository(id);
-          console.log(`checking the details`);
-          console.log(details);
+          console.log(`checking the details`); //delete
+          console.log(details); //delete
           if (details == false) {
             res.status(404).json({
               success: false,
               message: "delete failed",
             });
           } else if (details == true) {
-            res.status(201).json({
+            res.status(200).json({
               success: true,
               message: "deleted User  details succesfully ",
             });
@@ -481,7 +484,7 @@ const deleteUsersController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(`something went wrong in deleting user controller `);
+    console.log(`something went wrong in deleting user controller `); //delete
     console.log(error);
     res.status(500).json({
       success: false,

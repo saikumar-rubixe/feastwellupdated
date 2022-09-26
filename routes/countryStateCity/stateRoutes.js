@@ -27,7 +27,6 @@ statesRoute.post("/", async (req, res) => {
 });
 
 //*get all states
-
 statesRoute.get("/", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -41,7 +40,6 @@ statesRoute.get("/", async (req, res) => {
 });
 
 //*get state by state id
-
 statesRoute.get("/byStateId/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -55,7 +53,6 @@ statesRoute.get("/byStateId/:id", async (req, res) => {
 });
 
 // ?update states by state id
-
 statesRoute.put("/byStateId/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -69,7 +66,6 @@ statesRoute.put("/byStateId/:id", async (req, res) => {
 });
 
 //! delete states by state id
-
 statesRoute.delete("/byStateId/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -83,7 +79,6 @@ statesRoute.delete("/byStateId/:id", async (req, res) => {
 });
 
 // BY COUNTRY ID'S
-
 //*get states by country id
 //route("/byCountryId/:id").get(getStatesByCountryIdController);
 statesRoute.get("/byCountryId/:id", async (req, res) => {
@@ -99,7 +94,6 @@ statesRoute.get("/byCountryId/:id", async (req, res) => {
 });
 
 //? update states by country id
-//route("/byCountryId/:id").put(updateStatesByCountryIdController);
 statesRoute.put("/byCountryId/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -113,7 +107,6 @@ statesRoute.put("/byCountryId/:id", async (req, res) => {
 });
 
 //! delete states by country Id
-
 statesRoute.delete("/byCountryId/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {

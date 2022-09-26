@@ -18,7 +18,7 @@ authRoute.post("/", async (req, res) => {
   console.log(`im in the router to check permission`); //delete
   const err = await userLoginBodyValidation(req);
   if (err) {
-    return res.status(500).json({
+    return res.status(400).json({
       error: err.message,
       message: "request body validation error",
     });
@@ -26,6 +26,8 @@ authRoute.post("/", async (req, res) => {
     await userLogin(req, res);
   }
 });
+
+//* SIDEBAR
 authRoute.get("/sidebar", async (req, res) => {
   await getSideBar(req, res);
 });

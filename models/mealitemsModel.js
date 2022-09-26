@@ -1,14 +1,14 @@
 class mealItemsModel {
   mealItem = null;
   mealItemName = null;
-  Status = null;
+  status = null;
   userId = null;
   createdDate = null;
   updatedDate = null;
-  fill(mealItem, mealItemName, Status, userId, createdDate, updatedDate) {
+  fill(mealItem, mealItemName, status, userId, createdDate, updatedDate) {
     this.mealItem = mealItem;
     this.mealItemName = mealItemName;
-    this.Status = Status;
+    this.status = status;
     this.userId = userId;
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;

@@ -209,12 +209,15 @@ const getPermissionForCategoryAndRoleId = async (
 ) => {
   var access = 0;
   try {
+    console.log(categoryId, roleId, accessType);
     let query = `SELECT ${accessType} FROM permissions WHERE menu_category_id=${categoryId} and role_id=${roleId} and ${accessType}=1 `;
     let permissionResults = await runQuery(query);
     let count = permissionResults.length;
     if (count != 0) {
       var permission = permissionResults[0];
+
       console.log(permission);
+      console.log(`checked perms`); //delete
       access = permission[accessType];
     }
   } catch (error) {

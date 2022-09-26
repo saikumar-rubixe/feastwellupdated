@@ -38,7 +38,7 @@ const getAllCitiesDetailsRepository = async (req, res, countryId) => {
 };
 
 // 2 GET CITIES BY STATE ID
-const getCitiesByIdRepository = async (id, res) => {
+const getCitiesByStateIdRepository = async (id, res) => {
   try {
     let array = [];
     let query =
@@ -163,12 +163,93 @@ const getCitiesByCityIdRepository = async (id, res) => {
     return false;
   }
 };
+
+// 7 get city by country id
+const getCitiesByCountryIdRepository = async (id, res) => {
+  try {
+    let array = [];
+    let query =
+      " select `id`,`name`,`state_code`,`country_id` , state_id from  `cities` where country_id =?";
+    // if (countryId) {
+    //   query += " and country_id = " + countryId;
+    // }
+
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
+    let count = results.length;
+    if (count != 0) {
+      for (i = 0; i < count; i++) {
+        let model = new CitiesModel();
+        let result = results[i];
+        model.fill(
+          (id = result.id),
+          (cityname = result.name),
+          (stateCode = result.state_code),
+          (countryCode = result.country_id),
+          (stateId = result.state_id)
+        );
+        array.push(model);
+      }
+    } else {
+      return false;
+    }
+    return { count, array };
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+//8 delete cities by state id
+const deleteCitiesByStateIdRepository = async (id, res) => {
+  try {
+    let query = "DELETE from  `cities` where `state_id `=?";
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
+//9 delete cities by country id
+const deleteCitiesByCountryId = async (id, res) => {
+  try {
+    let query = "DELETE from  `cities` where `country_id  `=?";
+    // let sql = con.format(query, [id]);
+    let results = await runQuery(query, [id]);
+    let value = results.affectedRows;
+    console.log(`affected rows : ${value}`);
+    if (value == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Repo:CBE Something went wrong!");
+    return false;
+  }
+};
+
 // module export
 module.exports = {
-  getAllCitiesDetailsRepository,
-  getCitiesByIdRepository,
   createCitiesRepository,
+  getAllCitiesDetailsRepository,
+  getCitiesByStateIdRepository,
   updateCityRepository,
   deleteCityRepository,
   getCitiesByCityIdRepository,
+
+  getCitiesByCountryIdRepository,
+  deleteCitiesByStateIdRepository,
+  deleteCitiesByCountryId,
 };

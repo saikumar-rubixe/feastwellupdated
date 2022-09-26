@@ -1,10 +1,12 @@
 const {
   getAllCitiesDetailsRepository,
-  getCitiesByIdRepository,
   createCitiesRepository,
   updateCityRepository,
   deleteCityRepository,
   getCitiesByCityIdRepository,
+
+  getCitiesByStateIdRepository,
+  getCitiesByCountryIdRepository,
 } = require("../../repository/citiesRepository");
 
 // 1 get all city details
@@ -35,16 +37,16 @@ const getAllDetailsController = async (req, res) => {
   }
 };
 
-// 2 get city by state  id
-const getCitiesByIdController = async (req, res) => {
+//  2 get citiy by city Id
+const getCityByCityIdController = async (req, res) => {
   try {
     const id = req.params.id;
 
     if (isNaN(id)) {
-      // console.log("id passed is not a number"); //delete
+      //console.log("id passed is not a number");
       res.send("send valid id: ", id, "   is not a number");
     } else {
-      const details = await getCitiesByIdRepository(id, res);
+      const details = await getCitiesByCityIdRepository(id, res);
       //  console.log(details.array[0]);
       if (details) {
         res.status(200).json({
@@ -164,7 +166,7 @@ const deleteCityController = async (req, res) => {
         message: "invalid id Passed:  " + id,
       });
     } else {
-      const recordCheck = await getCitiesByIdRepository(id, res);
+      const recordCheck = await getCitiesByCityIdRepository(id, res);
 
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
@@ -197,16 +199,51 @@ const deleteCityController = async (req, res) => {
   }
 };
 
-//  6 get citiy by city Id
-const getCityByCityIdController = async (req, res) => {
+// 6 get city by state  id
+const getCitiesByStateIdController = async (req, res) => {
   try {
     const id = req.params.id;
 
     if (isNaN(id)) {
-      //console.log("id passed is not a number");
+      // console.log("id passed is not a number"); //delete
       res.send("send valid id: ", id, "   is not a number");
     } else {
-      const details = await getCitiesByCityIdRepository(id, res);
+      const details = await getCitiesByStateIdRepository(id, res);
+      //  console.log(details.array[0]);
+      if (details) {
+        res.status(200).json({
+          success: true,
+          message: "fetched details of cities",
+          data: details,
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+          message: "No Cities found with id " + id,
+          data: [],
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error); //delete
+    console.log("Controller: catch block Error"); //delete
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb cont ",
+    });
+  }
+};
+
+// 7 get city by country Id
+const getCitiesByCountryIdController = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    if (isNaN(id)) {
+      // console.log("id passed is not a number"); //delete
+      res.send("send valid id: ", id, "   is not a number");
+    } else {
+      const details = await getCitiesByCountryIdRepository(id, res);
       //  console.log(details.array[0]);
       if (details) {
         res.status(200).json({
@@ -233,9 +270,11 @@ const getCityByCityIdController = async (req, res) => {
 };
 module.exports = {
   getAllDetailsController,
-  getCitiesByIdController,
   createCityController,
   updateCityController,
   deleteCityController,
   getCityByCityIdController,
+
+  getCitiesByStateIdController,
+  getCitiesByCountryIdController,
 };

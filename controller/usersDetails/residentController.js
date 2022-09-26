@@ -10,6 +10,7 @@ const { verify } = require("../../helper/verifyjwtToken");
 const {
   getUserTypeDetailByIdRepository,
 } = require("../../repository/userTypeRepository");
+
 //*1 create Resident  userType = 6
 const createResidentController = async (req, res) => {
   try {
@@ -59,7 +60,7 @@ const createResidentController = async (req, res) => {
 
         // check if user is created succesfully
         if (userCreate && userCreate != false) {
-          res.status(200).json({
+          res.status(201).json({
             success: true,
             message: `Resident created succesfully with userId ${userCreate.insertId} and enrolmentId ${userCreate.enrolmentId}`,
             userId: userCreate.insertId,
@@ -152,7 +153,7 @@ const updateResidentController = async (req, res) => {
             message: "update failed",
           });
         } else if (details == true) {
-          res.status(201).json({
+          res.status(200).json({
             success: true,
             message: "updated Resident  details succesfully ",
           });
@@ -229,7 +230,7 @@ const deleteResidentController = async (req, res) => {
               message: "delete failed",
             });
           } else if (details == true) {
-            res.status(201).json({
+            res.status(200).json({
               success: true,
               message: "deleted User  details succesfully ",
             });
@@ -337,10 +338,11 @@ const getAllResidentsController = async (req, res) => {
       });
     } else {
       const details = await getAllResidentsRepository(userType);
-      if (details && details != false) {
+      console.log(details);
+      if (details) {
         res.status(200).json({
           success: true,
-          message: "details t=retreived sucesfully",
+          message: "details retreived sucesfully",
           data: details,
         });
       } else {

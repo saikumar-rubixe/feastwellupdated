@@ -74,7 +74,7 @@ const createUserTypeController = async (req, res) => {
     // } else if (!recordCheck || recordCheck == false) {
     const create = await createUserTypeRepository(userTypeName);
     if (create) {
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         message: "data created succesfully with id" + create,
         insertId: create,

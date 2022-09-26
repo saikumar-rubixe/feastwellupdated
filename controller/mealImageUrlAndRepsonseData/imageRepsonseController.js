@@ -23,7 +23,7 @@ const insertImagePredictionRespsonseController = async (req, res) => {
           jsonResponse
         );
         if (create) {
-          res.status(200).json({
+          res.status(201).json({
             success: true,
             message: "Response Saved succesfully with id : " + create,
             data: create,

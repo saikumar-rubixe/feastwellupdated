@@ -102,7 +102,7 @@ const createCountryController = async (req, res) => {
       timeZones
     );
     if (create) {
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         message: "data created succesfully with id" + create,
         insertId: create,

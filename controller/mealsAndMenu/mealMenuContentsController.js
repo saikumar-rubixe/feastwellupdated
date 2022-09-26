@@ -89,7 +89,7 @@ const createMealMenuContentsController = async (req, res) => {
       menuContentStatus
     );
     if (create) {
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         message: "data created succesfully with id  " + create,
         insertId: create,
@@ -187,8 +187,8 @@ const deleteMealMenuContentsController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const updatedetails = await deleteMealMenuContentsRepository(id, res);
-        if (updatedetails == true) {
+        const deletedetails = await deleteMealMenuContentsRepository(id, res);
+        if (deletedetails == true) {
           res.status(200).json({
             success: true,
             message: "delete succesfully",

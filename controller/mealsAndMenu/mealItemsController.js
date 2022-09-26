@@ -77,7 +77,7 @@ const getAllMealItemsDetailsController = async (req, res) => {
 // 3 create meal items
 const createMealItemsController = async (req, res) => {
   try {
-    const { mealItemName, Status } = req.body;
+    const { mealItemName, status } = req.body;
     const userId = req.userIdValue;
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
@@ -87,11 +87,11 @@ const createMealItemsController = async (req, res) => {
     // } else if (!recordCheck || recordCheck == false) {
     const create = await createMealItemsRepository(
       mealItemName,
-      Status,
+      status,
       userId
     );
     if (create) {
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         message: "data created succesfully with id  : " + create,
         insertId: create,
@@ -100,7 +100,7 @@ const createMealItemsController = async (req, res) => {
     if (!create || create == false) {
       res.status(404).json({
         success: false,
-        message: "data retrieval failed",
+        message: "data creation failed",
       });
     }
     //}
@@ -131,12 +131,12 @@ const updateMealItemsController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const { mealItemName, Status } = req.body;
+        const { mealItemName, status } = req.body;
         const userId = req.userIdvalue;
         const updatedetails = await updateMealItemsRepository(
           id,
           mealItemName,
-          Status,
+          status,
           userId
         );
         if (updatedetails == true) {

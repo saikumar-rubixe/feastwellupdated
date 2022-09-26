@@ -7,7 +7,7 @@ const {
 } = require("../../repository/sidebarCheckRepository");
 
 const checkSideBarPermissionContoller = async (userType, res) => {
-  return response;
+  return null;
 };
 
 const getMenuIdsRepository = async () => {};

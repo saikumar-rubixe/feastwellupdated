@@ -27,7 +27,7 @@ const getAllNutritionalRiskFactorsDetails = async (req, res) => {
       }
       return { count, array };
     } else {
-      return false;
+      return { count, array };
     }
   } catch (error) {
     console.log(error);

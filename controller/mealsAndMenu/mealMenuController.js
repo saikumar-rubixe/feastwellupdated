@@ -116,7 +116,7 @@ const createMealMenuController = async (req, res) => {
       if (create) {
         console.log(`consoliing the create reults`);
         console.log(create);
-        res.status(200).json({
+        res.status(201).json({
           success: true,
           message: `data created succesfully with id :${create.menuId}`,
           menuId: create.menuId,

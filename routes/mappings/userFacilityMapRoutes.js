@@ -17,7 +17,6 @@ const {
 const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 
 // *get the details by facility id
-
 userFacilityRoute.get("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -42,7 +41,7 @@ userFacilityRoute.post("/", async (req, res) => {
   } else {
     const err = await userFacilityBodyValidation(req);
     if (err) {
-      return res.status(500).json({
+      return res.status(400).json({
         error: err.message,
         message: "request body validation error",
       });
@@ -52,6 +51,7 @@ userFacilityRoute.post("/", async (req, res) => {
   }
 });
 
+//* get all user facility
 userFacilityRoute.get("/", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {

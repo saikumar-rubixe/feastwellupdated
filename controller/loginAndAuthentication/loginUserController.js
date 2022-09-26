@@ -17,11 +17,11 @@ const {
 const { verify } = require("../../helper/verifyjwtToken");
 // controller
 
-/** 3 side bar menus and side menu
- *
- * @param {*} req
- * @param {*} res
- * @return list of menus and sub menus as per user login id type
+//*3 side bar menus and side menu
+/**  
+  @param {*} req
+  @param {*} res
+  @return list of menus and sub menus as per user login id type
  */
 const getSideBar = async (req, res) => {
   var response = [];
@@ -37,16 +37,23 @@ const getSideBar = async (req, res) => {
     var response = {};
     response["menus"] = [];
     const mainMenus = await getCategoryMenu(0, 1);
+
     for (var i = 0; i < mainMenus.length; i++) {
       var dbMenu = mainMenus[i];
+      console.log(`main menus are ${dbMenu["menuCategoryId"]}`);
       var menu = {
-        menuId: dbMenu["menuId"],
-        menuName: dbMenu["menuName"],
+        menuId: dbMenu["menuCategoryId"],
+        menuName: dbMenu["menuCategoryName"],
+        desktopIcon: dbMenu["desktopIcons"],
+        mobileIcon: dbMenu["mobileIcons"],
       };
       const subMenus = await getCategoryMenu(menu.menuId, 0);
       menu["subMenus"] = [];
       for (var j = 0; j < subMenus.length; j++) {
-        var subMenuId = subMenus[j].menuId;
+        var subMenuId = subMenus[j].menuCategoryId;
+        console.log(`in the line 54`);
+        console.log(subMenuId);
+
         console.log(subMenuId, roleId.roleId);
         var permission = await getPermissionForCategoryAndRoleId(
           subMenuId,
@@ -57,8 +64,8 @@ const getSideBar = async (req, res) => {
           console.log("Permission equals");
           console.log(subMenus[j]);
           menu["subMenus"].push({
-            subMenuId: subMenus[j]["menuId"],
-            subMenuName: subMenus[j]["menuName"],
+            subMenuId: subMenus[j]["menuCategoryId"],
+            subMenuName: subMenus[j]["menuCategoryName"],
           });
         }
       }
@@ -73,7 +80,7 @@ const userLogin = async (req, res) => {
   console.log(req.body);
   try {
     //VALIDATE THE DETAILS WITH USER LOGIN VALIDATION
-    var response = {};
+    // var response = {};
     const username = req.body.username;
     const password = req.body.password;
     console.log(`username from request is ${username}`);
@@ -218,7 +225,7 @@ const TokenLogin = async (req, res) => {
         userType: usertype,
         username: userExist.userName,
         facilityId: facilityId,
-        menuAccess: menusSubmenus,
+        // menuAccess: menusSubmenus,
         // menuAccess: menuId,
       };
 

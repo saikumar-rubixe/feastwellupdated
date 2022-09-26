@@ -22,8 +22,8 @@ countryRoute.get("/", async (req, res) => {
     await getAllCountryController(req, res);
   }
 });
-//* GET BY ID
 
+//* GET BY ID
 countryRoute.get("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -35,8 +35,8 @@ countryRoute.get("/:id", async (req, res) => {
     await getCountryByIdController(req, res);
   }
 });
-//^ CREATE
 
+//^ CREATE
 countryRoute.post("/", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -48,8 +48,8 @@ countryRoute.post("/", async (req, res) => {
     await createCountryController(req, res);
   }
 });
-//?  UPDATE
 
+//?  UPDATE
 countryRoute.put("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -61,8 +61,8 @@ countryRoute.put("/:id", async (req, res) => {
     await updateCountryController(req, res);
   }
 });
-//! DELETE
 
+//! DELETE
 countryRoute.delete("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {

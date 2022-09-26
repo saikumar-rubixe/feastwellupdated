@@ -130,12 +130,61 @@ const getresidentDetailByIdRepository = async (id, res) => {
 const getAllResidentsRepository = async (req, res) => {
   try {
     let userArray = [];
-    let sql = "select * from users where 1= 1 and user_type =6";
-    let results = await runQuery(sql);
+    let sql =
+      "select users.*,user_facility_map.facility_id,facility.facility_name from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on facility.facility_id = user_facility_map.facility_id where 1=1 and user_type= 6 ORDER by user_id";
 
+    let results = await runQuery(sql);
+    console.log(results); //delete
     let count = results.length;
-    if (count > 0) {
+    console.log(count);
+    if (count != 0) {
+      console.log(`in the if block`); //delete
       for (let i = 0; i < count; i++) {
+        let model = new ResidentModel();
+        let array = results[i];
+        model.fill(
+          (userId = array.user_id),
+          (enrolmentId = array.enrolment_id),
+          (fullName = array.full_name),
+          (userName = array.username),
+          (userType = array.user_type),
+          (userStatus = array.status),
+          (createdDate = array.created_date),
+          (updatedDate = array.updated_date),
+          (createdBy = array.created_by),
+          (updatedBy = array.updated_by),
+          (facilityId = array.facility_id),
+          (facilityName = array.facility_name)
+          // (password = array.password),
+        );
+        userArray.push(model);
+      }
+      console.log(userArray);
+      return { count, userArray };
+    } else {
+      return { count, userArray };
+    }
+  } catch (error) {
+    console.log(`something went wring in get residents repo`);
+    console.log(error);
+    return false;
+  }
+};
+
+// 6 get all residents  by facility id respository details
+const getAllResidentsOfFacilityRepository = async (userStatus) => {
+  try {
+    let userArray = [];
+    let query =
+      "select users.*,user_facility_map.facility_id,facility.facility_name from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on facility.facility_id = user_facility_map.facility_id where 1=1 and user_type= 6 ORDER by user_id";
+
+    if (userStatus) {
+      query += " and status=" + mysql.escape(userStatus);
+    }
+    let sqlResult = await runQuery(query);
+    let count = sqlResult.length;
+    if (count != 0) {
+      for (let i = 0; i < sqlResult.length; i++) {
         let model = new ResidentModel();
         let array = sqlResult[i];
         model.fill(
@@ -149,58 +198,20 @@ const getAllResidentsRepository = async (req, res) => {
           (updatedDate = array.updated_date),
           (createdBy = array.created_by),
           (updatedBy = array.updated_by),
-          (facilityId = ""),
-          (facilityName = "")
-          // (password = array.password),
+          (facilityId = array.facility_id),
+          (facilityName = array.facility_name)
+          //(password = "")
         );
         userArray.push(model);
       }
+      response = {};
+      response["count"] = count;
+      response["userArray"] = userArray;
+
+      return response;
     } else {
-      return false;
+      return { count, userArray };
     }
-  } catch (error) {
-    console.log(`something went wring in get residents repo`);
-    return false;
-  }
-};
-
-// 6 get all residents  by facility id respository details
-const getAllResidentsOfFacilityRepository = async (userStatus) => {
-  try {
-    let userArray = [];
-    let query =
-      "select users.*,user_facility_map.facility_id,facility.facility_name from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on facility.facility_id = user_facility_map.facility_id where 1=1 and user_type= 6";
-
-    if (userStatus) {
-      query += " and status=" + mysql.escape(userStatus);
-    }
-    let sqlResult = await runQuery(query);
-    let count = sqlResult.length;
-    for (let i = 0; i < sqlResult.length; i++) {
-      let model = new ResidentModel();
-      let array = sqlResult[i];
-      model.fill(
-        (userId = array.user_id),
-        (enrolmentId = array.enrolment_id),
-        (fullName = array.full_name),
-        (userName = array.username),
-        (userType = array.user_type),
-        (userStatus = array.status),
-        (createdDate = array.created_date),
-        (updatedDate = array.updated_date),
-        (createdBy = array.created_by),
-        (updatedBy = array.updated_by),
-        (facilityId = array.facility_id),
-        (facilityName = array.facility_name)
-        //(password = "")
-      );
-      userArray.push(model);
-    }
-    response = {};
-    response["count"] = count;
-    response["userArray"] = userArray;
-
-    return response;
   } catch (error) {
     console.log(`error in catch block is ${error}`);
     return false;

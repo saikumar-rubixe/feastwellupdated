@@ -23,7 +23,7 @@ residentRoute.post("/", async (req, res) => {
 
   const err = await residentValidation(req);
   if (err) {
-    return res.status(500).json({
+    return res.status(400).json({
       error: err.message,
       message: "request body validation error",
     });
@@ -42,7 +42,7 @@ residentRoute.get("/", async (req, res) => {
   await getAllResidentsController(req, res);
 });
 
-//^ get all users details of facility
+//^ get all users details of resident
 residentRoute.get("/facility/", async (req, res) => {
   await getAllResidentsOfFacilityController(req, res);
 });
@@ -51,7 +51,7 @@ residentRoute.get("/facility/", async (req, res) => {
 residentRoute.put("/:id", async (req, res) => {
   const err = await updateResidentValidation(req);
   if (err) {
-    return res.status(500).json({
+    return res.status(400).json({
       error: err.message,
       message: "request body validation error",
     });

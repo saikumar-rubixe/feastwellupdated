@@ -66,7 +66,7 @@ const getAllimageUploadDetailsRepository = async (flag) => {
 
       return { count, array };
     } else {
-      return false;
+      return { count, array };
     }
   } catch (error) {
     console.log(error);

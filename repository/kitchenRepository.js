@@ -80,7 +80,7 @@ let getKitchenDetailsRepository = async (req, res) => {
       }
       return { count, kitchenArray };
     } else {
-      return false;
+      return { count, kitchenArray };
     }
   } catch (error) {
     console.log("repo: catch block error ");

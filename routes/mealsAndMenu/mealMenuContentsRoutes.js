@@ -29,7 +29,7 @@ menuContentsRoute.post("/", async (req, res) => {
   } else {
     const err = await mealContentsBodyValidation(req);
     if (err) {
-      return res.status(500).json({
+      return res.status(400).json({
         error: err.message,
         message: "request body validation error",
       });

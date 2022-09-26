@@ -164,13 +164,12 @@ const deleteRolesRepository = async (id) => {
   @return RolesModel
   @author galab
 */
-const { color, log } = require("console-log-colors");
-const { red, green, cyan } = color;
+
 const getRoleForUserTypeRepository = async (userType) => {
   var roleReturnModel = null;
   try {
     let query = " select * from `roles` where user_type_id =?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [userType]);
     if (results.length != 0) {
       let result = results[0];
@@ -188,6 +187,7 @@ const getRoleForUserTypeRepository = async (userType) => {
   } catch (err) {
     console.log(err);
   }
+  console.log(`returning role model ${roleReturnModel}`); //delete
   return roleReturnModel;
 };
 
