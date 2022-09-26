@@ -8685,3 +8685,4 @@
 ::1 - - [26/Sep/2022:16:55:13 +0000] "POST /feastwell-backend/api/v1/auth/login HTTP/1.1" 500 59 "-" "PostmanRuntime/7.29.2"
 ::1 - - [26/Sep/2022:16:55:29 +0000] "POST /feastwell-backend/api/v1/auth/login HTTP/1.1" 500 59 "-" "PostmanRuntime/7.29.2"
 ::1 - - [26/Sep/2022:17:03:48 +0000] "POST /feastwell-backend/api/v1/auth/login HTTP/1.1" 500 59 "-" "PostmanRuntime/7.29.2"
+::1 - - [26/Sep/2022:17:04:55 +0000] "POST /feastwell-backend/api/v1/auth/login HTTP/1.1" 200 395 "-" "PostmanRuntime/7.29.2"
