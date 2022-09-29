@@ -2,19 +2,14 @@ let { runQuery } = require("../config/database");
 const { menuCategoryModel } = require("../models/menuCategoryModel");
 
 const getRoleId = async (userType) => {
-  console.log(`into get role id`); // delete
   let sql = "select `role_id` from `roles` where user_type_id =?";
   let details = await runQuery(sql, [userType]);
-  console.log(details.length);
-  console.log(`consolled the role id`);
-  //console.log(details); //delete
+
   if (!details || details.length == 0) {
-    console.log(`in if block`);
     return 7;
   } else {
-    console.log(`in else block`);
     let roleId = details[0].role_id;
-    console.log(roleId);
+
     return roleId;
   }
 };

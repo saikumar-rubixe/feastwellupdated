@@ -24,8 +24,6 @@ const getSingleimageUploadDetailController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -81,8 +79,6 @@ const getImagesUploadedByNurseIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -102,7 +98,7 @@ const insertImageUrlDetailsController = async (req, res) => {
     } else {
       const { imageUrl, residentId, mealType } = req.body;
       const adminId = req.userIdValue;
-      console.log(`nurse id is ${adminId}`);
+
       const create = await insertImageUrlDetailsRepository(
         imageUrl,
         residentId,
@@ -135,7 +131,7 @@ const insertImageUrlDetailsController = async (req, res) => {
 const getAllimageUploadDetailsController = async (req, res) => {
   try {
     const flag = req.query.flag; //! need to put chech filter
-    console.log(flag);
+
     let details = await getAllimageUploadDetailsRepository(flag);
     if (!details || details == false) {
       res.status(200).json({
@@ -155,8 +151,6 @@ const getAllimageUploadDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",

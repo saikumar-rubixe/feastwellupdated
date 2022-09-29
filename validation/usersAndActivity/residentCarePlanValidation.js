@@ -1,6 +1,7 @@
 let Joi = require("joi").extend(require("@joi/date"));
 
 const Schema = Joi.object({
+  userId: Joi.number().required(),
   name: Joi.string().max(255).required(),
   gender: Joi.number().max(3).required(),
   dob: Joi.date().format(["YYYY-MM-DD", "YYYY/MM/DD"]).required(),
@@ -49,7 +50,7 @@ const Schema = Joi.object({
   recommendations: Joi.string().required(),
 });
 // VALIDATE BEFORE SAVING A USER
-const residentCrePlanBodyValidation = async (req, res, next) => {
+const residentCarePlanBodyValidation = async (req, res, next) => {
   returnError = null;
   try {
     await Schema.validateAsync(req.body);
@@ -60,5 +61,5 @@ const residentCrePlanBodyValidation = async (req, res, next) => {
 };
 
 module.exports = {
-  residentCrePlanBodyValidation,
+  residentCarePlanBodyValidation,
 };

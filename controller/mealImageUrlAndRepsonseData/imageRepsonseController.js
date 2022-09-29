@@ -8,7 +8,6 @@ const {
 //*
 const insertImagePredictionRespsonseController = async (req, res) => {
   try {
-    console.log(req.body);
     if (req.body.referenceId && req.body.jsonResponse) {
       const { referenceId, jsonResponse } = req.body;
       if (isNaN(referenceId)) {
@@ -47,8 +46,6 @@ const insertImagePredictionRespsonseController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -89,8 +86,6 @@ const getImagePredictionResponseByReferenceIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -123,8 +118,6 @@ const getImagePredictionResponseByIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",

@@ -14,7 +14,6 @@ const {
 const createStatesController = async (req, res) => {
   try {
     const { statename, countryId } = req.body;
-    console.log(req.body);
 
     const create = await createStatesRepository(statename, countryId);
     if (create) {
@@ -32,8 +31,6 @@ const createStatesController = async (req, res) => {
     }
     // }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -60,8 +57,6 @@ const getAllStatesDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -87,11 +82,11 @@ const updateStatesByStateIdController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const { statename, coutryId } = req.body;
+        const { statename, countryId } = req.body;
         const updatedetails = await updateStatesByStateIdRepository(
           id,
           statename,
-          coutryId
+          countryId
         );
         if (updatedetails == true) {
           res.status(200).json({
@@ -107,8 +102,6 @@ const updateStatesByStateIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -121,11 +114,10 @@ const getStatesByStateIdController = async (req, res) => {
   try {
     const id = req.params.id;
     if (isNaN(id)) {
-      // console.log("id passed is not a number");
       res.status(401).send("send valid id: ", id, "   is not a number");
     } else {
       const details = await getStatesByStateIdRepository(id, res);
-      //  console.log(details.array[0]);
+
       if (details) {
         res.status(200).json({
           success: true,
@@ -141,8 +133,6 @@ const getStatesByStateIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller: catch block Error");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -184,8 +174,6 @@ const deleteStatesByStateIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -198,11 +186,10 @@ const getStatesByCountryIdController = async (req, res) => {
   try {
     const id = req.params.id;
     if (isNaN(id)) {
-      // console.log("id passed is not a number");
       res.status(401).send("send valid id: ", id, "   is not a number");
     } else {
       const details = await getStatesByCountryIdRepository(id, res);
-      //  console.log(details.array[0]);
+
       if (details) {
         res.status(200).json({
           success: true,
@@ -218,8 +205,6 @@ const getStatesByCountryIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller: catch block Error");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -266,8 +251,6 @@ const updateStatesByCountryIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -309,8 +292,6 @@ const deleteStatesByCountryIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",

@@ -14,11 +14,8 @@ const createResidentRepository = async (
   updatedBy
 ) => {
   try {
-    console.log(`*************************`);
-    console.log(fullname, userType, createdBy, updatedBy);
-    console.log(`*********************`);
     const getTag = await enrollementIdTag();
-    console.log(`calling the uniqueId`); //delete
+
     let enrolmentId = await valueExistCheck(getTag);
     let sql =
       "insert into `users` (full_name,user_type,status,username,created_date,updated_date,created_by,updated_by,enrolment_id) values(?,?,?,?,?,?,?,?,?)";
@@ -36,9 +33,6 @@ const createResidentRepository = async (
     let insertId = results.insertId;
     return { insertId, enrolmentId };
   } catch (error) {
-    console.log(error);
-    console.log("CBE! something went  wrong");
-    console.log(error);
     return false;
   }
 };
@@ -51,8 +45,6 @@ const updateResidentRepository = async (
   updatedBy
 ) => {
   try {
-    console.log(`consolling in repository`); //delete
-    console.log(id, fullName, userStatus, updatedBy); //delete
     let query =
       "UPDATE users SET full_name =?,status=?,updated_date=?,updated_by=? WHERE user_id=? ";
 
@@ -69,9 +61,6 @@ const updateResidentRepository = async (
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("CBE! something went  wrong");
-    console.log(error);
     return false;
   }
 };
@@ -81,13 +70,10 @@ const deleteResidentRepository = async (id, res) => {
   try {
     let query = "delete from users where user_type =6 and user_id =?";
     let results = await runQuery(query, [id]);
-    console.log(results);
+
     if (results.affectedRows == 1 || results.affectedRows > 0) return true;
     else return false;
   } catch (error) {
-    console.log(error);
-    console.log("CBE! something went  wrong");
-    console.log(error);
     return false;
   }
 };
@@ -95,13 +81,12 @@ const deleteResidentRepository = async (id, res) => {
 // 4 get resident details by id repository
 const getresidentDetailByIdRepository = async (id, res) => {
   try {
-    console.log(`test`);
     let query =
       "select users.*,user_facility_map.facility_id,facility.facility_name  from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on user_facility_map.facility_id = facility.facility_id where users.user_id= ?  and user_type=6";
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let array = results[0];
-      console.log(array.created_date);
+
       let model = new ResidentModel();
       model.fill(
         (userId = array.user_id),
@@ -121,7 +106,6 @@ const getresidentDetailByIdRepository = async (id, res) => {
       return model;
     }
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -134,11 +118,10 @@ const getAllResidentsRepository = async (req, res) => {
       "select users.*,user_facility_map.facility_id,facility.facility_name from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on facility.facility_id = user_facility_map.facility_id where 1=1 and user_type= 6 ORDER by user_id";
 
     let results = await runQuery(sql);
-    console.log(results); //delete
+
     let count = results.length;
-    console.log(count);
+
     if (count != 0) {
-      console.log(`in the if block`); //delete
       for (let i = 0; i < count; i++) {
         let model = new ResidentModel();
         let array = results[i];
@@ -159,14 +142,12 @@ const getAllResidentsRepository = async (req, res) => {
         );
         userArray.push(model);
       }
-      console.log(userArray);
+
       return { count, userArray };
     } else {
       return { count, userArray };
     }
   } catch (error) {
-    console.log(`something went wring in get residents repo`);
-    console.log(error);
     return false;
   }
 };
@@ -213,7 +194,6 @@ const getAllResidentsOfFacilityRepository = async (userStatus) => {
       return { count, userArray };
     }
   } catch (error) {
-    console.log(`error in catch block is ${error}`);
     return false;
   }
 };

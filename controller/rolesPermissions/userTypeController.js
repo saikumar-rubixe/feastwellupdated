@@ -31,10 +31,7 @@ const getUserTypeDetailByIdController = async (req, res) => {
         });
       }
     }
-  } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
-  }
+  } catch (error) {}
 };
 
 const getAllUserTypeDetailsController = async (req, res) => {
@@ -54,8 +51,6 @@ const getAllUserTypeDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -65,14 +60,14 @@ const getAllUserTypeDetailsController = async (req, res) => {
 
 const createUserTypeController = async (req, res) => {
   try {
-    const { userTypeName } = req.body;
+    const { userTypeName, userHeirarchy } = req.body;
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     // const recordCheck = await functionCall();
     // if (recordCheck || recordCheck == true) {
     //   // for exist pass negative
     // } else if (!recordCheck || recordCheck == false) {
-    const create = await createUserTypeRepository(userTypeName);
+    const create = await createUserTypeRepository(userTypeName, userHeirarchy);
     if (create) {
       res.status(201).json({
         success: true,
@@ -88,8 +83,6 @@ const createUserTypeController = async (req, res) => {
     }
     // }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -114,8 +107,12 @@ const updateUserTypeController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const { userTypeName } = req.body;
-        const updatedetails = await updateUserTypeRepository(userTypeName, id);
+        const { userTypeName, userHeirarchy } = req.body;
+        const updatedetails = await updateUserTypeRepository(
+          userTypeName,
+          userHeirarchy,
+          id
+        );
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
@@ -130,8 +127,6 @@ const updateUserTypeController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -141,18 +136,16 @@ const updateUserTypeController = async (req, res) => {
 
 const deleteUserTypeController = async (req, res) => {
   try {
-    console.log(`into controller method`);
     const id = req.params.id;
-    console.log(`id is : ${id}`);
+
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
         message: "invalid id Passed:  " + id,
       });
     } else {
-      console.log(`into get details method`);
       const recordCheck = await getUserTypeDetailByIdRepository(id, res);
-      console.log(`after get details method`);
+
       if (!recordCheck || recordCheck == false) {
         res.status(400).json({
           success: false,
@@ -160,7 +153,6 @@ const deleteUserTypeController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        console.log(`into update ddetails method`);
         const updatedetails = await deleteUserTypeRepository(id, res);
         if (updatedetails == true) {
           res.status(200).json({
@@ -176,8 +168,6 @@ const deleteUserTypeController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",

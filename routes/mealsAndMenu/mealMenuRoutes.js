@@ -51,7 +51,7 @@ mealMenuRoute.get("/:id", async (req, res) => {
 });
 
 //? Update Details By Id
-mealMenuRoute.put("/", async (req, res) => {
+mealMenuRoute.put("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({

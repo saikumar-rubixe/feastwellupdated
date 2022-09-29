@@ -3,7 +3,7 @@ const residentCarePlanRoutes = express.Router();
 const { verify } = require("../../helper/verifyjwtToken");
 const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 const {
-  residentCrePlanBodyValidation,
+  residentCarePlanBodyValidation,
 } = require("../../validation/usersAndActivity/residentCarePlanValidation");
 
 const {
@@ -11,11 +11,11 @@ const {
   getallResidentCarePlanDetailsController,
   getResidentCarePlanDetailByIdController,
   updateResidentCarePlanDetailsController,
+  deleteResidentCarePlanDetailsController,
 } = require("../../controller/usersDetails/residentCarePlanController");
 
 //^ create
 residentCarePlanRoutes.post("/", async (req, res) => {
-  console.log(`im in the router to check permission`); //delete
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -23,7 +23,7 @@ residentCarePlanRoutes.post("/", async (req, res) => {
       message: "unauthorized access",
     });
   } else {
-    const err = await residentAdditionalInformationBodyValidation(req);
+    const err = await residentCarePlanBodyValidation(req);
     if (err) {
       return res.status(400).json({
         error: err.message,
@@ -32,6 +32,7 @@ residentCarePlanRoutes.post("/", async (req, res) => {
     } else {
       await insertResidentCarePlanDetailsController(req, res);
     }
+    //  await insertResidentCarePlanDetailsController(req, res);
   }
 });
 
@@ -63,7 +64,6 @@ residentCarePlanRoutes.get("/:id", async (req, res) => {
 
 //? update details  By Id
 residentCarePlanRoutes.put("/:userId", async (req, res) => {
-  console.log(`im in the router to check permission`); //delete
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -71,16 +71,22 @@ residentCarePlanRoutes.put("/:userId", async (req, res) => {
       message: "unauthorized access",
     });
   } else {
-    const err = await residentAdditionalInformationBodyValidation(req);
-    if (err) {
-      return res.status(400).json({
-        error: err.message,
-        message: "request body validation error",
-      });
-    } else {
-      await updateResidentCarePlanDetailsController(req, res);
-    }
+    // const err = await residentAdditionalInformationBodyValidation(req);
+    // if (err) {
+    //   return res.status(400).json({
+    //     error: err.message,
+    //     message: "request body validation error",
+    //   });
+    // } else {
+    //   await updateResidentCarePlanDetailsController(req, res);
+    // }
+    await updateResidentCarePlanDetailsController(req, res);
   }
+});
+
+//! delete residents care plan details by user id
+residentCarePlanRoutes.delete("/:id", async (req, res) => {
+  await deleteResidentCarePlanDetailsController(req, res);
 });
 
 module.exports = { residentCarePlanRoutes };

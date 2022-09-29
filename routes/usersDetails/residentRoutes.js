@@ -19,8 +19,6 @@ const {
 
 //^ Create User Details
 residentRoute.post("/", async (req, res) => {
-  console.log(`im in the router to check permission`); //delete
-
   const err = await residentValidation(req);
   if (err) {
     return res.status(400).json({
@@ -62,18 +60,7 @@ residentRoute.put("/:id", async (req, res) => {
 
 //! Delete User Details
 residentRoute.delete("/:id", async (req, res) => {
-  console.log(`im in the router to check permission`); //delete
-
-  //   const err = await Validation(req);
-  //   if (err) {
-  //     return res.status(500).json({
-  //       error: err.message,
-  //       message: "request body validation error",
-  //     });
-  //   } else {
   await deleteResidentController(req, res);
-  //   }
-  // }
 });
 
 module.exports = { residentRoute };

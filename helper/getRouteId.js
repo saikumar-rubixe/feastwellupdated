@@ -17,11 +17,8 @@ const {
 const getRouteId = async (routeName) => {
   var categoryId = null;
   try {
-    console.log("getting category id");
     categoryId = await getMenuCategoryIdByRepository(routeName);
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
   return categoryId;
 };
 

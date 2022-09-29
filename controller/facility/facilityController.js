@@ -26,10 +26,9 @@ const {
 // 1 get details by id
 let getFacilityCenterDetailsByIdController = async (req, res) => {
   let id = req.params.id;
-  // console.log(`id passed is ${id}`);
+
   try {
     if (isNaN(id)) {
-      console.log("pass id as a number only ");
       res.status(400).json({
         success: false,
         message: "invalid  id passed /undefined",
@@ -51,7 +50,6 @@ let getFacilityCenterDetailsByIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log("Controller: catch block error ");
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -79,7 +77,6 @@ let getAllFacilityCenterDetailsController = async (req, res) => {
 //3 create controller
 let insertFacilityCenterDetailsController = async (req, res) => {
   try {
-    console.log(req.body);
     const {
       facilityName,
       headId,
@@ -118,7 +115,6 @@ let insertFacilityCenterDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -131,7 +127,6 @@ let updateFacilityCenterDetailsController = async (req, res) => {
   let id = req.params.id;
   try {
     if (isNaN(id)) {
-      console.log("pass id as a number only ");
       res.status(400).json({
         success: false,
         message: "invalid  id passed /undefined for update ",
@@ -189,8 +184,6 @@ let updateFacilityCenterDetailsController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log("Controller: catch block error ");
-    console.log(error);
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -230,7 +223,6 @@ let deleteFacilityCenterDetailsController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log("Controller: catch block error ");
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",

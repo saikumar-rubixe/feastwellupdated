@@ -20,7 +20,7 @@ const { getPstDate } = require("../helper/getCanadaTime");
 const getRolesDetailByIdRepository = async (id, res) => {
   try {
     let query = " select * from `roles` where role_id =?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
@@ -38,8 +38,6 @@ const getRolesDetailByIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -49,7 +47,7 @@ const getAllRolesDetailsRepository = async (req, res) => {
   try {
     let array = [];
     let query = "SELECT  * from `roles` where 1=1 ";
-    //let sql = con.format(query);
+
     let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
@@ -71,8 +69,6 @@ const getAllRolesDetailsRepository = async (req, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -98,8 +94,6 @@ const createRoleRepository = async (roleName, userTypeId, roleStatus) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -125,15 +119,13 @@ const updateRolesRepository = async (
       id,
     ]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -142,18 +134,16 @@ const updateRolesRepository = async (
 const deleteRolesRepository = async (id) => {
   try {
     let query = "DELETE from  `roles` where `role_id`=?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -185,9 +175,9 @@ const getRoleForUserTypeRepository = async (userType) => {
       roleReturnModel = model;
     }
   } catch (err) {
-    console.log(err);
+    return false;
   }
-  console.log(`returning role model ${roleReturnModel}`); //delete
+
   return roleReturnModel;
 };
 

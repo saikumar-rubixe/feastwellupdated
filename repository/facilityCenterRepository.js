@@ -29,7 +29,6 @@ let getFacilityCenterDetailsByIdRepository = async (id, res) => {
   try {
     let query =
       "select facility.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `facility` INNER JOIN `countries`  ON facility.facility_country_id=countries.id INNER JOIN `states` ON facility.facility_state_id=states.id INNER JOIN `cities` ON facility.facility_city_id= cities.id  where facility_id =?  ";
-    // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
@@ -60,7 +59,6 @@ let getFacilityCenterDetailsByIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log("repo: catch block error");
     return false;
   }
 };
@@ -103,8 +101,6 @@ let getAllFacilityCenterDetailsRepository = async (req, res) => {
       return { count, facilityArray };
     }
   } catch (error) {
-    console.log("repo: catch block error ");
-    console.log(error);
     return false;
   }
 };
@@ -125,20 +121,7 @@ let insertFacilityCenterDetailsRepository = async (
   try {
     let query =
       "INSERT INTO `facility`  (`facility_name`,`facility_head_id`,`facility_contact_number`,`facility_country_id`,`facility_state_id`,`facility_city_id`,`status`,`created_date`,`created_by`,`updated_date`,`updated_by`,`address`,`zipcode`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    // let sql = con.format(query, [
-    //   facilityName,
-    //    headId,
-    //   email,
-    //   number,
-    //   countryId,
-    //   stateId,
-    //   cityId,
-    //   facilityStatus,
-    //   newDate,
-    //    createdBy,
-    //   newDate,
-    //    createdBy,
-    // ]);
+
     let results = await runQuery(query, [
       facilityName,
       headId,
@@ -157,8 +140,6 @@ let insertFacilityCenterDetailsRepository = async (
 
     return results.insertId;
   } catch (error) {
-    console.log("repo:catch block error");
-    console.log(error);
     return null;
   }
 };
@@ -178,7 +159,6 @@ let updateFacilityCenterDetailsRepository = async (
   res
 ) => {
   try {
-    //console.log("into update repository");
     let query =
       "UPDATE `facility` SET facility_name =?,facility_head_id=?,facility_contact_number=?,facility_country_id=?,facility_state_id=?,facility_city_id=?,status=?,updated_date=?,updated_by=? ,address=?,zipcode=? WHERE facility_id =? ";
 
@@ -203,7 +183,6 @@ let updateFacilityCenterDetailsRepository = async (
       return false;
     }
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -212,7 +191,6 @@ let updateFacilityCenterDetailsRepository = async (
 let deleteFacilityCenterDetailsRepository = async (id, res) => {
   try {
     let query = "DELETE from facility WHERE facility_id =? ";
-    // let sql = con.format(query, [id]);
     let result = await runQuery(query, [id]);
 
     if (result.affectedRows == 1) return true;
@@ -220,7 +198,6 @@ let deleteFacilityCenterDetailsRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
     return false;
   }
 };

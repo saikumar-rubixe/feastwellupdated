@@ -1,6 +1,4 @@
 let { runQuery, con } = require("../config/database");
-//con = con();
-//runQuery = runQuery();
 let { MealMenuModel } = require("../models/mealMenuModel");
 const date = require("date-and-time");
 const { getPstDate } = require("../helper/getCanadaTime");
@@ -9,7 +7,7 @@ const { getPstDate } = require("../helper/getCanadaTime");
 const getMealMenuDetailByIdRepository = async (id, res) => {
   try {
     let query = "select * from `meal_menu` where meal_menu_id  =?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
 
     if (results.length != 0) {
@@ -22,9 +20,10 @@ const getMealMenuDetailByIdRepository = async (id, res) => {
         (menuDescription = result.meal_menu_description),
         (mealType = result.meal_type),
         (mealStatus = result.status),
-        (userId = result.user_id),
+        (createdBy = result.created_by),
         (createdDate = result.created_date),
         (updatedDate = result.updated_date),
+        (updatedBy = result.updated_by),
         (mealItems = await getMealItems(menuId))
       );
       return model;
@@ -32,8 +31,6 @@ const getMealMenuDetailByIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -41,14 +38,11 @@ const getMealMenuDetailByIdRepository = async (id, res) => {
 //**  2 get all details */
 const getAllMealMenuDetailsRepository = async (req, res) => {
   try {
-    console.log(`in repository block`);
     let array = [];
     let query = "select * from `meal_menu` ";
-    // let sql = con.format(query);
     let results = await runQuery(query);
     let count = results.length;
-    console.log("consolling results length"); //delete
-    console.log(count);
+
     if (count != 0) {
       for (i = 0; i < count; i++) {
         let model = new MealMenuModel();
@@ -61,9 +55,10 @@ const getAllMealMenuDetailsRepository = async (req, res) => {
           (menuDescription = result.meal_menu_description),
           (mealType = result.meal_type),
           (mealStatus = result.status),
-          (userId = result.user_id),
+          (createdBy = result.created_by),
           (createdDate = result.created_date),
           (updatedDate = result.updated_date),
+          (updatedBy = result.updated_by),
           (mealItems = await getMealItems(menuId))
           //fetch meal items by menu id ->by fetching mealitems  id from mealcontents tble and then callig  the melitems table based on response
         );
@@ -74,8 +69,6 @@ const getAllMealMenuDetailsRepository = async (req, res) => {
       return { count, array };
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -91,9 +84,8 @@ const createMealMenuRepository = async (
 ) => {
   //** insertion of meal menu  after creation of menu , with (menu id, mealitems ,userid and status ) needed to insert these all ids in menu contents table according to no of meal items id  sent */
   try {
-    console.log(`*************in to repo  *******************`);
     let query =
-      "INSERT into `meal_menu` (`meal_menu_name`,`meal_menu_description`,`meal_type`,`status`,`user_id`,`created_date`,`updated_date`) VALUES(?,?,?,?,?,?,?) ";
+      "INSERT into `meal_menu` (`meal_menu_name`,`meal_menu_description`,`meal_type`,`status`,`created_by`,`created_date`,`updated_date`,`updated_by`) VALUES(?,?,?,?,?,?,?,?) ";
 
     let insert = await runQuery(query, [
       mealMenuName,
@@ -103,6 +95,7 @@ const createMealMenuRepository = async (
       userId,
       getPstDate(),
       getPstDate(),
+      userId,
     ]);
     const menuId = insert.insertId; // menu inserted Id
     // insert meal items into  menuContents with the menuId
@@ -113,12 +106,9 @@ const createMealMenuRepository = async (
       mealStatus
     );
     if (!insertItems || insertItems == null) {
-      console.log(" insert meal items failed ");
     }
     return { menuId, insertItems };
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong failed failed failed!");
     return false;
   }
 };
@@ -137,33 +127,25 @@ const updateMealMenuRepository = async (
     let menuId = id;
 
     let query =
-      " UPDATE `meal_menu` set `meal_menu_name`=?,`meal_menu_description`=?,`meal_type`=?,`status`=? ,`user_id`=?,`updated_date`=? where meal_menu_id  =?";
-    // let sql = con.format(query, [
-    //   mealMenuName,
-    //   menuDescription,
-    //   mealType,
-    //   mealStatus,
-    //   userId,
-    //   id,
-    // ]);
+      " UPDATE `meal_menu` set `meal_menu_name`=?,`meal_menu_description`=?,`meal_type`=?,`status`=? ,`updated_date`=?,updated_by=? where meal_menu_id  =?";
+
     let results = await runQuery(query, [
       mealMenuName,
       menuDescription,
       mealType,
       mealStatus,
-      userId,
+
       getPstDate(),
+      userId,
       id,
     ]);
 
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
 
     // UPDATE_MEAL_ITEMS: 1. delete old items 2 insert new meal items from request
     //1. delete old items
     let deleteRecords = await deleteMenuContentsByMenuId(menuId);
     if (!deleteRecords) {
-      console.log("delete old records failed");
     }
     //2 insert new meal items from request
 
@@ -174,7 +156,6 @@ const updateMealMenuRepository = async (
       mealStatus
     );
     if (!insertItems || insertItems == null) {
-      console.log(" insert meal items failed ");
     }
 
     if (value == 1 && deleteRecords && insertItems) {
@@ -214,9 +195,6 @@ const updateMealMenuRepository = async (
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
-
     return false;
   }
 };
@@ -225,10 +203,8 @@ const updateMealMenuRepository = async (
 const deleteMealMenuRepository = async (id, res) => {
   try {
     let query = "DELETE from  `meal_menu` where meal_menu_id =?";
-    // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
 
     let deleteRecords = await deleteMenuContentsByMenuId(id);
     if (!deleteRecords) {
@@ -241,8 +217,6 @@ const deleteMealMenuRepository = async (id, res) => {
 
     return details;
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -272,8 +246,6 @@ const insertMealItemsInMenuContents = async (
     arrayMealItems = mealItems; // assigning mealItems to array
 
     if (arrayMealItems == 0 || arrayMealItems == null) {
-      console.log("in if condition false result");
-
       return false;
     }
     var array = arrayMealItems.split(","); // slpit the array with comma
@@ -296,9 +268,6 @@ const insertMealItemsInMenuContents = async (
 
     return itemsCreateIds;
   } catch (error) {
-    console.log(error);
-    console.log(`CBE: error while inserting meal_item_ids into contents table`);
-
     return null;
   }
 };
@@ -313,13 +282,9 @@ const deleteMenuContentsByMenuId = async (menuId) => {
     let query = "DELETE  FROM `meal_menu_contents` where  meal_menu_id=?";
     let results = await runQuery(query, [menuId]);
     let affectedRows = results.affectedRows;
-    // console.log(`Number of records deleted: ${affectedRows}`); //delete
 
     return affectedRows;
   } catch (error) {
-    //console.log(`error in deleting menu contents`);//delete
-    console.log(error);
-
     return null;
   }
 };

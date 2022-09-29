@@ -1,5 +1,5 @@
 let { runQuery } = require("../config/database");
-console.log(Math.floor(1000 + Math.random() * 9000));
+console.log(Math.floor(1000 + Math.random() * 9000)); //delete
 // 1 create tag based upon the userType
 const enrollementIdTag = async (userType) => {
   try {
@@ -31,8 +31,6 @@ const enrollementIdTag = async (userType) => {
       return tag;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont",

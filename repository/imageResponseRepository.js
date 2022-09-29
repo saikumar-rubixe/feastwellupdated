@@ -28,8 +28,6 @@ const insertImagePredictionRespsonseRepository = async (
       }
     } else return false;
   } catch (error) {
-    console.log(`CBE!  something went wrong error`);
-    console.log(error);
     return false;
   }
 };
@@ -59,8 +57,6 @@ const getImagePredictionResponseByReferenceIdRepository = async (
       return false;
     }
   } catch (error) {
-    console.log(`something went wrong CBE! error`);
-    console.log(error);
     return false;
   }
 };
@@ -82,48 +78,47 @@ const getImagePredictionResponseByIdRepository = async (id) => {
       return false;
     }
   } catch (error) {
-    console.log(`something went wrong CBE! error`);
-    console.log(error);
     return false;
   }
 };
 
-// 4 send html response
-
-const getHtmlImagePredictionResponseByReferenceIdRepository = async (
-  referenceId
-) => {
+const getNutrientsValueRepository = async (residentId) => {
   try {
-    //  let array = [];
-    let sql =
-      " select * from `image_prediction_response` where  image_details_table_id =?";
-    let details = await runQuery(sql, [referenceId]);
+    let array = [0];
+    sql =
+      " select impr.* , img.resident_id,img.flag,img.meal_type,img.nurse_id as uploaded_by from image_prediction_response as impr inner join image_details as img on impr.image_details_table_id = img.id  where img.flag =1 ";
+    if (residentId) {
+      sql += " and img.resident_id =" + residentId;
+    }
+
+    let details = await runQuery(sql);
     const count = details.length;
     if (count != 0) {
-      // for (i = 0; i < count; i++) {
-      let result = details[0];
-      let model = new ImagePredictionRepsonseModel();
-      model.fill(
-        (id = result.id),
-        (imageTableId = result.image_details_table_id),
-        (jsonResponse = JSON.parse(result.json_response))
-      );
-      // array.push(model);
-      //}
-      return model;
+      for (i = 0; i < count; i++) {
+        let result = details[0];
+        let model = new ImagePredictionRepsonseModel();
+        model.fill(
+          (id = result.id),
+          (imageTableId = result.image_details_table_id),
+          (jsonResponse = JSON.parse(result.json_response)),
+          (createdDate = result.created_date),
+          (residentId = result.resident_id),
+          (uploadedBy = result.uploaded_by),
+          (flag = result.flag),
+          (mealType = result.meal_type)
+        );
+        array.push(model);
+      }
+      return array;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(`something went wrong CBE! error`);
-    console.log(error);
     return false;
   }
 };
-
 module.exports = {
   insertImagePredictionRespsonseRepository,
   getImagePredictionResponseByReferenceIdRepository,
   getImagePredictionResponseByIdRepository,
-  getHtmlImagePredictionResponseByReferenceIdRepository,
 };

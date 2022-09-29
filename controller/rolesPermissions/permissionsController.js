@@ -24,8 +24,6 @@ const getAllPermissionsDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -59,8 +57,6 @@ const getPermissionsDetailByIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -73,7 +69,7 @@ const createPermissionsController = async (req, res) => {
   try {
     const {
       roleId,
-      menuId,
+      menuCategoryId,
       readAccess,
       writeAccess,
       updateAccess,
@@ -88,7 +84,7 @@ const createPermissionsController = async (req, res) => {
     // } else if (!recordCheck || recordCheck == false) {
     const create = await createPermissionsRepository(
       roleId,
-      menuId,
+      menuCategoryId,
       readAccess,
       writeAccess,
       updateAccess,
@@ -110,8 +106,6 @@ const createPermissionsController = async (req, res) => {
     }
     //  }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -139,7 +133,7 @@ const updatePermissionsController = async (req, res) => {
       if (recordCheck) {
         const {
           roleId,
-          menuId,
+          menuCategoryId,
           readAccess,
           writeAccess,
           updateAccess,
@@ -149,7 +143,7 @@ const updatePermissionsController = async (req, res) => {
         const updatedetails = await updatePermissionsRepository(
           id,
           roleId,
-          menuId,
+          menuCategoryId,
           readAccess,
           writeAccess,
           updateAccess,
@@ -170,8 +164,6 @@ const updatePermissionsController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -212,8 +204,6 @@ const deletePermissionsController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",

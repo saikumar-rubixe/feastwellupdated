@@ -24,9 +24,10 @@ const getMealItemsDetailByIdController = async (req, res) => {
             mealItem: 0,
             mealItemName: 0,
             Status: 0,
-            userId: 0,
+            createdBy: 0,
             createdDate: 0,
             updatedDate: 0,
+            updatedBy: 0,
           },
         });
       }
@@ -39,8 +40,6 @@ const getMealItemsDetailByIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
     res.status(500).json({
       success: false,
       message: "CBE! something went wrong ",
@@ -66,8 +65,6 @@ const getAllMealItemsDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -78,7 +75,7 @@ const getAllMealItemsDetailsController = async (req, res) => {
 const createMealItemsController = async (req, res) => {
   try {
     const { mealItemName, status } = req.body;
-    const userId = req.userIdValue;
+    const createdBy = req.userIdValue;
     // check for user/email/etc doesnot exits
     // check for user/email/etc doesnot exits
     //  const recordCheck = await functionCall();
@@ -88,7 +85,7 @@ const createMealItemsController = async (req, res) => {
     const create = await createMealItemsRepository(
       mealItemName,
       status,
-      userId
+      createdBy
     );
     if (create) {
       res.status(201).json({
@@ -105,8 +102,6 @@ const createMealItemsController = async (req, res) => {
     }
     //}
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -132,12 +127,12 @@ const updateMealItemsController = async (req, res) => {
       }
       if (recordCheck) {
         const { mealItemName, status } = req.body;
-        const userId = req.userIdvalue;
+        const updatedBy = req.userIdvalue;
         const updatedetails = await updateMealItemsRepository(
           id,
           mealItemName,
           status,
-          userId
+          updatedBy
         );
         if (updatedetails == true) {
           res.status(200).json({
@@ -153,8 +148,6 @@ const updateMealItemsController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -195,8 +188,6 @@ const deleteMealitemsController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",

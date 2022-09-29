@@ -10,7 +10,6 @@ const morgan = require("morgan"); // for logs
 var path = require("path"); // for logs
 var rfs = require("rotating-file-stream"); // for logs
 dotenv.config();
-//const AppError = require("./utils/appError");
 
 // app configuration
 const app = express();
@@ -85,6 +84,8 @@ const {
 const {
   mealTypes,
 } = require("./routes/mealImageUrlAndResponseData/mealTypesRoutes");
+
+const { analyticsRoute } = require("./routes/analytics/analyticsRoute");
 const { array } = require("joi");
 
 //***********************************************************************************
@@ -151,9 +152,13 @@ app.use(`${apiBasePath}residentsDetails`, residentCarePlanRoutes); //resident ad
 app.use(`${apiBasePath}nutritionalRiskFactors`, NutritionalRiskFactorRoute); //resident additional details risk factors
 
 // !images upload and Response
+
 app.use(`${apiBasePath}uploadMealImage`, imageUploadRoute); //image uploads
-app.use(`${apiBasePath}imageDetails`, imageDetailsRoute); //iage details
+app.use(`${apiBasePath}imageDetails`, imageDetailsRoute); //image details
 app.use(`${apiBasePath}imageResponse`, imagePredictionResponse); //images prediction details
+
+//^ Analytics
+app.use(`${apiBasePath}analytics`, analyticsRoute); //nutrients details
 
 //*************                    END OF ROUTES           ****************** */
 

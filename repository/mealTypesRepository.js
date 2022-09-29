@@ -13,7 +13,7 @@ const getAllMealTypesRepository = async (residentId) => {
     let sql =
       "SELECT distinct id,meal_name as name ,meal_image as image from meal_types mt where NOT EXISTS (select id from image_details where resident_id = ? and DATE(?) and mt.id = image_details.meal_type )";
     let results = await runQuery(sql, [residentId, date]);
-    console.log(results);
+
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
@@ -31,8 +31,6 @@ const getAllMealTypesRepository = async (residentId) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };

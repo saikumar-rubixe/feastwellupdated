@@ -21,7 +21,7 @@ const { getPstDate } = require("../helper/getCanadaTime");
 const getUserLogDetailByIdRepository = async (userId, res) => {
   try {
     let query = "select * from `user_activity_log` where activity_id =?";
-    //let sql = con.format(query, [userId]);
+
     let results = await runQuery(query, [userId]);
     if (results.length != 0) {
       let result = results[0];
@@ -37,8 +37,6 @@ const getUserLogDetailByIdRepository = async (userId, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -61,8 +59,6 @@ const createUserLogRepository = async (activityDescription, userId) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -72,7 +68,7 @@ const getUserLogAllDetailsByUserIdRepository = async (id, res) => {
   try {
     let array = [];
     let query = "select * from `user_activity_log` where userid =?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let count = results.length;
     if (results.length != 0) {
@@ -92,8 +88,6 @@ const getUserLogAllDetailsByUserIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };

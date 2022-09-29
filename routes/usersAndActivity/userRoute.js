@@ -25,8 +25,6 @@ const {
 
 //^ Create User Details
 userRoute.post("/", async (req, res) => {
-  console.log(`im in the router to check permission`); //delete
-
   const err = await userBodyValidation(req);
   if (err) {
     return res.status(400).json({
@@ -66,7 +64,6 @@ userRoute.get("/:id", async (req, res) => {
 
 //? Update the user details BY ID(userId)
 userRoute.put("/:id", async (req, res) => {
-  console.log(`im in the router to check permission`); //delete
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -88,7 +85,6 @@ userRoute.put("/:id", async (req, res) => {
 
 //? update the  USER login time details  immediately after Login
 userRoute.put("/loginDetails/:id", async (req, res) => {
-  console.log(`im in the router to check permission`); //delete
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -110,8 +106,6 @@ userRoute.put("/loginDetails/:id", async (req, res) => {
 
 //! Delete User Details
 userRoute.delete("/:id", async (req, res) => {
-  console.log(`im in the router to check permission`); //delete
-
   //   const err = await Validation(req);
   //   if (err) {
   //     return res.status(500).json({

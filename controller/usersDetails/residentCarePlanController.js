@@ -17,35 +17,16 @@ const {
   getAllResidentCarePlanDetailsRepository,
   getResidentCarePlanDetailByIdRepository,
   updateResidentCarePlanDetailRepository,
+  deleteResidentCarePlanDetailByIdrepository,
 } = require("../../repository/residentCarePlanRepository");
 
 // 1 create resident
 const insertResidentCarePlanDetailsController = async (req, res) => {
   try {
-    console.log(`consoling the request body `); //delete
-    console.log(req.body);
-    console.log(`*****************************`); //delete
-    const userId = req.userIdValue;
     const createdBy = req.userIdValue;
-    const updatedBy = req.userIdValue;
-    // const fullName = req.body.name;
-    // create user details in users table with name and status only
-    //return the enrolment id and user created Id
-    /**
-     let createUser = await insertResindentBasicDetailsRepository(
-      fullName,
-      createdBy,
-      updatedBy
-    );
-    if (createUser == false) {
-      res.status(400).json({
-        success: false,
-        message: "record insertion failed halted further ",
-      });
-    }
-    let userTableInsertedId = createUser.insertId; //insert id of users table
-    */
+
     const {
+      userId,
       name,
       gender,
       dob,
@@ -96,7 +77,6 @@ const insertResidentCarePlanDetailsController = async (req, res) => {
       req.body.nutritionalRiskFactors
     );
 
-    console.log(`paases the string value`);
     const create = await insertResidentCarePlanDetailsRepository(
       userId,
       name,
@@ -144,14 +124,14 @@ const insertResidentCarePlanDetailsController = async (req, res) => {
       proteinNeeds,
       proteinNeedsValue,
       carePlans,
-      recommendations
+      recommendations,
+      createdBy
     );
     if (create) {
       res.status(201).json({
         success: true,
         message: "data created succesfully with id : " + create,
         data: create,
-        userId: userTableInsertedId,
       });
     }
     if (!create || create == false) {
@@ -161,8 +141,6 @@ const insertResidentCarePlanDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -188,8 +166,6 @@ const getallResidentCarePlanDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -222,66 +198,65 @@ const getResidentCarePlanDetailByIdController = async (req, res) => {
         });
       }
     }
-  } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
-  }
+  } catch (error) {}
 };
 
 // update resident additional details controller
 const updateResidentCarePlanDetailsController = async (req, res) => {
   const id = req.params.userId;
-  console.log(`checking the user id passed`);
-  console.log(id);
-  const {
-    name,
-    gender,
-    dob,
-    age,
-    address,
-    familyContact,
-    enrollmentDate,
-    intialWeight,
-    currentWeight,
-    physician,
-    diagnosis,
-    foodAllergy,
-    medications,
-    nutritionalSupplements,
-    laxatives,
-    naturalLaxatives,
-    significantlabData,
-    monthlyGroceryBudget,
-    currentHeight,
-    usualWeight,
-    waistCircumference,
-    weightHistory,
-    appetiteFoodIntake,
-    chewing,
-    swallowing,
-    fluidIntake,
-    dentition,
-    sight,
-    communication,
-    comprehension,
-    bowelFunction,
-    mobility,
-    dexterity,
-    feeding,
-    specialNeeds,
-    foodPreferences,
-    nutritionalRiskFactors,
-    bmi,
-    averageWt,
-    idealBodyWeightRange,
-    calorieNeeds,
-    fluidNeeds,
-    proteinNeeds,
-    proteinNeedsValue,
-    carePlans,
-    recommendations,
-  } = req.body;
+
+  const updatedBy = req.userIdValue;
+
   try {
+    const {
+      name,
+      gender,
+      dob,
+      age,
+      address,
+      familyContact,
+      enrollmentDate,
+      intialWeight,
+      currentWeight,
+      physician,
+      diagnosis,
+      foodAllergy,
+      medications,
+      nutritionalSupplements,
+      laxatives,
+      naturalLaxatives,
+      significantlabData,
+      monthlyGroceryBudget,
+      currentHeight,
+      usualWeight,
+      waistCircumference,
+      weightHistory,
+      appetiteFoodIntake,
+      chewing,
+      swallowing,
+      fluidIntake,
+      dentition,
+      sight,
+      communication,
+      comprehension,
+      bowelFunction,
+      mobility,
+      dexterity,
+      feeding,
+      specialNeeds,
+      foodPreferences,
+      nutritionalRiskFactors,
+      bmi,
+      averageWt,
+      idealBodyWeightRange,
+      calorieNeeds,
+      fluidNeeds,
+      proteinNeeds,
+      proteinNeedsValue,
+      carePlans,
+      recommendations,
+    } = req.body;
+
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
@@ -299,7 +274,6 @@ const updateResidentCarePlanDetailsController = async (req, res) => {
         });
       }
       if (recordCheck) {
-        const {} = req.body;
         const updatedetails = await updateResidentCarePlanDetailRepository(
           id,
           name,
@@ -347,7 +321,8 @@ const updateResidentCarePlanDetailsController = async (req, res) => {
           proteinNeeds,
           proteinNeedsValue,
           carePlans,
-          recommendations
+          recommendations,
+          updatedBy
         );
         if (updatedetails == true) {
           res.status(200).json({
@@ -363,9 +338,46 @@ const updateResidentCarePlanDetailsController = async (req, res) => {
         }
       }
     }
+  } catch (error) {}
+};
+
+// 5 delete resident  care plan details controller
+const deleteResidentCarePlanDetailsController = async (req, res) => {
+  try {
+    let id = req.params.id;
+    if (isNaN(id)) {
+      res.status(400).json({
+        success: false,
+        message: "invalid  id passed /undefined",
+      });
+    } else {
+      let recordcheck = await getResidentCarePlanDetailByIdRepository(id, res);
+
+      if (!recordcheck || recordcheck == false) {
+        res.status(404).json({
+          success: false,
+          message: "!Error no data found",
+        });
+      } else if (recordcheck) {
+        let details = await deleteResidentCarePlanDetailByIdrepository(id, res);
+        if (!details || details == false) {
+          res.status(404).json({
+            success: false,
+            message: "!Error delete failed",
+          });
+        } else if (details == true) {
+          res.status(200).json({
+            success: true,
+            message: "delete successful",
+          });
+        }
+      }
+    }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
+    res.status(500).json({
+      success: false,
+      message: "something went wrong in deleting details at  Controller",
+    });
   }
 };
 
@@ -375,4 +387,5 @@ module.exports = {
   getallResidentCarePlanDetailsController,
   getResidentCarePlanDetailByIdController,
   updateResidentCarePlanDetailsController,
+  deleteResidentCarePlanDetailsController,
 };

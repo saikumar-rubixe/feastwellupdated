@@ -18,19 +18,10 @@ const createResidentController = async (req, res) => {
     if (!user) {
       res.status(401).send({ message: "unauthorised user" });
     } else {
-      console.log(`verified user and details are ${user}`); //delete
-      console.log(user.userId); //delete
-      console.log(`consolling the req user id value`); //delete
-      console.log(req.userIdValue); //delete
-      console.log(user); //delete
-
       let loggedInUserType = user.userType;
-      console.log(`loggin usertype is ${loggedInUserType}`);
+
       //get the logged in user hierarchy
       let hierarchy = await getUserTypeDetailByIdRepository(loggedInUserType);
-      console.log(`checking the heirarchy`);
-      console.log(hierarchy);
-      console.log(` got the user hierarchy ${hierarchy.userHeirarchy} `); //delete
 
       // get the usertype of create request from req.body.userType
       const userType = req.body.userType;
@@ -83,8 +74,6 @@ const createResidentController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(`something went wrong in creating user controller `);
-    console.log(error);
     res.status(500).json({
       success: false,
       message: "something went wrong in creating user controller",
@@ -95,8 +84,6 @@ const createResidentController = async (req, res) => {
 //* 2 update Resident userType = 6
 const updateResidentController = async (req, res) => {
   try {
-    console.log(`consolling the req.body`);
-    console.log(req.body);
     let user = await verify(req);
     if (!user) {
       res.status(403).json({
@@ -105,15 +92,12 @@ const updateResidentController = async (req, res) => {
       });
     } else {
       // get the logged in usertype userType
-      console.log(`****************`);
 
       // get the logged in usertype userType
       let loggedInUserType = user.userType;
 
       //check the hierarchy
       let hierarchy = await getUserTypeDetailByIdRepository(loggedInUserType);
-      console.log(`heirarchy is `);
-      console.log(hierarchy);
 
       // fetch the user id details by ID(provided frm req.params.id) using getUserByIdRepository
       const id = req.params.id;
@@ -189,10 +173,9 @@ const deleteResidentController = async (req, res) => {
       // get the logged in usertype userType
 
       let loggedInUserType = user.userType;
-      console.log(`logged in use type is ${loggedInUserType}`); //delete
+
       //check the hierarchy
       let hierarchy = await getUserTypeDetailByIdRepository(loggedInUserType);
-      console.log(` got the user hierarchy ${hierarchy.userHeirarchy} `); //delete
 
       // fetch the user id details by ID(provided frm req.params.id) using getUserByIdRepository
       const id = req.params.id;
@@ -210,20 +193,18 @@ const deleteResidentController = async (req, res) => {
         let deleteRequestUserTypeHierarchy =
           await getUserTypeDetailByIdRepository(deleteRequesUserType);
 
-        console.log(deleteRequestUserTypeHierarchy);
         //now compare and check whether the user has access to do the requested updation acces or not!
         const levelUp = hierarchy.userHeirarchy;
         const levelDown = deleteRequestUserTypeHierarchy.userHeirarchy;
         console.log(
           `user level (up) is ${levelUp} and delete user level ( down) is ${levelDown} `
-        );
+        ); //delete
 
         if (levelUp < levelDown) {
           //*true
 
           let details = await deleteResidentRepository(id);
-          console.log(`checking the details`);
-          console.log(details);
+
           if (details == false) {
             res.status(404).json({
               success: false,
@@ -267,8 +248,6 @@ const getResidentByIdController = async (req, res) => {
       let loggedInUserType = user.userType;
       //check the hierarchy
       let hierarchy = await getUserTypeDetailByIdRepository(loggedInUserType);
-      console.log(`heirarchy is `);
-      console.log(hierarchy);
 
       // fetch the user id details by ID(provided frm req.params.id) using getUserByIdRepository
       const id = req.params.id;
@@ -318,7 +297,6 @@ const getResidentByIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message: "something went wrong in get details by id controller",
@@ -338,7 +316,7 @@ const getAllResidentsController = async (req, res) => {
       });
     } else {
       const details = await getAllResidentsRepository(userType);
-      console.log(details);
+
       if (details) {
         res.status(200).json({
           success: true,

@@ -14,7 +14,6 @@ const {
 } = require("../../controller/mealImageUrlAndRepsonseData/imageRepsonseController.js");
 
 //^ Create image prediction response
-
 imagePredictionResponse.post("/", async (req, res) => {
   const err = await imageResponseBodyValidation(req);
   if (err) {
@@ -26,8 +25,8 @@ imagePredictionResponse.post("/", async (req, res) => {
     await insertImagePredictionRespsonseController(req, res);
   }
 });
-//* get image prediction details by reference ID (image details table id)
 
+//* get image prediction details by reference ID (image details table id)
 imagePredictionResponse.get("/byReferenceId/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
@@ -41,7 +40,6 @@ imagePredictionResponse.get("/byReferenceId/:id", async (req, res) => {
 });
 
 //*get the image prediction response details by table Id
-
 imagePredictionResponse.get("/byId/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {

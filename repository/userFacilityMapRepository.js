@@ -36,7 +36,6 @@ const getAllUserFacilityDetailsRepository = async () => {
       return { count, array };
     }
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -48,7 +47,7 @@ const getUserFacilityDetailsByIdRepository = async (id, res) => {
     let array = [];
     let query =
       "select `user_facility_map`.* ,users.full_name,users.username,users.user_type from `user_facility_map` INNER JOIN `users` on user_facility_map.user_id=users.user_id where users.user_type=6 and  facility_id=? ";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let count = results.length;
     if (count != 0) {
@@ -73,8 +72,6 @@ const getUserFacilityDetailsByIdRepository = async (id, res) => {
       return { count, array };
     } else return null;
   } catch (error) {
-    console.log(error);
-    console.log("Repo Error : Something went wrong CBE");
     return false;
   }
 };
@@ -101,12 +98,10 @@ const createUserFacilityRepository = async (
     ]);
     let value = results.insertId;
 
-    console.log(`value inseted id is ${value}`);
     if (value) {
       return value;
     } else return false;
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -131,15 +126,13 @@ const updateUserFacilityRepository = async (
       id,
     ]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -147,19 +140,16 @@ const updateUserFacilityRepository = async (
 // delete
 const deleteUserFacilityRepository = async (id, res) => {
   try {
-    let query = "DELETE from `user_facility_map` where resident_facility_id =?";
-    // let sql = con.format(query, [id]);
+    let query = "DELETE from `user_facility_map` where user_id =?";
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -168,7 +158,7 @@ const deleteUserFacilityRepository = async (id, res) => {
 const getUserFacilityDetailsByTableIdRepository = async (id, res) => {
   try {
     let query = "select *  from `user_facility_map` where id=? ";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let count = results.length;
     if (count != 0) {
@@ -188,8 +178,6 @@ const getUserFacilityDetailsByTableIdRepository = async (id, res) => {
       return model;
     } else return null;
   } catch (error) {
-    console.log(error);
-    console.log("Repo Error : Something went wrong CBE");
     return false;
   }
 };
@@ -217,8 +205,6 @@ const getUserFacilityDetailsByUserIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };

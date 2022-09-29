@@ -46,8 +46,6 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
   try {
     if (req.file) {
       var image = req.file.buffer; // to check the data in the console that is being uploaded
-      console.log("consolling the user id ");
-      console.log(req.body.residentId);
 
       // Definning the params variable to uplaod the photo
       const date = new Date(Date.now());
@@ -69,11 +67,9 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
       // uplaoding the photo using s3 instance and saving the link in the database.
       s3.upload(params, async (error, data) => {
         if (error) {
-          console.log(error);
           res.status(500).send({ err: error }); // if we get any error while uploading error message will be returned.
         }
-        console.log(`trying to console dat in s3 iuploads `);
-        console.log(data);
+
         const url = data.Location;
         // If not then below code will be executed
 
@@ -90,8 +86,6 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log(`something went wrong! CBE`);
     res.status(500).json({
       success: false,
       message: "Something went wrong",

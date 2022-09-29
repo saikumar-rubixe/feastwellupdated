@@ -25,8 +25,10 @@ const { getPstDate } = require("../helper/getCanadaTime");
 const date = require("date-and-time");
 const bcrypt = require("bcrypt");
 let newDate = new Date();
-console.log(newDate);
+
+console.log(newDate); //delete
 console.log(`IST : ${date.format(newDate, "YYYY/MM/DD HH:mm:ss")}`); //delete
+
 let canadaDate = getPstDate();
 console.log(`PST : ${canadaDate}`); //delete
 
@@ -58,7 +60,7 @@ let createUserRepository = async (
     const getTag = await enrollementIdTag(userType); //get the tag as per userType
     let uniqueId = await valueExistCheck(getTag); //randomId generate
     let date = getPstDate();
-    console.log(`unique id and pst date `); //delete
+
     let sql =
       "INSERT INTO `users`( `full_name`,`username`,`password`,`user_type`,`status`,`created_date`,`updated_date`,`enrolment_id`,created_by,updated_by) VALUES (?,?,?,?,?,?,?,?,?,?) ";
 
@@ -76,7 +78,6 @@ let createUserRepository = async (
     ]);
 
     if (results) {
-      console.log(results); //delete
       values = {
         insertId: results.insertId,
         enrolmentId: uniqueId,
@@ -84,10 +85,6 @@ let createUserRepository = async (
       return values;
     } else return false;
   } catch (error) {
-    console.log(error);
-    console.log(
-      `something went wrong  in creating user repository  :  ${error}`
-    );
     return false;
   }
 };
@@ -95,14 +92,8 @@ let createUserRepository = async (
 // 2 update UserRepository
 let updateUserRepository = async (id, fullName, username, userStatus) => {
   try {
-    console.log(`checking the value passed`);
-    console.log(`****************************************`);
-    console.log(id, fullName, username, userStatus);
-    console.log(`****************************************`);
     // const salt = await bcrypt.genSalt(10);
-    // console.log(password);
-    // console.log("password and sal are ");
-    // console.log(salt);
+
     // const hashedPassword = await bcrypt.hash(password, salt);
     let query =
       "UPDATE users SET full_name =?,username=?,status=?,updated_date=?  WHERE user_id=? ";
@@ -120,8 +111,6 @@ let updateUserRepository = async (id, fullName, username, userStatus) => {
       return 1;
     }
   } catch (error) {
-    console.log("error from catch block");
-    console.log(error);
     return 1;
   }
 };
@@ -131,11 +120,10 @@ let deleteUserRepository = async (id) => {
     let query = "delete from users where user_id =?";
 
     let results = await runQuery(query, [id]);
-    console.log(results);
+
     if (results.affectedRows == 1 || results.affectedRows > 0) return true;
     else return false;
   } catch (error) {
-    console.log(error);
     return 0;
   }
 };
@@ -187,7 +175,6 @@ const getAllUsersRepository = async (userType, userStatus) => {
       return response;
     } else return { count, userArray };
   } catch (error) {
-    console.log(`error in catch block is ${error}`);
     return false;
   }
 };
@@ -197,11 +184,11 @@ const getUserByIdRepository = async (id, res) => {
   try {
     let query =
       "select users.*,user_facility_map.facility_id,facility.facility_name  from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on user_facility_map.facility_id = facility.facility_id where users.user_id= ? ";
-    //let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let array = results[0];
-      console.log(array.created_date);
+
       let model = new UserModel();
       model.fill(
         (userId = array.user_id),
@@ -225,7 +212,6 @@ const getUserByIdRepository = async (id, res) => {
       return model;
     }
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -234,11 +220,11 @@ const getUserByIdRepository = async (id, res) => {
 const getUserDetailsDisplayRepository = async (id, res) => {
   try {
     let query = "select users.* from users where user_id =?";
-    //let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let array = results[0];
-      console.log(array.created_date);
+
       let model = new UserModel();
       model.fill(
         (userId = array.user_id),
@@ -261,7 +247,6 @@ const getUserDetailsDisplayRepository = async (id, res) => {
       return model;
     }
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -309,8 +294,6 @@ let updateUserLoginDetailsRepository = async (
       return 1;
     }
   } catch (error) {
-    console.log("error from catch block");
-    console.log(error);
     return 1;
   }
 };
@@ -330,13 +313,10 @@ const createResidentrepository = async (
   res
 ) => {
   try {
-    console.log(`consoling the user id value ${req.userIdValue}`);
     const getTag = await enrollementIdTag(createUserTypeRequest); //get the tag as per userType
     let uniqueId = await valueExistCheck(getTag); //randomId generate
     let date = getPstDate();
     let password = "carecrop123";
-
-    console.log(`checking the unique id ${uniqueId} date is ${date}`); //delete
 
     let sql =
       "INSERT INTO `users`(`full_name`,`username`,`password`,`user_type`,`status`,`created_date`,`updated_date`,`enrolment_id`,created_by,updated_by) VALUES (?,?,?,?,?,?,?,?,?,?) ";
@@ -352,16 +332,11 @@ const createResidentrepository = async (
       req.userIdValue,
       req.userIdValue,
     ]);
-    console.log(results);
-    console.log(`im at after the run query`);
+
     if (results) {
-      console.log(`results afftected are ${results.affectedRows}`);
       return results.insertId;
     } else return false;
   } catch (error) {
-    console.log(
-      `something went wrong  in creating resident repository  :  ${error}`
-    );
     return error;
   }
 };
@@ -372,14 +347,9 @@ const getuserType = async (userId) => {
     let sql = "select user_type from users where user_id =" + userId;
     let results = await runQuery(sql);
     results[0].user_type;
-    console.log(results[0].user_type);
-    console.log(
-      `in the usertype method checking the usertype values are beimg getting or not`
-    );
+
     return results[0].user_type;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // ************************  export modules  *********************************** */

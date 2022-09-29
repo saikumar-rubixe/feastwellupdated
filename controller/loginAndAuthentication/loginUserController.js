@@ -32,7 +32,6 @@ const getSideBar = async (req, res) => {
   } else {
     const userType = user.userType;
     const roleId = await getRoleForUserTypeRepository(userType);
-    console.log("Role id " + roleId.roleId);
 
     var response = {};
     response["menus"] = [];
@@ -40,7 +39,7 @@ const getSideBar = async (req, res) => {
 
     for (var i = 0; i < mainMenus.length; i++) {
       var dbMenu = mainMenus[i];
-      console.log(`main menus are ${dbMenu["menuCategoryId"]}`);
+
       var menu = {
         menuId: dbMenu["menuCategoryId"],
         menuName: dbMenu["menuCategoryName"],
@@ -51,18 +50,13 @@ const getSideBar = async (req, res) => {
       menu["subMenus"] = [];
       for (var j = 0; j < subMenus.length; j++) {
         var subMenuId = subMenus[j].menuCategoryId;
-        console.log(`in the line 54`);
-        console.log(subMenuId);
 
-        console.log(subMenuId, roleId.roleId);
         var permission = await getPermissionForCategoryAndRoleId(
           subMenuId,
           roleId.roleId,
           "read_access"
         );
-        if (permission === 1) {
-          console.log("Permission equals");
-          console.log(subMenus[j]);
+        if (permission != 1) {
           menu["subMenus"].push({
             subMenuId: subMenus[j]["menuCategoryId"],
             subMenuName: subMenus[j]["menuCategoryName"],
@@ -77,14 +71,12 @@ const getSideBar = async (req, res) => {
 
 //* USER LOGIN
 const userLogin = async (req, res) => {
-  console.log(req.body);
   try {
     //VALIDATE THE DETAILS WITH USER LOGIN VALIDATION
     // var response = {};
     const username = req.body.username;
     const password = req.body.password;
-    console.log(`username from request is ${username}`);
-    console.log(`password from request is ${password}`);
+
     const recordExist = await getUserDetailByUsername(username);
     if (!recordExist || recordExist == null) {
       res.status(404).json({
@@ -93,8 +85,6 @@ const userLogin = async (req, res) => {
       });
     } else {
       if (recordExist) {
-        console.log(`consolling the user details`);
-        console.log(recordExist);
         const usertype = recordExist.userType;
         if (
           usertype == 1 ||
@@ -107,7 +97,7 @@ const userLogin = async (req, res) => {
           const username = recordExist.userName;
           //GETTING HASHED PASSWORD FROM DB
           const dbpassword = recordExist.password;
-          console.log(password, dbpassword);
+
           const result = await bcrypt.compare(password, dbpassword);
           if (!result)
             return res.status(401).json({
@@ -117,7 +107,7 @@ const userLogin = async (req, res) => {
 
           if (result) {
             //CREATE AND ASSIGN A TOKEN
-            console.log(" login succesful");
+
             if (usertype == 2 || usertype == 7) {
               const value = await getFacilityIdByUserId(userId);
               facilityId = value;
@@ -166,8 +156,6 @@ const userLogin = async (req, res) => {
           .send("Login Failed!  username or password wrong ");
     }
   } catch (error) {
-    console.log(error);
-    console.log("catch block error");
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont",
@@ -182,17 +170,11 @@ const TokenLogin = async (req, res) => {
     res.setHeader("Content-Type", "application/json");
     const usersId = req.userIdValue;
     const userExist = await getUserByIdRepository(usersId);
-    console.log(userExist);
+
     if (userExist) {
       const usertype = userExist.userType;
-      console.log(`user type is passing ${usertype}`);
+
       let facilityId = 0;
-      // const value = await getFacilityIdByUserId(userId);
-      // if (value) {
-      //   facilityId = value;
-      // } else {
-      //   facilityId;
-      // }
 
       const token = jwt.sign({ id: usersId }, process.env.TOKEN_SECRET, {
         expiresIn: process.env.TOKEN_LIFE,
@@ -234,8 +216,6 @@ const TokenLogin = async (req, res) => {
       return res.status(401).send({ success: false, message: "invalid token" });
     }
   } catch (error) {
-    console.log(error);
-    console.log("catch block error");
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont",

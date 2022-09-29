@@ -38,18 +38,16 @@ const checkRoutePermission = async (req) => {
         accessType = "delete_access";
       }
       try {
-        console.log("Access type: " + accessType);
-        // console.log(user);
         // !TODO: get roles by user type
         const role = await getRoleForUserTypeRepository(user.userType);
-        console.log(categoryId, role.roleId, accessType);
+
         permission = await getPermissionForCategoryAndRoleId(
           categoryId,
           role.roleId,
           accessType
         );
       } catch (err) {
-        console.log(err);
+        console.log(err); //delete
       }
     }
   }

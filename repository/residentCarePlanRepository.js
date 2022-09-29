@@ -1,5 +1,5 @@
 let { runQuery } = require("../config/database");
-let { ResidentModel } = require("../models/residentCarePlanModel");
+let { ResidentCrePlanModel } = require("../models/residentCarePlanModel");
 const { getPstDate } = require("../helper/getCanadaTime");
 const { enrollementIdTag } = require("../helper/enrollmentIDGenerator");
 
@@ -101,11 +101,12 @@ const insertResidentCarePlanDetailsRepository = async (
   proteinNeeds,
   proteinNeedsValue,
   carePlans,
-  recommendations
+  recommendations,
+  createdBy
 ) => {
   try {
     let query =
-      "INSERT into `residents_details` (`user_id`,      `name`,      `gender`,      `dob`,      `age`,      `address`,      `family_contact`,      `enrollment_date`,      `intial_weight`,      `current_weight`,      `physician`,      `diagnosis`,      `food_allergy`,      `medications`,      `nutritional_supplements`,      `laxatives`,      `natural_laxatives`,      `significant_lab_data`,      `monthly_grocery_budget`,      `current_height`,      `usual_weight`,           `waist_circumference`,      `weight_history`,                            `appetite_food_intake`,      `chewing`,      `swallowing`,      `fluid_intake`,      `dentition`,      `sight`,      `communication`,      `comprehension`,      `bowel_function`,      `mobility`,      `dexterity`,      `feeding`,      `special_needs`,      `food_preferences`,      `nutritional_risk_factors` ,`bmi`,`average_wt`,`ideal_body_weight_range`,  `calorie_needs`,`fluid_needs`, `protein_needs`,`protein_needs_value`,`care_plans`,`recommendations`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+      "INSERT into `residents_details` (`user_id`,      `name`,      `gender`,      `dob`,      `age`,      `address`,      `family_contact`,      `enrollment_date`,      `intial_weight`,      `current_weight`,      `physician`,      `diagnosis`,      `food_allergy`,      `medications`,      `nutritional_supplements`,      `laxatives`,      `natural_laxatives`,      `significant_lab_data`,      `monthly_grocery_budget`,      `current_height`,      `usual_weight`,           `waist_circumference`,      `weight_history`,                            `appetite_food_intake`,      `chewing`,      `swallowing`,      `fluid_intake`,      `dentition`,      `sight`,      `communication`,      `comprehension`,      `bowel_function`,      `mobility`,      `dexterity`,      `feeding`,      `special_needs`,      `food_preferences`,      `nutritional_risk_factors` ,`bmi`,`average_wt`,`ideal_body_weight_range`,  `calorie_needs`,`fluid_needs`, `protein_needs`,`protein_needs_value`,`care_plans`,`recommendations`,`created_date`,`updated_date`,`created_by`,`updated_by`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
 
     let results = await runQuery(query, [
       userId,
@@ -145,7 +146,7 @@ const insertResidentCarePlanDetailsRepository = async (
       feeding,
       specialNeeds,
       foodPreferences,
-      nutritionalRiskFactors,
+      nutritionalRiskFactors.toString(),
       bmi,
       averageWt,
       idealBodyWeightRange,
@@ -155,17 +156,20 @@ const insertResidentCarePlanDetailsRepository = async (
       proteinNeedsValue,
       carePlans,
       recommendations,
+      getPstDate(),
+      getPstDate(),
+      createdBy,
+      createdBy,
     ]);
 
     let value = results.insertId;
+
     if (value && value != 0) {
       return value;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -175,12 +179,12 @@ const getAllResidentCarePlanDetailsRepository = async (req, res) => {
   let array = [];
   try {
     let query = "select * from `residents_details`";
-    // let sql = con.format(query);
+
     let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
-        let model = new ResidentModel();
+        let model = new ResidentCrePlanModel();
         let result = results[i];
         model.fill(
           (id = result.id),
@@ -230,7 +234,11 @@ const getAllResidentCarePlanDetailsRepository = async (req, res) => {
           (proteinNeeds = result.protein_needs),
           (proteinNeedsValue = result.protein_needs_value),
           (carePlans = result.care_plans),
-          (recommendations = result.recommendations)
+          (recommendations = result.recommendations),
+          (createdDate = result.created_date),
+          (updatedDate = result.updated_date),
+          (createdBy = result.created_by),
+          (updatedBy = result.updated_by)
         );
         array.push(model);
       }
@@ -239,24 +247,20 @@ const getAllResidentCarePlanDetailsRepository = async (req, res) => {
       return { count, array };
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
 
 // 3 get detail By Id
 const getResidentCarePlanDetailByIdRepository = async (id, res) => {
-  console.log(`in to the get detail by id folder`);
   try {
     let query = "select * from `residents_details`  where user_id=?";
     let results = await runQuery(query, [id]);
-    console.log(`*****************************`);
-    console.log(results);
-    console.log(`*****************************`);
+
     if (results.length != 0) {
       let result = results[0];
-      let model = new ResidentModel();
+      let model = new ResidentCrePlanModel();
+
       model.fill(
         (id = result.id),
         (userId = result.user_id),
@@ -305,15 +309,17 @@ const getResidentCarePlanDetailByIdRepository = async (id, res) => {
         (proteinNeeds = result.protein_needs),
         (proteinNeedsValue = result.protein_needs_value),
         (carePlans = result.care_plans),
-        (recommendations = result.recommendations)
+        (recommendations = result.recommendations),
+        (createdDate = result.created_date),
+        (updatedDate = result.updated_date),
+        (createdBy = result.created_by),
+        (updatedBy = result.updated_by)
       );
       return model;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -366,11 +372,12 @@ const updateResidentCarePlanDetailRepository = async (
   proteinNeeds,
   proteinNeedsValue,
   carePlans,
-  recommendations
+  recommendations,
+  updatedBy
 ) => {
   try {
     let query =
-      " UPDATE `residents_details` set `name`=?,`gender`=?,`dob`=?,`age`=?,`address`=?,`family_contact`=?,`enrollment_date`=?,`intial_weight`=?,`current_weight`=?,`physician`=?,`diagnosis`=?,`food_allergy`=?,`medications`=?,`nutritional_supplements`=?,`laxatives`=?,`natural_laxatives`=?,`significant_lab_data`=?,`monthly_grocery_budget`=?,`current_height`=?,`usual_weight`=?,`waist_circumference`=?,`weight_history`=?,`appetite_food_intake`=?,`chewing`=?,`swallowing`=?,`fluid_intake`=?,`dentition`=?,`sight`=?,`communication`=?,`comprehension`=?,`bowel_function`=?,`mobility`=?,`dexterity`=?,`feeding`=?,`special_needs`=?,`food_preferences`=?,`nutritional_risk_factors`=?,`bmi`=?,`average_wt`=?,`ideal_body_weight_range`=?,`calorie_needs`=?,`fluid_needs`=?,`protein_needs`=?,`protein_needs_value`=?,`care_plans`=?,`recommendations`=? where user_id =?";
+      " UPDATE `residents_details` set `name`=?,`gender`=?,`dob`=?,`age`=?,`address`=?,`family_contact`=?,`enrollment_date`=?,`intial_weight`=?,`current_weight`=?,`physician`=?,`diagnosis`=?,`food_allergy`=?,`medications`=?,`nutritional_supplements`=?,`laxatives`=?,`natural_laxatives`=?,`significant_lab_data`=?,`monthly_grocery_budget`=?,`current_height`=?,`usual_weight`=?,`waist_circumference`=?,`weight_history`=?,`appetite_food_intake`=?,`chewing`=?,`swallowing`=?,`fluid_intake`=?,`dentition`=?,`sight`=?,`communication`=?,`comprehension`=?,`bowel_function`=?,`mobility`=?,`dexterity`=?,`feeding`=?,`special_needs`=?,`food_preferences`=?,`nutritional_risk_factors`=?,`bmi`=?,`average_wt`=?,`ideal_body_weight_range`=?,`calorie_needs`=?,`fluid_needs`=?,`protein_needs`=?,`protein_needs_value`=?,`care_plans`=?,`recommendations`=?,`updated_date`=?,`updated_by`=? where user_id =?";
 
     let results = await runQuery(query, [
       name,
@@ -409,7 +416,7 @@ const updateResidentCarePlanDetailRepository = async (
       feeding,
       specialNeeds,
       foodPreferences,
-      nutritionalRiskFactors,
+      nutritionalRiskFactors.toString(),
       bmi,
       averageWt,
       idealBodyWeightRange,
@@ -419,25 +426,38 @@ const updateResidentCarePlanDetailRepository = async (
       proteinNeedsValue,
       carePlans,
       recommendations,
+      getPstDate(),
+      updatedBy,
       id,
     ]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
 
+// 5 delete residents details
+const deleteResidentCarePlanDetailByIdrepository = async (id) => {
+  try {
+    let query = "delete from residents_details where  user_id =?";
+    let results = await runQuery(query, [id]);
+
+    if (results.affectedRows == 1 || results.affectedRows > 0) return true;
+    else return false;
+  } catch (error) {
+    return false;
+  }
+};
 module.exports = {
   insertResidentCarePlanDetailsRepository,
   getAllResidentCarePlanDetailsRepository,
   getResidentCarePlanDetailByIdRepository,
   updateResidentCarePlanDetailRepository,
+  deleteResidentCarePlanDetailByIdrepository,
 };

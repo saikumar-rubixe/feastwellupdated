@@ -23,6 +23,7 @@
  */
 
 const { color } = require("console-log-colors");
+
 let { runQuery, con } = require("../config/database");
 //con = con();
 //runQuery = runQuery();
@@ -34,7 +35,6 @@ const getAllPermissionsDetailsRepository = async (req, res) => {
   try {
     let array = [];
     let query = "SELECT * FROM permissions WHERE 1=1  ";
-    //let sql = con.format(query);
     let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
@@ -44,7 +44,7 @@ const getAllPermissionsDetailsRepository = async (req, res) => {
         model.fill(
           (permissionId = result.permission_id),
           (roleId = result.role_id),
-          (menuId = result.menu_category_id),
+          (menuCategoryId = result.menu_category_id),
           (readAccess = result.read_access),
           (writeAccess = result.write_access),
           (updateAccess = result.update_access),
@@ -60,8 +60,6 @@ const getAllPermissionsDetailsRepository = async (req, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -70,7 +68,7 @@ const getAllPermissionsDetailsRepository = async (req, res) => {
 const getPermissionsDetailByIdRepository = async (id, res) => {
   try {
     let query = " select * from `permissions` where permission_id =?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
@@ -78,7 +76,7 @@ const getPermissionsDetailByIdRepository = async (id, res) => {
       model.fill(
         (permissionId = result.permission_id),
         (roleId = result.role_id),
-        (menuId = result.menu_id),
+        (menuCategoryId = result.menu_id),
         (readAccess = result.read_access),
         (writeAccess = result.write_access),
         (updateAccess = result.update_access),
@@ -92,8 +90,6 @@ const getPermissionsDetailByIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -101,7 +97,7 @@ const getPermissionsDetailByIdRepository = async (id, res) => {
 // 3 create
 const createPermissionsRepository = async (
   roleId,
-  menuId,
+  menuCategoryId,
   readAccess,
   writeAccess,
   updateAccess,
@@ -114,7 +110,7 @@ const createPermissionsRepository = async (
 
     let results = await runQuery(query, [
       roleId,
-      menuId,
+      menuCategoryId,
       readAccess,
       writeAccess,
       updateAccess,
@@ -130,8 +126,6 @@ const createPermissionsRepository = async (
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -139,7 +133,7 @@ const createPermissionsRepository = async (
 const updatePermissionsRepository = async (
   id,
   roleId,
-  menuId,
+  menuCategoryId,
   readAccess,
   writeAccess,
   updateAccess,
@@ -152,7 +146,7 @@ const updatePermissionsRepository = async (
 
     let results = await runQuery(query, [
       roleId,
-      menuId,
+      menuCategoryId,
       readAccess,
       writeAccess,
       updateAccess,
@@ -162,15 +156,13 @@ const updatePermissionsRepository = async (
       id,
     ]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -179,18 +171,16 @@ const updatePermissionsRepository = async (
 const deletePermissionsRepository = async (id, res) => {
   try {
     let query = "DELETE from `permissions` where permission_id =?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -209,19 +199,16 @@ const getPermissionForCategoryAndRoleId = async (
 ) => {
   var access = 0;
   try {
-    console.log(categoryId, roleId, accessType);
     let query = `SELECT ${accessType} FROM permissions WHERE menu_category_id=${categoryId} and role_id=${roleId} and ${accessType}=1 `;
     let permissionResults = await runQuery(query);
     let count = permissionResults.length;
     if (count != 0) {
       var permission = permissionResults[0];
 
-      console.log(permission);
-      console.log(`checked perms`); //delete
       access = permission[accessType];
     }
   } catch (error) {
-    console.log("getPermissionForCategoryAndRoleId: " + error);
+    console.log("getPermissionForCategoryAndRoleId: " + error); //delete
   }
   return access;
 };

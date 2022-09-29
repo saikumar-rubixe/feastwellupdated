@@ -9,7 +9,6 @@ const verifyRefreshFunction = function (req, res, next) {
 
   //unauthorized
   if (!jtoken || jtoken == "Bearer undefined") {
-    console.log(`value undefined`);
     return res.status(401).json({ success: false, message: "Access denied" });
   } else {
     let token = jtoken.replace("Bearer ", "");

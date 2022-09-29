@@ -26,7 +26,6 @@ const getAllCountryRepository = async (req, res) => {
     let array = [];
     let query =
       "select id ,name,phonecode,iso2,timezones from countries where 1=1 ";
-    //  let sql = con.format(query);
 
     let results = await runQuery(query);
 
@@ -47,8 +46,6 @@ const getAllCountryRepository = async (req, res) => {
 
     return { count, array };
   } catch (error) {
-    console.log(error);
-    console.log("catch block error something went wrong");
     return false;
   }
 };
@@ -57,7 +54,7 @@ const getCountryByIdRepository = async (id, res) => {
   try {
     let query =
       "SELECT name,phonecode,iso2,timezones from countries where id =?";
-    //  let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
@@ -74,21 +71,18 @@ const getCountryByIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
-//id ,name,phonecode,iso2,timezones
 
 // 3 create countries
 const createCountryRepository = async (name, phoneCode, is02, timeZones) => {
   try {
     let query =
       "INSERT into `countries` (`name`,`phonecode`,`iso2`,`timezones`) VALUES(?,?,?,?) ";
-    // let sql = con.format(query, [name, phoneCode, is02, timeZones]);
+
     let results = await runQuery(query, [name, phoneCode, is02, timeZones]);
-    console.log(results);
+
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -96,8 +90,6 @@ const createCountryRepository = async (name, phoneCode, is02, timeZones) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -113,19 +105,17 @@ const updateCountryRepository = async (
   try {
     let query =
       " UPDATE `countries` set `name`=?,`phonecode`=?, `iso2`=?,`timezones`=?  where id =? ";
-    //let sql = con.format(query, [name, phoneCode, is02, timeZones, id]);
+
     let results = await runQuery(query, [name, phoneCode, is02, timeZones, id]);
 
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -134,18 +124,16 @@ const updateCountryRepository = async (
 const deleteCountryRepository = async (id, res) => {
   try {
     let query = "DELETE from  `countries` where `id`=?";
-    //  let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };

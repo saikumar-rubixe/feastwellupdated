@@ -31,7 +31,6 @@ userFacilityRoute.get("/:id", async (req, res) => {
 
 //^ create
 userFacilityRoute.post("/", async (req, res) => {
-  console.log(`im in the router to check permission`); //delete
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({

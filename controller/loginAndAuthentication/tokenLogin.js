@@ -5,7 +5,7 @@ const TokenLogin = async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const usersId = await req.userId;
   const userExist = await getDetailUserById(usersId);
-  console.log(userExist);
+
   if (userExist) {
     const token = jwt.sign({ id: usersId }, process.env.TOKEN_SECRET);
     const response = {};

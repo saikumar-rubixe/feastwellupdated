@@ -28,11 +28,9 @@ const getAllDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error); //delete
-    console.log("Controller:CBE Something Went Wrong !"); //delete
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont",
+      message: " something went wrong in  cities controller",
     });
   }
 };
@@ -43,11 +41,10 @@ const getCityByCityIdController = async (req, res) => {
     const id = req.params.id;
 
     if (isNaN(id)) {
-      //console.log("id passed is not a number");
       res.send("send valid id: ", id, "   is not a number");
     } else {
       const details = await getCitiesByCityIdRepository(id, res);
-      //  console.log(details.array[0]);
+
       if (details) {
         res.status(200).json({
           success: true,
@@ -63,8 +60,6 @@ const getCityByCityIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error); //delete
-    console.log("Controller: catch block Error"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -76,13 +71,7 @@ const getCityByCityIdController = async (req, res) => {
 const createCityController = async (req, res) => {
   try {
     const { name, stateId, countryId } = req.body;
-    // console.log(req.body);//delete
-    // check for user/email/etc doesnot exits
-    // check for user/email/etc doesnot exits
-    // const recordCheck = await functionCall();
-    // if (recordCheck || recordCheck == true) {
-    //   // for exist pass negative
-    // } else if (!recordCheck || recordCheck == false) {
+
     const create = await createCitiesRepository(name, stateId, countryId);
     if (create) {
       res.status(200).json({
@@ -99,8 +88,6 @@ const createCityController = async (req, res) => {
     }
     //  }
   } catch (error) {
-    console.log(error); //delete
-    console.log("Controller:CBE Something Went Wrong !"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -147,8 +134,6 @@ const updateCityController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error); //delete
-    console.log("Controller:CBE Something Went Wrong !"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -190,8 +175,6 @@ const deleteCityController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error); //delete
-    console.log("Controller:CBE Something Went Wrong !"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -205,11 +188,10 @@ const getCitiesByStateIdController = async (req, res) => {
     const id = req.params.id;
 
     if (isNaN(id)) {
-      // console.log("id passed is not a number"); //delete
       res.send("send valid id: ", id, "   is not a number");
     } else {
       const details = await getCitiesByStateIdRepository(id, res);
-      //  console.log(details.array[0]);
+
       if (details) {
         res.status(200).json({
           success: true,
@@ -225,8 +207,6 @@ const getCitiesByStateIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error); //delete
-    console.log("Controller: catch block Error"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -240,11 +220,10 @@ const getCitiesByCountryIdController = async (req, res) => {
     const id = req.params.id;
 
     if (isNaN(id)) {
-      // console.log("id passed is not a number"); //delete
       res.send("send valid id: ", id, "   is not a number");
     } else {
       const details = await getCitiesByCountryIdRepository(id, res);
-      //  console.log(details.array[0]);
+
       if (details) {
         res.status(200).json({
           success: true,
@@ -260,8 +239,6 @@ const getCitiesByCountryIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error); //delete
-    console.log("Controller: catch block Error"); //delete
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",

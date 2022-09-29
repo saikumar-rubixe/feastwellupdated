@@ -14,9 +14,8 @@ const {
 } = require("../../controller/mealsAndMenu/mealItemsController");
 //^ create meal items
 mealItemsRoute.post("/", async (req, res) => {
-  console.log(`im in the router to check permission`); //delete
   const permission = await checkRoutePermission(req);
-  if (permission !== 1) {
+  if (permission != 1) {
     res.status(401).json({
       success: false,
       message: "unauthorized access",
@@ -37,6 +36,7 @@ mealItemsRoute.post("/", async (req, res) => {
 //* get ALL meal items
 mealItemsRoute.get("/", async (req, res) => {
   const permission = await checkRoutePermission(req);
+
   if (permission !== 1) {
     res.status(401).json({
       success: false,
@@ -63,6 +63,7 @@ mealItemsRoute.put("/:id", async (req, res) => {
 //! Delete Meal Items
 mealItemsRoute.delete("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
+
   if (permission !== 1) {
     res.status(401).json({
       success: false,
@@ -76,6 +77,7 @@ mealItemsRoute.delete("/:id", async (req, res) => {
 //* get Meal Items By Id
 mealItemsRoute.get("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
+
   if (permission !== 1) {
     res.status(401).json({
       success: false,

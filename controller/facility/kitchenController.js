@@ -9,10 +9,9 @@ const {
 // 1 get details by id
 let getKitchenDetailsByIdController = async (req, res) => {
   let id = req.params.id;
-  // console.log(`id passed is ${id}`);
+
   try {
     if (isNaN(id)) {
-      console.log("pass id as a number only ");
       res.status(400).json({
         success: false,
         message: "invalid  id passed /undefined",
@@ -34,7 +33,6 @@ let getKitchenDetailsByIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log("Controller: catch block error ");
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -60,7 +58,6 @@ let getAllKitchenDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       Message: "CBE! Something went wrong",
@@ -70,7 +67,6 @@ let getAllKitchenDetailsController = async (req, res) => {
 //3 create controller
 let insertKitchenDetailsController = async (req, res) => {
   try {
-    console.log(req.body);
     const {
       kitchenName,
       number,
@@ -82,7 +78,7 @@ let insertKitchenDetailsController = async (req, res) => {
       zipcode,
     } = req.body;
     const createdBy = req.userIdValue;
-    console.log(`created by date is ${createdBy}`);
+
     const create = await insertKitchenDetailsRepository(
       kitchenName,
       number,
@@ -108,7 +104,6 @@ let insertKitchenDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -119,11 +114,9 @@ let insertKitchenDetailsController = async (req, res) => {
 // 4 update controller
 let updateKitchenDetailsController = async (req, res) => {
   let id = req.params.id;
-  console.log(id);
-  console.log(req.body);
+
   try {
     if (isNaN(id)) {
-      console.log("pass id as a number only ");
       res.status(400).json({
         success: false,
         message: "invalid  id passed /undefined for update ",
@@ -178,8 +171,6 @@ let updateKitchenDetailsController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log("Controller: catch block error ");
-    console.log(error);
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",
@@ -219,7 +210,6 @@ let deleteKitchenDetailsController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log("Controller: catch block error ");
     res.status(500).json({
       success: false,
       message: " something went wrong cb cont ",

@@ -64,7 +64,6 @@ facilityRoute.get("/:id", async (req, res) => {
 
 //? Update
 facilityRoute.put("/:id", async (req, res) => {
-  console.log(`im in the router to check permission`); //delete
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
@@ -87,6 +86,7 @@ facilityRoute.put("/:id", async (req, res) => {
 //! DELETE
 facilityRoute.delete("/:id", async (req, res) => {
   const permission = await checkRoutePermission(req);
+
   if (permission !== 1) {
     res.status(401).json({
       success: false,

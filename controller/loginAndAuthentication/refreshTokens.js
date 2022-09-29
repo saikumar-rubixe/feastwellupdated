@@ -32,8 +32,6 @@ const createTokensController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log(`CBE! somthing went wrong`);
     res.status(500).json({
       success: false,
       message: "something went wrong",

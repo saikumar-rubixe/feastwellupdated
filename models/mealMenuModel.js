@@ -4,7 +4,7 @@ class MealMenuModel {
   menuDescription = null;
   mealType = null; //(1: breakfast 2:lunch 3:snacks 4: dinner)
   mealStatus = null;
-  userId = null;
+  createdBy = null;
   createdDate = null;
   updatedDate = null;
   mealItems = null;
@@ -14,9 +14,10 @@ class MealMenuModel {
     menuDescription,
     mealType,
     mealStatus,
-    userId,
+    createdBy,
     createdDate,
     updatedDate,
+    updatedBy,
     mealItems
   ) {
     this.mealMenuId = mealMenuId;
@@ -24,9 +25,10 @@ class MealMenuModel {
     this.menuDescription = menuDescription;
     this.mealType = mealType;
     this.mealStatus = mealStatus;
-    this.userId = userId;
+    this.createdBy = createdBy;
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;
+    this.updatedBy = updatedBy;
     this.mealItems = mealItems;
   }
 }

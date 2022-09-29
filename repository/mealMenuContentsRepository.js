@@ -23,7 +23,6 @@ const getAllMealMenuDetailsRepository = async (req, res) => {
   try {
     let array = [];
     let query = "select * from `meal_menu_contents` where 1=1 ";
-    //let sql = con.format(query);
     let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
@@ -46,8 +45,6 @@ const getAllMealMenuDetailsRepository = async (req, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -55,7 +52,6 @@ const getAllMealMenuDetailsRepository = async (req, res) => {
 const getMealMenuContentsDetailByIdRepository = async (id, res) => {
   try {
     let query = "select * from `meal_menu_contents` where meal_content_id =?";
-    //  let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
@@ -74,8 +70,6 @@ const getMealMenuContentsDetailByIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -106,8 +100,6 @@ const createMealMenuContentsRepository = async (
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -132,15 +124,13 @@ const updateMealMenuContentsRepository = async (
       id,
     ]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -149,18 +139,15 @@ const updateMealMenuContentsRepository = async (
 const deleteMealMenuContentsRepository = async (id, res) => {
   try {
     let query = "DELETE from  `meal_menu_contents` where meal_content_id=?";
-    // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };

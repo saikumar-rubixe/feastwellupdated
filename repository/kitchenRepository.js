@@ -10,10 +10,8 @@ let getKitchenDetailsByIdRepository = async (id, res) => {
   try {
     let query =
       "select kitchen.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `kitchen` INNER JOIN `countries`  ON kitchen.country_id=countries.id INNER JOIN `states` ON kitchen.state_id=states.id INNER JOIN `cities` ON kitchen.city_id= cities.id  where kitchen_id =?  ";
-    // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
-    console.log(results);
-    console.log(results.length);
+
     if (results.length != 0) {
       let result = results[0];
       let model = new KitchenModel();
@@ -41,7 +39,6 @@ let getKitchenDetailsByIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log("repo: catch block error");
     return false;
   }
 };
@@ -52,7 +49,7 @@ let getKitchenDetailsRepository = async (req, res) => {
     let query =
       "select kitchen.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `kitchen` INNER JOIN `countries`  ON kitchen.country_id=countries.id INNER JOIN `states` ON kitchen.state_id=states.id INNER JOIN `cities` ON kitchen.city_id= cities.id ";
     let results = await runQuery(query);
-    console.log(results);
+
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
@@ -83,8 +80,6 @@ let getKitchenDetailsRepository = async (req, res) => {
       return { count, kitchenArray };
     }
   } catch (error) {
-    console.log("repo: catch block error ");
-    console.log(error);
     return false;
   }
 };
@@ -123,8 +118,6 @@ let insertKitchenDetailsRepository = async (
 
     return results.insertId;
   } catch (error) {
-    console.log("repo:catch block error");
-    console.log(error);
     return null;
   }
 };
@@ -143,7 +136,6 @@ let updateKitchenDetailsRepository = async (
   res
 ) => {
   try {
-    // console.log("into update repository");
     let query =
       "UPDATE `kitchen` SET name =?,contact_number=?,country_id=?,state_id=?,city_id=?,status=?,updated_date=?,updated_by=? ,address=?,zipcode=? WHERE kitchen_id =? ";
 
@@ -167,7 +159,6 @@ let updateKitchenDetailsRepository = async (
       return false;
     }
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -176,7 +167,6 @@ let updateKitchenDetailsRepository = async (
 let deleteKitchenDetailsRepository = async (id, res) => {
   try {
     let query = "DELETE from kitchen WHERE kitchen_id =? ";
-    // let sql = con.format(query, [id]);
     let result = await runQuery(query, [id]);
 
     if (result.affectedRows == 1) return true;
@@ -184,7 +174,6 @@ let deleteKitchenDetailsRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
     return false;
   }
 };

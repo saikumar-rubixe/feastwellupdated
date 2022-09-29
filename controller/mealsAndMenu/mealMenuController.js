@@ -33,8 +33,6 @@ const getMealMenuDetailByIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -61,8 +59,6 @@ const getAllMealMenuDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -76,35 +72,23 @@ function isString(value) {
 
 //** 3  create */
 const createMealMenuController = async (req, res) => {
-  console.log(`request body`);
-  console.log(req.body);
   try {
-    console.log("consoling controller");
+    const userId = req.userIdValue;
     const {
       mealMenuName,
       menuDescription,
       mealType,
       mealStatus,
-      userId,
       mealItems, // here json array of mealitems id
     } = req.body;
-    console.log("consolling request body");
-    console.log(req.body);
-    console.log(`mealitems String ? : ${isString(mealItems)}`);
+
     if (!isString(mealItems)) {
       res.status(400).json({
         success: false,
         message: "pass String",
         data: mealItems,
       });
-    }
-    // check for user/email/etc doesnot exits
-    // check for user/email/etc doesnot exits
-    // const recordCheck = await funtncCall();
-    // if (recordCheck || recordCheck == true) {
-    //   // for exist pass negative
-    // } else if (!recordCheck || recordCheck == false) {
-    else {
+    } else {
       const create = await createMealMenuRepository(
         mealMenuName,
         menuDescription,
@@ -114,8 +98,6 @@ const createMealMenuController = async (req, res) => {
         mealItems
       );
       if (create) {
-        console.log(`consoliing the create reults`);
-        console.log(create);
         res.status(201).json({
           success: true,
           message: `data created succesfully with id :${create.menuId}`,
@@ -132,13 +114,7 @@ const createMealMenuController = async (req, res) => {
         });
       }
     }
-
-    // }
   } catch (error) {
-    // catch block error
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong  creation failed!");
-
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -164,12 +140,13 @@ const updateMealMenuController = async (req, res) => {
         });
       }
       if (recordCheck) {
+        const userId = req.userIdValue;
         const {
           mealMenuName,
           menuDescription,
           mealType,
           mealStatus,
-          userId,
+
           mealItems,
         } = req.body;
 
@@ -197,8 +174,6 @@ const updateMealMenuController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -240,8 +215,6 @@ const deleteMealMenuController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",

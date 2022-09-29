@@ -47,6 +47,10 @@ class ResidentCrePlanModel {
   proteinNeedsValue = null;
   carePlans = null;
   recommendations = null;
+  createdDate = null;
+  updatedDate = null;
+  createdBy = null;
+  updatedBy = null;
 
   fill(
     id,
@@ -96,7 +100,11 @@ class ResidentCrePlanModel {
     proteinNeeds,
     proteinNeedsValue,
     carePlans,
-    recommendations
+    recommendations,
+    createdDate,
+    updatedDate,
+    createdBy,
+    updatedBy
   ) {
     this.id = id;
     this.userId = userId;
@@ -146,6 +154,10 @@ class ResidentCrePlanModel {
     this.proteinNeedsValue = proteinNeedsValue;
     this.carePlans = carePlans;
     this.recommendations = recommendations;
+    this.createdDate = createdDate;
+    this.updatedDate = updatedDate;
+    this.createdBy = createdBy;
+    this.updatedBy = updatedBy;
   }
 }
 

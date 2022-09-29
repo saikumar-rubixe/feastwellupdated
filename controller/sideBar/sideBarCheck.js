@@ -24,10 +24,6 @@ const checkCRUDPermissionsController = async (req, res) => {
   else return res.send("un-authorized");
 };
 
-//****************************    helper methods      ************************************** */
-
-//************************************************************************************* */
-
 module.exports = {
   checkSideBarPermissionContoller,
   checkCRUDPermissionsController,

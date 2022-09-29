@@ -28,8 +28,6 @@ const getSingleimageUploadDetailRepository = async (req, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -44,6 +42,7 @@ const getAllimageUploadDetailsRepository = async (flag) => {
     }
     let results = await runQuery(query);
     let count = results.length;
+
     if (count != 0) {
       for (i = 0; i < count; i++) {
         let model = new ImageUploadDetails();
@@ -69,8 +68,6 @@ const getAllimageUploadDetailsRepository = async (flag) => {
       return { count, array };
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -133,8 +130,6 @@ const getImagesUploadedByNurseIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -156,7 +151,7 @@ const insertImageUrlDetailsRepository = async (
       getPstDate(),
       mealType,
     ]);
-    console.log(results);
+
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -164,8 +159,6 @@ const insertImageUrlDetailsRepository = async (
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };

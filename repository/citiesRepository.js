@@ -11,7 +11,7 @@ const getAllCitiesDetailsRepository = async (req, res, countryId) => {
     if (countryId) {
       query += " and country_id = " + countryId;
     }
-    //let sql = con.format(query);
+
     let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
@@ -31,8 +31,6 @@ const getAllCitiesDetailsRepository = async (req, res, countryId) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -43,11 +41,7 @@ const getCitiesByStateIdRepository = async (id, res) => {
     let array = [];
     let query =
       " select `id`,`name`,`state_code`,`country_id` , state_id from  `cities` where state_id =?";
-    // if (countryId) {
-    //   query += " and country_id = " + countryId;
-    // }
 
-    // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     let count = results.length;
     if (count != 0) {
@@ -68,7 +62,6 @@ const getCitiesByStateIdRepository = async (id, res) => {
     }
     return { count, array };
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -78,7 +71,7 @@ const createCitiesRepository = async (name, stateId, countryId) => {
   try {
     let query =
       "INSERT into `cities` (`name`,`state_id`, country_id) VALUES(?,?,?) ";
-    // let sql = con.format(query, [values]);
+
     let results = await runQuery(query, [name, stateId, countryId]);
     let value = results.insertId;
     if (value && value != 0) {
@@ -87,8 +80,6 @@ const createCitiesRepository = async (name, stateId, countryId) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -98,18 +89,16 @@ const updateCityRepository = async (id, name, stateCode, countryCode) => {
   try {
     let query =
       " UPDATE `cities` set `name`=?,`state_code`=?,`country_code`=? where id =?";
-    // let sql = con.format(query, [name, stateCode, countryCode, id]);
+
     let results = await runQuery(query, [name, stateCode, countryCode, id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -117,18 +106,16 @@ const updateCityRepository = async (id, name, stateCode, countryCode) => {
 const deleteCityRepository = async (id, res) => {
   try {
     let query = "DELETE from  `cities` where `id`=?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -159,7 +146,6 @@ const getCitiesByCityIdRepository = async (id, res) => {
     }
     return { count, array };
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -170,11 +156,7 @@ const getCitiesByCountryIdRepository = async (id, res) => {
     let array = [];
     let query =
       " select `id`,`name`,`state_code`,`country_id` , state_id from  `cities` where country_id =?";
-    // if (countryId) {
-    //   query += " and country_id = " + countryId;
-    // }
 
-    // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     let count = results.length;
     if (count != 0) {
@@ -195,7 +177,6 @@ const getCitiesByCountryIdRepository = async (id, res) => {
     }
     return { count, array };
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -204,18 +185,16 @@ const getCitiesByCountryIdRepository = async (id, res) => {
 const deleteCitiesByStateIdRepository = async (id, res) => {
   try {
     let query = "DELETE from  `cities` where `state_id `=?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -224,18 +203,16 @@ const deleteCitiesByStateIdRepository = async (id, res) => {
 const deleteCitiesByCountryId = async (id, res) => {
   try {
     let query = "DELETE from  `cities` where `country_id  `=?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };

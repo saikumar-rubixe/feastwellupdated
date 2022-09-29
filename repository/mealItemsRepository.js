@@ -7,7 +7,6 @@ let { mealItemsModel } = require("../models/mealitemsModel");
 const getMealItemsDetailByIdRepository = async (id, res) => {
   try {
     let query = "select * from `meal_items` where meal_item=?";
-    //  let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
@@ -15,18 +14,17 @@ const getMealItemsDetailByIdRepository = async (id, res) => {
       model.fill(
         (mealItem = result.meal_item),
         (mealItemName = result.meal_item_name),
-        (Status = result.status),
-        (userId = result.user_id),
+        (status = result.status),
+        (createdBy = result.created_by),
         (createdDate = result.created_date),
-        (updatedDate = result.updated_date)
+        (updatedDate = result.updated_date),
+        (updatedBy = result.updated_by)
       );
       return model;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -35,7 +33,6 @@ const getAllMealItemsDetailsRepository = async (req, res) => {
   try {
     let array = [];
     let query = "select * from `meal_items` where 1=1 ";
-    // let sql = con.format(query);
     let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
@@ -46,9 +43,10 @@ const getAllMealItemsDetailsRepository = async (req, res) => {
           (mealItem = result.meal_item),
           (mealItemName = result.meal_item_name),
           (status = result.status),
-          (userId = result.user_id),
+          (createdBy = result.created_by),
           (createdDate = result.created_date),
-          (updatedDate = result.updated_date)
+          (updatedDate = result.updated_date),
+          (updatedBy = result.updated_by)
         );
         array.push(model);
       }
@@ -57,22 +55,21 @@ const getAllMealItemsDetailsRepository = async (req, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
-const createMealItemsRepository = async (mealItemName, status, userId) => {
+const createMealItemsRepository = async (mealItemName, status, createdBy) => {
   try {
     let query =
-      "INSERT into `meal_items` (`meal_item_name`,`status`,`user_id`,`created_date`,`updated_date`) VALUES(?,?,?,?,?) ";
+      "INSERT into `meal_items` (`meal_item_name`,`status`,`created_by`,`created_date`,`updated_date`,`updated_by`) VALUES(?,?,?,?,?,?) ";
 
     let results = await runQuery(query, [
       mealItemName,
       status,
-      userId,
+      createdBy,
       getPstDate(),
       getPstDate(),
+      createdBy,
     ]);
     let value = results.insertId;
     if (value && value != 0) {
@@ -81,34 +78,36 @@ const createMealItemsRepository = async (mealItemName, status, userId) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
 
-const updateMealItemsRepository = async (id, mealItemName, status, userId) => {
+const updateMealItemsRepository = async (
+  id,
+  mealItemName,
+  status,
+  updatedBy
+) => {
   try {
     let query =
-      " UPDATE `meal_items` set `meal_item_name`=?,`status`=?,`user_id`=?,`updated_date`=? where meal_item  =?";
+      " UPDATE `meal_items` set `meal_item_name`=?,`status`=?,`updated_date`=?`,updated_by`=? where meal_item  =?";
 
     let results = await runQuery(query, [
       mealItemName,
       status,
-      userId,
+
       getPstDate(),
+      updatedBy,
       id,
     ]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -118,15 +117,13 @@ const deleteMealItemsRepository = async (id, res) => {
     let query = "DELETE from  `meal_items` where `meal_item`=?";
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };

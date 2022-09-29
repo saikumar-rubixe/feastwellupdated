@@ -5,7 +5,7 @@ const {
 const getReisdentsOfNurseIdController = async (req, res) => {
   try {
     const nurseId = req.userIdValue;
-    console.log(`nurse id is ${nurseId}`);
+
     const details = await getReisdentsOfNurseIdRepository(nurseId);
     if (details) {
       res.status(200).json({
@@ -25,7 +25,6 @@ const getReisdentsOfNurseIdController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message: " something went wrong cb",

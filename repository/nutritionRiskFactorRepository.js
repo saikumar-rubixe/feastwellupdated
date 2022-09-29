@@ -7,7 +7,6 @@ const getAllNutritionalRiskFactorsDetails = async (req, res) => {
   try {
     let query =
       "select `risk_factor_id`, `risk_factor_name` from `resident_nutrition_risk_factors` where status=1";
-    //  let sql = con.format(query);
     let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
@@ -30,8 +29,6 @@ const getAllNutritionalRiskFactorsDetails = async (req, res) => {
       return { count, array };
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };

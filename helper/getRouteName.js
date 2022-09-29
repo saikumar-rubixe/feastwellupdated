@@ -12,20 +12,17 @@
 const getRouteName = function (req) {
   var routeName = "/";
   try {
-    console.log("getting route name");
     const routeFullName = req.originalUrl;
     const routeArray = routeFullName.split("/");
+
     routeName = routeArray[routeArray.length - 1];
 
     const isInt = parseInt(routeName);
-    console.log(isInt);
+
     if (isInt) {
       routeName = routeArray[routeArray.length - 2];
     }
-    console.log(routeName);
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
   return routeName;
 };
 

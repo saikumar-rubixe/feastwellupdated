@@ -12,17 +12,16 @@ const verify = async (req) => {
   let jtoken = req.header("Authorization");
   if (jtoken) {
     let token = jtoken.replace("Bearer ", "");
-    // console.log(token);//delete
+
     try {
       const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-      //  console.log(verified);//delete
+
       user = await getUserByIdRepository(verified.id);
 
       req.userIdValue = user.userId;
       req.userIdUserType = user.usertype;
     } catch (error) {
-      console.log(error);
-      console.log("expired");
+      console.log("expired"); //delete
     }
   }
 
@@ -32,36 +31,3 @@ const verify = async (req) => {
 module.exports = {
   verify: verify,
 };
-
-// const jwt = require("jsonwebtoken");
-// const dotenv = require("dotenv");
-// dotenv.config();
-
-// const verify = function (req, res, next) {
-//   let jtoken = req.header("Authorization");
-
-//unauthorized
-//   if (!jtoken)
-//     return res.status(401).json({ success: false, message: "Access denied" });
-//   else {
-//     let token = jtoken.replace("Bearer ", "");
-//     try {
-//           passing the    token and the secret key
-//       const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-// once the token is verified ...from that id can be extracted and that id will be user )
-//       req.userIdValue = verified.id;
-
-// ..which we can use for fetching the details of user by id ,, that api is already there from usersgetby id
-//       next();
-// by calling the next function we can call the getuserById method and get the details
-//     } catch (error) {
-//       console.log("expired");
-//       res.status(401).json({
-//         success: false,
-//         message: "session expired try with refresh token",
-//       });
-//     }
-//   }
-// };
-
-// module.exports = { verify };

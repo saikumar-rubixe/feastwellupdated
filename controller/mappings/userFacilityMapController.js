@@ -40,8 +40,6 @@ const getAllUserFacilityDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -79,8 +77,6 @@ const getUserFacilityDetailByIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -90,9 +86,6 @@ const getUserFacilityDetailByIdController = async (req, res) => {
 
 // 1 create  facility and user id mapping details
 const createUserFacilityController = async (req, res) => {
-  console.log(`user facilty maoping `);
-  console.log(req.body);
-  console.log(`user facilty maoping `);
   try {
     const { userId, facilityId, status } = req.body;
     const createdBy = req.userIdValue;
@@ -103,7 +96,7 @@ const createUserFacilityController = async (req, res) => {
       status,
       createdBy
     );
-    console.log(`crate is ${create}`);
+
     if (create && create != false) {
       res.status(200).json({
         success: true,
@@ -118,7 +111,6 @@ const createUserFacilityController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -169,8 +161,6 @@ const updateUserFacilityByUserIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -182,13 +172,17 @@ const updateUserFacilityByUserIdController = async (req, res) => {
 const deleteUserFacilityController = async (req, res) => {
   try {
     const id = req.params.id;
+
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
         message: "invalid id Passed:  " + id,
       });
     } else {
-      const recordCheck = await getUserFacilityDetailsByIdController(id, res);
+      const recordCheck = await getUserFacilityDetailsByUserIdRepository(
+        id,
+        res
+      );
 
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
@@ -212,8 +206,6 @@ const deleteUserFacilityController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -247,8 +239,6 @@ const getUserFacilityDetailByUserIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",

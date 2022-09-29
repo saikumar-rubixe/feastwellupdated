@@ -21,7 +21,6 @@ const getAllMenuCategoryDetailsRepository = async (req, res) => {
   try {
     let array = [];
     let query = "SELECT * from  `menu_category` where 1=1 ";
-    //let sql = con.format(query);
     let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
@@ -49,8 +48,6 @@ const getAllMenuCategoryDetailsRepository = async (req, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -59,7 +56,6 @@ const getAllMenuCategoryDetailsRepository = async (req, res) => {
 const getMenuCategoryDetailByIdRepository = async (id, res) => {
   try {
     let query = "SELECT * FROM `menu_category` where `menu_category_id` =?";
-    // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
@@ -83,8 +79,6 @@ const getMenuCategoryDetailByIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -114,8 +108,6 @@ const createMenuCategoryRepository = async (categoryName, menuStatus) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -140,15 +132,13 @@ const updateMenuCategoryRepository = async (id, categoryName, menuStatus) => {
       id,
     ]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -164,18 +154,15 @@ const updateMenuCategoryRepository = async (id, categoryName, menuStatus) => {
 const deleteMenuCategoryRepository = async (id, res) => {
   try {
     let query = "DELETE  from  `menu_category` where menu_category_id=?";
-    // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -195,15 +182,15 @@ const getMenuCategoryIdByRepository = async (routeName) => {
     OR menu_routes LIKE '${routeName},%'  
     OR menu_routes LIKE '%,${routeName},%' 
     OR menu_routes LIKE '%,${routeName}' limit 1`;
-    console.log(query);
+    console.log(query); //delete
     let results = await runQuery(query);
-    console.log("got result");
+
     if (results.length != 0) {
       let result = results[0];
       returnId = result.menu_category_id;
     }
   } catch (error) {
-    console.log("Error: getMenuCategoryIdByRepository, " + error);
+    console.log("Error: getMenuCategoryIdByRepository, " + error); //delete
   }
   return returnId;
 };

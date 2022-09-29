@@ -23,12 +23,11 @@
 
 let { UserTypeModel } = require("../models/userTypeModel");
 let { runQuery } = require("../config/database");
-//con = con();
-//runQuery = runQuery();
+
 const getUserTypeDetailByIdRepository = async (id, res) => {
   try {
     let query = " select * from  `users_type` where users_type_id =?";
-    // let sql = con.format(query, [id]);
+
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
@@ -43,8 +42,6 @@ const getUserTypeDetailByIdRepository = async (id, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -53,7 +50,7 @@ const getAllUserTypeDetailsRepository = async (req, res) => {
   let array = [];
   try {
     let query = "select * from `users_type` where 1=1 ";
-    //let sql = con.format(query);
+
     let results = await runQuery(query);
     let count = results.length;
     if (count != 0) {
@@ -62,7 +59,8 @@ const getAllUserTypeDetailsRepository = async (req, res) => {
         let result = results[i];
         model.fill(
           (usersTypeId = result.users_type_id),
-          (userTypeName = result.user_type_name)
+          (userTypeName = result.user_type_name),
+          (userHeirarchy = result.user_heirarchy)
         );
         array.push(model);
       }
@@ -71,17 +69,15 @@ const getAllUserTypeDetailsRepository = async (req, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
 
-const createUserTypeRepository = async (userTypeName) => {
+const createUserTypeRepository = async (userTypeName, userHeirarchy) => {
   try {
-    let query = "INSERT into `users_type` (`user_type_name`) VALUES(?) ";
-    // let sql = con.format(query, [userTypeName]);
-    let results = await runQuery(query, [userTypeName]);
+    let query =
+      "INSERT into `users_type` (`user_type_name`,`user_heirarchy`) VALUES(?,?) ";
+    let results = await runQuery(query, [userTypeName, userHeirarchy]);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -89,52 +85,41 @@ const createUserTypeRepository = async (userTypeName) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
 
-const updateUserTypeRepository = async (userTypeName, id) => {
+const updateUserTypeRepository = async (userTypeName, userHeirarchy, id) => {
   try {
     let query =
-      " UPDATE `users_type` set `user_type_name`=? where users_type_id  =?";
-    // let sql = con.format(query, [userTypeName, id]);
-    let results = await runQuery(query, [userTypeName, id]);
+      " UPDATE `users_type` set `user_type_name`=?, `user_heirarchy`=? where users_type_id  =?";
+    let results = await runQuery(query, [userTypeName, userHeirarchy, id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
 
 const deleteUserTypeRepository = async (id, res) => {
-  console.log(`into respository`);
   try {
-    console.log(`before query`);
     let query = "DELETE from  `users_type` where users_type_id=?";
 
-    // let sql = con.format(query, [id]);
     let results = await runQuery(query, [id]);
-    console.log(`after query`);
-    console.log(results);
+
     let value = results.affectedRows;
-    // console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };

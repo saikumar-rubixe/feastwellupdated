@@ -14,8 +14,6 @@ const createStatesRepository = async (statename, countryId) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -45,8 +43,6 @@ const getAllStatesDetailsRepository = async (req, res) => {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -74,28 +70,24 @@ const getStatesByStateIdRepository = async (id, res) => {
     }
     return { count, array };
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
 
 //? 4 update states by state Id
-const updateStatesByStateIdRepository = async (id, statename, coutryId) => {
+const updateStatesByStateIdRepository = async (id, statename, countryId) => {
   try {
-    console.log(`in the repositoy${statename} ${countryId}`);
     let query = " UPDATE `states` set `name`=?,`country_id`=? where id =?";
 
     let results = await runQuery(query, [statename, countryId, id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -107,15 +99,13 @@ const deleteStatesByStateIdRepository = async (id, res) => {
 
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -146,7 +136,6 @@ const getStatesByCountryIdRepository = async (id, res) => {
     }
     return { count, array };
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -164,15 +153,13 @@ const updateStatesByCountryIdRepository = async (
 
     let results = await runQuery(query, [Statename, coutryCode, id, countryId]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };
@@ -184,15 +171,13 @@ const deleteStatesByCountryIdRepository = async (id, res) => {
 
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
-    console.log(`affected rows : ${value}`);
+
     if (value == 1) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    console.log(error);
-    console.log("Repo:CBE Something went wrong!");
     return false;
   }
 };

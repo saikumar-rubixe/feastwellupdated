@@ -25,8 +25,6 @@ const getAllMealMenuContentsDetailsController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -61,8 +59,6 @@ const getMealMenuContentsDetailByIdController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something went wrong!");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -75,13 +71,7 @@ const createMealMenuContentsController = async (req, res) => {
   try {
     const { mealMenuId, mealItemId, menuContentStatus } = req.body;
     const userId = req.userIdValue;
-    console.log(userId);
-    // check for user/email/etc doesnot exits
-    // check for user/email/etc doesnot exits
-    // const recordCheck = await functionCall();
-    // if (recordCheck || recordCheck == true) {
-    //   // for exist pass negative
-    // } else if (!recordCheck || recordCheck == false) {
+
     const create = await createMealMenuContentsRepository(
       mealMenuId,
       mealItemId,
@@ -101,10 +91,7 @@ const createMealMenuContentsController = async (req, res) => {
         message: "data retrieval failed",
       });
     }
-    //  }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -156,8 +143,6 @@ const updateMealMenuContentsController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
@@ -202,8 +187,6 @@ const deleteMealMenuContentsController = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    console.log("Controller:CBE Something Went Wrong !");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",
