@@ -60,7 +60,7 @@ const getUserByIdController = async (req, res) => {
       if (recordExist == null || recordExist == false) {
         res.status(404).json({
           success: false,
-          message: "residents records not found ",
+          message: "users records not found ",
         });
       } else {
         //  case 1 : if user trying to acces his own details
@@ -196,7 +196,6 @@ let updateUserLoginDetailsController = async (req, res, next) => {
       });
     }
   } catch (error) {
-    res.send("something went wrong update failed");
     res.status(500).json({
       success: false,
       message: " something went wrong cb",

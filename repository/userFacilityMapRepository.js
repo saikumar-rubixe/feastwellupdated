@@ -46,7 +46,7 @@ const getUserFacilityDetailsByIdRepository = async (id, res) => {
   try {
     let array = [];
     let query =
-      "select `user_facility_map`.* ,users.full_name,users.username,users.user_type from `user_facility_map` INNER JOIN `users` on user_facility_map.user_id=users.user_id where users.user_type=6 and  facility_id=? ";
+      "select `user_facility_map`.* ,users.full_name,users.username,users.user_type from `user_facility_map` INNER JOIN `users` on user_facility_map.user_id=users.user_id where  facility_id=? ";
 
     let results = await runQuery(query, [id]);
     let count = results.length;

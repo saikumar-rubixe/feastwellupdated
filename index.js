@@ -123,7 +123,6 @@ app.use(`${apiBasePath}menuCategory`, MenuCategoryRoute);
 // ^Roles and Permissions
 app.use(`${apiBasePath}roles`, rolesRoute);
 app.use(`${apiBasePath}permissions`, permissionsRoute);
-app.use(`${apiBasePath}menuAccess`, sideBarCheckRoute); //delete
 
 // ?meal and menu
 app.use(`${apiBasePath}mealTypes`, mealTypes);

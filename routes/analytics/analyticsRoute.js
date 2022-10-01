@@ -12,15 +12,16 @@ const {
 
  */
 analyticsRoute.get("/nutrients/", async (req, res) => {
-  const err = await nutrientsBodyValidation(req);
-  if (err) {
-    return res.status(400).json({
-      error: err.message,
-      message: "request body validation error",
-    });
-  } else {
-    await getNutrientsController(req, res);
-  }
+  console.log(`in route`); //delete
+  // const err = await nutrientsBodyValidation(req);
+  // if (err) {
+  //   return res.status(400).json({
+  //     error: err.message,
+  //     message: "request body validation error",
+  //   });
+  // } else {
+  await getNutrientsController(req, res);
+  // }
 });
 
 module.exports = { analyticsRoute };

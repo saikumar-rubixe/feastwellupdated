@@ -2,11 +2,13 @@ const express = require("express");
 const imageUploadRoute = express.Router(); // imageUploadRoute will be used to handle the request.
 const multer = require("multer"); // multer will be used to handle the form data.
 const Aws = require("aws-sdk"); // aws-sdk library will used to upload image to s3 bucket.
-require("dotenv/config"); // for using the environment variables that stores the confedential information.
-let { runQuery } = require("../../config/database");
+
 const { getPstDate } = require("../../helper/getCanadaTime");
 let newDate = getPstDate();
 
+const {
+  configDataRepository,
+} = require("../../repository/configDatarepository");
 // creating the storage variable to upload the file and providing the destination folder,
 // if nothing is provided in the callback it will get uploaded in main directory
 
@@ -34,29 +36,35 @@ const fileFilter = (req, file, cb) => {
 // defining the upload variable for the configuration of photo being uploaded
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-// Now creating the S3 instance which will be used in uploading photo to s3 bucket.
-const s3 = new Aws.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID, // accessKeyId that is stored in .env file
-  secretAccessKey: process.env.AWS_ACCESS_KEY_SECRET, // secretAccessKey is also store in .env file
-});
-
 //*POST ROUTE //
 // now how to handle the post request and to upload photo (upload photo using the key defined below in upload.single ie: productimage )
 imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
   try {
-    if (req.file) {
-      var image = req.file.buffer; // to check the data in the console that is being uploaded
+    console.log(`in to the meal image route`); //delete
 
+    const values = await configDataRepository();
+
+    console.log(values); //delete
+
+    const BucketName = values.itemValue;
+    const accessKey = values.itemValue2;
+    const secretKey = values.itemValue3;
+
+    if (req.file && req.body.residentId) {
       // Definning the params variable to uplaod the photo
-      const date = new Date(Date.now());
-      let value = date.toISOString();
-      let newdate = value.replace(/:/g, "_");
+
+      // const date = new Date(Date.now());
+      // let value = date.toISOString();
+
+      let newdate = newDate.replace(/[:\s]+/g, "_");
       let newfileName = req.file.originalname.replace(
         /[&\/\\#, +()$~%'":*?<>{}]/g,
         "_"
       );
+
+      var image = req.file.buffer; // to check the data in the console that is being uploaded
       const params = {
-        Bucket: process.env.AWS_BUCKET_NAME, // bucket that we made earlier
+        Bucket: BucketName, // bucket that we made earlier
         Key: `${parseInt(req.body.residentId)}_${newdate}_${newfileName}`, // Name of the image
         Body: image, // Body which will contain the image in buffer format
         ACL: "public-read-write", // defining the permissions to get the public link
@@ -64,20 +72,29 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
         //  UserId: req.body.userId,
       };
 
+      // Now creating the S3 instance which will be used in uploading photo to s3 bucket.
+      const s3 = new Aws.S3({
+        accessKeyId: accessKey, // accessKeyId that is stored in .env file
+        secretAccessKey: secretKey, // secretAccessKey is also store in .env file
+      });
+
+      console.log(
+        `bucket name  ${BucketName} access key ${accessKey} and secret key ${secretKey}`
+      ); //delete
+
       // uplaoding the photo using s3 instance and saving the link in the database.
       s3.upload(params, async (error, data) => {
         if (error) {
           res.status(500).send({ err: error }); // if we get any error while uploading error message will be returned.
+        } else {
+          const url = data.Location;
+          // If not then below code will be executed
+          res.status(200).send({
+            success: true,
+            message: "image uploaded succesfully",
+            data: url,
+          });
         }
-
-        const url = data.Location;
-        // If not then below code will be executed
-
-        res.status(200).send({
-          success: true,
-          message: "image uploaded succesfully",
-          data: url,
-        });
       });
     } else if (!req.file) {
       return res.status(403).json({

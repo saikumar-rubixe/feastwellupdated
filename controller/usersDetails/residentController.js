@@ -107,48 +107,48 @@ const updateResidentController = async (req, res) => {
           success: false,
           message: "user records not found ",
         });
-      }
+      } else {
+        // get the usertype of the user details to be updated
+        updateRequesUserType = recordExist.userType;
+        let updateRequestUserTypeHierarchy =
+          await getUserTypeDetailByIdRepository(updateRequesUserType);
 
-      // get the usertype of the user details to be updated
-      updateRequesUserType = recordExist.userType;
-      let updateRequestUserTypeHierarchy =
-        await getUserTypeDetailByIdRepository(updateRequesUserType);
-
-      //now compare and check whether the user has access to do the requested updation acces or not!
-      const levelUp = hierarchy.userHeirarchy;
-      const levelDown = updateRequestUserTypeHierarchy.userHeirarchy;
-      console.log(
-        `user level (up) is ${levelUp} and update user level ( down) is ${levelDown} `
-      );
-
-      if (levelUp < levelDown) {
-        //*true
-        const { fullName, userStatus } = req.body;
-        const updatedBy = user.userId;
-        let details = await updateResidentRepository(
-          id,
-          fullName,
-          userStatus,
-          updatedBy
+        //now compare and check whether the user has access to do the requested updation acces or not!
+        const levelUp = hierarchy.userHeirarchy;
+        const levelDown = updateRequestUserTypeHierarchy.userHeirarchy;
+        console.log(
+          `user level (up) is ${levelUp} and update user level ( down) is ${levelDown} `
         );
-        if (details == false) {
-          res.status(404).json({
+
+        if (levelUp < levelDown) {
+          //*true
+          const { fullName, userStatus } = req.body;
+          const updatedBy = user.userId;
+          let details = await updateResidentRepository(
+            id,
+            fullName,
+            userStatus,
+            updatedBy
+          );
+          if (details == false) {
+            res.status(404).json({
+              success: false,
+              message: "update failed",
+            });
+          } else if (details == true) {
+            res.status(200).json({
+              success: true,
+              message: "updated Resident  details succesfully ",
+            });
+          }
+          //*
+        } else {
+          //! false
+          res.status(401).json({
             success: false,
-            message: "update failed",
-          });
-        } else if (details == true) {
-          res.status(200).json({
-            success: true,
-            message: "updated Resident  details succesfully ",
+            message: "you are not permitted to update this user",
           });
         }
-        //*
-      } else {
-        //! false
-        res.status(401).json({
-          success: false,
-          message: "you are not permitted to update this user",
-        });
       }
     }
   } catch (error) {

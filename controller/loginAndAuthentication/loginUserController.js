@@ -56,7 +56,7 @@ const getSideBar = async (req, res) => {
           roleId.roleId,
           "read_access"
         );
-        if (permission != 1) {
+        if (permission == 1) {
           menu["subMenus"].push({
             subMenuId: subMenus[j]["menuCategoryId"],
             subMenuName: subMenus[j]["menuCategoryName"],
@@ -65,6 +65,7 @@ const getSideBar = async (req, res) => {
       }
       if (menu.subMenus.length > 0) response["menus"].push(menu);
     }
+
     res.send(response);
   }
 };

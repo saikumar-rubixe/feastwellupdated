@@ -182,7 +182,7 @@ const getMenuCategoryIdByRepository = async (routeName) => {
     OR menu_routes LIKE '${routeName},%'  
     OR menu_routes LIKE '%,${routeName},%' 
     OR menu_routes LIKE '%,${routeName}' limit 1`;
-    console.log(query); //delete
+    console.log(`route request is ${routeName}`); //delete
     let results = await runQuery(query);
 
     if (results.length != 0) {

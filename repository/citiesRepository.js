@@ -1,4 +1,4 @@
-let { runQuery, con } = require("../config/database");
+let { runQuery } = require("../config/database");
 //con = con();
 //runQuery = runQuery();
 let { CitiesModel } = require("../models/citiesmodel");

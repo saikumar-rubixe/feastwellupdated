@@ -1,32 +1,31 @@
 class ImagePredictionRepsonseModel {
   id = null;
   imageTableId = null;
-  jsonResponse = null;
   createdDate = null;
-
   residentId = null;
   uploadedBy = null;
   flag = null;
   mealType = null;
+  jsonResponse = null;
 
   fill(
     id,
     imageTableId,
-    jsonResponse,
     createdDate,
     residentId,
     uploadedBy,
     flag,
-    mealType
+    mealType,
+    jsonResponse
   ) {
     this.id = id;
     this.imageTableId = imageTableId;
-    this.jsonResponse = jsonResponse;
     this.createdDate = createdDate;
     this.residentId = residentId;
     this.uploadedBy = uploadedBy;
     this.flag = flag;
     this.mealType = mealType;
+    this.jsonResponse = jsonResponse;
   }
 }
 

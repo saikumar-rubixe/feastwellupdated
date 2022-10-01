@@ -1,0 +1,113 @@
+
+[
+        {
+            "id": 59,
+            "imageTableId": 65,
+            "data" :"2022:09:02T12:23:23:000Z",
+            "jsonResponse": [
+                {
+                    "meals": "dsfsdf",
+                    "Quantity": 1,
+                    "Total volume": 107.82,
+                    "Weight": 70.08,
+                    "Nutrition": {
+                        "calories": 175.2,
+                        "totalfat": 7.008,
+                        "satfat": 0,
+                        "tranfat": 0,
+                        "polyfat": 0,
+                        "monofat": 0,
+                        "cholesterol": 0.021,
+                        "sod": 0.526,
+                        "pota": 0.175,
+                        "totalcarb": 14.016,
+                        "dietaryfiber": 0,
+                        "sugar": 0,
+                        "protein": 14.016,
+                        "p": 0.133,
+                        "k": 0.175,
+                        "caffeine": 0
+                    }
+                },
+                {
+                    "meals": "sdfsd sdfsd",
+                    "Quantity": 1,
+                    "Total volume": 107.82,
+                    "Weight": 70.08,
+                    "Nutrition": {
+                        "calories": 175.2,
+                        "totalfat": 7.008,
+                        "satfat": 0,
+                        "tranfat": 0,
+                        "polyfat": 0,
+                        "monofat": 0,
+                        "cholesterol": 0.021,
+                        "sod": 0.526,
+                        "pota": 0.175,
+                        "totalcarb": 14.016,
+                        "dietaryfiber": 0,
+                        "sugar": 0,
+                        "protein": 14.016,
+                        "p": 0.133,
+                        "k": 0.175,
+                        "caffeine": 0
+                    }
+                }
+            ]
+        },
+        {
+            "id": 59,
+            "imageTableId": 65,
+            "data" :"2022:09:03T12:23:23:000Z",
+            "jsonResponse": [
+                {
+                    "meals": "sdf dsfsdf",
+                    "Quantity": 1,
+                    "Total volume": 107.82,
+                    "Weight": 70.08,
+                    "Nutrition": {
+                        "calories": 175.2,
+                        "totalfat": 7.008,
+                        "satfat": 0,
+                        "tranfat": 0,
+                        "polyfat": 0,
+                        "monofat": 0,
+                        "cholesterol": 0.021,
+                        "sod": 0.526,
+                        "pota": 0.175,
+                        "totalcarb": 14.016,
+                        "dietaryfiber": 0,
+                        "sugar": 0,
+                        "protein": 14.016,
+                        "p": 0.133,
+                        "k": 0.175,
+                        "caffeine": 0
+                    }
+                },
+                {
+                    "meals": "dsdfsd",
+                    "Quantity": 1,
+                    "Total volume": 107.82,
+                    "Weight": 70.08,
+                    "Nutrition": {
+                        "calories": 175.2,
+                        "totalfat": 7.008,
+                        "satfat": 0,
+                        "tranfat": 0,
+                        "polyfat": 0,
+                        "monofat": 0,
+                        "cholesterol": 0.021,
+                        "sod": 0.526,
+                        "pota": 0.175,
+                        "totalcarb": 14.016,
+                        "dietaryfiber": 0,
+                        "sugar": 0,
+                        "protein": 14.016,
+                        "p": 0.133,
+                        "k": 0.175,
+                        "caffeine": 0
+                    }
+                }
+            ]
+        }
+    ]

@@ -210,6 +210,9 @@ const getPermissionForCategoryAndRoleId = async (
   } catch (error) {
     console.log("getPermissionForCategoryAndRoleId: " + error); //delete
   }
+  console.log(
+    `for role id ${roleId} menuCategory ${categoryId} access type ${accessType}   permission is ${access}`
+  );
   return access;
 };
 module.exports = {

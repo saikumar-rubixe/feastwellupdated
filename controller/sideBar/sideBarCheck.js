@@ -10,8 +10,6 @@ const checkSideBarPermissionContoller = async (userType, res) => {
   return null;
 };
 
-const getMenuIdsRepository = async () => {};
-
 // 2
 const checkCRUDPermissionsController = async (req, res) => {
   const { userType, requestCRUDAccess } = req.body;

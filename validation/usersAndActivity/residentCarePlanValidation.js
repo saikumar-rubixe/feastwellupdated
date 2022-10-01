@@ -53,8 +53,11 @@ const Schema = Joi.object({
 const residentCarePlanBodyValidation = async (req, res, next) => {
   returnError = null;
   try {
+    console.log(req.body); //delete
     await Schema.validateAsync(req.body);
   } catch (error) {
+    console.log(error); //delete
+
     returnError = error;
   }
   return returnError;
