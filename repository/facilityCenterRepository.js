@@ -244,4 +244,5 @@ module.exports = {
   insertFacilityCenterDetailsRepository,
   updateFacilityCenterDetailsRepository,
   deleteFacilityCenterDetailsRepository,
+  getfacilityDetailsByUserIdRepository,
 };

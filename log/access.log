@@ -4068,3 +4068,4 @@
 ::1 - - [06/Oct/2022:22:47:52 +0000] "GET /feastwell-backend/api/v1/analytics/facility?date=2022-10-6 HTTP/1.1" 200 436 "-" "PostmanRuntime/7.29.2"
 ::1 - - [06/Oct/2022:22:48:33 +0000] "GET /feastwell-backend/api/v1/analytics/facility?date=2022-10-6 HTTP/1.1" 200 436 "-" "PostmanRuntime/7.29.2"
 ::1 - - [06/Oct/2022:22:49:28 +0000] "GET /feastwell-backend/api/v1/analytics/facility?date=2022-10-6 HTTP/1.1" 200 641 "-" "PostmanRuntime/7.29.2"
+::1 - - [06/Oct/2022:22:53:41 +0000] "GET /feastwell-backend/api/v1/analytics/facility?date=2022-10-6 HTTP/1.1" 200 708 "-" "PostmanRuntime/7.29.2"
