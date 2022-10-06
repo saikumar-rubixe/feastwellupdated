@@ -92,7 +92,7 @@ userRoute.put("/loginDetails/:id", async (req, res) => {
       message: "unauthorized access",
     });
   } else {
-    const err = await updateUserLoginDetailsController(req);
+    const err = await userUpdateBodyValidation(req);
     if (err) {
       return res.status(400).json({
         error: err.message,

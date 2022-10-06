@@ -6,13 +6,13 @@ let { mealItemsModel } = require("../models/mealitemsModel");
 
 const getMealItemsDetailByIdRepository = async (id, res) => {
   try {
-    let query = "select * from `meal_items` where meal_item=?";
+    let query = "select * from `meal_items` where meal_item_id=?";
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
       let model = new mealItemsModel();
       model.fill(
-        (mealItem = result.meal_item),
+        (mealItem = result.meal_item_id),
         (mealItemName = result.meal_item_name),
         (status = result.status),
         (createdBy = result.created_by),
@@ -29,18 +29,22 @@ const getMealItemsDetailByIdRepository = async (id, res) => {
   }
 };
 
-const getAllMealItemsDetailsRepository = async (req, res) => {
+const getAllMealItemsDetailsRepository = async (status) => {
   try {
     let array = [];
-    let query = "select * from `meal_items` where 1=1 ";
+    let query = "select * from `meal_items` where 1=1  ";
+    if (status) {
+      query += " and status =" + status;
+    }
     let results = await runQuery(query);
+
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
         let model = new mealItemsModel();
         let result = results[i];
         model.fill(
-          (mealItem = result.meal_item),
+          (mealItem = result.meal_item_id),
           (mealItemName = result.meal_item_name),
           (status = result.status),
           (createdBy = result.created_by),
@@ -89,17 +93,18 @@ const updateMealItemsRepository = async (
   updatedBy
 ) => {
   try {
+    console.log(`in to the repo`);
     let query =
-      " UPDATE `meal_items` set `meal_item_name`=?,`status`=?,`updated_date`=?`,updated_by`=? where meal_item  =?";
+      " UPDATE `meal_items` set `meal_item_name`=?,`status`=?,`updated_date`=?,`updated_by`=? where meal_item_id  =?";
 
     let results = await runQuery(query, [
       mealItemName,
       status,
-
       getPstDate(),
       updatedBy,
       id,
     ]);
+    console.log(query);
     let value = results.affectedRows;
 
     if (value == 1) {
@@ -114,7 +119,7 @@ const updateMealItemsRepository = async (
 
 const deleteMealItemsRepository = async (id, res) => {
   try {
-    let query = "DELETE from  `meal_items` where `meal_item`=?";
+    let query = "DELETE from  `meal_items` where `meal_item_id`=?";
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
 

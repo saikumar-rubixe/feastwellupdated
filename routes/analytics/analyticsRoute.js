@@ -5,6 +5,9 @@ const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 const {
   getNutrientsController,
 } = require("../../controller/analytics/analyticsController");
+const {
+  facilityAnalyticsResponseController,
+} = require("../../controller/analytics/FacilityAnalyticsResponseController");
 
 //* GET THE NUTRIENTS VALUES OF RESIDENT
 /**
@@ -21,6 +24,19 @@ analyticsRoute.get("/nutrients/", async (req, res) => {
   //   });
   // } else {
   await getNutrientsController(req, res);
+  // }
+});
+
+analyticsRoute.get("/facility/", async (req, res) => {
+  console.log(`in route`); //delete
+  // const err = await facilityValidation(req);
+  // if (err) {
+  //   return res.status(400).json({
+  //     error: err.message,
+  //     message: "request body validation error",
+  //   });
+  // } else {
+  await facilityAnalyticsResponseController(req, res);
   // }
 });
 

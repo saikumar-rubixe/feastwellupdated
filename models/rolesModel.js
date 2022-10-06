@@ -6,7 +6,8 @@ class RolesModel {
   roleStatus = null;
   createdDate = null;
   updatedDate = null;
-
+  createdBy = null;
+  updatedBy = null;
   fill(
     roleId,
     roleName,
@@ -14,7 +15,9 @@ class RolesModel {
     userTypeId,
     roleStatus,
     createdDate,
-    updatedDate
+    updatedDate,
+    createdBy,
+    updatedBy
   ) {
     this.roleId = roleId;
     this.roleName = roleName;
@@ -23,6 +26,8 @@ class RolesModel {
     this.roleStatus = roleStatus;
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;
+    this.createdBy = createdBy;
+    this.updatedBy = updatedBy;
   }
 }
 module.exports = { RolesModel };

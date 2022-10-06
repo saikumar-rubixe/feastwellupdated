@@ -49,7 +49,9 @@ const getMealItemsDetailByIdController = async (req, res) => {
 // 2 get all details
 const getAllMealItemsDetailsController = async (req, res) => {
   try {
-    let details = await getAllMealItemsDetailsRepository();
+    const status = req.query.status;
+
+    let details = await getAllMealItemsDetailsRepository(status);
     if (!details || details == false) {
       res.status(400).json({
         success: false,
@@ -127,6 +129,7 @@ const updateMealItemsController = async (req, res) => {
       }
       if (recordCheck) {
         const { mealItemName, status } = req.body;
+
         const updatedBy = req.userIdvalue;
         const updatedetails = await updateMealItemsRepository(
           id,

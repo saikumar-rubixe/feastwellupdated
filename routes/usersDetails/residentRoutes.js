@@ -17,7 +17,7 @@ const {
   getAllResidentsOfFacilityController,
 } = require("../../controller/usersDetails/residentController");
 
-//^ Create User Details
+//^ Create resident Details
 residentRoute.post("/", async (req, res) => {
   const err = await residentValidation(req);
   if (err) {
@@ -30,22 +30,22 @@ residentRoute.post("/", async (req, res) => {
   }
 });
 
-//* get user details by Id(userId)
+//* get resident details by Id(userId)
 residentRoute.get("/:id", async (req, res) => {
   await getResidentByIdController(req, res);
 });
 
-//! get all users details
+//! get all residents details
 residentRoute.get("/", async (req, res) => {
   await getAllResidentsController(req, res);
 });
 
-//^ get all users details of resident
+//^ get all residents details of resident
 residentRoute.get("/facility/", async (req, res) => {
   await getAllResidentsOfFacilityController(req, res);
 });
 
-//? Update the user details BY ID(userId)
+//? Update the residents details BY ID(userId)
 residentRoute.put("/:id", async (req, res) => {
   const err = await updateResidentValidation(req);
   if (err) {
@@ -58,7 +58,7 @@ residentRoute.put("/:id", async (req, res) => {
   }
 });
 
-//! Delete User Details
+//! Delete resident Details
 residentRoute.delete("/:id", async (req, res) => {
   await deleteResidentController(req, res);
 });

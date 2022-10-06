@@ -23,6 +23,7 @@
 
 let { UserTypeModel } = require("../models/userTypeModel");
 let { runQuery } = require("../config/database");
+const { getPstDate } = require("../helper/getCanadaTime");
 
 const getUserTypeDetailByIdRepository = async (id, res) => {
   try {
@@ -35,7 +36,11 @@ const getUserTypeDetailByIdRepository = async (id, res) => {
       model.fill(
         (usersTypeId = result.users_type_id),
         (userTypeName = result.user_type_name),
-        (userHierarchy = result.user_heirarchy)
+        (userHierarchy = result.user_heirarchy),
+        (createdDate = result.created_date),
+        (updatedDate = result.updated_date),
+        (createdBy = result.created_by),
+        (updatedBy = result.updated_by)
       );
       return model;
     } else {
@@ -60,7 +65,11 @@ const getAllUserTypeDetailsRepository = async (req, res) => {
         model.fill(
           (usersTypeId = result.users_type_id),
           (userTypeName = result.user_type_name),
-          (userHeirarchy = result.user_heirarchy)
+          (userHeirarchy = result.user_heirarchy),
+          (createdDate = result.created_date),
+          (updatedDate = result.updated_date),
+          (createdBy = result.created_by),
+          (updatedBy = result.updated_by)
         );
         array.push(model);
       }
@@ -73,11 +82,22 @@ const getAllUserTypeDetailsRepository = async (req, res) => {
   }
 };
 
-const createUserTypeRepository = async (userTypeName, userHeirarchy) => {
+const createUserTypeRepository = async (
+  userTypeName,
+  userHeirarchy,
+  createdBy
+) => {
   try {
     let query =
-      "INSERT into `users_type` (`user_type_name`,`user_heirarchy`) VALUES(?,?) ";
-    let results = await runQuery(query, [userTypeName, userHeirarchy]);
+      "INSERT into `users_type` (`user_type_name`,`user_heirarchy`,created_date,updated_date,created_by,updated_by) VALUES(?,?) ";
+    let results = await runQuery(query, [
+      userTypeName,
+      userHeirarchy,
+      createdBy,
+      createdBy,
+      getPstDate(),
+      getPstDate(),
+    ]);
     let value = results.insertId;
     if (value && value != 0) {
       return value;
@@ -89,11 +109,22 @@ const createUserTypeRepository = async (userTypeName, userHeirarchy) => {
   }
 };
 
-const updateUserTypeRepository = async (userTypeName, userHeirarchy, id) => {
+const updateUserTypeRepository = async (
+  userTypeName,
+  userHeirarchy,
+  id,
+  updatedBy
+) => {
   try {
     let query =
-      " UPDATE `users_type` set `user_type_name`=?, `user_heirarchy`=? where users_type_id  =?";
-    let results = await runQuery(query, [userTypeName, userHeirarchy, id]);
+      " UPDATE `users_type` set `user_type_name`=?, `user_heirarchy`=? , updated_date=?,updated_by=? where users_type_id  =?";
+    let results = await runQuery(query, [
+      userTypeName,
+      userHeirarchy,
+      getPstDate(),
+      updatedBy,
+      id,
+    ]);
     let value = results.affectedRows;
 
     if (value == 1) {

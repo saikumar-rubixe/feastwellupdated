@@ -147,68 +147,7 @@ const getAllUsersController = async (req, res) => {
   }
 };
 
-// 6 update users login details controller by id
-let updateUserLoginDetailsController = async (req, res, next) => {
-  try {
-    let id = req.params.id;
-    const { lastLogin, loggedIpAddress } = req.body;
-
-    if (checkNumber(id)) {
-      const recordExist = await getUserByIdRepository(id, res);
-      if (recordExist == null) {
-        res.status(404).json({
-          success: false,
-          message: "Record not found Updation failed ",
-        });
-      }
-      if (recordExist && recordExist != null) {
-        let recordCheck = await userUpdateCheckRepository(userName, id, res);
-        if (recordCheck == 1) {
-          if (recordCheck == 1) {
-            res.status(404).json({
-              success: false,
-              message: "username not available ",
-            });
-          }
-        } else if (recordCheck == 0) {
-          let details = await updateUserLoginDetailsRepository(
-            id,
-            lastLogin,
-            loggedIpAddress
-          );
-          if (details == 1) {
-            res.status(404).json({
-              success: false,
-              message: "update failed",
-            });
-          } else if (details == 0) {
-            res.status(201).json({
-              success: true,
-              message: "updated User succesfully ",
-            });
-          }
-        }
-      }
-    } else {
-      res.status(400).json({
-        success: false,
-        message: "Wrong input:id must be a number ",
-      });
-    }
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: " something went wrong cb",
-    });
-  }
-};
-
-/** //^create user controller (2-admin 3-facility Manager 4-Nurse 5-dietcian 6-resident 7-guest )
- *
- * @param {*} req
- * @param {*} res
- * @author saikumar  date 24-09-2022
- */
+//^create user controller (2-admin 3-facility Manager 4-Nurse 5-dietcian 6-resident 7-guest )
 const createUsersController = async (req, res) => {
   try {
     let user = await verify(req);
@@ -294,7 +233,7 @@ const createUsersController = async (req, res) => {
   }
 };
 
-/** //? 2 update users controller
+/**4 //? update users controller
  *
  * @param {*} req
  * @param {*} res
@@ -345,7 +284,7 @@ const updateUsersController = async (req, res) => {
           // before updating the details check whether the requested username is available to insert or not
           const { fullName, username, userStatus } = req.body;
           let usernameCheck = await updateuserCheckRepository(username, id);
-          if (usernameCheck == 0) {
+          if (usernameCheck == true) {
             // if username is available to update then
             let details = await updateUserRepository(
               id,
@@ -359,7 +298,7 @@ const updateUsersController = async (req, res) => {
                 message: "update failed",
               });
             } else if (details == 0) {
-              res.status(201).json({
+              res.status(200).json({
                 success: true,
                 message: "updated User  details succesfully ",
               });
@@ -388,7 +327,7 @@ const updateUsersController = async (req, res) => {
   }
 };
 
-//! 3 delete user
+//! 5 delete user
 /**
  *
  * @param {*} req
@@ -464,8 +403,59 @@ const deleteUsersController = async (req, res) => {
   }
 };
 
-//* get all  user details
-//*  get user details By Id
+// 6 update users login details controller by id
+let updateUserLoginDetailsController = async (req, res, next) => {
+  try {
+    let id = req.params.id;
+    const { lastLogin, loggedIpAddress } = req.body;
+
+    if (checkNumber(id)) {
+      const recordExist = await getUserByIdRepository(id, res);
+
+      if (recordExist && recordExist != null) {
+        let recordCheck = await updateuserCheckRepository(userName, id, res);
+        if (recordCheck == false) {
+          res.status(403).json({
+            success: false,
+            message: "username not available to change ",
+          });
+        } else {
+          let details = await updateUserLoginDetailsRepository(
+            id,
+            lastLogin,
+            loggedIpAddress
+          );
+          if (details == true) {
+            res.status(200).json({
+              success: true,
+              message: "updated User succesfully ",
+            });
+          } else {
+            res.status(404).json({
+              success: false,
+              message: "update failed",
+            });
+          }
+        }
+      } else {
+        res.status(404).json({
+          success: false,
+          message: "no records found ",
+        });
+      }
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Wrong input:id must be a number ",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: " something went wrong cb",
+    });
+  }
+};
 
 module.exports = {
   getUserByIdController,

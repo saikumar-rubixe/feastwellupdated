@@ -68,13 +68,13 @@ const getAllRolesDetailsController = async (req, res) => {
 const createRolesController = async (req, res) => {
   try {
     const { roleName, userTypeId, roleStatus } = req.body;
-    // check for user/email/etc doesnot exits
-    // check for user/email/etc doesnot exits
-    // const recordCheck = await functionCall();
-    // if (recordCheck || recordCheck == true) {
-    //   // for exist pass negative
-    // } else if (!recordCheck || recordCheck == false) {
-    const create = await createRoleRepository(roleName, userTypeId, roleStatus);
+    const createdBy = req.userIdValue;
+    const create = await createRoleRepository(
+      roleName,
+      userTypeId,
+      roleStatus,
+      createdBy
+    );
     if (create) {
       res.status(201).json({
         success: true,
@@ -120,12 +120,14 @@ const updateRolesController = async (req, res) => {
           userTypeId,
           roleStatus,
         } = req.body;
+        const updatedBy = req.userIdValue;
         const updatedetails = await updateRolesRepository(
           id,
           roleName,
 
           userTypeId,
-          roleStatus
+          roleStatus,
+          updatedBy
         );
         if (updatedetails == true) {
           res.status(200).json({

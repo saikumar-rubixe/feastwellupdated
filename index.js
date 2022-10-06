@@ -86,6 +86,7 @@ const {
 } = require("./routes/mealImageUrlAndResponseData/mealTypesRoutes");
 
 const { analyticsRoute } = require("./routes/analytics/analyticsRoute");
+
 const { array } = require("joi");
 
 //***********************************************************************************

@@ -17,7 +17,7 @@ const getAllUserFacilityDetailsRepository = async () => {
         let model = new UserFacilityMapModel();
         let result = results[i];
         model.fill(
-          (id = result.id),
+          (id = result.user_facility_id),
           (userId = result.user_id),
           (facilityId = result.facility_id),
           (status = result.status),
@@ -55,7 +55,7 @@ const getUserFacilityDetailsByIdRepository = async (id, res) => {
         let model = new UserFacilityMapModel();
         let result = results[i];
         model.fill(
-          (id = result.id),
+          (id = result.user_facility_map_id),
           (userId = result.user_id),
           (facilityId = result.facility_id),
           (status = result.status),
@@ -84,6 +84,7 @@ const createUserFacilityRepository = async (
   createdBy
 ) => {
   try {
+    console.log(`values are ${(userId, facilityId, status, createdBy)}`);
     let query =
       " INSERT INTO `user_facility_map` (`user_id`,`facility_id`,`status`,`created_date`,`created_by`,`updated_date`,`updated_by`) VALUES(?,?,?,?,?,?,?)";
 
@@ -165,7 +166,7 @@ const getUserFacilityDetailsByTableIdRepository = async (id, res) => {
       let model = new UserFacilityMapModel();
       let result = results[0];
       model.fill(
-        (id = result.id),
+        (id = result.user_facility_map_id),
         (userId = result.user_id),
         (facilityId = result.facility_id),
         (status = result.status),
@@ -191,7 +192,7 @@ const getUserFacilityDetailsByUserIdRepository = async (id, res) => {
       let result = results[0];
       let model = new UserFacilityMapModel();
       model.fill(
-        (id = result.id),
+        (id = result.user_facility_map_id),
         (userId = result.user_id),
         (facilityId = result.facility_id),
         (status = result.status),

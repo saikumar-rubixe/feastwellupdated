@@ -1,38 +1,80 @@
 let { UserFacilityMapModel } = require("../models/userFacilityMapModel");
+
+let { UserModel } = require("../models/userModel");
 let { runQuery } = require("../config/database");
 
-getReisdentsOfNurseIdRepository = async (nurseId, mealType) => {
+const getReisdentsOfNurseIdRepository = async (nurseId, mealType) => {
   try {
+    let count = 0;
     let userArray = [];
     let query =
-      "select u.*, ufm.*,imgd.* from users as u inner join user_facility_map as ufm on ufm.user_id = u.user_id left join image_details as imgd on imgd.resident_id = u.user_id where u.user_id != ? and ufm.facility_id = (SELECT facility_id from user_facility_map where user_id =?) and u.user_type = 6 and imgd.meal_type != ? and DATE(imgd.created_date) = CURDATE()-1";
-    let sqlResult = await runQuery(query, [nurseId, nurseId, mealType]);
-    let count = sqlResult.length;
-    for (let i = 0; i < sqlResult.length; i++) {
-      let model = new UserFacilityMapModel();
-      let result = sqlResult[i];
-      model.fill(
-        (id = result.id),
-        (userId = result.user_id),
-        (facilityId = result.facility_id),
-        (status = result.status),
-        (createdDate = result.created_date),
-        (createdBy = result.created_by),
-        (updatedDate = result.updated_date),
-        (updatedBy = result.updated_by),
-        (fullName = result.full_name),
-        (userName = result.username),
-        (userType = result.user_type)
-      );
-      value = "testing out of model";
-      userArray.push(model);
-    }
+      "select u.*, ufm.*,f.facility_name from users as u  inner join user_facility_map as ufm on ufm.user_id = u.user_id      inner join facility as f on f.facility_id = ufm.facility_id  where u.user_id !=?  and ufm.facility_id = (SELECT facility_id from user_facility_map where user_id =?)  and u.user_type = 6  ";
 
+    let sqlResult = await runQuery(query, [nurseId, nurseId]);
+    let countvalue = sqlResult.length;
+
+    for (let i = 0; i < sqlResult.length; i++) {
+      let result = sqlResult[i];
+      let userId = result.user_id;
+
+      let query2 =
+        "select * from image_details where resident_id = ? and  created_date < DATE_ADD(CURDATE(), INTERVAL 1 DAY) and meal_type =? ";
+
+      let results2 = await runQuery(query2, [userId, mealType]);
+      let countvalue2 = results2.length;
+      //* if data not there push details
+      if (countvalue2 == 0) {
+        console.log(`residents ids are ${result.resident_id}`);
+        count += 1;
+        let model = new UserModel();
+        model.fill(
+          (userId = result.user_id),
+          (fullName = result.full_name),
+          (phoneNumber = result.phone_number),
+          (userName = result.username),
+          (usertype = result.user_type),
+          (userStatus = result.status),
+          (lastLogin = result.last_login),
+          (loggedIpAddress = result.logged_ip_address),
+          (createdDate = result.created_date),
+          (updatedDate = result.updated_date),
+          (enrolmentId = result.enrolment_id),
+          (createdBy = result.created_by),
+          (updatedBy = result.updated_by),
+          (facilityId = result.facility_id),
+          (facilityName = result.facility_name)
+        );
+        userArray.push(model);
+      } else {
+        console.log(`data already there`);
+      }
+    }
+    // console.log(userArray);
+    // userArray.push(model);
     return { count, userArray };
   } catch (error) {
+    console.log(error);
     return false;
   }
 };
 module.exports = {
   getReisdentsOfNurseIdRepository,
 };
+
+// model.fill(
+//   (userId = result.user_id),
+//   (fullName = result.full_name),
+//   (phoneNumber = result.phone_number),
+//   (userName = result.username),
+//   (usertype = result.user_type),
+//   (userStatus = result.status),
+//   (lastLogin = result.last_login),
+//   (loggedIpAddress = result.logged_ip_address),
+//   (createdDate = result.created_date),
+//   (updatedDate = result.updated_date),
+//   (enrolmentId = result.enrolment_id),
+//   (createdBy = result.created_by),
+//   (updatedBy = result.updated_by),
+//   (facilityId = result.facility_id),
+//   (facilityName = result.facility_name)
+// );

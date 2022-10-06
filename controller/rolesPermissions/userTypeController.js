@@ -61,13 +61,13 @@ const getAllUserTypeDetailsController = async (req, res) => {
 const createUserTypeController = async (req, res) => {
   try {
     const { userTypeName, userHeirarchy } = req.body;
-    // check for user/email/etc doesnot exits
-    // check for user/email/etc doesnot exits
-    // const recordCheck = await functionCall();
-    // if (recordCheck || recordCheck == true) {
-    //   // for exist pass negative
-    // } else if (!recordCheck || recordCheck == false) {
-    const create = await createUserTypeRepository(userTypeName, userHeirarchy);
+    const createdBy = req.userIdValue;
+
+    const create = await createUserTypeRepository(
+      userTypeName,
+      userHeirarchy,
+      createdBy
+    );
     if (create) {
       res.status(201).json({
         success: true,
@@ -108,10 +108,12 @@ const updateUserTypeController = async (req, res) => {
       }
       if (recordCheck) {
         const { userTypeName, userHeirarchy } = req.body;
+        const updatedBy = req.userIdValue;
         const updatedetails = await updateUserTypeRepository(
           userTypeName,
           userHeirarchy,
-          id
+          id,
+          updatedBy
         );
         if (updatedetails == true) {
           res.status(200).json({

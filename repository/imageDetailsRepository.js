@@ -15,7 +15,7 @@ const getSingleimageUploadDetailRepository = async (req, res) => {
       let model = new ImageUploadDetails();
       let result = results[0];
       model.fill(
-        (tableId = result.id),
+        (tableId = result.image_details_id),
         (residentId = result.resident_id),
         (nurseId = result.nurse_id),
         (date = result.created_date),
@@ -36,7 +36,7 @@ const getAllimageUploadDetailsRepository = async (flag) => {
   let array = [];
   try {
     let query =
-      "select image_details.*, users.full_name , meal_types.meal_name, facility.facility_id, facility.facility_name from `image_details` inner join `users` on image_details.resident_id=users.user_id inner join meal_types on meal_types.id =image_details.meal_type inner join user_facility_map on users.user_id = user_facility_map.user_id inner join facility on facility.facility_id = user_facility_map.facility_id where 1=1 ";
+      "select image_details.*, users.full_name , meal_types.meal_name, facility.facility_id, facility.facility_name from `image_details` inner join `users` on image_details.resident_id=users.user_id inner join meal_types on meal_types.meal_type_id =image_details.meal_type inner join user_facility_map on users.user_id = user_facility_map.user_id inner join facility on facility.facility_id = user_facility_map.facility_id where 1=1 ";
     if (flag) {
       query += " and `flag` =" + mysql.escape(flag);
     }
@@ -48,7 +48,7 @@ const getAllimageUploadDetailsRepository = async (flag) => {
         let model = new ImageUploadDetails();
         let result = results[i];
         model.fill(
-          (tableId = result.id),
+          (tableId = result.image_details_id),
           (residentId = result.resident_id),
           (nurseId = result.nurse_id),
           (date = result.created_date),

@@ -40,11 +40,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 // now how to handle the post request and to upload photo (upload photo using the key defined below in upload.single ie: productimage )
 imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
   try {
-    console.log(`in to the meal image route`); //delete
-
     const values = await configDataRepository();
-
-    console.log(values); //delete
 
     const BucketName = values.itemValue;
     const accessKey = values.itemValue2;

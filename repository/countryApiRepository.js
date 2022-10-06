@@ -25,7 +25,7 @@ const getAllCountryRepository = async (req, res) => {
   try {
     let array = [];
     let query =
-      "select id ,name,phonecode,iso2,timezones from countries where 1=1 ";
+      "select country_id ,name,phonecode,iso2,timezones from countries where 1=1 ";
 
     let results = await runQuery(query);
 
@@ -35,7 +35,7 @@ const getAllCountryRepository = async (req, res) => {
       let model = new CountriesModel();
       let result = results[i];
       model.fill(
-        (id = result.id),
+        (id = result.country_id),
         (name = result.name),
         (phonecode = result.phonecode),
         (iso2 = result.iso2),
@@ -53,14 +53,14 @@ const getAllCountryRepository = async (req, res) => {
 const getCountryByIdRepository = async (id, res) => {
   try {
     let query =
-      "SELECT name,phonecode,iso2,timezones from countries where id =?";
+      "SELECT name,phonecode,iso2,timezones from countries where country_id =?";
 
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
       let model = new CountriesModel();
       model.fill(
-        (id = result.id),
+        (id = result.country_id),
         (name = result.name),
         (phonecode = result.phonecode),
         (iso2 = result.iso2),
@@ -104,7 +104,7 @@ const updateCountryRepository = async (
 ) => {
   try {
     let query =
-      " UPDATE `countries` set `name`=?,`phonecode`=?, `iso2`=?,`timezones`=?  where id =? ";
+      " UPDATE `countries` set `name`=?,`phonecode`=?, `iso2`=?,`timezones`=?  where country_id =? ";
 
     let results = await runQuery(query, [name, phoneCode, is02, timeZones, id]);
 
@@ -123,7 +123,7 @@ const updateCountryRepository = async (
 // 5 delete country
 const deleteCountryRepository = async (id, res) => {
   try {
-    let query = "DELETE from  `countries` where `id`=?";
+    let query = "DELETE from  `countries` where `country_id`=?";
 
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;

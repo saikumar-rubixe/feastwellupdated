@@ -19,7 +19,7 @@ const getAllCitiesDetailsRepository = async (req, res, countryId) => {
         let model = new CitiesModel();
         let result = results[i];
         model.fill(
-          (id = result.id),
+          (id = result.city_id),
           (cityname = result.name),
           (stateCode = result.state_code),
           (countryCode = result.country_id)
@@ -40,7 +40,7 @@ const getCitiesByStateIdRepository = async (id, res) => {
   try {
     let array = [];
     let query =
-      " select `id`,`name`,`state_code`,`country_id` , state_id from  `cities` where state_id =?";
+      " select `city_id`,`name`,`state_code`,`country_id` , state_id from  `cities` where state_id =?";
 
     let results = await runQuery(query, [id]);
     let count = results.length;
@@ -49,7 +49,7 @@ const getCitiesByStateIdRepository = async (id, res) => {
         let model = new CitiesModel();
         let result = results[i];
         model.fill(
-          (id = result.id),
+          (id = result.city_id),
           (cityname = result.name),
           (stateCode = result.state_code),
           (countryCode = result.country_id),
@@ -88,7 +88,7 @@ const createCitiesRepository = async (name, stateId, countryId) => {
 const updateCityRepository = async (id, name, stateCode, countryCode) => {
   try {
     let query =
-      " UPDATE `cities` set `name`=?,`state_code`=?,`country_code`=? where id =?";
+      " UPDATE `cities` set `name`=?,`state_code`=?,`country_code`=? where city_id =?";
 
     let results = await runQuery(query, [name, stateCode, countryCode, id]);
     let value = results.affectedRows;
@@ -105,7 +105,7 @@ const updateCityRepository = async (id, name, stateCode, countryCode) => {
 // 5 delete cities
 const deleteCityRepository = async (id, res) => {
   try {
-    let query = "DELETE from  `cities` where `id`=?";
+    let query = "DELETE from  `cities` where `city_id`=?";
 
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;
@@ -125,7 +125,7 @@ const getCitiesByCityIdRepository = async (id, res) => {
   try {
     let array = [];
     let query =
-      " select `id`,`name`,`state_code`,`country_id` , state_id from  `cities` where id =?";
+      " select `id`,`name`,`state_code`,`country_id` , state_id from  `cities` where city_id =?";
     let results = await runQuery(query, [id]);
     let count = results.length;
     if (count != 0) {
@@ -133,7 +133,7 @@ const getCitiesByCityIdRepository = async (id, res) => {
         let model = new CitiesModel();
         let result = results[i];
         model.fill(
-          (id = result.id),
+          (id = result.city_id),
           (cityname = result.name),
           (stateCode = result.state_code),
           (countryCode = result.country_id),
@@ -155,7 +155,7 @@ const getCitiesByCountryIdRepository = async (id, res) => {
   try {
     let array = [];
     let query =
-      " select `id`,`name`,`state_code`,`country_id` , state_id from  `cities` where country_id =?";
+      " select `city_id`,`name`,`state_code`,`country_id` , state_id from  `cities` where country_id =?";
 
     let results = await runQuery(query, [id]);
     let count = results.length;
@@ -164,7 +164,7 @@ const getCitiesByCountryIdRepository = async (id, res) => {
         let model = new CitiesModel();
         let result = results[i];
         model.fill(
-          (id = result.id),
+          (id = result.city_id),
           (cityname = result.name),
           (stateCode = result.state_code),
           (countryCode = result.country_id),

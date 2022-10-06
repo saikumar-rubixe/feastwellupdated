@@ -265,9 +265,9 @@ let updateuserCheckRepository = async (userName, id) => {
   let query = "select * from users where username=? and user_id != ?";
   let results = await runQuery(query, [userName, id]);
   if (results.length == 0) {
-    return 0;
+    return true;
   } else {
-    return 1;
+    return false;
   }
 };
 
@@ -289,12 +289,12 @@ let updateUserLoginDetailsRepository = async (
     ]);
 
     if (results.affectedRows == 1) {
-      return 0;
+      return true;
     } else {
-      return 1;
+      return false;
     }
   } catch (error) {
-    return 1;
+    return false;
   }
 };
 

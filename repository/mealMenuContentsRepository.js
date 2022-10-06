@@ -12,10 +12,9 @@
  *
  */
 
-let { runQuery, con } = require("../config/database");
+let { runQuery } = require("../config/database");
 const { getPstDate } = require("../helper/getCanadaTime");
-//con = con();
-//runQuery = runQuery();
+
 let { mealMenuContentsModel } = require("../models/mealMenuContentsModel");
 
 // 1 get all details

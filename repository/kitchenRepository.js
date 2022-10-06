@@ -47,7 +47,7 @@ let getKitchenDetailsRepository = async (req, res) => {
   try {
     let kitchenArray = [];
     let query =
-      "select kitchen.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `kitchen` INNER JOIN `countries`  ON kitchen.country_id=countries.id INNER JOIN `states` ON kitchen.state_id=states.id INNER JOIN `cities` ON kitchen.city_id= cities.id ";
+      "select kitchen.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `kitchen` INNER JOIN `countries`  ON kitchen.country_id=countries.country_id INNER JOIN `states` ON kitchen.state_id=states.state_id INNER JOIN `cities` ON kitchen.city_id= cities.city_id ";
     let results = await runQuery(query);
 
     let count = results.length;

@@ -112,7 +112,7 @@ const insertImageUrlDetailsController = async (req, res) => {
           message: " insertion failed",
         });
       } else {
-        res.status(201).json({
+        res.status(200).json({
           success: true,
           message: "Image Uploaded Successfully",
           insertId: create,

@@ -5,8 +5,9 @@ const {
 const getReisdentsOfNurseIdController = async (req, res) => {
   try {
     const nurseId = req.userIdValue;
-
-    const details = await getReisdentsOfNurseIdRepository(nurseId);
+    const mealType = req.query.mealType;
+    console.log(`the nurse id ${nurseId}  and mealType is ${mealType}`);
+    const details = await getReisdentsOfNurseIdRepository(nurseId, mealType);
     if (details) {
       res.status(200).json({
         success: true,

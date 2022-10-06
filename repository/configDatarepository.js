@@ -3,7 +3,6 @@ let { configDataModel } = require("../models/configDataModel");
 
 const configDataRepository = async () => {
   try {
-    console.log(`inside the repository with values `);
     let sql =
       'select * from `config_data`  where `status` =1 and  type ="keys" and `item_name`="aws_access_key"  ';
     let results = await runQuery(sql);

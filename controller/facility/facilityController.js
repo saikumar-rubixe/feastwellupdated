@@ -59,18 +59,27 @@ let getFacilityCenterDetailsByIdController = async (req, res) => {
 
 // 2 get all details
 let getAllFacilityCenterDetailsController = async (req, res) => {
-  let details = await getAllFacilityCenterDetailsRepository();
-  if (!details || details == null) {
-    res.status(200).json({
+  try {
+    const status = req.query.status;
+    console.log(`the status is ${status}`);
+    let details = await getAllFacilityCenterDetailsRepository(status);
+    if (!details || details == null) {
+      res.status(200).json({
+        success: false,
+        Message: "No data found or failed to fetch",
+        data: details,
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        Message: "details fetched succesfully",
+        data: details,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      Message: "No data found or failed to fetch",
-      data: details,
-    });
-  } else {
-    res.status(200).json({
-      success: true,
-      Message: "details fetched succesfully",
-      data: details,
+      message: " something went wrong cb cont ",
     });
   }
 };

@@ -74,10 +74,15 @@ const getAllRolesDetailsRepository = async (req, res) => {
 };
 
 // 3 create role
-const createRoleRepository = async (roleName, userTypeId, roleStatus) => {
+const createRoleRepository = async (
+  roleName,
+  userTypeId,
+  roleStatus,
+  createdBy
+) => {
   try {
     let query =
-      "INSERT into `roles` (`role_name`,`user_type_id`,`status`,`created_date`,`updated_date`) VALUES(?,?,?,?,?) ";
+      "INSERT into `roles` (`role_name`,`user_type_id`,`status`,`created_date`,`updated_date`,created_by,updated_by) VALUES(?,?,?,?,?,?,?) ";
 
     let results = await runQuery(query, [
       roleName,
@@ -86,6 +91,8 @@ const createRoleRepository = async (roleName, userTypeId, roleStatus) => {
       roleStatus,
       getPstDate(),
       getPstDate(),
+      createdBy,
+      createdBy,
     ]);
     let value = results.insertId;
     if (value && value != 0) {
@@ -104,11 +111,12 @@ const updateRolesRepository = async (
   roleName,
 
   userTypeId,
-  roleStatus
+  roleStatus,
+  updatedBy
 ) => {
   try {
     let query =
-      " UPDATE `roles` set `role_name`=?,`user_type_id`=?,`status`=?,`updated_date`=? where role_id  =?";
+      " UPDATE `roles` set `role_name`=?,`user_type_id`=?,`status`=?,`updated_date`=? ,updated_by=? where role_id  =?";
 
     let results = await runQuery(query, [
       roleName,
@@ -116,6 +124,7 @@ const updateRolesRepository = async (
       userTypeId,
       roleStatus,
       getPstDate(),
+      updatedBy,
       id,
     ]);
     let value = results.affectedRows;

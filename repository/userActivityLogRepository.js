@@ -11,9 +11,8 @@
  *  2. createUserLogRepository   -- record user log activity details
  * 3. get activity user log details of one user id
  */
-let { runQuery, con } = require("../config/database");
-//con = con();
-//runQuery = runQuery();
+let { runQuery } = require("../config/database");
+
 let { UserActivityLogModel } = require("../models/userActivityLogModel");
 const { getPstDate } = require("../helper/getCanadaTime");
 
@@ -27,7 +26,7 @@ const getUserLogDetailByIdRepository = async (userId, res) => {
       let result = results[0];
       let model = new UserActivityLogModel();
       model.fill(
-        (activityId = result.activity_id),
+        (activityId = result.activity_log_id),
         (activityDescription = result.activity_description),
         (activityLoggedDate = result.activity_logged_date),
         (userId = result.user_id)
@@ -76,7 +75,7 @@ const getUserLogAllDetailsByUserIdRepository = async (id, res) => {
         let model = new UserActivityLogModel();
         let result = results[i];
         model.fill(
-          (activityId = result.activity_id),
+          (activityId = result.activity_log_id),
           (activityDescription = result.activity_description),
           (activityLoggedDate = result.activity_logged_date),
           (userId = result.user_id)

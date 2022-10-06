@@ -28,7 +28,7 @@ let newDate = getPstDate();
 let getFacilityCenterDetailsByIdRepository = async (id, res) => {
   try {
     let query =
-      "select facility.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `facility` INNER JOIN `countries`  ON facility.facility_country_id=countries.id INNER JOIN `states` ON facility.facility_state_id=states.id INNER JOIN `cities` ON facility.facility_city_id= cities.id  where facility_id =?  ";
+      "select facility.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `facility` INNER JOIN `countries`  ON facility.facility_country_id=countries.country_id INNER JOIN `states` ON facility.facility_state_id=states.state_id INNER JOIN `cities` ON facility.facility_city_id= cities.city_id  where facility_id =?  ";
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
       let result = results[0];
@@ -63,12 +63,16 @@ let getFacilityCenterDetailsByIdRepository = async (id, res) => {
   }
 };
 //2 get all details
-let getAllFacilityCenterDetailsRepository = async (req, res) => {
+let getAllFacilityCenterDetailsRepository = async (status) => {
   try {
     let facilityArray = [];
     let query =
-      "select facility.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `facility` INNER JOIN `countries`  ON facility.facility_country_id=countries.id INNER JOIN `states` ON facility.facility_state_id=states.id INNER JOIN `cities` ON facility.facility_city_id= cities.id ";
+      "select facility.*,countries.name as CountryName,states.name as StateName, cities.name as CityName  from `facility` INNER JOIN `countries`  ON facility.facility_country_id=countries.country_id INNER JOIN `states` ON facility.facility_state_id=states.state_id INNER JOIN `cities` ON facility.facility_city_id= cities.city_id  where  1=1 ";
+    if (status) {
+      query += " and facility.status =" + status;
+    }
     let results = await runQuery(query);
+
     let count = results.length;
     if (count != 0) {
       for (i = 0; i < count; i++) {
