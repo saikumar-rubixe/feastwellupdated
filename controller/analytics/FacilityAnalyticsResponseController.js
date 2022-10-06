@@ -18,7 +18,7 @@ const facilityAnalyticsResponseController = async (req, res) => {
       const facilityId = user.facilityId;
       const userType = user.userType;
       const dateFilter = req.query.date;
-      // console.log(facilityId, userType, dateFilter);//delete
+      console.log(facilityId, userType, dateFilter); //delete
       var results;
 
       if (userType == 1 || userType == 2) {

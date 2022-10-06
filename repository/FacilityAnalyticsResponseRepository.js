@@ -97,7 +97,7 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
     let belowOptimalHead = {
       statusId: 1,
       statusName: "Below Optimal List",
-      hexColor: "#ffff33",
+      hexColor: "#4a00b5",
       data: belowOptimalArray,
     };
 
@@ -105,7 +105,7 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
     let OptimalHead = {
       statusId: 1,
       statusName: "Optimal List",
-      hexColor: "green",
+      hexColor: "#127112",
       data: optimalArray,
     };
 
@@ -113,7 +113,7 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
     let aboveOptimalHead = {
       statusId: 1,
       statusName: "Above Optimal List",
-      hexColor: "red",
+      hexColor: "#dd2020",
       data: aboveOptimalArray,
     };
 
