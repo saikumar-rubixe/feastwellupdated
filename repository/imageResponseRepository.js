@@ -35,7 +35,6 @@ const insertImagePredictionRespsonseRepository = async (
 
 const getImagePredictionResponseByReferenceIdRepository = async (id) => {
   try {
-    console.log(`in the repository `);
     let array = [];
     let sql =
       " select * from `image_prediction_response` where  image_details_table_id =?";

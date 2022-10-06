@@ -3,9 +3,8 @@ let { runQuery } = require("../config/database");
 require("../models/residentsCalorieValuesModel");
 
 //**  get all details
-const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
+const facilityAnalyticsResponseRepsitory = async (dateFilter, facilityId) => {
   try {
-    console.log(`in to the repository to get tdee values`);
     //*create aray
     let list = [];
 
@@ -23,25 +22,20 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
       dateFilter +
       " 23:59:59'";
 
-    if (facilityId) {
-      console.log(` the facility id is ${facilityId}`);
+    if (facilityId && facilityId != null) {
       sql += "  and f.facility_id=" + facilityId;
     }
     sql += "  group by u.user_id";
-    console.log(sql);
+
     let results = await runQuery(sql);
-    //console.log(sql);
-    console.log(`the query is `);
-    //console.log("test resident " + sql);
+
     let length = results.length;
-    // console.log(`the lenght of results is ${length}`);
 
     //*check the length is not zero
     if (length != 0) {
       for (i = 0; i < length; i++) {
         let indResult = results[i];
-        console.log("individual result");
-        console.log(indResult);
+
         let data = {
           userStatus: indResult.status,
           userId: indResult.user_id,
@@ -57,7 +51,7 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
         let result = results[i];
 
         //^ calling the function to get TDEE value
-        console.log(`calling the function to get TDEE value`);
+
         const tdeeValues = await getResidentTDEEValue(
           result.gender,
           result.current_weight,
@@ -65,7 +59,6 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
           result.age
         );
 
-        console.log(tdeeValues);
         //^ calling th function to get total calories
         const getResidentsTotalCalories = await getTotalcalories(
           result.user_id,
@@ -80,15 +73,10 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
 
         //!TODO below optimal
         if (value < 95) {
-          //add details to belowoptimal
-
           belowOptimalArray.push(data);
         } else if (value > 105) {
-          // add details to above optimal
-
           aboveOptimalArray.push(data);
         } else if (value > 95 && value < 105) {
-          // add details to optimal
           optimalArray.push(data);
         }
       }
@@ -132,7 +120,6 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
 
 //*get the REE value of a Resident
 const getResidentTDEEValue = async (gender, weight, height, age) => {
-  console.log(`in the tdee value function`);
   try {
     let REE = 0;
     let TDEE = 1.2; //process.env.TDEE
@@ -165,7 +152,6 @@ const getResidentTDEEValue = async (gender, weight, height, age) => {
 
 //* get total calories
 const getTotalcalories = async (residentId, dateFilter) => {
-  console.log(`Date filter ${dateFilter}`);
   try {
     let totalCalories = 0;
     let sql =
@@ -178,11 +164,8 @@ const getTotalcalories = async (residentId, dateFilter) => {
       dateFilter +
       " 23:59:59' ";
 
-    console.log(`sql query with join: ${sql}`);
     let results = await runQuery(sql);
-    console.log("testtt " + results.length);
-    // console.log(results.length);
-    // console.log(results);
+
     for (var i = 0; i < results.length; i++) {
       let resultArray = results[i].json_response;
       let resultArrayJson = JSON.parse(resultArray);
@@ -191,31 +174,12 @@ const getTotalcalories = async (residentId, dateFilter) => {
         totalCalories += meal.Nutrition.calories;
       }
     }
-    // @return average total calories
-    console.log(`returning the total calories ${totalCalories}`);
+
     return totalCalories;
   } catch (error) {
     console.log(error);
   }
 };
-
-/*
- let model = new ResidentsDetailsWithFoodPrediction();
-  model.fill(
-          (userId = result.user_id),
-          (enrolmentId = result.enrolment_id),
-          (fullName = result.full_name),
-          (gender = result.gender),
-          (age = result.age),
-          (currentWeight = result.current_weight),
-          (currentHeight = result.current_height),
-          (facilityId = result.facility_id),
-          (facilityName = result.facility_name),
-          (mealType = result.meal_type),
-          (mealCreatedAt = result.meal_created_at),
-          (nutritionValues = result.nutrition_values)
-        );
- */
 
 module.exports = {
   facilityAnalyticsResponseRepsitory,

@@ -37,7 +37,6 @@ const getUserDetailByUsername = async (username) => {
 
 // 3 userCheckRepository
 let userCheckRepository = async (userName, res) => {
-  console.log(`checkingthe record exist or not`);
   let query = "select * from users where username=?";
 
   var results = await runQuery(query, [userName]);

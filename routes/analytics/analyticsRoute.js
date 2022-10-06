@@ -28,7 +28,6 @@ analyticsRoute.get("/nutrients/", async (req, res) => {
 });
 
 analyticsRoute.get("/facility/", async (req, res) => {
-  console.log(`in route`); //delete
   // const err = await facilityValidation(req);
   // if (err) {
   //   return res.status(400).json({

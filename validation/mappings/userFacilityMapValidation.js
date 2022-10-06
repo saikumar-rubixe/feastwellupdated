@@ -9,7 +9,6 @@ const Schema = Joi.object({
 const userFacilityBodyValidation = async (req, res, next) => {
   returnError = null;
   try {
-    console.log(`user facility mapping req.body`); //delete
     console.log(req.body);
     await Schema.validateAsync(req.body);
   } catch (error) {

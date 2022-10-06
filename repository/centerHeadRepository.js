@@ -125,11 +125,8 @@ const getTotalcalories = async (residentId, date) => {
       let result = results[i];
       let totalItemsCalories = 0;
       let jsonResponse = result.json_response;
-      // !TODO  need to sum total calories of the diet (multiple items of objects may be present )
-      //!TODO  need to extract each calories of items of the response
-      console.log(`json response length is ${jsonResponse.length}`);
+
       for (j = 0; j < jsonResponse.length; j++) {
-        console.log(jsonResponse[i].Nutrition.calories);
         totalItemsCalories += json_response[i].Nutrition.calories;
       }
       console.log(`total items calories of the meal is ${totalItemCalories}`);

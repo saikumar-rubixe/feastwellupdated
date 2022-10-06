@@ -14,7 +14,7 @@ const getMealMenuDetailByIdRepository = async (id, res) => {
       let result = results[0];
       let model = new MealMenuModel();
       let menuId = result.meal_menu_id;
-      console.log(`the meal menu id is ${menuId}`);
+
       model.fill(
         (mealMenuId = result.meal_menu_id),
         (mealMenuName = result.meal_menu_name),

@@ -32,7 +32,7 @@ userFacilityRoute.get("/:id", async (req, res) => {
 //^ create
 userFacilityRoute.post("/", async (req, res) => {
   const permission = await checkRoutePermission(req);
-  console.log(`permission for user failty is ${permission}`);
+
   if (permission !== 1) {
     res.status(401).json({
       success: false,
