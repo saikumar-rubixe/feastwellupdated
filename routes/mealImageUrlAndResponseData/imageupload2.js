@@ -57,7 +57,7 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
         /[&\/\\#, +()$~%'":*?<>{}]/g,
         "_"
       );
-
+      console.log(`file name got is  ${req.file.originalname}`);
       var image = req.file.buffer; // to check the data in the console that is being uploaded
       const params = {
         Bucket: BucketName, // bucket that we made earlier

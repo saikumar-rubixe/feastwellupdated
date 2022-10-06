@@ -5,7 +5,6 @@ require("../models/residentsCalorieValuesModel");
 //**  get all details
 const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
   try {
-    console.log(` the facility id is ${facilityId}`);
     console.log(`in to the repository to get tdee values`);
     //*create aray
     let list = [];
@@ -17,11 +16,22 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
 
     //* run query with facility id as details
     let sql =
-      "select u.user_id ,u.enrolment_id,u.full_name, rd.gender, rd.age,rd.current_weight,rd.current_height, f.facility_id,f.facility_name, imgd.meal_type,imgd.created_date as meal_created_at, impr.json_response as nutrition_values from users as u INNER JOIN residents_details as rd ON u.user_id = rd.user_id INNER JOIN user_facility_map as ufm ON u.user_id = ufm.user_id INNER JOIN facility as f ON ufm.facility_id = f.facility_id INNER JOIN image_details as imgd ON u.user_id = imgd.resident_id INNER JOIN image_prediction_response as impr ON imgd.image_details_id = impr.image_details_table_id where u.user_type= 6 and f.facility_id=" +
-      facilityId;
-    //and imgd.created_date=?
-    let results = await runQuery(sql);
+      "select u.* , rd.gender, rd.age,rd.current_weight,rd.current_height, f.facility_id,f.facility_name from users as u INNER JOIN residents_details as rd ON u.user_id = rd.user_id INNER JOIN user_facility_map as ufm ON u.user_id = ufm.user_id INNER JOIN facility as f ON ufm.facility_id = f.facility_id INNER JOIN image_details as imgd ON u.user_id = imgd.resident_id INNER JOIN image_prediction_response as impr ON imgd.image_details_id = impr.image_details_table_id where u.user_type= 6  and imgd.created_date >= '" +
+      dateFilter +
+      " 00:00:00' " +
+      "and imgd.created_date <= '" +
+      dateFilter +
+      " 23:59:59'";
+
+    if (facilityId) {
+      console.log(` the facility id is ${facilityId}`);
+      sql += "  and f.facility_id=" + facilityId;
+    }
+    sql += "  group by u.user_id";
     console.log(sql);
+    let results = await runQuery(sql);
+    //console.log(sql);
+    console.log(`the query is `);
     //console.log("test resident " + sql);
     let length = results.length;
     // console.log(`the lenght of results is ${length}`);
@@ -29,6 +39,20 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
     //*check the length is not zero
     if (length != 0) {
       for (i = 0; i < length; i++) {
+        let indResult = results[i];
+        console.log("individual result");
+        console.log(indResult);
+        let data = {
+          userStatus: indResult.status,
+          userId: indResult.user_id,
+          fullName: indResult.full_name,
+          username: indResult.username,
+          userType: indResult.user_type,
+          updatedDate: indResult.updated_date,
+          createdDate: indResult.created_date,
+          facilityId: indResult.facility_id,
+          facilityName: indResult.facility_name,
+        };
         //! inside 1st for loop
         let result = results[i];
 
@@ -49,7 +73,7 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
         );
         //* compare the tdee value and getResidentsTotalCalories
         //* calculate the percentage
-        let value = (getResidentsTotalCalories / tdeeValues) * 100;
+        let value = (getResidentsTotalCalories / tdeeValues.TDEE) * 100;
         console.log(
           `the tdee values ${tdeeValues} and the residents values is ${getResidentsTotalCalories} percentage value is ${value}`
         );
@@ -62,49 +86,43 @@ const facilityAnalyticsResponseRepsitory = async (facilityId, dateFilter) => {
         } else if (value > 105) {
           // add details to above optimal
 
-          aboveOptimalArray.push(details);
+          aboveOptimalArray.push(data);
         } else if (value > 95 && value < 105) {
           // add details to optimal
-
-          optimalArray.push(details);
+          optimalArray.push(data);
         }
       }
-
-      //* 1 below optimal obj
-      let belowOptimalHead = {
-        statusId: 1,
-        statusName: "Below Optimal List",
-        hexColor: "#ffff33",
-        data: belowOptimalArray,
-      };
-
-      //* 2 optimal array
-      let OptimalHead = {
-        statusId: 1,
-        statusName: " Optimal List",
-        hexColor: "green",
-        data: belowOptimalArray,
-      };
-
-      //* 3 above optima array
-      let aboveOptimalHead = {
-        statusId: 1,
-        statusName: "Above Optimal List",
-        hexColor: "red",
-        data: optimalArray,
-      };
-
-      let finalArray = [];
-      finalArray.push(belowOptimalHead);
-      finalArray.push(OptimalHead);
-      finalArray.push(aboveOptimalHead);
-
-      return finalArray;
-    } else {
-      //* if the results are zero
-      console.log(`no results found`);
-      return false;
     }
+    //* 1 below optimal obj
+    let belowOptimalHead = {
+      statusId: 1,
+      statusName: "Below Optimal List",
+      hexColor: "#ffff33",
+      data: belowOptimalArray,
+    };
+
+    //* 2 optimal array
+    let OptimalHead = {
+      statusId: 1,
+      statusName: "Optimal List",
+      hexColor: "green",
+      data: optimalArray,
+    };
+
+    //* 3 above optima array
+    let aboveOptimalHead = {
+      statusId: 1,
+      statusName: "Above Optimal List",
+      hexColor: "red",
+      data: aboveOptimalArray,
+    };
+
+    finalArray = [];
+    finalArray.push(belowOptimalHead);
+    finalArray.push(OptimalHead);
+    finalArray.push(aboveOptimalHead);
+
+    return finalArray;
   } catch (error) {
     //! error case
     console.log(error);

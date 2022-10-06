@@ -206,6 +206,38 @@ let deleteFacilityCenterDetailsRepository = async (id, res) => {
   }
 };
 
+// 6 get facility details by user id
+const getfacilityDetailsByUserIdRepository = async (userId) => {
+  try {
+    let query =
+      "select u.*, ufm.*,f.facility_name from users as u  inner join user_facility_map as ufm on ufm.user_id = u.user_id      inner join facility as f on f.facility_id = ufm.facility_id  where u.user_id =" +
+      userId;
+
+    let results = await runQuery(query, [id]);
+    if (results.length != 0) {
+      let result = results[0];
+      let model = new FacilityModel();
+      model.fill(
+        (facilityCenterId = result.facility_id),
+        (facilityName = result.facility_name),
+        (headId = result.facility_head_id),
+        (email = result.facility_email),
+        (number = result.facility_contact_number),
+        (countryId = result.facility_country_id),
+        (stateId = result.facility_state_id),
+        (cityId = result.facility_city_id),
+        (facilityStatus = result.status)
+      );
+
+      console.log(model);
+    } else {
+      return false;
+    }
+  } catch (error) {
+    return false;
+  }
+};
+
 module.exports = {
   getFacilityCenterDetailsByIdRepository,
   getAllFacilityCenterDetailsRepository,
