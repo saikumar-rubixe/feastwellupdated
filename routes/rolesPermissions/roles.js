@@ -16,7 +16,7 @@ rolesRoute.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await getRolesDetailByIdController(req, res);
@@ -29,7 +29,7 @@ rolesRoute.put("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await updateRolesController(req, res);
@@ -42,7 +42,7 @@ rolesRoute.delete("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await deleteRolesController(req, res);
@@ -54,7 +54,7 @@ rolesRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await getAllRolesDetailsController(req, res);
@@ -66,7 +66,7 @@ rolesRoute.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await createRolesController(req, res);

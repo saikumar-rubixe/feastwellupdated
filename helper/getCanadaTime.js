@@ -17,6 +17,17 @@ const getPstDate = () => {
   return pst;
 };
 
+const getFileName = (residentId, uploaderId) => {
+  const date = new Date().toLocaleDateString("en-GB", {
+    timeZone: "America/Los_Angeles",
+  });
+  const x = date.split("/").reverse().join("");
+
+  let filename = residentId + "-" + x + "-" + Date.now() + "-" + uploaderId;
+
+  return filename;
+};
 module.exports = {
   getPstDate,
+  getFileName,
 };

@@ -20,7 +20,7 @@ residentCarePlanRoutes.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     const err = await residentCarePlanBodyValidation(req);
@@ -42,7 +42,7 @@ residentCarePlanRoutes.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await getallResidentCarePlanDetailsController(req, res);
@@ -55,7 +55,7 @@ residentCarePlanRoutes.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await getResidentCarePlanDetailByIdController(req, res);
@@ -68,7 +68,7 @@ residentCarePlanRoutes.put("/:userId", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     // const err = await residentAdditionalInformationBodyValidation(req);

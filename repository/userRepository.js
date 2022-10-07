@@ -26,9 +26,7 @@ const date = require("date-and-time");
 const bcrypt = require("bcrypt");
 let newDate = new Date();
 
-console.log(newDate); //delete
 console.log(`IST : ${date.format(newDate, "YYYY/MM/DD HH:mm:ss")}`); //delete
-
 let canadaDate = getPstDate();
 console.log(`PST : ${canadaDate}`); //delete
 

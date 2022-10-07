@@ -84,7 +84,6 @@ const createUserFacilityRepository = async (
   createdBy
 ) => {
   try {
-    console.log(`values are ${(userId, facilityId, status, createdBy)}`);
     let query =
       " INSERT INTO `user_facility_map` (`user_id`,`facility_id`,`status`,`created_date`,`created_by`,`updated_date`,`updated_by`) VALUES(?,?,?,?,?,?,?)";
 

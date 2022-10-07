@@ -1,5 +1,5 @@
 let { runQuery } = require("../config/database");
-console.log(Math.floor(1000 + Math.random() * 9000)); //delete
+
 // 1 create tag based upon the userType
 const enrollementIdTag = async (userType) => {
   try {

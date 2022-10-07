@@ -13,7 +13,6 @@ const {
 
  */
 facilityAnalyticsResponseRoute.get("/facility/", async (req, res) => {
-  console.log(`in route`); //delete
   // const err = await nutrientsBodyValidation(req);
   // if (err) {
   //   return res.status(400).json({

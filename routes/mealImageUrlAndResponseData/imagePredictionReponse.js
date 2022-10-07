@@ -32,7 +32,7 @@ imagePredictionResponse.get("/byReferenceId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await getImagePredictionResponseByReferenceIdController(req, res);
@@ -45,7 +45,7 @@ imagePredictionResponse.get("/byId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await getImagePredictionResponseByIdController(req, res);

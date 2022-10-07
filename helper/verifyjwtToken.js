@@ -7,7 +7,7 @@ require("dotenv");
 const jwt = require("jsonwebtoken");
 const { getUserByIdRepository } = require("../repository/userRepository");
 
-const verify = async (req) => {
+const verify = async (req, res) => {
   var user = null;
   let jtoken = req.header("Authorization");
   if (jtoken) {
@@ -21,7 +21,10 @@ const verify = async (req) => {
       req.userIdValue = user.userId;
       req.userIdUserType = user.usertype;
     } catch (error) {
-      console.log("expired"); //delete
+      res.status(400).json({
+        success: false,
+        message: "Token expired",
+      });
     }
   }
 

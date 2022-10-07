@@ -24,7 +24,7 @@ const getReisdentsOfNurseIdRepository = async (nurseId, mealType) => {
       let countvalue2 = results2.length;
       //* if data not there push details
       if (countvalue2 == 0) {
-        console.log(`residents ids are ${result.resident_id}`);
+        // console.log(`residents ids are ${result.resident_id}`);//delete
         count += 1;
         let model = new UserModel();
         model.fill(
@@ -53,7 +53,6 @@ const getReisdentsOfNurseIdRepository = async (nurseId, mealType) => {
     // userArray.push(model);
     return { count, userArray };
   } catch (error) {
-    console.log(error);
     return false;
   }
 };

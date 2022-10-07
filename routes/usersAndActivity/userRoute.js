@@ -42,7 +42,7 @@ userRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await getAllUsersController(req, res);
@@ -55,7 +55,7 @@ userRoute.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await getUserByIdController(req, res);
@@ -68,7 +68,7 @@ userRoute.put("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     const err = await userUpdateBodyValidation(req);
@@ -89,7 +89,7 @@ userRoute.put("/loginDetails/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     const err = await userUpdateBodyValidation(req);

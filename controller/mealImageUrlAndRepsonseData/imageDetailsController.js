@@ -13,20 +13,20 @@ const getSingleimageUploadDetailController = async (req, res) => {
     if (!details || details == false) {
       res.status(404).json({
         success: false,
-        message: "data retrieval failed",
+        message: "Data retrieval failed",
       });
     }
     if (details) {
       res.status(200).json({
         success: true,
-        message: "data retrieved succesfully",
+        message: "Data retrieved succesfully",
         data: details,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -38,7 +38,7 @@ const getImagesUploadedByNurseIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid id Passed:  " + id,
       });
     } else {
       const details = await getImagesUploadedByNurseIdRepository(id, res);
@@ -73,7 +73,7 @@ const getImagesUploadedByNurseIdController = async (req, res) => {
       if (details) {
         res.status(200).json({
           success: true,
-          message: "data retrieved succesfully",
+          message: "Data retrieved succesfully",
           data: details,
         });
       }
@@ -81,7 +81,7 @@ const getImagesUploadedByNurseIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -93,7 +93,7 @@ const insertImageUrlDetailsController = async (req, res) => {
       // !no body
       res.status(400).json({
         success: false,
-        message: " body request is empty",
+        message: "Body request is empty",
       });
     } else {
       const { imageUrl, residentId, mealType } = req.body;
@@ -109,12 +109,12 @@ const insertImageUrlDetailsController = async (req, res) => {
         // ! Creation failed
         res.status(404).json({
           success: false,
-          message: " insertion failed",
+          message: "Image upload failed",
         });
       } else {
         res.status(200).json({
           success: true,
-          message: "Image Uploaded Successfully",
+          message: "Image ploaded successfully",
           insertId: create,
         });
       }
@@ -122,7 +122,7 @@ const insertImageUrlDetailsController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -136,7 +136,7 @@ const getAllimageUploadDetailsController = async (req, res) => {
     if (!details || details == false) {
       res.status(200).json({
         success: false,
-        message: "data retrieval failed",
+        message: "Data retrieval failed",
         data: {
           count: 0,
           array: [],
@@ -146,14 +146,14 @@ const getAllimageUploadDetailsController = async (req, res) => {
     if (details) {
       res.status(200).json({
         success: true,
-        message: "data retrieved succesfully",
+        message: "Data retrieved succesfully",
         data: details,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };

@@ -58,7 +58,6 @@ const getImagePredictionResponseByReferenceIdRepository = async (id) => {
       //}
       return array;
     } else {
-      console.log(`no results in repository`);
       return false;
     }
   } catch (error) {

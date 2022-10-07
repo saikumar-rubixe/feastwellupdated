@@ -18,7 +18,7 @@ imageDetailsRoute.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     const err = await imageResponseBodyValidation(req);

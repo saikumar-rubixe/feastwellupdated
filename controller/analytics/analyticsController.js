@@ -9,7 +9,7 @@ const getNutrientsController = async (req, res) => {
     if (results && results != false) {
       res.status(200).send({
         success: true,
-        message: "Fetched Nutrients Successfully",
+        message: "Fetched nutrients successfully",
         data: results,
       });
     } else {

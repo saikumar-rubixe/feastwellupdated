@@ -28,7 +28,7 @@ const getSideBar = async (req, res) => {
   const user = await verify(req); //verify whether user exist or not
   if (!user) {
     // if no user exist return unauthorised
-    res.status(401).send({ success: false, message: "unauthorized user" });
+    res.status(401).send({ success: false, message: "Unauthorized user" });
   } else {
     const userType = user.userType;
     const roleId = await getRoleForUserTypeRepository(userType);
@@ -103,13 +103,13 @@ const userLogin = async (req, res) => {
           if (!result)
             return res.status(401).json({
               success: false,
-              message: " invalid password",
+              message: "Invalid password",
             });
 
           if (result) {
             //CREATE AND ASSIGN A TOKEN
 
-            if (usertype == 2 || usertype == 7) {
+            if (usertype == 2 || usertype == 6) {
               const value = await getFacilityIdByUserId(userId);
               facilityId = value;
             } else {
@@ -133,7 +133,7 @@ const userLogin = async (req, res) => {
             tokenList[refreshToken] = tokenDetails;
             let details = {
               success: true, // response.success
-              message: "login successful",
+              message: "Login successful",
               token: token,
               refreshToken: refreshToken,
               userId: userId,
@@ -154,12 +154,12 @@ const userLogin = async (req, res) => {
       } else
         return res
           .status(404)
-          .send("Login Failed!  username or password wrong ");
+          .send("Login failed   username or password wrong ");
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont",
+      message: "Something went wrong cb cont",
     });
   }
 };
@@ -195,13 +195,13 @@ const TokenLogin = async (req, res) => {
       if (menuId == 0) {
         menuId = {
           category_id: 0,
-          category_name: "dashboard",
+          category_name: "Dashboard",
         };
       }
 
       let details = {
         success: true, // response.success
-        message: "login successful",
+        message: "Login successful",
         token: token,
         refreshToken: refreshToken,
         userId: userId,
@@ -219,7 +219,7 @@ const TokenLogin = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont",
+      message: "Something went wrong",
     });
   }
 };

@@ -14,20 +14,20 @@ let getKitchenDetailsByIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid  id passed /undefined",
+        message: "Invalid  id passed /undefined",
       });
     } else {
       let details = await getKitchenDetailsByIdRepository(id, res);
       if (!details || details == false) {
         res.status(200).json({
           success: false,
-          message: "!Error no data found",
+          message: "No data found",
           data: {},
         });
       } else if (details) {
         res.status(200).json({
           success: true,
-          message: "data fetched successfully",
+          message: "Data fetched successfully",
           data: details,
         });
       }
@@ -35,7 +35,7 @@ let getKitchenDetailsByIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont ",
+      message: "Something went wrong",
     });
   }
 };
@@ -53,14 +53,14 @@ let getAllKitchenDetailsController = async (req, res) => {
     } else {
       res.status(200).json({
         success: true,
-        Message: "details fetched succesfully",
+        Message: "Details fetched succesfully",
         data: details,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      Message: "CBE! Something went wrong",
+      Message: "Something went wrong",
     });
   }
 };
@@ -94,19 +94,19 @@ let insertKitchenDetailsController = async (req, res) => {
     if (!create || create == null) {
       res.status(404).json({
         success: false,
-        message: "facility center creation failed",
+        message: "Kitchen creation failed",
       });
     } else {
       res.status(201).json({
         success: true,
-        message: "facility center created Succesfully with id " + create,
+        message: "Kitchen created succesfully with ID " + create,
         insertId: create,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont ",
+      message: "Something went wrong ",
     });
   }
 };
@@ -119,7 +119,7 @@ let updateKitchenDetailsController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid  id passed /undefined for update ",
+        message: "Invalid  id passed /undefined for update ",
       });
     } else {
       let recordcheck = await getKitchenDetailsByIdRepository(id, res);
@@ -127,7 +127,7 @@ let updateKitchenDetailsController = async (req, res) => {
       if (!recordcheck || recordcheck == false) {
         res.status(404).json({
           success: false,
-          message: "!Error no data found with id " + id,
+          message: "No data found with id " + id,
         });
       } else if (recordcheck) {
         const {
@@ -159,13 +159,13 @@ let updateKitchenDetailsController = async (req, res) => {
         if (!details || details == false) {
           res.status(400).json({
             success: false,
-            message: "!Error no data found",
+            message: "No data found",
             data: details,
           });
         } else if (details || details == true) {
           res.status(200).json({
             success: true,
-            message: "updated successfully",
+            message: "Updated successfully",
           });
         }
       }
@@ -173,13 +173,14 @@ let updateKitchenDetailsController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont ",
+      message: "Something went wrong",
     });
   }
 };
 // 5 delete  controller
 let deleteKitchenDetailsController = async (req, res) => {
   let id = req.params.id;
+
   try {
     if (isNaN(id)) {
       res.status(400).json({
@@ -212,7 +213,7 @@ let deleteKitchenDetailsController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont ",
+      message: "Something went wrong",
     });
   }
 };

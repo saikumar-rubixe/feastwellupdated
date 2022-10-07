@@ -21,20 +21,20 @@ const createTokensController = async (req, res) => {
 
       res.status(200).json({
         success: true,
-        message: " generated tokens succesfully",
+        message: "Generated tokens succesfully",
         data: { token, refreshToken },
       });
     } else {
       //* if user not found return false
       res.status(401).json({
         success: false,
-        message: "User Not Found ",
+        message: "User not found ",
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong",
+      message: "Something went wrong",
     });
   }
 };

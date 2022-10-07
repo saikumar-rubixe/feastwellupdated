@@ -66,10 +66,15 @@ const facilityAnalyticsResponseRepsitory = async (dateFilter, facilityId) => {
         );
         //* compare the tdee value and getResidentsTotalCalories
         //* calculate the percentage
+        console.log(result); //delete
+        console.log(result.user_id, dateFilter); //delete
+        console.log(getResidentsTotalCalories); //delete
+        console.log(tdeeValues); //delete
         let value = (getResidentsTotalCalories / tdeeValues.TDEE) * 100;
+        console.log(value); //delete
         console.log(
           `the tdee values ${tdeeValues} and the residents values is ${getResidentsTotalCalories} percentage value is ${value}`
-        );
+        ); //delete
 
         //!TODO below optimal
         if (value < 95) {
@@ -141,7 +146,7 @@ const getResidentTDEEValue = async (gender, weight, height, age) => {
 
     console.log(
       `the total TDEE value is ${totalTDEE} and optimal Ratio of protein value ${details.proteins} fats value ${details.fats} and carbs value ${details.carbs} `
-    );
+    ); //delete
 
     return details;
   } catch (error) {

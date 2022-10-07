@@ -19,21 +19,21 @@ const createStatesController = async (req, res) => {
     if (create) {
       res.status(201).json({
         success: true,
-        message: "data created succesfully with id" + create,
+        message: "Data created succesfully with id" + create,
         insertId: create,
       });
     }
     if (!create || create == false) {
       res.status(404).json({
         success: false,
-        message: "no content found",
+        message: "No content found",
       });
     }
     // }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -45,21 +45,21 @@ const getAllStatesDetailsController = async (req, res) => {
     if (!details || details == false) {
       res.status(200).json({
         success: false,
-        message: "data retrieval failed",
+        message: "Data retrieval failed",
         data: [],
       });
     }
     if (details) {
       res.status(200).json({
         success: true,
-        message: "data retrieved succesfully",
+        message: "Data retrieved succesfully",
         data: details,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -71,14 +71,14 @@ const updateStatesByStateIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid id Passed:  " + id,
       });
     } else {
       const recordCheck = await getStatesByStateIdRepository(id, res);
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "no Record Found With id = " + id,
+          message: "No record found with id = " + id,
         });
       }
       if (recordCheck) {
@@ -91,12 +91,12 @@ const updateStatesByStateIdController = async (req, res) => {
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
-            message: "updated details succesfully",
+            message: "Updated details succesfully",
           });
         } else {
           res.status(404).json({
             success: false,
-            message: "update Failed ",
+            message: "Update Failed ",
           });
         }
       }
@@ -104,7 +104,7 @@ const updateStatesByStateIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -121,7 +121,7 @@ const getStatesByStateIdController = async (req, res) => {
       if (details) {
         res.status(200).json({
           success: true,
-          message: "fetched details of STATES",
+          message: "Fetched details states",
           data: details,
         });
       } else {
@@ -135,7 +135,7 @@ const getStatesByStateIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -147,7 +147,7 @@ const deleteStatesByStateIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid id passed:  " + id,
       });
     } else {
       const recordCheck = await getStatesByStateIdRepository(id, res);
@@ -155,7 +155,7 @@ const deleteStatesByStateIdController = async (req, res) => {
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "No Record Found with id " + id,
+          message: "No record found with id " + id,
         });
       }
       if (recordCheck) {
@@ -163,12 +163,12 @@ const deleteStatesByStateIdController = async (req, res) => {
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
-            message: "delete succesfully",
+            message: "Deleted succesfully",
           });
         } else {
           res.status(404).json({
             success: false,
-            message: "delete Failed ",
+            message: "Delete failed ",
           });
         }
       }
@@ -176,7 +176,7 @@ const deleteStatesByStateIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -193,13 +193,13 @@ const getStatesByCountryIdController = async (req, res) => {
       if (details) {
         res.status(200).json({
           success: true,
-          message: "fetched details of STATES",
+          message: "fetched details of states",
           data: details,
         });
       } else {
         res.status(200).json({
           success: false,
-          message: "No States Found With Id " + id,
+          message: "No states found with id " + id,
           data: [],
         });
       }
@@ -207,7 +207,7 @@ const getStatesByCountryIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -219,14 +219,14 @@ const updateStatesByCountryIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid id Passed:  " + id,
       });
     } else {
       const recordCheck = await getStatesByCountryIdRepository(id, res);
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "no Record Found With id = " + id,
+          message: "No record found with id = " + id,
         });
       }
       if (recordCheck) {
@@ -240,12 +240,12 @@ const updateStatesByCountryIdController = async (req, res) => {
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
-            message: "updated details succesfully",
+            message: "Updated details succesfully",
           });
         } else {
           res.status(404).json({
             success: false,
-            message: "update Failed ",
+            message: "Update failed ",
           });
         }
       }
@@ -253,7 +253,7 @@ const updateStatesByCountryIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -265,7 +265,7 @@ const deleteStatesByCountryIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid id Passed:  " + id,
       });
     } else {
       const recordCheck = await getStatesByCountryIdRepository(id, res);
@@ -273,7 +273,7 @@ const deleteStatesByCountryIdController = async (req, res) => {
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "No Record Found with id " + id,
+          message: "No record found with id " + id,
         });
       }
       if (recordCheck) {
@@ -281,12 +281,12 @@ const deleteStatesByCountryIdController = async (req, res) => {
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
-            message: "delete succesfully",
+            message: "Deleted succesfully",
           });
         } else {
           res.status(404).json({
             success: false,
-            message: "delete Failed ",
+            message: "Delete Failed ",
           });
         }
       }
@@ -294,7 +294,7 @@ const deleteStatesByCountryIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };

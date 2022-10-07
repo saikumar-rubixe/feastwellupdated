@@ -33,7 +33,7 @@ const createResidentController = async (req, res) => {
       const levelDown = createRequestUserTypeHierarchy.userHeirarchy;
       console.log(
         `user level (up) is ${levelUp} and create user level ( down) is ${levelDown} `
-      );
+      ); //delete
       if (levelUp < levelDown) {
         //*true
 

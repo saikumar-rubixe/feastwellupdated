@@ -23,7 +23,6 @@ const configDataRepository = async () => {
       return false;
     }
   } catch (error) {
-    console.log(error); //delete
     console.log(`error in getting the config data`); //delete
     return false;
   }

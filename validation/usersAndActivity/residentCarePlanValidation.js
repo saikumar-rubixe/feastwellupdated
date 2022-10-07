@@ -55,8 +55,6 @@ const residentCarePlanBodyValidation = async (req, res, next) => {
   try {
     await Schema.validateAsync(req.body);
   } catch (error) {
-    console.log(error); //delete
-
     returnError = error;
   }
   return returnError;

@@ -13,7 +13,7 @@ const Schema = Joi.object({
 // VALIDATE BEFORE SAVING A USER
 const residentValidation = async (req, res, next) => {
   returnError = null;
-  console.log(req.body); //delete
+
   try {
     await Schema.validateAsync(req.body);
   } catch (error) {

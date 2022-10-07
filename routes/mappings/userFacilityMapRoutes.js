@@ -22,7 +22,7 @@ userFacilityRoute.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await getUserFacilityDetailByIdController(req, res);
@@ -36,7 +36,7 @@ userFacilityRoute.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     const err = await userFacilityBodyValidation(req);
@@ -57,7 +57,7 @@ userFacilityRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await getAllUserFacilityDetailsController(req, res);
@@ -70,7 +70,7 @@ userFacilityRoute.put("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await updateUserFacilityByUserIdController(req, res);
@@ -83,7 +83,7 @@ userFacilityRoute.delete("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await deleteUserFacilityController(req, res);
@@ -96,7 +96,7 @@ userFacilityRoute.get("/byUserId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "unauthorized access",
+      message: "Unauthorized access",
     });
   } else {
     await getUserFacilityDetailByUserIdController(req, res);

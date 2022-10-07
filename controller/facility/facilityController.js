@@ -31,20 +31,20 @@ let getFacilityCenterDetailsByIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid  id passed /undefined",
+        message: "Invalid  id passed /undefined",
       });
     } else {
       let details = await getFacilityCenterDetailsByIdRepository(id, res);
       if (!details || details == false) {
         res.status(200).json({
           success: false,
-          message: "!Error no data found",
+          message: "No data found",
           data: {},
         });
       } else if (details) {
         res.status(200).json({
           success: true,
-          message: "data fetched successfully",
+          message: "Data fetched successfully",
           data: details,
         });
       }
@@ -52,7 +52,7 @@ let getFacilityCenterDetailsByIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont ",
+      message: " Something went wrong cb cont ",
     });
   }
 };
@@ -61,25 +61,25 @@ let getFacilityCenterDetailsByIdController = async (req, res) => {
 let getAllFacilityCenterDetailsController = async (req, res) => {
   try {
     const status = req.query.status;
-    console.log(`the status is ${status}`);
+
     let details = await getAllFacilityCenterDetailsRepository(status);
     if (!details || details == null) {
       res.status(200).json({
         success: false,
-        Message: "No data found or failed to fetch",
+        Message: "No data found",
         data: details,
       });
     } else {
       res.status(200).json({
         success: true,
-        Message: "details fetched succesfully",
+        Message: "Details fetched succesfully",
         data: details,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont ",
+      message: "Something went wrong",
     });
   }
 };
@@ -114,19 +114,19 @@ let insertFacilityCenterDetailsController = async (req, res) => {
     if (!create || create == null) {
       res.status(404).json({
         success: false,
-        message: "facility center creation failed",
+        message: "Facility center creation failed",
       });
     } else {
       res.status(201).json({
         success: true,
-        message: "facility center created Succesfully with id " + create,
+        message: "Facility center created Succesfully with id " + create,
         insertId: create,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont ",
+      message: "Something went wrong",
     });
   }
 };
@@ -138,7 +138,7 @@ let updateFacilityCenterDetailsController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid  id passed /undefined for update ",
+        message: "Invalid  id passed /undefined for update ",
       });
     } else {
       let recordcheck = await getFacilityCenterDetailsByIdRepository(id, res);
@@ -146,7 +146,7 @@ let updateFacilityCenterDetailsController = async (req, res) => {
       if (!recordcheck || recordcheck == false) {
         res.status(404).json({
           success: false,
-          message: "!Error no data found with id " + id,
+          message: "No data found with id " + id,
         });
       } else if (recordcheck) {
         const {
@@ -181,13 +181,13 @@ let updateFacilityCenterDetailsController = async (req, res) => {
         if (!details || details == false) {
           res.status(400).json({
             success: false,
-            message: "!Error no data found",
+            message: "No data found",
             data: details,
           });
         } else if (details || details == true) {
           res.status(200).json({
             success: true,
-            message: "updated successfully",
+            message: "Updated successfully",
           });
         }
       }
@@ -195,7 +195,7 @@ let updateFacilityCenterDetailsController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont ",
+      message: "Something went wrong",
     });
   }
 };
@@ -206,7 +206,7 @@ let deleteFacilityCenterDetailsController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid  id passed /undefined",
+        message: "Invalid  id passed /undefined",
       });
     } else {
       let recordcheck = await getFacilityCenterDetailsByIdRepository(id, res);
@@ -214,19 +214,19 @@ let deleteFacilityCenterDetailsController = async (req, res) => {
       if (!recordcheck || recordcheck == false) {
         res.status(404).json({
           success: false,
-          message: "!Error no data found",
+          message: "No data found",
         });
       } else if (recordcheck) {
         let details = await deleteFacilityCenterDetailsRepository(id, res);
         if (!details || details == false) {
           res.status(404).json({
             success: false,
-            message: "!Error delete failed",
+            message: "Delete failed",
           });
         } else if (details == true) {
           res.status(200).json({
             success: true,
-            message: "delete successful",
+            message: "Deleted successfully",
           });
         }
       }
@@ -234,7 +234,7 @@ let deleteFacilityCenterDetailsController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont ",
+      message: "Something went wrong",
     });
   }
 };

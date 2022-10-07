@@ -15,7 +15,7 @@ const getAllUserFacilityDetailsController = async (req, res) => {
     if (!details || details == false) {
       res.status(200).json({
         success: false,
-        message: "data retrieval failed",
+        message: "Data retrieval failed",
         data: {
           count: 0,
           array: [],
@@ -25,7 +25,7 @@ const getAllUserFacilityDetailsController = async (req, res) => {
     if (details == null) {
       res.status(200).json({
         success: false,
-        message: "data retrieval failed",
+        message: "Data retrieval failed",
         data: {
           count: 0,
           array: [],
@@ -35,14 +35,14 @@ const getAllUserFacilityDetailsController = async (req, res) => {
     if (details) {
       res.status(200).json({
         success: true,
-        message: "data retrieve succesfully",
+        message: "Data retrieve succesfully",
         data: details,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -54,7 +54,7 @@ const getUserFacilityDetailByIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid id Passed:  " + id,
       });
     } else {
       const details = await getUserFacilityDetailsByIdRepository(id, res);
@@ -71,7 +71,7 @@ const getUserFacilityDetailByIdController = async (req, res) => {
       if (details) {
         res.status(200).json({
           success: true,
-          message: "data retrieved succesfully",
+          message: "Data retrieved succesfully",
           data: details,
         });
       }
@@ -79,7 +79,7 @@ const getUserFacilityDetailByIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -101,19 +101,19 @@ const createUserFacilityController = async (req, res) => {
       res.status(200).json({
         success: true,
         message:
-          "mapping userid and facility center succes with id : " + create,
+          "Mapping userid and facility center succes with id : " + create,
         insertId: create,
       });
     } else {
       res.status(400).json({
         success: false,
-        message: "mapping failed",
+        message: "Mapping failed",
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -125,7 +125,7 @@ const updateUserFacilityByUserIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid id Passed:  " + id,
       });
     } else {
       const recordCheck = await getUserFacilityDetailsByUserIdRepository(
@@ -135,7 +135,7 @@ const updateUserFacilityByUserIdController = async (req, res) => {
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "no Record Found With id = " + id,
+          message: "No record found with id = " + id,
         });
       }
       if (recordCheck) {
@@ -150,12 +150,12 @@ const updateUserFacilityByUserIdController = async (req, res) => {
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
-            message: "updated details succesfully",
+            message: "Updated details succesfully",
           });
         } else {
           res.status(404).json({
             success: false,
-            message: "update Failed ",
+            message: "Update Failed ",
           });
         }
       }
@@ -163,7 +163,7 @@ const updateUserFacilityByUserIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -176,7 +176,7 @@ const deleteUserFacilityController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid id Passed:  " + id,
       });
     } else {
       const recordCheck = await getUserFacilityDetailsByUserIdRepository(
@@ -195,7 +195,7 @@ const deleteUserFacilityController = async (req, res) => {
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
-            message: "delete succesfully",
+            message: "Delete succesfully",
           });
         } else {
           res.status(404).json({
@@ -208,7 +208,7 @@ const deleteUserFacilityController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -220,7 +220,7 @@ const getUserFacilityDetailByUserIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid id Passed:  " + id,
       });
     } else {
       const details = await getUserFacilityDetailsByUserIdRepository(id, res);
@@ -233,7 +233,7 @@ const getUserFacilityDetailByUserIdController = async (req, res) => {
       if (details) {
         res.status(200).json({
           success: true,
-          message: "data retrieved succesfully",
+          message: "Data retrieved succesfully",
           data: details,
         });
       }
@@ -241,7 +241,7 @@ const getUserFacilityDetailByUserIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };

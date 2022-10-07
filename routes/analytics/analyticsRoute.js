@@ -15,7 +15,6 @@ const {
 
  */
 analyticsRoute.get("/nutrients/", async (req, res) => {
-  console.log(`in route`); //delete
   // const err = await nutrientsBodyValidation(req);
   // if (err) {
   //   return res.status(400).json({

@@ -93,7 +93,6 @@ const updateMealItemsRepository = async (
   updatedBy
 ) => {
   try {
-    console.log(`in to the repo`);
     let query =
       " UPDATE `meal_items` set `meal_item_name`=?,`status`=?,`updated_date`=?,`updated_by`=? where meal_item_id  =?";
 
@@ -104,7 +103,7 @@ const updateMealItemsRepository = async (
       updatedBy,
       id,
     ]);
-    console.log(query);
+
     let value = results.affectedRows;
 
     if (value == 1) {

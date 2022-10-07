@@ -14,7 +14,6 @@ const insertImagePredictionRespsonseController = async (req, res) => {
         return res.status(404).json({
           success: false,
           message: "pass valid id",
-          dataSent: req.body, //delete
         });
       } else {
         const create = await insertImagePredictionRespsonseRepository(
@@ -24,16 +23,14 @@ const insertImagePredictionRespsonseController = async (req, res) => {
         if (create) {
           res.status(201).json({
             success: true,
-            message: "Response Saved succesfully with id : " + create,
+            message: "Response saved succesfully with id : " + create,
             data: create,
-            dataSent: req.body, //delete
           });
         }
         if (!create || create == false) {
           res.status(400).json({
             success: false,
-            message: "insetion failed",
-            dataSent: req.body, //delete
+            message: "Insetion failed",
           });
         }
       }
@@ -41,14 +38,13 @@ const insertImagePredictionRespsonseController = async (req, res) => {
     } else {
       res.status(400).json({
         success: false,
-        message: "Error! pass all the params ",
-        dataSent: req.body, //delete
+        message: "Pass all the params ",
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -59,7 +55,7 @@ const getImagePredictionResponseByReferenceIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid id Passed:  " + id,
       });
     } else {
       const details = await getImagePredictionResponseByReferenceIdRepository(
@@ -80,7 +76,7 @@ const getImagePredictionResponseByReferenceIdController = async (req, res) => {
       if (details) {
         res.status(200).json({
           success: true,
-          message: "data retrieved succesfully",
+          message: "Data retrieved succesfully",
           data: details,
         });
       }
@@ -88,7 +84,7 @@ const getImagePredictionResponseByReferenceIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
@@ -98,7 +94,7 @@ const getImagePredictionResponseByIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid id Passed:  " + id,
       });
     } else {
       const details = await getImagePredictionResponseByIdRepository(id, res);
@@ -112,7 +108,7 @@ const getImagePredictionResponseByIdController = async (req, res) => {
       if (details) {
         res.status(200).json({
           success: true,
-          message: "data retrieved succesfully",
+          message: "Data retrieved succesfully",
           data: details,
         });
       }
@@ -120,7 +116,7 @@ const getImagePredictionResponseByIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something went wrong",
     });
   }
 };
