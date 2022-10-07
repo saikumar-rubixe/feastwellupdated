@@ -104,23 +104,23 @@ const getImagesUploadedByNurseIdRepository = async (id, res) => {
       }
       let totalUploads = [
         {
-          label: "breakfast",
+          label: "Breakfast",
           count: breakfast_count,
         },
         {
-          label: "lunch",
+          label: "Lunch",
           count: lunch_count,
         },
         {
-          label: "dinner",
+          label: "Dinner",
           count: dinner_count,
         },
         {
-          label: "afternoonSnack",
+          label: "Afternoon Snack",
           count: afternoonSnack_count,
         },
         {
-          label: "eveningSnack",
+          label: "Evening Snack",
           count: eveningSnack_count,
         },
       ];

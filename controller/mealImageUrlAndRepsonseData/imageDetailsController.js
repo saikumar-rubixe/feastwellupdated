@@ -48,23 +48,23 @@ const getImagesUploadedByNurseIdController = async (req, res) => {
           message: "No record found with id " + id,
           data: [
             {
-              label: "breakfast",
+              label: "Breakfast",
               count: 0,
             },
             {
-              label: "lunch",
+              label: "Lunch",
               count: 0,
             },
             {
-              label: "dinner",
+              label: "Dinner",
               count: 0,
             },
             {
-              label: "afternoonSnack",
+              label: "Afternoon Snack",
               count: 0,
             },
             {
-              label: "eveningSnack",
+              label: "Evening Snack",
               count: 0,
             },
           ],
