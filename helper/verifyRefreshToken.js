@@ -25,7 +25,7 @@ const verifyRefreshFunction = function (req, res, next) {
       console.log("expired");
       res.status(401).json({
         success: false,
-        message: "invalid token",
+        message: "Invalid Token",
       });
     }
   }

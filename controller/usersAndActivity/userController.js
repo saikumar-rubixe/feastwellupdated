@@ -37,7 +37,9 @@ const {
   createResidentrepository,
   getuserType,
 } = require("../../repository/userRepository");
-
+const {
+  deleteUserFacilityRepository,
+} = require("../../repository/userFacilityMapRepository");
 //********************************* */
 
 // 1  to get the details of one single User by Id
@@ -47,7 +49,7 @@ const getUserByIdController = async (req, res) => {
     if (!user) {
       res.status(403).json({
         success: true,
-        message: "user verification failed ",
+        message: "Unauthorized User",
       });
     } else {
       // get the logged in usertype userType
@@ -56,18 +58,18 @@ const getUserByIdController = async (req, res) => {
 
       // fetch the user id details by ID(provided frm req.params.id) using getUserByIdRepository
       const recordExist = await getUserByIdRepository(id, res);
-      // if no details found  return false
+      // if no details Found  return false
       if (recordExist == null || recordExist == false) {
         res.status(404).json({
           success: false,
-          message: "users records not found ",
+          message: "Record Not Found ",
         });
       } else {
         //  case 1 : if user trying to acces his own details
         if (loggedUserId == id) {
           res.status(200).json({
             success: true,
-            message: "  user  details retrived succesfully ",
+            message: "User Details Retrived Succesfully",
             data: recordExist,
           });
         } else {
@@ -93,14 +95,14 @@ const getUserByIdController = async (req, res) => {
             //*true
             res.status(200).json({
               success: true,
-              message: "  user  details retrived succesfully ",
+              message: "User Details Retrived Succesfully",
               data: recordExist,
             });
           } else {
             //! false
             res.status(401).json({
               success: false,
-              message: "you are not permitted to get details",
+              message: "Unauthorized Access",
             });
           }
         }
@@ -109,7 +111,7 @@ const getUserByIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -135,14 +137,14 @@ const getAllUsersController = async (req, res) => {
       } else {
         res.status(404).json({
           success: false,
-          message: "details retreival failed",
+          message: "details retreival Failed",
         });
       }
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -176,7 +178,7 @@ const createUsersController = async (req, res) => {
         // get the username from the request and check username available or not
         const username = req.body.username;
         let usernameCheck = await userCheckRepository(username);
-        // return value 0(true no results found username available) or 1 (false - username unavailable )
+        // return value 0(true no results Found username available) or 1 (false - username unavailable )
 
         if (usernameCheck == 0) {
           // username available
@@ -207,7 +209,7 @@ const createUsersController = async (req, res) => {
           } else {
             res.status(200).json({
               success: false,
-              message: "user creation failed",
+              message: "user creation Failed",
             });
           }
         } else {
@@ -228,7 +230,7 @@ const createUsersController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong in creating user controller",
+      message: "Something Went Wrong in creating user controller",
     });
   }
 };
@@ -244,7 +246,7 @@ const updateUsersController = async (req, res) => {
     if (!user) {
       res.status(403).json({
         success: true,
-        message: "user verification failed ",
+        message: "Unauthorized Access",
       });
     } else {
       // check whther user is trying to edit his own details
@@ -260,11 +262,11 @@ const updateUsersController = async (req, res) => {
 
       // fetch the user id details by ID(provided frm req.params.id) using getUserByIdRepository
 
-      const recordExist = await getUserByIdRepository(id, res);
+      const recordExist = await getUserDetailsDisplayRepository(id, res);
       if (recordExist == null) {
         res.status(404).json({
           success: false,
-          message: "user records not found ",
+          message: "User Records Not Found ",
         });
       } else {
         // get the usertype of the user details to be updated
@@ -295,26 +297,26 @@ const updateUsersController = async (req, res) => {
             if (details == 1) {
               res.status(404).json({
                 success: false,
-                message: "update failed",
+                message: "Update Failed",
               });
             } else if (details == 0) {
               res.status(200).json({
                 success: true,
-                message: "updated User  details succesfully ",
+                message: "Updated User Details Succesfully ",
               });
             }
             //*
           } else {
             res.status(403).json({
               success: false,
-              message: "username not available to update ",
+              message: "Username Already Exists",
             });
           }
         } else {
           //! false
           res.status(401).json({
             success: false,
-            message: "you are not permitted to update this user",
+            message: "Unauthorized Access",
           });
         }
       }
@@ -322,7 +324,7 @@ const updateUsersController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong in creating user controller",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -339,7 +341,7 @@ const deleteUsersController = async (req, res) => {
     if (!user) {
       res.status(403).json({
         success: true,
-        message: "user verification failed ",
+        message: "Unauthorized User",
       });
     } else {
       // get the logged in usertype userType
@@ -356,7 +358,8 @@ const deleteUsersController = async (req, res) => {
       if (!recordExist || recordExist == false) {
         res.status(404).json({
           success: false,
-          message: "user records not found ",
+
+          message: "User Records Not Found",
         });
       } else {
         // get the usertype of the user details to be deleted
@@ -371,18 +374,19 @@ const deleteUsersController = async (req, res) => {
 
         if (levelUp < levelDown) {
           //*true
-
+          //!Todo delete dependent mappings
+          await deleteUserFacilityRepository(id);
           let details = await deleteUserRepository(id);
 
           if (details == false) {
             res.status(404).json({
               success: false,
-              message: "delete failed",
+              message: "Delete Failed",
             });
           } else if (details == true) {
             res.status(200).json({
               success: true,
-              message: "deleted User  details succesfully ",
+              message: "Deleted user Succesfully ",
             });
           }
           //*
@@ -390,7 +394,7 @@ const deleteUsersController = async (req, res) => {
           //! false
           res.status(401).json({
             success: false,
-            message: "you are not permitted to update this user",
+            message: "Unauthorized Access",
           });
         }
       }
@@ -398,7 +402,7 @@ const deleteUsersController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong in deleting user controller",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -408,51 +412,44 @@ let updateUserLoginDetailsController = async (req, res, next) => {
   try {
     let id = req.params.id;
     const { lastLogin, loggedIpAddress } = req.body;
+    console.log(req.body);
 
     if (checkNumber(id)) {
       const recordExist = await getUserByIdRepository(id, res);
 
       if (recordExist && recordExist != null) {
-        let recordCheck = await updateuserCheckRepository(userName, id, res);
-        if (recordCheck == false) {
-          res.status(403).json({
-            success: false,
-            message: "username not available to change ",
+        let details = await updateUserLoginDetailsRepository(
+          id,
+          lastLogin,
+          loggedIpAddress
+        );
+        if (details == true) {
+          res.status(200).json({
+            success: true,
+            message: "Updated User Login Details Succesfully ",
           });
         } else {
-          let details = await updateUserLoginDetailsRepository(
-            id,
-            lastLogin,
-            loggedIpAddress
-          );
-          if (details == true) {
-            res.status(200).json({
-              success: true,
-              message: "updated User succesfully ",
-            });
-          } else {
-            res.status(404).json({
-              success: false,
-              message: "update failed",
-            });
-          }
+          res.status(404).json({
+            success: false,
+            message: "Update Failed",
+          });
         }
       } else {
         res.status(404).json({
           success: false,
-          message: "no records found ",
+          message: "No Records Found ",
         });
       }
     } else {
       res.status(400).json({
         success: false,
-        message: "Wrong input:id must be a number ",
+        message: "Invalid ID",
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };

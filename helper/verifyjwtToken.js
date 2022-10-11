@@ -23,7 +23,7 @@ const verify = async (req, res) => {
     } catch (error) {
       res.status(400).json({
         success: false,
-        message: "Token expired",
+        message: "Token Expired",
       });
     }
   }

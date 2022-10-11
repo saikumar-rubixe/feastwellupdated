@@ -16,21 +16,21 @@ const getAllDetailsController = async (req, res) => {
     if (!details || details == false) {
       res.status(200).json({
         success: false,
-        message: "Data retrieval failed",
+        message: "Unabe to Retrieve City",
         data: [],
       });
     }
     if (details) {
       res.status(200).json({
         success: true,
-        message: "Data retrieved succesfully",
+        message: "City Retrieved Successfully",
         data: details,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -41,20 +41,20 @@ const getCityByCityIdController = async (req, res) => {
     const id = req.params.id;
 
     if (isNaN(id)) {
-      res.send("send valid id: ", id, "   is not a number");
+      res.send("Invalid ID");
     } else {
       const details = await getCitiesByCityIdRepository(id, res);
 
       if (details) {
         res.status(200).json({
           success: true,
-          message: "Fetched cities",
+          message: "Retrieved Cities",
           data: details,
         });
       } else {
         res.status(200).json({
           success: false,
-          message: "No cities found with id " + id,
+          message: "No Cities Found",
           data: [],
         });
       }
@@ -62,7 +62,7 @@ const getCityByCityIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -76,21 +76,21 @@ const createCityController = async (req, res) => {
     if (create) {
       res.status(200).json({
         success: true,
-        message: "Data created succesfully with id" + create,
+        message: "City Created Succesfully",
         insertId: create,
       });
     }
     if (!create || create == false) {
       res.status(409).json({
         success: false,
-        message: "Data creation failed",
+        message: "City Creation Failed",
       });
     }
     //  }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong cb cont ",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -102,14 +102,14 @@ const updateCityController = async (req, res) => {
     if (isNaN(id)) {
       res.status(401).json({
         success: false,
-        message: "Invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const recordCheck = await getCitiesByIdRepository(id, res);
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "No record found with id = " + id,
+          message: "No Record Found",
         });
       }
       if (recordCheck) {
@@ -123,12 +123,12 @@ const updateCityController = async (req, res) => {
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
-            message: "Updated details succesfully",
+            message: "Updated Details Succesfully",
           });
         } else {
           res.status(404).json({
             success: false,
-            message: "Update Failed ",
+            message: "Update Failed",
           });
         }
       }
@@ -136,7 +136,7 @@ const updateCityController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -148,7 +148,7 @@ const deleteCityController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "Invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const recordCheck = await getCitiesByCityIdRepository(id, res);
@@ -156,7 +156,7 @@ const deleteCityController = async (req, res) => {
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "No record found with id " + id,
+          message: "No Record Found",
         });
       }
       if (recordCheck) {
@@ -164,7 +164,7 @@ const deleteCityController = async (req, res) => {
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
-            message: "Deleted succesfully",
+            message: "Deleted Succesfully",
           });
         } else {
           res.status(409).json({
@@ -177,7 +177,7 @@ const deleteCityController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -188,20 +188,20 @@ const getCitiesByStateIdController = async (req, res) => {
     const id = req.params.id;
 
     if (isNaN(id)) {
-      res.send("send valid id: ", id, "   is not a number");
+      res.send("Invalid ID");
     } else {
       const details = await getCitiesByStateIdRepository(id, res);
 
       if (details) {
         res.status(200).json({
           success: true,
-          message: "Fetched details of cities",
+          message: "Retrieved Cities",
           data: details,
         });
       } else {
         res.status(200).json({
           success: false,
-          message: "No cities found with id " + id,
+          message: "No Cities Found",
           data: [],
         });
       }
@@ -209,7 +209,7 @@ const getCitiesByStateIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -220,20 +220,20 @@ const getCitiesByCountryIdController = async (req, res) => {
     const id = req.params.id;
 
     if (isNaN(id)) {
-      res.send("send valid id: ", id, "   is not a number");
+      res.send("Invalid ID");
     } else {
       const details = await getCitiesByCountryIdRepository(id, res);
 
       if (details) {
         res.status(200).json({
           success: true,
-          message: "Fetched details of cities",
+          message: "Retrieved Cities",
           data: details,
         });
       } else {
         res.status(200).json({
           success: false,
-          message: "No cities found with id " + id,
+          message: "No Cities Found",
           data: [],
         });
       }
@@ -241,7 +241,7 @@ const getCitiesByCountryIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };

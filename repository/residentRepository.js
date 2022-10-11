@@ -68,6 +68,7 @@ const updateResidentRepository = async (
 // 3 delete resident respository
 const deleteResidentRepository = async (id, res) => {
   try {
+    console.log(` step 3 : to delete residents id `);
     let query = "delete from users where user_type =6 and user_id =?";
     let results = await runQuery(query, [id]);
 

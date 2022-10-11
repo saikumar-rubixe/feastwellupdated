@@ -161,7 +161,7 @@ const updateMealMenuRepository = async (
 
     if (value == 1 && deleteRecords && insertItems) {
       let details = {
-        message: "update succesful",
+        message: "Update Successful",
         menuUpdate: value,
         NoOfOldRecordsDeleted: deleteRecords,
         newRecordsInsertedId: insertItems,
@@ -169,7 +169,7 @@ const updateMealMenuRepository = async (
       return details;
     } else if (value == 1 && deleteRecords && !insertItems) {
       let details = {
-        message: "new records insertion failed",
+        message: "New Records Insertion Failed",
         menuUpdate: value,
         NoOfOldRecordsDeleted: deleteRecords,
         newRecordsInsertedId: insertItems,
@@ -177,7 +177,7 @@ const updateMealMenuRepository = async (
       return details;
     } else if (value == 1 && !deleteRecords && insertItems) {
       let details = {
-        message: "old records deletion failed",
+        message: "Old Records Deletion Failed",
         menuUpdate: value,
         NoOfOldRecordsDeleted: deleteRecords,
         newRecordsInsertedId: insertItems,
@@ -185,7 +185,7 @@ const updateMealMenuRepository = async (
       return details;
     } else if (value == 1 && !deleteRecords && !insertItems) {
       let details = {
-        message: "old deletion and new insertion failed",
+        message: "Old Deletion and New Insertion Failed",
         menuUpdate: value,
         NoOfOldRecordsDeleted: deleteRecords,
         newRecordsInsertedId: insertItems,

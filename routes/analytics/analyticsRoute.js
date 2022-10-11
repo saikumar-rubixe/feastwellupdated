@@ -19,7 +19,7 @@ analyticsRoute.get("/nutrients/", async (req, res) => {
   // if (err) {
   //   return res.status(400).json({
   //     error: err.message,
-  //     message: "request body validation error",
+  //     message: "Request Body Validation Error",
   //   });
   // } else {
   await getNutrientsController(req, res);
@@ -31,7 +31,7 @@ analyticsRoute.get("/facility/", async (req, res) => {
   // if (err) {
   //   return res.status(400).json({
   //     error: err.message,
-  //     message: "request body validation error",
+  //     message: "Request Body Validation Error",
   //   });
   // } else {
   await facilityAnalyticsResponseController(req, res);

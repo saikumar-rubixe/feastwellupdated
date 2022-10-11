@@ -1,0 +1,1 @@
+Hello 😃. This will be saved in normalStdout.txt file

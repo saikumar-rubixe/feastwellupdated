@@ -33,7 +33,7 @@ const enrollementIdTag = async (userType) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb cont",
+      message: "Something Went Wrong",
     });
   }
 };

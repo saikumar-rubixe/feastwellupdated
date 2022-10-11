@@ -11,20 +11,20 @@ const getUserLogDetailByIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const details = await getUserLogDetailByIdRepository(id, res);
       if (!details || details == false) {
         res.status(400).json({
           success: false,
-          message: "No record found with id " + id,
+          message: "No Record Found",
         });
       }
       if (details) {
         res.status(200).json({
           success: true,
-          message: "data retrieved succesfully",
+          message: "Data Retrieved Successfully",
           data: details,
         });
       }
@@ -32,7 +32,7 @@ const getUserLogDetailByIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -51,21 +51,21 @@ const createUserLogController = async (req, res) => {
     if (create) {
       res.status(201).json({
         success: true,
-        message: "data created succesfully with id" + create,
+        message: "Data Created Succesfully",
         insertId: create,
       });
     }
     if (!create || create == false) {
       res.status(400).json({
         success: false,
-        message: "data retrieval failed",
+        message: "Data Retrieval Failed",
       });
     }
     //  }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -77,20 +77,20 @@ const getUserLogDetailByUserIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const details = await getUserLogAllDetailsByUserIdRepository(id, res);
       if (!details || details == false) {
         res.status(400).json({
           success: false,
-          message: "No record found with id " + id,
+          message: "No Record Found",
         });
       }
       if (details) {
         res.status(200).json({
           success: true,
-          message: "data retrieved succesfully",
+          message: "Data Retrieved Successfully",
           data: details,
         });
       }
@@ -98,7 +98,7 @@ const getUserLogDetailByUserIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };

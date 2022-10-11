@@ -140,6 +140,7 @@ const updateUserFacilityRepository = async (
 // delete
 const deleteUserFacilityRepository = async (id, res) => {
   try {
+    console.log(` step 2 : to delete residents facility`);
     let query = "DELETE from `user_facility_map` where user_id =?";
     let results = await runQuery(query, [id]);
     let value = results.affectedRows;

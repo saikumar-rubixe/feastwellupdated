@@ -23,7 +23,7 @@ residentRoute.post("/", async (req, res) => {
   if (err) {
     return res.status(400).json({
       error: err.message,
-      message: "request body validation error",
+      message: "Request Body Validation Error",
     });
   } else {
     await createResidentController(req, res);
@@ -51,7 +51,7 @@ residentRoute.put("/:id", async (req, res) => {
   if (err) {
     return res.status(400).json({
       error: err.message,
-      message: "request body validation error",
+      message: "Request Body Validation Error",
     });
   } else {
     await updateResidentController(req, res);

@@ -19,7 +19,7 @@ imagePredictionResponse.post("/", async (req, res) => {
   if (err) {
     return res.status(400).json({
       error: err.message,
-      message: "request body validation error",
+      message: "Request Body Validation Error",
     });
   } else {
     await insertImagePredictionRespsonseController(req, res);
@@ -32,7 +32,7 @@ imagePredictionResponse.get("/byReferenceId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getImagePredictionResponseByReferenceIdController(req, res);
@@ -45,7 +45,7 @@ imagePredictionResponse.get("/byId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getImagePredictionResponseByIdController(req, res);

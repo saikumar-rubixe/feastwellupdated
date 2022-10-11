@@ -19,7 +19,7 @@ statesRoute.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await createStatesController(req, res);
@@ -32,7 +32,7 @@ statesRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getAllStatesDetailsController(req, res);
@@ -45,7 +45,7 @@ statesRoute.get("/byStateId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getStatesByStateIdController(req, res);
@@ -58,7 +58,7 @@ statesRoute.put("/byStateId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await updateStatesByStateIdController(req, res);
@@ -71,7 +71,7 @@ statesRoute.delete("/byStateId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await deleteStatesByStateIdController(req, res);
@@ -86,7 +86,7 @@ statesRoute.get("/byCountryId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getStatesByCountryIdController(req, res);
@@ -99,7 +99,7 @@ statesRoute.put("/byCountryId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await updateStatesByCountryIdController(req, res);
@@ -112,7 +112,7 @@ statesRoute.delete("/byCountryId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await deleteStatesByCountryIdController(req, res);

@@ -16,7 +16,7 @@ countryRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getAllCountryController(req, res);
@@ -29,7 +29,7 @@ countryRoute.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getCountryByIdController(req, res);
@@ -42,7 +42,7 @@ countryRoute.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await createCountryController(req, res);
@@ -55,7 +55,7 @@ countryRoute.put("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await updateCountryController(req, res);
@@ -68,7 +68,7 @@ countryRoute.delete("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await deleteCountryController(req, res);

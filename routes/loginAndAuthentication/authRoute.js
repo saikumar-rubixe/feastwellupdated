@@ -19,7 +19,7 @@ authRoute.post("/", async (req, res) => {
   if (err) {
     return res.status(400).json({
       error: err.message,
-      message: "request body validation error",
+      message: "Request Body Validation Error",
     });
   } else {
     await userLogin(req, res);
@@ -40,7 +40,7 @@ authRoute.get("/", async (req, res) => {
   } else {
     res.status(401).json({
       success: false,
-      message: "no user  Found with provided token ",
+      message: "User Not Found",
     });
   }
 });

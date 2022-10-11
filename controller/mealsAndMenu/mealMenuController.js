@@ -13,21 +13,21 @@ const getMealMenuDetailByIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const details = await getMealMenuDetailByIdRepository(id, res);
       if (!details || details == false) {
         res.status(200).json({
           success: false,
-          message: "No record found with id " + id,
+          message: "No Record Found",
           data: [],
         });
       }
       if (details) {
         res.status(200).json({
           success: true,
-          message: "data retrieved succesfully",
+          message: "Data Retrieved Successfully",
           data: details,
         });
       }
@@ -35,7 +35,7 @@ const getMealMenuDetailByIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -47,21 +47,21 @@ const getAllMealMenuDetailsController = async (req, res) => {
     if (!details || details == false) {
       res.status(200).json({
         success: false,
-        message: "data retrieval failed",
+        message: "Data Retrieval Failed",
         data: { count: 0, array: [] },
       });
     }
     if (details) {
       res.status(200).json({
         success: true,
-        message: "data retrieved succesfully",
+        message: "Data Retrieved Successfully",
         data: details,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -85,7 +85,7 @@ const createMealMenuController = async (req, res) => {
     if (!isString(mealItems)) {
       res.status(400).json({
         success: false,
-        message: "pass String",
+        message: "Pass String",
         data: mealItems,
       });
     } else {
@@ -100,7 +100,7 @@ const createMealMenuController = async (req, res) => {
       if (create) {
         res.status(201).json({
           success: true,
-          message: `data created succesfully with id :${create.menuId}`,
+          message: `Data created succesfully with id :${create.menuId}`,
           menuId: create.menuId,
           mealItemsIds: create.insertItems,
         });
@@ -108,7 +108,7 @@ const createMealMenuController = async (req, res) => {
       if (!create || create == false) {
         res.status(404).json({
           success: false,
-          message: "creation  failed",
+          message: "Creation  Failed",
           menuId: 0,
           mealItemsIds: 0,
         });
@@ -117,7 +117,7 @@ const createMealMenuController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -129,14 +129,14 @@ const updateMealMenuController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const recordCheck = await getMealMenuDetailByIdRepository(id, res);
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "no Record Found With id = " + id,
+          message: "No Record Found",
         });
       }
       if (recordCheck) {
@@ -162,13 +162,13 @@ const updateMealMenuController = async (req, res) => {
         if (updatedetails) {
           res.status(200).json({
             success: true,
-            message: "updated details succesfully",
+            message: "Updated Details Successfully",
             data: updatedetails,
           });
         } else {
           res.status(404).json({
             success: false,
-            message: "update Failed ",
+            message: "Update Failed",
           });
         }
       }
@@ -176,7 +176,7 @@ const updateMealMenuController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -187,7 +187,7 @@ const deleteMealMenuController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const recordCheck = await getMealMenuDetailByIdRepository(id, res);
@@ -195,7 +195,7 @@ const deleteMealMenuController = async (req, res) => {
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "No Record Found with id " + id,
+          message: "No Record Found",
         });
       }
       if (recordCheck) {
@@ -203,13 +203,13 @@ const deleteMealMenuController = async (req, res) => {
         if (details) {
           res.status(200).json({
             success: true,
-            message: "delete succesfully",
+            message: "Deleted Succesfully",
             data: details,
           });
         } else {
           res.status(404).json({
             success: false,
-            message: "delete Failed ",
+            message: "Delete Failed ",
           });
         }
       }
@@ -217,7 +217,7 @@ const deleteMealMenuController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };

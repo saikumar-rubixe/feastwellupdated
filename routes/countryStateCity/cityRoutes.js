@@ -20,7 +20,7 @@ cityRoute.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await createCityController(req, res);
@@ -34,7 +34,7 @@ cityRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getAllDetailsController(req, res);
@@ -48,7 +48,7 @@ cityRoute.get("/byCityId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getCityByCityIdController(req, res);
@@ -61,7 +61,7 @@ cityRoute.get("/byStateId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getCitiesByStateIdController(req, res);
@@ -74,7 +74,7 @@ cityRoute.get("/byCountryId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getCitiesByCountryIdController(req, res);
@@ -87,7 +87,7 @@ cityRoute.put("/byCityId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await updateCityController(req, res);
@@ -100,7 +100,7 @@ cityRoute.delete("/byCityId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await deleteCityController(req, res);
@@ -112,7 +112,7 @@ cityRoute.delete("/byCityId/:id", async (req, res) => {
 //   if (permission !== 1) {
 //     res.status(401).json({
 //       success: false,
-//       message: "Unauthorized access",
+//       message: "Unauthorized Access",
 //     });
 //   } else {
 //     await getCitiesByCountryIdController(req, res);
@@ -124,7 +124,7 @@ cityRoute.delete("/byCityId/:id", async (req, res) => {
 //   if (permission !== 1) {
 //     res.status(401).json({
 //       success: false,
-//       message: "Unauthorized access",
+//       message: "Unauthorized Access",
 //     });
 //   } else {
 //     await getCitiesByCountryIdController(req, res);

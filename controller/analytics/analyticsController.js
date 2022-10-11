@@ -9,13 +9,13 @@ const getNutrientsController = async (req, res) => {
     if (results && results != false) {
       res.status(200).send({
         success: true,
-        message: "Fetched nutrients successfully",
+        message: "Nutrients Retrieved Successfully",
         data: results,
       });
     } else {
       res.status(404).send({
         success: false,
-        message: " Nutrients fetch failed",
+        message: "Nutrients Retrieval Failed",
       });
     }
   } catch (error) {}

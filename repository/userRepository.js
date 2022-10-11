@@ -217,7 +217,7 @@ const getUserByIdRepository = async (id, res) => {
 // 6 get user details by id without pwd  for fetching and showing
 const getUserDetailsDisplayRepository = async (id, res) => {
   try {
-    let query = "select users.* from users where user_id =?";
+    let query = "select * from users where user_id =?";
 
     let results = await runQuery(query, [id]);
     if (results.length != 0) {
@@ -237,9 +237,7 @@ const getUserDetailsDisplayRepository = async (id, res) => {
         (updatedDate = array.updated_date),
         (enrolmentId = array.enrolment_id),
         (createdBy = array.created_by),
-        (updatedBy = array.updated_by),
-        (facilityId = array.facility_id),
-        (facilityName = array.facility_name)
+        (updatedBy = array.updated_by)
       );
 
       return model;

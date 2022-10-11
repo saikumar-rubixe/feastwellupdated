@@ -20,14 +20,14 @@ residentCarePlanRoutes.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     const err = await residentCarePlanBodyValidation(req);
     if (err) {
       return res.status(400).json({
         error: err.message,
-        message: "request body validation error",
+        message: "Request Body Validation Error",
       });
     } else {
       await insertResidentCarePlanDetailsController(req, res);
@@ -42,7 +42,7 @@ residentCarePlanRoutes.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getallResidentCarePlanDetailsController(req, res);
@@ -55,7 +55,7 @@ residentCarePlanRoutes.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getResidentCarePlanDetailByIdController(req, res);
@@ -68,19 +68,18 @@ residentCarePlanRoutes.put("/:userId", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
-    // const err = await residentAdditionalInformationBodyValidation(req);
-    // if (err) {
-    //   return res.status(400).json({
-    //     error: err.message,
-    //     message: "request body validation error",
-    //   });
-    // } else {
-    //   await updateResidentCarePlanDetailsController(req, res);
-    // }
-    await updateResidentCarePlanDetailsController(req, res);
+    const err = await residentCarePlanBodyValidation(req);
+    if (err) {
+      return res.status(400).json({
+        error: err.message,
+        message: "Request Body Validation Error",
+      });
+    } else {
+      await updateResidentCarePlanDetailsController(req, res);
+    }
   }
 });
 

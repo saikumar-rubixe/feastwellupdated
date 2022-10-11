@@ -23,14 +23,14 @@ menuContentsRoute.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     const err = await mealContentsBodyValidation(req);
     if (err) {
       return res.status(400).json({
         error: err.message,
-        message: "request body validation error",
+        message: "Request Body Validation Error",
       });
     } else {
       await createMealMenuContentsController(req, res);
@@ -44,7 +44,7 @@ menuContentsRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getAllMealMenuContentsDetailsController(req, res);
@@ -57,7 +57,7 @@ menuContentsRoute.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getMealMenuContentsDetailByIdController(req, res);
@@ -70,7 +70,7 @@ menuContentsRoute.put("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await updateMealMenuContentsController(req, res);
@@ -83,7 +83,7 @@ menuContentsRoute.delete("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await deleteMealMenuContentsController(req, res);

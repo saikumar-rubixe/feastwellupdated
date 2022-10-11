@@ -6,6 +6,14 @@ const {
   getAllResidentsRepository,
   getAllResidentsOfFacilityRepository,
 } = require("../../repository/residentRepository");
+
+const {
+  deleteResidentCarePlanDetailByIdrepository,
+} = require("../../repository/residentCarePlanRepository");
+const {
+  deleteUserFacilityRepository,
+} = require("../../repository/userFacilityMapRepository");
+
 const { verify } = require("../../helper/verifyjwtToken");
 const {
   getUserTypeDetailByIdRepository,
@@ -16,7 +24,7 @@ const createResidentController = async (req, res) => {
   try {
     let user = await verify(req);
     if (!user) {
-      res.status(401).send({ message: "unauthorised user" });
+      res.status(401).send({ message: "Unauthorized User" });
     } else {
       let loggedInUserType = user.userType;
 
@@ -61,7 +69,7 @@ const createResidentController = async (req, res) => {
         } else {
           res.status(200).json({
             success: false,
-            message: "user creation failed",
+            message: "User Creation Failed",
           });
         }
       } else {
@@ -69,14 +77,14 @@ const createResidentController = async (req, res) => {
 
         res.status(401).json({
           success: false,
-          message: "you are not permitted to create this user",
+          message: "Unauthorized Access",
         });
       }
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong in creating user controller",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -88,7 +96,7 @@ const updateResidentController = async (req, res) => {
     if (!user) {
       res.status(403).json({
         success: true,
-        message: "user verification failed ",
+        message: "user verification Failed ",
       });
     } else {
       // get the logged in usertype userType
@@ -105,7 +113,7 @@ const updateResidentController = async (req, res) => {
       if (recordExist == null) {
         res.status(404).json({
           success: false,
-          message: "user records not found ",
+          message: "user records not Found ",
         });
       } else {
         // get the usertype of the user details to be updated
@@ -133,7 +141,7 @@ const updateResidentController = async (req, res) => {
           if (details == false) {
             res.status(404).json({
               success: false,
-              message: "update failed",
+              message: "update Failed",
             });
           } else if (details == true) {
             res.status(200).json({
@@ -154,20 +162,20 @@ const updateResidentController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong in delete residents controller",
+      message: "Something Went Wrong in delete residents controller",
       err: error,
     });
   }
 };
 
-//* 3 delete Resident  userType = 6
+//! 3 delete Resident  userType = 6
 const deleteResidentController = async (req, res) => {
   try {
     let user = await verify(req);
     if (!user) {
       res.status(403).json({
         success: true,
-        message: "user verification failed ",
+        message: "Unauthorized Access",
       });
     } else {
       // get the logged in usertype userType
@@ -184,7 +192,7 @@ const deleteResidentController = async (req, res) => {
       if (!recordExist || recordExist == false) {
         res.status(404).json({
           success: false,
-          message: "user records not found ",
+          message: "User Records Not Found ",
         });
       } else {
         // get the usertype of the user details to be deleted
@@ -202,18 +210,22 @@ const deleteResidentController = async (req, res) => {
 
         if (levelUp < levelDown) {
           //*true
-
+          // delete rsidents details
+          console.log(`deleting residents all details`);
+          await deleteResidentCarePlanDetailByIdrepository(id);
+          await deleteUserFacilityRepository(id);
+          //delete resident facility  mapping
           let details = await deleteResidentRepository(id);
-
+          console.log(`after deleting all users`);
           if (details == false) {
             res.status(404).json({
               success: false,
-              message: "delete failed",
+              message: "Delete Failed",
             });
           } else if (details == true) {
             res.status(200).json({
               success: true,
-              message: "deleted User  details succesfully ",
+              message: "Deleted User Details Succesfully ",
             });
           }
           //*
@@ -221,7 +233,7 @@ const deleteResidentController = async (req, res) => {
           //! false
           res.status(401).json({
             success: false,
-            message: "you are not permitted to update this user",
+            message: "Unauthorized User",
           });
         }
       }
@@ -229,7 +241,7 @@ const deleteResidentController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong in delete residents controller",
+      message: "Something Went Wrong",
       err: error,
     });
   }
@@ -241,7 +253,7 @@ const getResidentByIdController = async (req, res) => {
     if (!user) {
       res.status(403).json({
         success: true,
-        message: "user verification failed ",
+        message: "User verification Failed ",
       });
     } else {
       // get the logged in usertype userType
@@ -255,7 +267,7 @@ const getResidentByIdController = async (req, res) => {
       if (recordExist == null || recordExist == false) {
         res.status(404).json({
           success: false,
-          message: "residents records not found ",
+          message: "Residents records not Found ",
         });
       } else {
         // get the usertype of the user details to be updated
@@ -277,12 +289,12 @@ const getResidentByIdController = async (req, res) => {
           // if (recordExist == null) {
           //   res.status(404).json({
           //     success: false,
-          //     message: "update failed",
+          //     message: "update Failed",
           //   });
           // } else if (recordExist) {
           res.status(201).json({
             success: true,
-            message: "  resident  details retrived succesfully ",
+            message: "Resident  details retrived succesfully ",
             data: recordExist,
           });
           //  }
@@ -299,7 +311,7 @@ const getResidentByIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong in get details by id controller",
+      message: "Something Went Wrong",
       err: error,
     });
   }
@@ -326,14 +338,14 @@ const getAllResidentsController = async (req, res) => {
       } else {
         res.status(404).json({
           success: false,
-          message: "details retreival failed",
+          message: "details retreival Failed",
         });
       }
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong in get all residents controller",
+      message: "Something Went Wrong in get all residents controller",
       err: error,
     });
   }
@@ -345,7 +357,7 @@ const getAllResidentsOfFacilityController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong in  get all residents facility controller",
+      message: "Something Went Wrong in  get all residents facility controller",
       err: error,
     });
   }

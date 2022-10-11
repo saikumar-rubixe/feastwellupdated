@@ -17,7 +17,7 @@ userTypeRoute.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getUserTypeDetailByIdController(req, res);
@@ -30,7 +30,7 @@ userTypeRoute.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await createUserTypeController(req, res);
@@ -43,7 +43,7 @@ userTypeRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getAllUserTypeDetailsController(req, res);
@@ -56,7 +56,7 @@ userTypeRoute.put("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await updateUserTypeController(req, res);
@@ -69,7 +69,7 @@ userTypeRoute.delete("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await deleteUserTypeController(req, res);

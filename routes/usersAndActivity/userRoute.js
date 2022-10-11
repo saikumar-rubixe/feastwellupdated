@@ -29,7 +29,7 @@ userRoute.post("/", async (req, res) => {
   if (err) {
     return res.status(400).json({
       error: err.message,
-      message: "request body validation error",
+      message: "Request Body Validation Error",
     });
   } else {
     await createUsersController(req, res);
@@ -42,7 +42,7 @@ userRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getAllUsersController(req, res);
@@ -55,7 +55,7 @@ userRoute.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getUserByIdController(req, res);
@@ -68,14 +68,14 @@ userRoute.put("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     const err = await userUpdateBodyValidation(req);
     if (err) {
       return res.status(400).json({
         error: err.message,
-        message: "request body validation error",
+        message: "Request Body Validation Error",
       });
     } else {
       await updateUsersController(req, res);
@@ -85,18 +85,19 @@ userRoute.put("/:id", async (req, res) => {
 
 //? update the  USER login time details  immediately after Login
 userRoute.put("/loginDetails/:id", async (req, res) => {
+  console.log(`inside the route`);
   const permission = await checkRoutePermission(req);
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     const err = await userUpdateBodyValidation(req);
     if (err) {
       return res.status(400).json({
         error: err.message,
-        message: "request body validation error",
+        message: "Request Body Validation Error",
       });
     } else {
       await updateUserLoginDetailsController(req, res);
@@ -110,7 +111,7 @@ userRoute.delete("/:id", async (req, res) => {
   //   if (err) {
   //     return res.status(500).json({
   //       error: err.message,
-  //       message: "request body validation error",
+  //       message: "Request Body Validation Error",
   //     });
   //   } else {
   await deleteUsersController(req, res);

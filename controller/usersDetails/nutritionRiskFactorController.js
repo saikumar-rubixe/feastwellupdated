@@ -10,20 +10,20 @@ const getAllNutritionalRiskFactorsDetailsController = async (req, res) => {
     if (!details || details == false) {
       res.status(400).json({
         success: false,
-        message: "data retrieval failed",
+        message: "Data Retrieval Failed",
       });
     }
     if (details) {
       res.status(200).json({
         success: true,
-        message: "data retrieved succesfully",
+        message: "Data Retrieved Successfully",
         data: details,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };

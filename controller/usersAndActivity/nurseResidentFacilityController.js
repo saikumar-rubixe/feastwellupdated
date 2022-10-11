@@ -11,24 +11,24 @@ const getReisdentsOfNurseIdController = async (req, res) => {
     if (details) {
       res.status(200).json({
         success: true,
-        message: "Details Fetched Successfuly",
+        message: "Details Retrieved Successfuly",
         data: details,
       });
     } else if (details == false) {
       res.status(404).json({
         success: false,
-        message: "catch bock error ",
+        message: "Retrieval Failed",
       });
     } else {
       res.status(404).json({
         success: false,
-        message: "Cannot retrieved",
+        message: "Unable to Retrieve",
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };

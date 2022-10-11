@@ -52,11 +52,11 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
 
       if (req.file && req.body.residentId) {
         // Definning the params variable to uplaod the photo
-
+        console.log(req.file.originalname);
         var image = req.file.buffer; // to check the data in the console that is being uploaded
         const params = {
           Bucket: BucketName, // bucket that we made earlier
-          Key: fileName, // Name of the image
+          Key: `${fileName}-${req.file.originalname}`, // Name of the image
           Body: image, // Body which will contain the image in buffer format
           ACL: "public-read-write", // defining the permissions to get the public link
           ContentType: "image/jpeg", // Necessary to define the image content-type to view the photo in the browser with the link
@@ -79,7 +79,7 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
 
             res.status(200).send({
               success: true,
-              message: "image uploaded succesfully",
+              message: "Image Uploaded Succesfully",
               data: url,
             });
           }
@@ -87,19 +87,19 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
       } else if (!req.file) {
         return res.status(403).json({
           success: false,
-          message: "please upload the   file with correct format",
+          message: "Please Upload The File With Correct Format",
         });
       }
     } else {
       res.status(400).json({
         success: false,
-        message: "Unauthorised user",
+        message: "Unauthorized User",
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 });

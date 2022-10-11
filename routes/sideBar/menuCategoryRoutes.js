@@ -16,7 +16,7 @@ MenuCategoryRoute.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await createMenuCategoryController(req, res);
@@ -30,7 +30,7 @@ MenuCategoryRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getAllMenuCategoryDetailsController(req, res);
@@ -43,7 +43,7 @@ MenuCategoryRoute.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getMenuCategoryDetailByIdController(req, res);
@@ -56,7 +56,7 @@ MenuCategoryRoute.put("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await updateMenuCategoryController(req, res);
@@ -69,7 +69,7 @@ MenuCategoryRoute.delete("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await deleteMenuCategoryController(req, res);

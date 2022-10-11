@@ -22,7 +22,7 @@ userFacilityRoute.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getUserFacilityDetailByIdController(req, res);
@@ -36,14 +36,14 @@ userFacilityRoute.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     const err = await userFacilityBodyValidation(req);
     if (err) {
       return res.status(400).json({
         error: err.message,
-        message: "request body validation error",
+        message: "Request Body Validation Error",
       });
     } else {
       await createUserFacilityController(req, res);
@@ -57,7 +57,7 @@ userFacilityRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getAllUserFacilityDetailsController(req, res);
@@ -70,7 +70,7 @@ userFacilityRoute.put("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await updateUserFacilityByUserIdController(req, res);
@@ -83,7 +83,7 @@ userFacilityRoute.delete("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await deleteUserFacilityController(req, res);
@@ -96,7 +96,7 @@ userFacilityRoute.get("/byUserId/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getUserFacilityDetailByUserIdController(req, res);

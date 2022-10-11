@@ -12,7 +12,7 @@ NutritionalRiskFactorRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getAllNutritionalRiskFactorsDetailsController(req, res);

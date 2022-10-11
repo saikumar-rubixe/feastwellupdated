@@ -130,20 +130,20 @@ const insertResidentCarePlanDetailsController = async (req, res) => {
     if (create) {
       res.status(201).json({
         success: true,
-        message: "data created succesfully with id : " + create,
+        message: "Data Created Succesfully",
         data: create,
       });
     }
     if (!create || create == false) {
       res.status(400).json({
         success: false,
-        message: "insertion  failed",
+        message: "Insertion Failed",
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -155,20 +155,20 @@ const getallResidentCarePlanDetailsController = async (req, res) => {
     if (!details || details == false) {
       res.status(400).json({
         success: false,
-        message: "data retrieval failed",
+        message: "Data Retrieval Failed",
       });
     }
     if (details) {
       res.status(200).json({
         success: true,
-        message: "data retrieved succesfully",
+        message: "Data Retrieved Successfully",
         data: details,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: " something went wrong cb",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -180,20 +180,20 @@ const getResidentCarePlanDetailByIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const details = await getResidentCarePlanDetailByIdRepository(id, res);
       if (!details || details == false) {
         res.status(400).json({
           success: false,
-          message: "No record found with id " + id,
+          message: "No Record Found",
         });
       }
       if (details) {
         res.status(200).json({
           success: true,
-          message: "data retrieved succesfully",
+          message: "Data Retrieved Successfully",
           data: details,
         });
       }
@@ -204,7 +204,6 @@ const getResidentCarePlanDetailByIdController = async (req, res) => {
 // update resident additional details controller
 const updateResidentCarePlanDetailsController = async (req, res) => {
   const id = req.params.userId;
-
   const updatedBy = req.userIdValue;
 
   try {
@@ -260,7 +259,7 @@ const updateResidentCarePlanDetailsController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const recordCheck = await getResidentCarePlanDetailByIdRepository(
@@ -270,7 +269,7 @@ const updateResidentCarePlanDetailsController = async (req, res) => {
       if (!recordCheck || recordCheck == false) {
         res.status(400).json({
           success: false,
-          message: "no Record Found With id = " + id,
+          message: "No Record Found",
         });
       }
       if (recordCheck) {
@@ -324,21 +323,28 @@ const updateResidentCarePlanDetailsController = async (req, res) => {
           recommendations,
           updatedBy
         );
+        console.log(`update details are ${updatedetails}`); //delete
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
-            message: "updated details succesfully",
+            message: "Updated Details Succesfully",
           });
         } else {
           res.status(400).json({
             success: false,
-            message: "update Failed ",
+            message: "Update Failed",
             data: updatedetails,
           });
         }
       }
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something Went Wrong" + error,
+    });
+  }
 };
 
 // 5 delete resident  care plan details controller
@@ -348,7 +354,7 @@ const deleteResidentCarePlanDetailsController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "invalid  id passed /undefined",
+        message: "Invalid ID",
       });
     } else {
       let recordcheck = await getResidentCarePlanDetailByIdRepository(id, res);
@@ -356,19 +362,19 @@ const deleteResidentCarePlanDetailsController = async (req, res) => {
       if (!recordcheck || recordcheck == false) {
         res.status(404).json({
           success: false,
-          message: "!Error no data found",
+          message: "No data Found",
         });
       } else if (recordcheck) {
         let details = await deleteResidentCarePlanDetailByIdrepository(id, res);
         if (!details || details == false) {
           res.status(404).json({
             success: false,
-            message: "!Error delete failed",
+            message: "Delete Failed",
           });
         } else if (details == true) {
           res.status(200).json({
             success: true,
-            message: "delete successful",
+            message: "Deleted successful",
           });
         }
       }
@@ -376,7 +382,7 @@ const deleteResidentCarePlanDetailsController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong in deleting details at  Controller",
+      message: "Something Went Wrong",
     });
   }
 };

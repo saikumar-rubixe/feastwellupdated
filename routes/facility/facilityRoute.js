@@ -21,7 +21,7 @@ facilityRoute.post("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     const err = await FacilityUserBodyValidation(req);
@@ -42,7 +42,7 @@ facilityRoute.get("/", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getAllFacilityCenterDetailsController(req, res);
@@ -55,7 +55,7 @@ facilityRoute.get("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await getFacilityCenterDetailsByIdController(req, res);
@@ -68,14 +68,14 @@ facilityRoute.put("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     const err = await FacilityUserBodyValidation(req);
     if (err) {
       return res.status(400).json({
         error: err.message,
-        message: "request body validation error",
+        message: "Request Body Validation Error",
       });
     } else {
       await updateFacilityCenterDetailsController(req, res);
@@ -90,7 +90,7 @@ facilityRoute.delete("/:id", async (req, res) => {
   if (permission !== 1) {
     res.status(401).json({
       success: false,
-      message: "Unauthorized access",
+      message: "Unauthorized Access",
     });
   } else {
     await deleteFacilityCenterDetailsController(req, res);

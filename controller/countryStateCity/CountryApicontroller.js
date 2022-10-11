@@ -28,21 +28,21 @@ const getAllCountryController = async (req, res) => {
     if (details) {
       res.status(200).json({
         success: true,
-        message: "Countries fetched",
+        message: "Countries Retrieved",
         data: details,
       });
     }
     if (!details) {
       res.status(200).json({
         success: false,
-        message: "Countries fetch failed",
+        message: "Countries Retrieval Failed",
         data: [],
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -53,21 +53,21 @@ const getCountryByIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "Invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const details = await getCountryByIdRepository(id, res);
       if (!details || details == false) {
         res.status(200).json({
           success: false,
-          message: "No record found with id " + id,
+          message: "No Record Found",
           data: [],
         });
       }
       if (details) {
         res.status(200).json({
           success: true,
-          message: "Data retrieved succesfully",
+          message: "Country Retrieved Successfully",
           data: details,
         });
       }
@@ -75,7 +75,7 @@ const getCountryByIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -94,21 +94,21 @@ const createCountryController = async (req, res) => {
     if (create) {
       res.status(201).json({
         success: true,
-        message: "Data created succesfully with id" + create,
+        message: "Country Created Succesfully",
         insertId: create,
       });
     }
     if (!create || create == false) {
       res.status(404).json({
         success: false,
-        message: "Data retrieval failed",
+        message: "Country Retrieval Failed",
       });
     }
     //  }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -119,14 +119,14 @@ const updateCountryController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "Invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const recordCheck = await getCountryByIdRepository(id, res);
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "No record found With id = " + id,
+          message: "No Record Found",
         });
       }
       if (recordCheck) {
@@ -141,12 +141,12 @@ const updateCountryController = async (req, res) => {
         if (updatedetails == true) {
           res.status(200).json({
             success: true,
-            message: "Updated details succesfully",
+            message: "Updated Country Succesfully",
           });
         } else {
           res.status(404).json({
             success: false,
-            message: "Update failed ",
+            message: "Update Failed",
           });
         }
       }
@@ -154,7 +154,7 @@ const updateCountryController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -166,7 +166,7 @@ const deleteCountryController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "Invalid id Passed:  " + id,
+        message: "Invalid ID",
       });
     } else {
       const recordCheck = await getCountryByIdRepository(id, res);
@@ -174,7 +174,7 @@ const deleteCountryController = async (req, res) => {
       if (!recordCheck || recordCheck == false) {
         res.status(404).json({
           success: false,
-          message: "No Record Found with id " + id,
+          message: "No Record Found",
         });
       }
       if (recordCheck) {
@@ -187,7 +187,7 @@ const deleteCountryController = async (req, res) => {
         } else {
           res.status(404).json({
             success: false,
-            message: "Delete failed ",
+            message: "Delete Failed ",
           });
         }
       }
@@ -195,7 +195,7 @@ const deleteCountryController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };

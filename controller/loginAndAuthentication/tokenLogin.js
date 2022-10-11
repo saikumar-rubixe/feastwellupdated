@@ -10,7 +10,7 @@ const TokenLogin = async (req, res) => {
     const token = jwt.sign({ id: usersId }, process.env.TOKEN_SECRET);
     const response = {};
     response["status"] = "success";
-    response["message"] = "Successfully login";
+    response["message"] = "Login Successful";
     response["data"] = {
       // user: {
       //   name: userExist.userName,
@@ -21,7 +21,7 @@ const TokenLogin = async (req, res) => {
     };
     res.send(response);
   } else {
-    res.status(401).send("Invalid login");
+    res.status(401).send("Invalid Login");
   }
 };
 

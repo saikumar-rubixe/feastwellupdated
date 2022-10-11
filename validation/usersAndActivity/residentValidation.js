@@ -10,6 +10,7 @@ const Schema = Joi.object({
   userType: Joi.number().greater(5).less(7).required(),
   userStatus: Joi.number().max(1).optional(),
 });
+
 // VALIDATE BEFORE SAVING A USER
 const residentValidation = async (req, res, next) => {
   returnError = null;

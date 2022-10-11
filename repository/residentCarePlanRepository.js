@@ -197,7 +197,7 @@ const getAllResidentCarePlanDetailsRepository = async (req, res) => {
           (familyContact = result.family_contact),
           (enrollmentDate = result.enrollment_date),
           (intialWeight = result.intial_weight),
-          (currentWeight = result.current_height),
+          (currentWeight = result.current_weight),
           (physician = result.physician),
           (diagnosis = result.diagnosis),
           (foodAllergy = result.food_allergy),
@@ -272,7 +272,7 @@ const getResidentCarePlanDetailByIdRepository = async (id, res) => {
         (familyContact = result.family_contact),
         (enrollmentDate = result.enrollment_date),
         (intialWeight = result.intial_weight),
-        (currentWeight = result.current_height),
+        (currentWeight = result.current_weight),
         (physician = result.physician),
         (diagnosis = result.diagnosis),
         (foodAllergy = result.food_allergy),
@@ -379,57 +379,66 @@ const updateResidentCarePlanDetailRepository = async (
     let query =
       " UPDATE `residents_details` set `name`=?,`gender`=?,`dob`=?,`age`=?,`address`=?,`family_contact`=?,`enrollment_date`=?,`intial_weight`=?,`current_weight`=?,`physician`=?,`diagnosis`=?,`food_allergy`=?,`medications`=?,`nutritional_supplements`=?,`laxatives`=?,`natural_laxatives`=?,`significant_lab_data`=?,`monthly_grocery_budget`=?,`current_height`=?,`usual_weight`=?,`waist_circumference`=?,`weight_history`=?,`appetite_food_intake`=?,`chewing`=?,`swallowing`=?,`fluid_intake`=?,`dentition`=?,`sight`=?,`communication`=?,`comprehension`=?,`bowel_function`=?,`mobility`=?,`dexterity`=?,`feeding`=?,`special_needs`=?,`food_preferences`=?,`nutritional_risk_factors`=?,`bmi`=?,`average_wt`=?,`ideal_body_weight_range`=?,`calorie_needs`=?,`fluid_needs`=?,`protein_needs`=?,`protein_needs_value`=?,`care_plans`=?,`recommendations`=?,`updated_date`=?,`updated_by`=? where user_id =?";
 
-    let results = await runQuery(query, [
-      name,
-      gender,
-      dob,
-      age,
-      address,
-      familyContact,
-      enrollmentDate,
-      intialWeight,
-      currentWeight,
-      physician,
-      diagnosis,
-      foodAllergy,
-      medications,
-      nutritionalSupplements,
-      laxatives,
-      naturalLaxatives,
-      significantlabData,
-      monthlyGroceryBudget,
-      currentHeight,
-      usualWeight,
-      waistCircumference,
-      weightHistory,
-      appetiteFoodIntake,
-      chewing,
-      swallowing,
-      fluidIntake,
-      dentition,
-      sight,
-      communication,
-      comprehension,
-      bowelFunction,
-      mobility,
-      dexterity,
-      feeding,
-      specialNeeds,
-      foodPreferences,
-      nutritionalRiskFactors.toString(),
-      bmi,
-      averageWt,
-      idealBodyWeightRange,
-      calorieNeeds,
-      fluidNeeds,
-      proteinNeeds,
-      proteinNeedsValue,
-      carePlans,
-      recommendations,
-      getPstDate(),
-      updatedBy,
-      id,
-    ]);
+    let results = await runQuery(
+      query,
+      [
+        name,
+        gender,
+        dob,
+        age,
+        address,
+        familyContact,
+        enrollmentDate,
+        intialWeight,
+        currentWeight,
+        physician,
+        diagnosis,
+        foodAllergy,
+        medications,
+        nutritionalSupplements,
+        laxatives,
+        naturalLaxatives,
+        significantlabData,
+        monthlyGroceryBudget,
+        currentHeight,
+        usualWeight,
+        waistCircumference,
+        weightHistory,
+        appetiteFoodIntake,
+        chewing,
+        swallowing,
+        fluidIntake,
+        dentition,
+        sight,
+        communication,
+        comprehension,
+        bowelFunction,
+        mobility,
+        dexterity,
+        feeding,
+        specialNeeds,
+        foodPreferences,
+        nutritionalRiskFactors.toString(),
+        bmi,
+        averageWt,
+        idealBodyWeightRange,
+        calorieNeeds,
+        fluidNeeds,
+        proteinNeeds,
+        proteinNeedsValue,
+        carePlans,
+        recommendations,
+        getPstDate(),
+        updatedBy,
+        id,
+      ],
+      function (error) {
+        console.log(`if error displaying the error`);
+        console.log(error);
+      }
+    );
+    console.log(query); //delete
+    console.log(value); //delete
     let value = results.affectedRows;
 
     if (value == 1) {
@@ -445,6 +454,7 @@ const updateResidentCarePlanDetailRepository = async (
 // 5 delete residents details
 const deleteResidentCarePlanDetailByIdrepository = async (id) => {
   try {
+    console.log(` step 1 : to delete residents cre plan`);
     let query = "delete from residents_details where  user_id =?";
     let results = await runQuery(query, [id]);
 

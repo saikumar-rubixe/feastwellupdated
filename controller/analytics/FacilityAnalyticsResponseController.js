@@ -9,7 +9,7 @@ const facilityAnalyticsResponseController = async (req, res) => {
     if (!user) {
       res.status(404).json({
         success: false,
-        message: " Unauthorised user",
+        message: "Unauthorized User",
       });
     } else {
       const facilityId = user.facilityId;
@@ -31,13 +31,13 @@ const facilityAnalyticsResponseController = async (req, res) => {
       } else {
         res.status(404).json({
           success: false,
-          message: " Unauthorised user",
+          message: "Unauthorized User",
         });
       }
 
       res.status(200).json({
         success: true,
-        message: "Residents optimal list fetched",
+        message: "Residents Optimal List Retrieved Successfully",
         data: results,
       });
     }
@@ -45,7 +45,7 @@ const facilityAnalyticsResponseController = async (req, res) => {
     console.log(error);
     res.status(500).json({
       success: false,
-      message: " Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };

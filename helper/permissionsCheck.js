@@ -12,13 +12,13 @@ const permissionsCheck = async (menuId, permissionType, req, res, next) => {
     } else {
       res.status(401).json({
         success: true,
-        message: "un authorized",
+        message: "Unauthorized Access",
       });
     }
   } catch (error) {
     res.status(404).json({
       success: true,
-      message: "something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };

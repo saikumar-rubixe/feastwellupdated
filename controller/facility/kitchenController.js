@@ -14,20 +14,20 @@ let getKitchenDetailsByIdController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "Invalid  id passed /undefined",
+        message: "Invalid ID",
       });
     } else {
       let details = await getKitchenDetailsByIdRepository(id, res);
       if (!details || details == false) {
         res.status(200).json({
           success: false,
-          message: "No data found",
+          message: "Kitchen Not Found",
           data: {},
         });
       } else if (details) {
         res.status(200).json({
           success: true,
-          message: "Data fetched successfully",
+          message: "Kitchen Retrieved Successfully",
           data: details,
         });
       }
@@ -35,7 +35,7 @@ let getKitchenDetailsByIdController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -47,20 +47,20 @@ let getAllKitchenDetailsController = async (req, res) => {
     if (!details || details == null) {
       res.status(200).json({
         success: false,
-        Message: "No data found or failed to fetch",
+        Message: "Kitchen Not Found",
         data: [],
       });
     } else {
       res.status(200).json({
         success: true,
-        Message: "Details fetched succesfully",
+        Message: "Kitchen Retrieved Succesfully",
         data: details,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      Message: "Something went wrong",
+      Message: "Something Went Wrong",
     });
   }
 };
@@ -94,19 +94,19 @@ let insertKitchenDetailsController = async (req, res) => {
     if (!create || create == null) {
       res.status(404).json({
         success: false,
-        message: "Kitchen creation failed",
+        message: "Kitchen Creation Failed",
       });
     } else {
       res.status(201).json({
         success: true,
-        message: "Kitchen created succesfully with ID " + create,
+        message: "Kitchen Created Succesfully",
         insertId: create,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong ",
+      message: "Something Went Wrong ",
     });
   }
 };
@@ -119,7 +119,7 @@ let updateKitchenDetailsController = async (req, res) => {
     if (isNaN(id)) {
       res.status(400).json({
         success: false,
-        message: "Invalid  id passed /undefined for update ",
+        message: "Invalid ID",
       });
     } else {
       let recordcheck = await getKitchenDetailsByIdRepository(id, res);
@@ -127,7 +127,7 @@ let updateKitchenDetailsController = async (req, res) => {
       if (!recordcheck || recordcheck == false) {
         res.status(404).json({
           success: false,
-          message: "No data found with id " + id,
+          message: "No Record Found",
         });
       } else if (recordcheck) {
         const {
@@ -159,13 +159,13 @@ let updateKitchenDetailsController = async (req, res) => {
         if (!details || details == false) {
           res.status(400).json({
             success: false,
-            message: "No data found",
+            message: "No Record Found",
             data: details,
           });
         } else if (details || details == true) {
           res.status(200).json({
             success: true,
-            message: "Updated successfully",
+            message: "Updated Successfully",
           });
         }
       }
@@ -173,7 +173,7 @@ let updateKitchenDetailsController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };
@@ -193,14 +193,14 @@ let deleteKitchenDetailsController = async (req, res) => {
       if (!recordcheck || recordcheck == false) {
         res.status(404).json({
           success: false,
-          message: "!Error no data found",
+          message: "!Error no data Found",
         });
       } else if (recordcheck) {
         let details = await deleteKitchenDetailsRepository(id, res);
         if (!details || details == false) {
           res.status(404).json({
             success: false,
-            message: "!Error delete failed",
+            message: "!Error delete Failed",
           });
         } else if (details == true) {
           res.status(200).json({
@@ -213,7 +213,7 @@ let deleteKitchenDetailsController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Something Went Wrong",
     });
   }
 };

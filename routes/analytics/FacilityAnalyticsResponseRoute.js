@@ -4,7 +4,7 @@ const { verify } = require("../../helper/verifyjwtToken");
 const { checkRoutePermission } = require("../../helper/checkRoutePermission");
 
 const {
-  FacilityAnalyticsResponseController,
+  facilityAnalyticsResponseController,
 } = require("../../controller/analytics/FacilityAnalyticsResponseController");
 
 //* GET
@@ -17,10 +17,10 @@ facilityAnalyticsResponseRoute.get("/facility/", async (req, res) => {
   // if (err) {
   //   return res.status(400).json({
   //     error: err.message,
-  //     message: "request body validation error",
+  //     message: "Request Body Validation Error",
   //   });
   // } else {
-  await FacilityAnalyticsResponseController(req, res);
+  await facilityAnalyticsResponseController(req, res);
   // }
 });
 
