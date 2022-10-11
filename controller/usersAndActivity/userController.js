@@ -47,7 +47,7 @@ const getUserByIdController = async (req, res) => {
   try {
     let user = await verify(req);
     if (!user) {
-      res.status(403).json({
+      res.status(401).json({
         success: true,
         message: "Unauthorized User",
       });
@@ -121,7 +121,7 @@ const getAllUsersController = async (req, res) => {
   try {
     const user = await verify(req);
     if (!user) {
-      res.status(403).json({
+      res.status(401).json({
         success: false,
         message: "un authorized",
       });
@@ -244,7 +244,7 @@ const updateUsersController = async (req, res) => {
   try {
     let user = await verify(req);
     if (!user) {
-      res.status(403).json({
+      res.status(401).json({
         success: true,
         message: "Unauthorized Access",
       });
@@ -339,7 +339,7 @@ const deleteUsersController = async (req, res) => {
   try {
     let user = await verify(req);
     if (!user) {
-      res.status(403).json({
+      res.status(401).json({
         success: true,
         message: "Unauthorized User",
       });

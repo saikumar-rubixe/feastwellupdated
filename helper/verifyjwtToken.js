@@ -8,29 +8,26 @@ const jwt = require("jsonwebtoken");
 const { getUserByIdRepository } = require("../repository/userRepository");
 
 const verify = async (req, res) => {
-  var user = null;
-  let jtoken = req.header("Authorization");
+  try {
+    var user = null;
+    let jtoken = req.header("Authorization");
 
-  if (!jtoken || jtoken == "Bearer undefined") {
-    return null;
-  } else {
-    let token = jtoken.replace("Bearer ", "");
+    if (!jtoken || jtoken == "Bearer undefined") {
+      return null;
+    } else {
+      let token = jtoken.replace("Bearer ", "");
 
-    try {
       const verified = jwt.verify(token, process.env.TOKEN_SECRET);
 
       user = await getUserByIdRepository(verified.id);
 
       req.userIdValue = user.userId;
       req.userIdUserType = user.usertype;
-    } catch (error) {
-      res.status(400).json({
-        success: false,
-        message: "Invalid Token",
-      });
-    }
 
-    return user;
+      return user;
+    }
+  } catch (error) {
+    return null;
   }
 };
 

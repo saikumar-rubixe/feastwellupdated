@@ -65,7 +65,6 @@ const getSideBar = async (req, res) => {
       }
       if (menu.subMenus.length > 0) response["menus"].push(menu);
     }
-
     res.send(response);
   }
 };
@@ -166,54 +165,61 @@ const userLogin = async (req, res) => {
 const TokenLogin = async (req, res) => {
   try {
     res.setHeader("Content-Type", "application/json");
-    const usersId = req.userIdValue;
-    const userExist = await getUserByIdRepository(usersId);
+    // console.log(`in the try block`);
+    const user = await verify(req);
+    // console.log(`user is `);
+    // console.log(user);
+    if (user) {
+      const usersId = req.userIdValue;
+      const userExist = await getUserByIdRepository(usersId);
 
-    if (userExist) {
-      const usertype = userExist.userType;
+      if (userExist) {
+        const usertype = userExist.userType;
 
-      let facilityId = 0;
+        let facilityId = 0;
 
-      const token = jwt.sign({ id: usersId }, process.env.TOKEN_SECRET, {
-        expiresIn: process.env.TOKEN_LIFE,
-      });
+        const token = jwt.sign({ id: usersId }, process.env.TOKEN_SECRET, {
+          expiresIn: process.env.TOKEN_LIFE,
+        });
 
-      const refreshToken = jwt.sign(
-        { id: usersId },
-        process.env.REFRESH_TOKEN,
-        { expiresIn: process.env.REFRESH_Token_LIFE }
-      );
+        const refreshToken = jwt.sign(
+          { id: usersId },
+          process.env.REFRESH_TOKEN,
+          { expiresIn: process.env.REFRESH_Token_LIFE }
+        );
 
-      //  after login succesful send the sidebars whichever accesable
-      let menuId = await checkSideBarPermissionContoller(userExist.userType);
-      if (menuId != 0 && menuId !== null) {
-        menuId = menuId;
-      }
-      if (menuId == 0) {
-        menuId = {
-          category_id: 0,
-          category_name: "Dashboard",
+        //  after login succesful send the sidebars whichever accesable
+        let menuId = await checkSideBarPermissionContoller(userExist.userType);
+        if (menuId != 0 && menuId !== null) {
+          menuId = menuId;
+        }
+        if (menuId == 0) {
+          menuId = {
+            category_id: 0,
+            category_name: "Dashboard",
+          };
+        }
+
+        let details = {
+          success: true, // response.success
+          message: "Login Successful",
+          token: token,
+          refreshToken: refreshToken,
+          userId: userId,
+          userType: usertype,
+          username: userExist.userName,
+          facilityId: facilityId,
+          // menuAccess: menusSubmenus,
+          // menuAccess: menuId,
         };
+
+        return res.status(200).json(details);
       }
-
-      let details = {
-        success: true, // response.success
-        message: "Login Successful",
-        token: token,
-        refreshToken: refreshToken,
-        userId: userId,
-        userType: usertype,
-        username: userExist.userName,
-        facilityId: facilityId,
-        // menuAccess: menusSubmenus,
-        // menuAccess: menuId,
-      };
-
-      return res.status(200).json(details);
     } else {
       return res.status(401).send({ success: false, message: "Invalid Token" });
     }
   } catch (error) {
+    console.log(`calling from the 500`);
     res.status(500).json({
       success: false,
       message: "Something Went Wrong",

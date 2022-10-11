@@ -8,7 +8,7 @@ const getReisdentsOfNurseIdRepository = async (nurseId, mealType) => {
     let count = 0;
     let userArray = [];
     let query =
-      "select u.*, ufm.*,f.facility_name from users as u  inner join user_facility_map as ufm on ufm.user_id = u.user_id      inner join facility as f on f.facility_id = ufm.facility_id  where u.user_id !=?  and ufm.facility_id = (SELECT facility_id from user_facility_map where user_id =?)  and u.user_type = 6  ";
+      "select u.*, ufm.*,f.facility_name from users as u  inner join user_facility_map as ufm on ufm.user_id = u.user_id      inner join facility as f on f.facility_id = ufm.facility_id  where u.user_id !=?  and ufm.facility_id = (SELECT facility_id from user_facility_map where user_id =?)  and u.user_type = 6 order by u.full_name ";
 
     let sqlResult = await runQuery(query, [nurseId, nurseId]);
     let countvalue = sqlResult.length;
@@ -22,6 +22,7 @@ const getReisdentsOfNurseIdRepository = async (nurseId, mealType) => {
 
       let results2 = await runQuery(query2, [userId, mealType]);
       let countvalue2 = results2.length;
+
       //* if data not there push details
       if (countvalue2 == 0) {
         // console.log(`residents ids are ${result.resident_id}`);//delete
@@ -45,12 +46,11 @@ const getReisdentsOfNurseIdRepository = async (nurseId, mealType) => {
           (facilityName = result.facility_name)
         );
         userArray.push(model);
-      } else {
-        console.log(`data already there`);
       }
     }
     // console.log(userArray);
     // userArray.push(model);
+    //console.log(count);
     return { count, userArray };
   } catch (error) {
     return false;

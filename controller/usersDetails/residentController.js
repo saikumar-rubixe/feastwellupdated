@@ -173,7 +173,7 @@ const deleteResidentController = async (req, res) => {
   try {
     let user = await verify(req);
     if (!user) {
-      res.status(403).json({
+      res.status(401).json({
         success: true,
         message: "Unauthorized Access",
       });
@@ -251,12 +251,12 @@ const getResidentByIdController = async (req, res) => {
   try {
     let user = await verify(req);
     if (!user) {
-      res.status(403).json({
+      res.status(401).json({
         success: true,
-        message: "User verification Failed ",
+        message: "Unauthorized User ",
       });
     } else {
-      // get the logged in usertype userType
+      //get the logged in usertype userType
       let loggedInUserType = user.userType;
       //check the hierarchy
       let hierarchy = await getUserTypeDetailByIdRepository(loggedInUserType);
@@ -324,7 +324,7 @@ const getAllResidentsController = async (req, res) => {
     if (!user) {
       res.status(403).json({
         success: false,
-        message: "un authorized",
+        message: "unauthorized User",
       });
     } else {
       const details = await getAllResidentsRepository(userType);

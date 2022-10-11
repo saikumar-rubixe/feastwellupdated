@@ -34,15 +34,16 @@ authRoute.get("/sidebar", async (req, res) => {
 // * token login
 
 authRoute.get("/", async (req, res) => {
-  const user = await verify(req);
-  if (user) {
-    await TokenLogin(req, res);
-  } else {
-    res.status(401).json({
-      success: false,
-      message: "User Not Found",
-    });
-  }
+  // const user = await verify(req);
+  // if (user) {
+  await TokenLogin(req, res);
+  // }
+  // else {
+  //   res.status(401).json({
+  //     success: false,
+  //     message: "User Not Found",
+  //   });
+  // }
 });
 
 module.exports = { authRoute };

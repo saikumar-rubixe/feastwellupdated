@@ -5,13 +5,14 @@ const {
 const { verify } = require("../../helper/verifyjwtToken");
 const facilityAnalyticsResponseController = async (req, res) => {
   try {
-    const user = await verify(req);
+    const user = await verify(req, res);
     if (!user) {
-      res.status(404).json({
+      res.status(401).json({
         success: false,
-        message: "Unauthorized User",
+        message: "Invalid token",
       });
     } else {
+      // if (user) {
       const facilityId = user.facilityId;
       const userType = user.userType;
       const dateFilter = req.query.date;
