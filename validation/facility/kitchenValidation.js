@@ -13,6 +13,7 @@ const Schema = Joi.object({
 });
 // VALIDATE BEFORE SAVING A USER
 const KitchenUserBodyValidation = async (req) => {
+  console.log(req.body); //delete
   returnError = null;
   try {
     await Schema.validateAsync(req.body);

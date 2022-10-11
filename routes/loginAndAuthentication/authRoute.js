@@ -18,7 +18,7 @@ authRoute.post("/", async (req, res) => {
   const err = await userLoginBodyValidation(req);
   if (err) {
     return res.status(400).json({
-      error: err.message,
+      error: err,
       message: "Request Body Validation Error",
     });
   } else {

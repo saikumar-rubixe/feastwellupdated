@@ -27,7 +27,7 @@ facilityRoute.post("/", async (req, res) => {
     const err = await FacilityUserBodyValidation(req);
     if (err) {
       return res.status(400).json({
-        error: err.message,
+        error: err,
         message: "Facility creation body validation error",
       });
     } else {
@@ -74,7 +74,7 @@ facilityRoute.put("/:id", async (req, res) => {
     const err = await FacilityUserBodyValidation(req);
     if (err) {
       return res.status(400).json({
-        error: err.message,
+        error: err,
         message: "Request Body Validation Error",
       });
     } else {

@@ -24,7 +24,7 @@ imageDetailsRoute.post("/", async (req, res) => {
     const err = await imageResponseBodyValidation(req);
     if (err) {
       return res.status(400).json({
-        error: err.message,
+        error: err,
         message: "Request Body Validation Error",
       });
     } else {
@@ -34,13 +34,11 @@ imageDetailsRoute.post("/", async (req, res) => {
 });
 
 //* get the image details
-
 imageDetailsRoute.get("/", async (req, res) => {
   await getSingleimageUploadDetailController(req, res);
 });
 
 //* get all details
-
 imageDetailsRoute.get("/all/", async (req, res) => {
   await getAllimageUploadDetailsController(req, res);
 });

@@ -25,8 +25,11 @@ kitchenRoute.post("/", async (req, res) => {
   } else {
     const error = await KitchenUserBodyValidation(req);
     if (error) {
-      return res.status(500).json({
-        error: error.message,
+      console.log(`error is ${error}`);
+      console.log(error.details[0].message);
+
+      res.status(500).json({
+        error: error,
         message: "Create Kitchen validation error",
       });
     } else {

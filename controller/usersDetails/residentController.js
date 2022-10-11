@@ -267,7 +267,7 @@ const getResidentByIdController = async (req, res) => {
       if (recordExist == null || recordExist == false) {
         res.status(404).json({
           success: false,
-          message: "Residents records not Found ",
+          message: "Resident Records Not Found ",
         });
       } else {
         // get the usertype of the user details to be updated

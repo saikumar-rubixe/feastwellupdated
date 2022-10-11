@@ -22,7 +22,7 @@ residentRoute.post("/", async (req, res) => {
   const err = await residentValidation(req);
   if (err) {
     return res.status(400).json({
-      error: err.message,
+      error: err,
       message: "Request Body Validation Error",
     });
   } else {
@@ -50,7 +50,7 @@ residentRoute.put("/:id", async (req, res) => {
   const err = await updateResidentValidation(req);
   if (err) {
     return res.status(400).json({
-      error: err.message,
+      error: err,
       message: "Request Body Validation Error",
     });
   } else {

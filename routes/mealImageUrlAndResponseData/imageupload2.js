@@ -40,7 +40,7 @@ const { verify } = require("../../helper/verifyjwtToken");
 // now how to handle the post request and to upload photo (upload photo using the key defined below in upload.single ie: productimage )
 imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
   try {
-    const user = await verify(req);
+    const user = await verify(req, res);
     if (user) {
       const fileName = getFileName(req.body.residentId, req.userIdValue);
 
@@ -97,6 +97,7 @@ imageUploadRoute.post("/", upload.single("mealImage"), async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: "Something Went Wrong",

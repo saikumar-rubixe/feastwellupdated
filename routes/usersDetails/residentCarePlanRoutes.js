@@ -25,8 +25,9 @@ residentCarePlanRoutes.post("/", async (req, res) => {
   } else {
     const err = await residentCarePlanBodyValidation(req);
     if (err) {
+      console.log(err);
       return res.status(400).json({
-        error: err.message,
+        error: err,
         message: "Request Body Validation Error",
       });
     } else {
@@ -74,7 +75,7 @@ residentCarePlanRoutes.put("/:userId", async (req, res) => {
     const err = await residentCarePlanBodyValidation(req);
     if (err) {
       return res.status(400).json({
-        error: err.message,
+        error: err,
         message: "Request Body Validation Error",
       });
     } else {

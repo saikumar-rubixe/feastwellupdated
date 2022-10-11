@@ -184,6 +184,7 @@ const getUserByIdRepository = async (id, res) => {
       "select users.*,user_facility_map.facility_id,facility.facility_name  from users left join user_facility_map on users.user_id = user_facility_map.user_id left join facility on user_facility_map.facility_id = facility.facility_id where users.user_id= ? ";
 
     let results = await runQuery(query, [id]);
+
     if (results.length != 0) {
       let array = results[0];
 

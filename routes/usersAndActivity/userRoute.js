@@ -28,7 +28,7 @@ userRoute.post("/", async (req, res) => {
   const err = await userBodyValidation(req);
   if (err) {
     return res.status(400).json({
-      error: err.message,
+      error: err,
       message: "Request Body Validation Error",
     });
   } else {
@@ -74,7 +74,7 @@ userRoute.put("/:id", async (req, res) => {
     const err = await userUpdateBodyValidation(req);
     if (err) {
       return res.status(400).json({
-        error: err.message,
+        error: err,
         message: "Request Body Validation Error",
       });
     } else {
@@ -96,7 +96,7 @@ userRoute.put("/loginDetails/:id", async (req, res) => {
     const err = await userUpdateBodyValidation(req);
     if (err) {
       return res.status(400).json({
-        error: err.message,
+        error: err,
         message: "Request Body Validation Error",
       });
     } else {
@@ -110,7 +110,7 @@ userRoute.delete("/:id", async (req, res) => {
   //   const err = await Validation(req);
   //   if (err) {
   //     return res.status(500).json({
-  //       error: err.message,
+  //       error: err,
   //       message: "Request Body Validation Error",
   //     });
   //   } else {

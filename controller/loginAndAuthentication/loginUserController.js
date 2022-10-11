@@ -25,7 +25,7 @@ const { verify } = require("../../helper/verifyjwtToken");
  */
 const getSideBar = async (req, res) => {
   var response = [];
-  const user = await verify(req); //verify whether user exist or not
+  const user = await verify(req, res); //verify whether user exist or not
   if (!user) {
     // if no user exist return unauthorised
     res.status(401).send({ success: false, message: "Unauthorized User" });

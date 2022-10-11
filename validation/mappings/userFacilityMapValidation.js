@@ -9,6 +9,7 @@ const Schema = Joi.object({
 const userFacilityBodyValidation = async (req, res, next) => {
   returnError = null;
   try {
+    console.log(req.body); //delete
     await Schema.validateAsync(req.body);
   } catch (error) {
     returnError = error;
